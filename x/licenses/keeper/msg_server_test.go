@@ -8,10 +8,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	keepertest "github.com/webstack/webstack/testutil/keeper"
-	"github.com/webstack/webstack/testutil/sample"
-	"github.com/webstack/webstack/x/licenses/keeper"
-	"github.com/webstack/webstack/x/licenses/types"
+	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
+	"github.com/webstack-sdk/webstack/testutil/sample"
+	"github.com/webstack-sdk/webstack/x/licenses/keeper"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 func setupMsgServer(t testing.TB) (keeper.Keeper, types.MsgServer, context.Context) {

@@ -2,7 +2,7 @@
 
 set -e
 
-GO_MOD_PACKAGE="github.com/webstack/webstack"
+GO_MOD_PACKAGE="github.com/webstack-sdk/webstack"
 
 echo "Generating gogo proto code"
 cd proto

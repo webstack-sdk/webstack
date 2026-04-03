@@ -47,8 +47,8 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
-	"github.com/webstack/webstack/app"
-	appconfig "github.com/webstack/webstack/config"
+	"github.com/webstack-sdk/webstack/app"
+	appconfig "github.com/webstack-sdk/webstack/config"
 )
 
 // NewRootCmd creates a new root command for the daemon. It is called once in the main function.

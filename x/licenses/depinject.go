@@ -12,8 +12,8 @@ import (
 	"cosmossdk.io/depinject"
 	"cosmossdk.io/log"
 
-	modulev1 "github.com/webstack/webstack/api/licenses/module/v1"
-	"github.com/webstack/webstack/x/licenses/keeper"
+	modulev1 "github.com/webstack-sdk/webstack/api/licenses/module/v1"
+	"github.com/webstack-sdk/webstack/x/licenses/keeper"
 )
 
 var _ appmodule.AppModule = AppModule{}

@@ -5,7 +5,7 @@ import "amino/amino.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/webstack/webstack/x/licenses/types";
+option go_package = "github.com/webstack-sdk/webstack/x/licenses/types";
 
 // LicenseType defines a template for issuing licenses.
 message LicenseType {

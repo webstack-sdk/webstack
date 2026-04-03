@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/webstack/webstack/x/licenses/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 // GetTxCmd returns the transaction commands for this module.

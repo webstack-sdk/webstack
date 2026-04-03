@@ -6,8 +6,8 @@ import (
 	"cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
-	"github.com/webstack/webstack/testutil/sample"
-	"github.com/webstack/webstack/x/licenses/types"
+	"github.com/webstack-sdk/webstack/testutil/sample"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 func TestDefaultGenesis(t *testing.T) {

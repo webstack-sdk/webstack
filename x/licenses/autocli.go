@@ -2,7 +2,7 @@ package licenses
 
 import (
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
-	modulev1 "github.com/webstack/webstack/api/licenses/v1"
+	modulev1 "github.com/webstack-sdk/webstack/api/licenses/v1"
 )
 
 func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
@@ -148,20 +148,20 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
-					RpcMethod:      "UpdateParams",
-					Skip:           true,
+					RpcMethod: "UpdateParams",
+					Skip:      true,
 				},
 				{
-					RpcMethod:      "SetAdminKey",
-					Skip:           true,
+					RpcMethod: "SetAdminKey",
+					Skip:      true,
 				},
 				{
-					RpcMethod:      "RemoveAdminKey",
-					Skip:           true,
+					RpcMethod: "RemoveAdminKey",
+					Skip:      true,
 				},
 				{
-					RpcMethod:      "BatchIssueLicense",
-					Skip:           true,
+					RpcMethod: "BatchIssueLicense",
+					Skip:      true,
 				},
 			},
 		},

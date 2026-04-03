@@ -1,4 +1,4 @@
-module github.com/webstack/webstack
+module github.com/webstack-sdk/webstack
 
 go 1.23.8
 
@@ -7,6 +7,7 @@ require (
 	cosmossdk.io/client/v2 v2.0.0-beta.7
 	cosmossdk.io/collections v1.3.1
 	cosmossdk.io/core v0.11.3
+	cosmossdk.io/depinject v1.2.1
 	cosmossdk.io/errors v1.0.2
 	cosmossdk.io/log v1.6.1
 	cosmossdk.io/math v1.5.3
@@ -30,6 +31,7 @@ require (
 	github.com/spf13/cast v1.10.0
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.20.1
+	github.com/stretchr/testify v1.11.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20250707201910-8d1bb00bc6a7
 	google.golang.org/grpc v1.75.0
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0
@@ -45,7 +47,6 @@ require (
 	cloud.google.com/go/iam v1.5.2 // indirect
 	cloud.google.com/go/monitoring v1.24.2 // indirect
 	cloud.google.com/go/storage v1.50.0 // indirect
-	cosmossdk.io/depinject v1.2.1 // indirect
 	cosmossdk.io/schema v1.1.0 // indirect
 	cosmossdk.io/x/tx v0.14.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -68,8 +69,8 @@ require (
 	github.com/btcsuite/btcd/btcutil v1.1.6 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0 // indirect
 	github.com/bytedance/gopkg v0.1.3 // indirect
-	github.com/bytedance/sonic v1.14.2 // indirect
-	github.com/bytedance/sonic/loader v0.4.0 // indirect
+	github.com/bytedance/sonic v1.15.0 // indirect
+	github.com/bytedance/sonic/loader v0.5.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
@@ -214,7 +215,6 @@ require (
 	github.com/spf13/afero v1.14.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.5.0 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/supranational/blst v0.3.14 // indirect
 	github.com/syndtr/goleveldb v1.0.1-0.20220721030215-126854af5e6d // indirect

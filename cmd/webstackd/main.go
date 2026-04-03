@@ -6,8 +6,8 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/webstack/webstack/cmd/webstackd/cmd"
-	"github.com/webstack/webstack/config"
+	"github.com/webstack-sdk/webstack/cmd/webstackd/cmd"
+	"github.com/webstack-sdk/webstack/config"
 )
 
 func main() {

@@ -18,9 +18,9 @@ import (
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
-	"github.com/webstack/webstack/testutil/sample"
-	"github.com/webstack/webstack/x/licenses/keeper"
-	"github.com/webstack/webstack/x/licenses/types"
+	"github.com/webstack-sdk/webstack/testutil/sample"
+	"github.com/webstack-sdk/webstack/x/licenses/keeper"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 // LicensesKeeper returns a licenses keeper and context for testing.

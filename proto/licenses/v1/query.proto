@@ -10,7 +10,7 @@ import "licenses/v1/license.proto";
 import "licenses/v1/license_type.proto";
 import "licenses/v1/params.proto";
 
-option go_package = "github.com/webstack/webstack/x/licenses/types";
+option go_package = "github.com/webstack-sdk/webstack/x/licenses/types";
 
 // Query defines the gRPC querier service.
 service Query {

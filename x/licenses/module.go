@@ -19,9 +19,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/webstack/webstack/x/licenses/client/cli"
-	"github.com/webstack/webstack/x/licenses/keeper"
-	"github.com/webstack/webstack/x/licenses/types"
+	"github.com/webstack-sdk/webstack/x/licenses/client/cli"
+	"github.com/webstack-sdk/webstack/x/licenses/keeper"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 const ConsensusVersion = 1

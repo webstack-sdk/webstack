@@ -3,12 +3,12 @@ package licenses.module.v1;
 
 import "cosmos/app/v1alpha1/module.proto";
 
-option go_package = "github.com/webstack/webstack/api/licenses/module";
+option go_package = "github.com/webstack-sdk/webstack/api/licenses/module";
 
 // Module is the config object for the module.
 message Module {
   option (cosmos.app.v1alpha1.module) = {
-    go_import: "github.com/webstack/webstack/x/licenses"
+    go_import: "github.com/webstack-sdk/webstack/x/licenses"
   };
 
   // authority defines the custom module authority. If not set, defaults to the governance module.

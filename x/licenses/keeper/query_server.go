@@ -7,7 +7,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/webstack/webstack/x/licenses/types"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 var _ types.QueryServer = Querier{}

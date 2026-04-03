@@ -14,7 +14,7 @@ import (
 	"cosmossdk.io/log"
 	"cosmossdk.io/math"
 
-	"github.com/webstack/webstack/x/licenses/types"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 type Keeper struct {

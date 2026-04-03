@@ -4,7 +4,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/webstack/webstack/x/licenses/types"
+	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 // GenerateGenesisState creates a randomized GenState of the module.

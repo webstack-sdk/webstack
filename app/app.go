@@ -128,11 +128,11 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	cosmosevmserver "github.com/cosmos/evm/server"
 
-	appconfig "github.com/webstack/webstack/config"
-	"github.com/webstack/webstack/docs"
-	licenses "github.com/webstack/webstack/x/licenses"
-	licenseskeeper "github.com/webstack/webstack/x/licenses/keeper"
-	licensestypes "github.com/webstack/webstack/x/licenses/types"
+	appconfig "github.com/webstack-sdk/webstack/config"
+	"github.com/webstack-sdk/webstack/docs"
+	licenses "github.com/webstack-sdk/webstack/x/licenses"
+	licenseskeeper "github.com/webstack-sdk/webstack/x/licenses/keeper"
+	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 func init() {
