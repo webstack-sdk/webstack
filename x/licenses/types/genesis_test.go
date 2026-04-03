@@ -12,7 +12,8 @@ import (
 
 func TestDefaultGenesis(t *testing.T) {
 	gs := types.DefaultGenesis()
-	require.NoError(t, gs.Validate())
+	// Default genesis has no owner set, which is invalid — owner must be configured in genesis.json
+	require.Error(t, gs.Validate())
 	require.Empty(t, gs.LicenseTypes)
 	require.Empty(t, gs.Licenses)
 	require.Empty(t, gs.AdminKeys)
@@ -29,9 +30,10 @@ func TestGenesisValidation(t *testing.T) {
 		expErrMsg string
 	}{
 		{
-			name:    "valid default",
-			genesis: *types.DefaultGenesis(),
-			expErr:  false,
+			name:      "default genesis (no owner)",
+			genesis:   *types.DefaultGenesis(),
+			expErr:    true,
+			expErrMsg: "owner must be set",
 		},
 		{
 			name: "valid with data",
