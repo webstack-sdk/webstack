@@ -1,0 +1,204 @@
+syntax = "proto3";
+package licenses.v1;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "licenses/v1/params.proto";
+
+option go_package = "github.com/webstack/webstack/x/licenses/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a governance operation for updating the module parameters.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // CreateLicenseType creates a new license type. Signer must be the module owner.
+  rpc CreateLicenseType(MsgCreateLicenseType) returns (MsgCreateLicenseTypeResponse);
+
+  // SetAdminKey adds or updates admin key grants for an address. Signer must be the module owner.
+  rpc SetAdminKey(MsgSetAdminKey) returns (MsgSetAdminKeyResponse);
+
+  // RemoveAdminKey removes all admin key grants for an address. Signer must be the module owner.
+  rpc RemoveAdminKey(MsgRemoveAdminKey) returns (MsgRemoveAdminKeyResponse);
+
+  // IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
+  rpc IssueLicense(MsgIssueLicense) returns (MsgIssueLicenseResponse);
+
+  // RevokeLicense deletes a license. Signer must have the "revoke" grant for the license type.
+  rpc RevokeLicense(MsgRevokeLicense) returns (MsgRevokeLicenseResponse);
+
+  // UpdateLicense updates the status of a license. Signer must have the "update" grant for the license type.
+  rpc UpdateLicense(MsgUpdateLicense) returns (MsgUpdateLicenseResponse);
+
+  // TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
+  rpc TransferLicense(MsgTransferLicense) returns (MsgTransferLicenseResponse);
+
+  // UpdateLicenseType updates an existing license type. Signer must be the module owner.
+  rpc UpdateLicenseType(MsgUpdateLicenseType) returns (MsgUpdateLicenseTypeResponse);
+
+  // BatchIssueLicense issues multiple licenses in a single transaction. Signer must have the "issue" grant for the license type.
+  rpc BatchIssueLicense(MsgBatchIssueLicense) returns (MsgBatchIssueLicenseResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "webstack/x/licenses/MsgUpdateParams";
+
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  Params params = 2 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// MsgUpdateParamsResponse is the Msg/UpdateParams response type.
+message MsgUpdateParamsResponse {}
+
+// MsgCreateLicenseType is the Msg/CreateLicenseType request type.
+message MsgCreateLicenseType {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/licenses/MsgCreateLicenseType";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string id = 2;
+  bool transferrable = 3;
+  string max_supply = 4 [
+    (cosmos_proto.scalar) = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// MsgCreateLicenseTypeResponse is the Msg/CreateLicenseType response type.
+message MsgCreateLicenseTypeResponse {}
+
+// MsgSetAdminKey is the Msg/SetAdminKey request type.
+message MsgSetAdminKey {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/licenses/MsgSetAdminKey";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string address = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  repeated AdminKeyGrant grants = 3 [(gogoproto.nullable) = false];
+}
+
+// MsgSetAdminKeyResponse is the Msg/SetAdminKey response type.
+message MsgSetAdminKeyResponse {}
+
+// MsgRemoveAdminKey is the Msg/RemoveAdminKey request type.
+message MsgRemoveAdminKey {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/licenses/MsgRemoveAdminKey";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string address = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgRemoveAdminKeyResponse is the Msg/RemoveAdminKey response type.
+message MsgRemoveAdminKeyResponse {}
+
+// MsgIssueLicense is the Msg/IssueLicense request type.
+message MsgIssueLicense {
+  option (cosmos.msg.v1.signer) = "issuer";
+  option (amino.name) = "webstack/x/licenses/MsgIssueLicense";
+
+  string issuer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string license_type_id = 2;
+  string holder = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string start_date = 4;
+  string end_date = 5;
+  uint64 count = 6;
+}
+
+// MsgIssueLicenseResponse is the Msg/IssueLicense response type.
+message MsgIssueLicenseResponse {
+  repeated uint64 ids = 1;
+}
+
+// MsgRevokeLicense is the Msg/RevokeLicense request type.
+message MsgRevokeLicense {
+  option (cosmos.msg.v1.signer) = "revoker";
+  option (amino.name) = "webstack/x/licenses/MsgRevokeLicense";
+
+  string revoker = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string license_type_id = 2;
+  uint64 id = 3;
+}
+
+// MsgRevokeLicenseResponse is the Msg/RevokeLicense response type.
+message MsgRevokeLicenseResponse {}
+
+// MsgUpdateLicense is the Msg/UpdateLicense request type.
+message MsgUpdateLicense {
+  option (cosmos.msg.v1.signer) = "updater";
+  option (amino.name) = "webstack/x/licenses/MsgUpdateLicense";
+
+  string updater = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string license_type_id = 2;
+  uint64 id = 3;
+  string status = 4;
+}
+
+// MsgUpdateLicenseResponse is the Msg/UpdateLicense response type.
+message MsgUpdateLicenseResponse {}
+
+// MsgTransferLicense is the Msg/TransferLicense request type.
+message MsgTransferLicense {
+  option (cosmos.msg.v1.signer) = "holder";
+  option (amino.name) = "webstack/x/licenses/MsgTransferLicense";
+
+  string holder = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string license_type_id = 2;
+  uint64 id = 3;
+  string recipient = 4 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgTransferLicenseResponse is the Msg/TransferLicense response type.
+message MsgTransferLicenseResponse {}
+
+// MsgUpdateLicenseType is the Msg/UpdateLicenseType request type.
+message MsgUpdateLicenseType {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/licenses/MsgUpdateLicenseType";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string id = 2;
+  bool transferrable = 3;
+  string max_supply = 4 [
+    (cosmos_proto.scalar) = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// MsgUpdateLicenseTypeResponse is the Msg/UpdateLicenseType response type.
+message MsgUpdateLicenseTypeResponse {}
+
+// BatchIssueLicenseEntry defines a single entry in a batch issue request.
+message BatchIssueLicenseEntry {
+  string holder = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string start_date = 2;
+  string end_date = 3;
+}
+
+// MsgBatchIssueLicense is the Msg/BatchIssueLicense request type.
+message MsgBatchIssueLicense {
+  option (cosmos.msg.v1.signer) = "issuer";
+  option (amino.name) = "webstack/x/licenses/MsgBatchIssueLicense";
+
+  string issuer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string license_type_id = 2;
+  repeated BatchIssueLicenseEntry entries = 3 [(gogoproto.nullable) = false];
+}
+
+// MsgBatchIssueLicenseResponse is the Msg/BatchIssueLicense response type.
+message MsgBatchIssueLicenseResponse {
+  repeated uint64 ids = 1;
+}

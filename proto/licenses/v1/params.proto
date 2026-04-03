@@ -1,0 +1,29 @@
+syntax = "proto3";
+package licenses.v1;
+
+import "amino/amino.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/webstack/webstack/x/licenses/types";
+
+// Params defines the parameters for the licenses module.
+message Params {
+  option (amino.name) = "webstack/x/licenses/Params";
+  option (gogoproto.equal) = true;
+
+  // owner is the address that controls license type creation and admin key management.
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// AdminKeyGrant defines a permission grant for a specific set of license types.
+message AdminKeyGrant {
+  string permission = 1;
+  repeated string license_types = 2;
+}
+
+// AdminKey defines the set of grants for an address.
+message AdminKey {
+  string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  repeated AdminKeyGrant grants = 2 [(gogoproto.nullable) = false];
+}

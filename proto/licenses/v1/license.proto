@@ -1,0 +1,22 @@
+syntax = "proto3";
+package licenses.v1;
+
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "github.com/webstack/webstack/x/licenses/types";
+
+// License represents an issued license instance.
+message License {
+  // id is the auto-incremented identifier, unique within the license type.
+  uint64 id = 1;
+  // type is the LicenseType.id this license was issued from.
+  string type = 2;
+  // holder is the address that owns this license.
+  string holder = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // start_date is the date from which the license is valid.
+  string start_date = 4;
+  // end_date is the expiry date. Empty string means no expiry.
+  string end_date = 5;
+  // status is "active" or "revoked".
+  string status = 6;
+}
