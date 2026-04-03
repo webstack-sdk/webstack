@@ -96,31 +96,46 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
 				{
 					RpcMethod: "CreateLicenseType",
-					Use:       "create-license-type [id] [transferrable] [max-supply]",
+					Use:       "create-license-type [id] [transferrable]",
 					Short:     "Create a new license type",
+					Long:      "Create a new license type. Use --max-supply to limit the number of licenses (default 0 = unlimited).",
+					Example:   "webstackd tx licenses create-license-type node.license true --max-supply 1000 --from owner",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "id"},
 						{ProtoField: "transferrable"},
-						{ProtoField: "max_supply"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"max_supply": {Name: "max-supply", DefaultValue: "0", Usage: "maximum number of licenses that can be issued (0 = unlimited)"},
 					},
 				},
 				{
 					RpcMethod: "UpdateLicenseType",
-					Use:       "update-license-type [id] [transferrable] [max-supply]",
+					Use:       "update-license-type [id]",
 					Short:     "Update a license type",
+					Long:      "Update a license type's transferrability and/or max supply.",
+					Example:   "webstackd tx licenses update-license-type node.license --transferrable true --max-supply 2000 --from owner",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "id"},
-						{ProtoField: "transferrable"},
-						{ProtoField: "max_supply"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"transferrable": {Name: "transferrable", Usage: "whether licenses of this type can be transferred"},
+						"max_supply":    {Name: "max-supply", DefaultValue: "0", Usage: "maximum number of licenses (0 = unlimited)"},
 					},
 				},
 				{
 					RpcMethod: "IssueLicense",
-					Use:       "issue-license [license-type-id] [holder]",
-					Short:     "Issue a license",
+					Use:       "issue-license [license-type-id] [holder] [count] [start-date]",
+					Short:     "Issue one or more licenses",
+					Long:      "Issue licenses to a holder. Use --end-date flag to set an expiry.",
+					Example:   "webstackd tx licenses issue-license node.license cosmos1abc... 1 2026-01-01 --end-date 2027-01-01 --from admin",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "license_type_id"},
 						{ProtoField: "holder"},
+						{ProtoField: "count"},
+						{ProtoField: "start_date"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"end_date": {Name: "end-date", Usage: "expiry date in YYYY-MM-DD format (optional)"},
 					},
 				},
 				{
@@ -153,15 +168,20 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
+					RpcMethod: "RemoveAdminKey",
+					Use:       "remove-admin-key [address]",
+					Short:     "Remove all admin key grants for an address",
+					Example:   "webstackd tx licenses remove-admin-key cosmos1abc... --from owner",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "address"},
+					},
+				},
+				{
 					RpcMethod: "UpdateParams",
 					Skip:      true,
 				},
 				{
 					RpcMethod: "SetAdminKey",
-					Skip:      true,
-				},
-				{
-					RpcMethod: "RemoveAdminKey",
 					Skip:      true,
 				},
 				{
