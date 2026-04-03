@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Query_Params_FullMethodName                  = "/licenses.v1.Query/Params"
+	Query_Permissions_FullMethodName             = "/licenses.v1.Query/Permissions"
 	Query_LicenseType_FullMethodName             = "/licenses.v1.Query/LicenseType"
 	Query_LicenseTypes_FullMethodName            = "/licenses.v1.Query/LicenseTypes"
 	Query_License_FullMethodName                 = "/licenses.v1.Query/License"
@@ -37,6 +38,8 @@ const (
 type QueryClient interface {
 	// Params queries the module parameters.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
+	// Permissions returns the list of valid admin key permissions.
+	Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error)
 	// LicenseType queries a license type by id.
 	LicenseType(ctx context.Context, in *QueryLicenseTypeRequest, opts ...grpc.CallOption) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
@@ -68,6 +71,15 @@ func NewQueryClient(cc grpc.ClientConnInterface) QueryClient {
 func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error) {
 	out := new(QueryParamsResponse)
 	err := c.cc.Invoke(ctx, Query_Params_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error) {
+	out := new(QueryPermissionsResponse)
+	err := c.cc.Invoke(ctx, Query_Permissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -161,6 +173,8 @@ func (c *queryClient) AdminKeysByLicenseType(ctx context.Context, in *QueryAdmin
 type QueryServer interface {
 	// Params queries the module parameters.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
+	// Permissions returns the list of valid admin key permissions.
+	Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error)
 	// LicenseType queries a license type by id.
 	LicenseType(context.Context, *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
@@ -188,6 +202,9 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
+}
+func (UnimplementedQueryServer) Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Permissions not implemented")
 }
 func (UnimplementedQueryServer) LicenseType(context.Context, *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LicenseType not implemented")
@@ -243,6 +260,24 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Params(ctx, req.(*QueryParamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_Permissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryPermissionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Permissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_Permissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Permissions(ctx, req.(*QueryPermissionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -419,6 +454,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
+		},
+		{
+			MethodName: "Permissions",
+			Handler:    _Query_Permissions_Handler,
 		},
 		{
 			MethodName: "LicenseType",

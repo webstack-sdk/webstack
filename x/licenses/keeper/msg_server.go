@@ -26,10 +26,13 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 	return &msgServer{k: keeper}
 }
 
-var validPermissions = map[string]struct{}{
-	"issue":  {},
-	"revoke": {},
-	"update": {},
+func isValidPermission(p string) bool {
+	for _, vp := range types.Permissions {
+		if vp == p {
+			return true
+		}
+	}
+	return false
 }
 
 func (ms msgServer) UpdateParams(ctx context.Context, msg *types.MsgUpdateParams) (*types.MsgUpdateParamsResponse, error) {
@@ -147,7 +150,7 @@ func (ms msgServer) SetAdminKey(ctx context.Context, msg *types.MsgSetAdminKey) 
 	}
 
 	for _, grant := range msg.Grants {
-		if _, ok := validPermissions[grant.Permission]; !ok {
+		if !isValidPermission(grant.Permission) {
 			return nil, fmt.Errorf("invalid permission %q: must be one of issue, revoke, update", grant.Permission)
 		}
 		if len(grant.LicenseTypes) == 0 {

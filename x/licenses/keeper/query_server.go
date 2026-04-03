@@ -150,3 +150,7 @@ func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdm
 	}
 	return &types.QueryAdminKeysByLicenseTypeResponse{AdminKeys: filtered, Pagination: pageResp}, nil
 }
+
+func (q Querier) Permissions(_ context.Context, _ *types.QueryPermissionsRequest) (*types.QueryPermissionsResponse, error) {
+	return &types.QueryPermissionsResponse{Permissions: types.Permissions}, nil
+}

@@ -9,6 +9,9 @@ const (
 	QuerierRoute = ModuleName
 )
 
+// ValidPermissions is the set of permissions that can be granted via admin keys.
+var Permissions = []string{"issue", "revoke", "update"}
+
 var (
 	ParamsKey          = collections.NewPrefix(0)
 	LicenseTypePrefix  = collections.NewPrefix(1)

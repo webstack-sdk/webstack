@@ -19,6 +19,11 @@ service Query {
     option (google.api.http).get = "/licenses/params";
   }
 
+  // Permissions returns the list of valid admin key permissions.
+  rpc Permissions(QueryPermissionsRequest) returns (QueryPermissionsResponse) {
+    option (google.api.http).get = "/licenses/permissions";
+  }
+
   // LicenseType queries a license type by id.
   rpc LicenseType(QueryLicenseTypeRequest) returns (QueryLicenseTypeResponse) {
     option (google.api.http).get = "/licenses/license_type/{id}";
@@ -71,6 +76,14 @@ message QueryParamsRequest {}
 // QueryParamsResponse is the response type for the Query/Params RPC method.
 message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+// QueryPermissionsRequest is the request type for the Query/Permissions RPC method.
+message QueryPermissionsRequest {}
+
+// QueryPermissionsResponse is the response type for the Query/Permissions RPC method.
+message QueryPermissionsResponse {
+  repeated string permissions = 1;
 }
 
 // QueryLicenseTypeRequest is the request type for the Query/LicenseType RPC method.

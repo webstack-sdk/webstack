@@ -16,6 +16,11 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:     "Query the licenses module parameters",
 				},
 				{
+					RpcMethod: "Permissions",
+					Use:       "permissions",
+					Short:     "List valid admin key permissions",
+				},
+				{
 					RpcMethod: "LicenseType",
 					Use:       "license-type [id]",
 					Short:     "Query a license type by id",
