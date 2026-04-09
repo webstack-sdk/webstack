@@ -508,6 +508,348 @@
           "Query"
         ]
       }
+    },
+    "/webstack/licenses/permissions": {
+      "get": {
+        "operationId": "Query_Permissions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/QueryPermissionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/update_params": {
+      "post": {
+        "operationId": "Msg_UpdateParams",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgUpdateParamsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgUpdateParams"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/create_license_type": {
+      "post": {
+        "operationId": "Msg_CreateLicenseType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgCreateLicenseTypeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgCreateLicenseType"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/set_admin_key": {
+      "post": {
+        "operationId": "Msg_SetAdminKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgSetAdminKeyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgSetAdminKey"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/remove_admin_key": {
+      "post": {
+        "operationId": "Msg_RemoveAdminKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgRemoveAdminKeyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgRemoveAdminKey"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/issue_license": {
+      "post": {
+        "operationId": "Msg_IssueLicense",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgIssueLicenseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgIssueLicense"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/revoke_license": {
+      "post": {
+        "operationId": "Msg_RevokeLicense",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgRevokeLicenseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgRevokeLicense"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/update_license": {
+      "post": {
+        "operationId": "Msg_UpdateLicense",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgUpdateLicenseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgUpdateLicense"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/transfer_license": {
+      "post": {
+        "operationId": "Msg_TransferLicense",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgTransferLicenseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgTransferLicense"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/update_license_type": {
+      "post": {
+        "operationId": "Msg_UpdateLicenseType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgUpdateLicenseTypeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgUpdateLicenseType"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
+    },
+    "/webstack/licenses/tx/batch_issue_license": {
+      "post": {
+        "operationId": "Msg_BatchIssueLicense",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MsgBatchIssueLicenseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MsgBatchIssueLicense"
+            }
+          }
+        ],
+        "tags": [
+          "Msg"
+        ]
+      }
     }
   },
   "definitions": {
@@ -708,6 +1050,246 @@
       "properties": {
         "params": {
           "$ref": "#/definitions/licenses.Params"
+        }
+      }
+    },
+    "QueryPermissionsResponse": {
+      "type": "object",
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MsgUpdateParams": {
+      "type": "object",
+      "properties": {
+        "authority": {
+          "type": "string"
+        },
+        "params": {
+          "$ref": "#/definitions/licenses.Params"
+        }
+      }
+    },
+    "MsgUpdateParamsResponse": {
+      "type": "object"
+    },
+    "MsgCreateLicenseType": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "transferrable": {
+          "type": "boolean"
+        },
+        "max_supply": {
+          "type": "string"
+        }
+      }
+    },
+    "MsgCreateLicenseTypeResponse": {
+      "type": "object"
+    },
+    "MsgSetAdminKey": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "grants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AdminKeyGrant"
+          }
+        }
+      }
+    },
+    "MsgSetAdminKeyResponse": {
+      "type": "object"
+    },
+    "MsgRemoveAdminKey": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "MsgRemoveAdminKeyResponse": {
+      "type": "object"
+    },
+    "MsgIssueLicense": {
+      "type": "object",
+      "properties": {
+        "issuer": {
+          "type": "string"
+        },
+        "license_type_id": {
+          "type": "string"
+        },
+        "holder": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "end_date": {
+          "type": "string"
+        },
+        "count": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "MsgIssueLicenseResponse": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        }
+      }
+    },
+    "MsgRevokeLicense": {
+      "type": "object",
+      "properties": {
+        "revoker": {
+          "type": "string"
+        },
+        "license_type_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "MsgRevokeLicenseResponse": {
+      "type": "object"
+    },
+    "MsgUpdateLicense": {
+      "type": "object",
+      "properties": {
+        "updater": {
+          "type": "string"
+        },
+        "license_type_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "MsgUpdateLicenseResponse": {
+      "type": "object"
+    },
+    "MsgTransferLicense": {
+      "type": "object",
+      "properties": {
+        "holder": {
+          "type": "string"
+        },
+        "license_type_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "recipient": {
+          "type": "string"
+        }
+      }
+    },
+    "MsgTransferLicenseResponse": {
+      "type": "object"
+    },
+    "MsgUpdateLicenseType": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "transferrable": {
+          "type": "boolean"
+        },
+        "max_supply": {
+          "type": "string"
+        }
+      }
+    },
+    "MsgUpdateLicenseTypeResponse": {
+      "type": "object"
+    },
+    "BatchIssueLicenseEntry": {
+      "type": "object",
+      "properties": {
+        "holder": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "end_date": {
+          "type": "string"
+        }
+      }
+    },
+    "MsgBatchIssueLicense": {
+      "type": "object",
+      "properties": {
+        "issuer": {
+          "type": "string"
+        },
+        "license_type_id": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/BatchIssueLicenseEntry"
+          }
+        }
+      }
+    },
+    "MsgBatchIssueLicenseResponse": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
         }
       }
     },

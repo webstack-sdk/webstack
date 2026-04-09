@@ -5,6 +5,7 @@ import "amino/amino.proto";
 import "cosmos/msg/v1/msg.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
 import "licenses/v1/params.proto";
 
 option go_package = "github.com/webstack-sdk/webstack/x/licenses/types";
@@ -14,34 +15,84 @@ service Msg {
   option (cosmos.msg.v1.service) = true;
 
   // UpdateParams defines a governance operation for updating the module parameters.
-  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/update_params"
+      body: "*"
+    };
+  }
 
   // CreateLicenseType creates a new license type. Signer must be the module owner.
-  rpc CreateLicenseType(MsgCreateLicenseType) returns (MsgCreateLicenseTypeResponse);
+  rpc CreateLicenseType(MsgCreateLicenseType) returns (MsgCreateLicenseTypeResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/create_license_type"
+      body: "*"
+    };
+  }
 
   // SetAdminKey adds or updates admin key grants for an address. Signer must be the module owner.
-  rpc SetAdminKey(MsgSetAdminKey) returns (MsgSetAdminKeyResponse);
+  rpc SetAdminKey(MsgSetAdminKey) returns (MsgSetAdminKeyResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/set_admin_key"
+      body: "*"
+    };
+  }
 
   // RemoveAdminKey removes all admin key grants for an address. Signer must be the module owner.
-  rpc RemoveAdminKey(MsgRemoveAdminKey) returns (MsgRemoveAdminKeyResponse);
+  rpc RemoveAdminKey(MsgRemoveAdminKey) returns (MsgRemoveAdminKeyResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/remove_admin_key"
+      body: "*"
+    };
+  }
 
   // IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
-  rpc IssueLicense(MsgIssueLicense) returns (MsgIssueLicenseResponse);
+  rpc IssueLicense(MsgIssueLicense) returns (MsgIssueLicenseResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/issue_license"
+      body: "*"
+    };
+  }
 
   // RevokeLicense deletes a license. Signer must have the "revoke" grant for the license type.
-  rpc RevokeLicense(MsgRevokeLicense) returns (MsgRevokeLicenseResponse);
+  rpc RevokeLicense(MsgRevokeLicense) returns (MsgRevokeLicenseResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/revoke_license"
+      body: "*"
+    };
+  }
 
   // UpdateLicense updates the status of a license. Signer must have the "update" grant for the license type.
-  rpc UpdateLicense(MsgUpdateLicense) returns (MsgUpdateLicenseResponse);
+  rpc UpdateLicense(MsgUpdateLicense) returns (MsgUpdateLicenseResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/update_license"
+      body: "*"
+    };
+  }
 
   // TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
-  rpc TransferLicense(MsgTransferLicense) returns (MsgTransferLicenseResponse);
+  rpc TransferLicense(MsgTransferLicense) returns (MsgTransferLicenseResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/transfer_license"
+      body: "*"
+    };
+  }
 
   // UpdateLicenseType updates an existing license type. Signer must be the module owner.
-  rpc UpdateLicenseType(MsgUpdateLicenseType) returns (MsgUpdateLicenseTypeResponse);
+  rpc UpdateLicenseType(MsgUpdateLicenseType) returns (MsgUpdateLicenseTypeResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/update_license_type"
+      body: "*"
+    };
+  }
 
   // BatchIssueLicense issues multiple licenses in a single transaction. Signer must have the "issue" grant for the license type.
-  rpc BatchIssueLicense(MsgBatchIssueLicense) returns (MsgBatchIssueLicenseResponse);
+  rpc BatchIssueLicense(MsgBatchIssueLicense) returns (MsgBatchIssueLicenseResponse) {
+    option (google.api.http) = {
+      post: "/webstack/licenses/tx/batch_issue_license"
+      body: "*"
+    };
+  }
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.

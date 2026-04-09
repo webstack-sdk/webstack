@@ -16,57 +16,57 @@ option go_package = "github.com/webstack-sdk/webstack/x/licenses/types";
 service Query {
   // Params queries the module parameters.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/licenses/params";
+    option (google.api.http).get = "/webstack/licenses/params";
   }
 
   // Permissions returns the list of valid admin key permissions.
   rpc Permissions(QueryPermissionsRequest) returns (QueryPermissionsResponse) {
-    option (google.api.http).get = "/licenses/permissions";
+    option (google.api.http).get = "/webstack/licenses/permissions";
   }
 
   // LicenseType queries a license type by id.
   rpc LicenseType(QueryLicenseTypeRequest) returns (QueryLicenseTypeResponse) {
-    option (google.api.http).get = "/licenses/license_type/{id}";
+    option (google.api.http).get = "/webstack/licenses/license_type/{id}";
   }
 
   // LicenseTypes queries all license types.
   rpc LicenseTypes(QueryLicenseTypesRequest) returns (QueryLicenseTypesResponse) {
-    option (google.api.http).get = "/licenses/license_types";
+    option (google.api.http).get = "/webstack/licenses/license_types";
   }
 
   // License queries a license by type id and license id.
   rpc License(QueryLicenseRequest) returns (QueryLicenseResponse) {
-    option (google.api.http).get = "/licenses/license/{type_id}/{id}";
+    option (google.api.http).get = "/webstack/licenses/license/{type_id}/{id}";
   }
 
   // LicensesByType queries all licenses for a given license type.
   rpc LicensesByType(QueryLicensesByTypeRequest) returns (QueryLicensesByTypeResponse) {
-    option (google.api.http).get = "/licenses/licenses_by_type/{type_id}";
+    option (google.api.http).get = "/webstack/licenses/licenses_by_type/{type_id}";
   }
 
   // LicensesByHolder queries all licenses held by a given address.
   rpc LicensesByHolder(QueryLicensesByHolderRequest) returns (QueryLicensesByHolderResponse) {
-    option (google.api.http).get = "/licenses/licenses_by_holder/{holder}";
+    option (google.api.http).get = "/webstack/licenses/licenses_by_holder/{holder}";
   }
 
   // LicensesByHolderAndType queries all licenses held by a given address for a specific type.
   rpc LicensesByHolderAndType(QueryLicensesByHolderAndTypeRequest) returns (QueryLicensesByHolderAndTypeResponse) {
-    option (google.api.http).get = "/licenses/licenses_by_holder/{holder}/{type_id}";
+    option (google.api.http).get = "/webstack/licenses/licenses_by_holder/{holder}/{type_id}";
   }
 
   // AdminKey queries the admin key grants for a given address.
   rpc AdminKey(QueryAdminKeyRequest) returns (QueryAdminKeyResponse) {
-    option (google.api.http).get = "/licenses/admin_key/{address}";
+    option (google.api.http).get = "/webstack/licenses/admin_key/{address}";
   }
 
   // AdminKeys queries all admin keys.
   rpc AdminKeys(QueryAdminKeysRequest) returns (QueryAdminKeysResponse) {
-    option (google.api.http).get = "/licenses/admin_keys";
+    option (google.api.http).get = "/webstack/licenses/admin_keys";
   }
 
   // AdminKeysByLicenseType queries admin keys that have grants for a given license type.
   rpc AdminKeysByLicenseType(QueryAdminKeysByLicenseTypeRequest) returns (QueryAdminKeysByLicenseTypeResponse) {
-    option (google.api.http).get = "/licenses/admin_keys_by_license_type/{license_type_id}";
+    option (google.api.http).get = "/webstack/licenses/admin_keys_by_license_type/{license_type_id}";
   }
 }
 

@@ -1159,27 +1159,27 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"licenses", "params"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"webstack", "licenses", "params"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_Permissions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"licenses", "permissions"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Permissions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"webstack", "licenses", "permissions"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_LicenseType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"licenses", "license_type", "id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_LicenseType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"webstack", "licenses", "license_type", "id"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_LicenseTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"licenses", "license_types"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_LicenseTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"webstack", "licenses", "license_types"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_License_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3}, []string{"licenses", "license", "type_id", "id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_License_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"webstack", "licenses", "license", "type_id", "id"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_LicensesByType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"licenses", "licenses_by_type", "type_id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_LicensesByType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"webstack", "licenses", "licenses_by_type", "type_id"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_LicensesByHolder_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"licenses", "licenses_by_holder", "holder"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_LicensesByHolder_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"webstack", "licenses", "licenses_by_holder", "holder"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_LicensesByHolderAndType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3}, []string{"licenses", "licenses_by_holder", "holder", "type_id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_LicensesByHolderAndType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"webstack", "licenses", "licenses_by_holder", "holder", "type_id"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_AdminKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"licenses", "admin_key", "address"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_AdminKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"webstack", "licenses", "admin_key", "address"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_AdminKeys_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"licenses", "admin_keys"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_AdminKeys_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"webstack", "licenses", "admin_keys"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_AdminKeysByLicenseType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"licenses", "admin_keys_by_license_type", "license_type_id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_AdminKeysByLicenseType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"webstack", "licenses", "admin_keys_by_license_type", "license_type_id"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (
