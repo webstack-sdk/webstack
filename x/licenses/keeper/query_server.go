@@ -136,7 +136,7 @@ func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdm
 					continue
 				}
 				for _, lt := range grant.LicenseTypes {
-					if lt == req.LicenseTypeId || lt == "*" {
+					if lt == req.LicenseTypeId {
 						filtered = append(filtered, ak)
 						return ak, nil
 					}

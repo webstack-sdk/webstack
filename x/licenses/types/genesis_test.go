@@ -40,7 +40,7 @@ func TestGenesisValidation(t *testing.T) {
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
 				LicenseTypes: []types.LicenseType{
-					{Id: "node", MaxSupply: math.NewInt(100), IssuedCount: math.NewInt(1)},
+					{Id: "node", MaxSupply: math.NewInt(100), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
 				},
 				Licenses: []types.License{
 					{Id: 1, Type: "node", Holder: holder, StartDate: "2026-01-01", Status: "active"},
@@ -64,8 +64,8 @@ func TestGenesisValidation(t *testing.T) {
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
 				LicenseTypes: []types.LicenseType{
-					{Id: "dup", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt()},
-					{Id: "dup", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt()},
+					{Id: "dup", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+					{Id: "dup", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
 			},
 			expErr:    true,
@@ -76,7 +76,7 @@ func TestGenesisValidation(t *testing.T) {
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
 				LicenseTypes: []types.LicenseType{
-					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt()},
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
 				Licenses: []types.License{
 					{Id: 1, Type: "t1", Holder: holder, Status: "active"},
@@ -102,7 +102,7 @@ func TestGenesisValidation(t *testing.T) {
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
 				LicenseTypes: []types.LicenseType{
-					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt()},
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
 				Licenses: []types.License{
 					{Id: 1, Type: "t1", Holder: holder, Status: "suspended"},
@@ -116,7 +116,7 @@ func TestGenesisValidation(t *testing.T) {
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
 				LicenseTypes: []types.LicenseType{
-					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt()},
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
 				Licenses: []types.License{
 					{Id: 1, Type: "t1", Holder: "bad", Status: "active"},

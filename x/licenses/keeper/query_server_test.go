@@ -156,7 +156,10 @@ func TestQueryAdminKeys(t *testing.T) {
 	admin1 := sample.AccAddress()
 	admin2 := sample.AccAddress()
 
-	_, err := ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t1", MaxSupply: math.ZeroInt()})
+	require.NoError(t, err)
+
+	_, err = ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
 		Owner: owner, Address: admin1,
 		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"t1"}}},
 	})

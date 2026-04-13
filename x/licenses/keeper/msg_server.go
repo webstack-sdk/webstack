@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 
@@ -83,6 +84,8 @@ func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateL
 		Transferrable: msg.Transferrable,
 		MaxSupply:     msg.MaxSupply,
 		IssuedCount:   math.ZeroInt(),
+		ActiveCount:   math.ZeroInt(),
+		RevokedCount:  math.ZeroInt(),
 	}
 
 	if err := ms.k.LicenseTypes.Set(ctx, msg.Id, lt); err != nil {
@@ -155,6 +158,13 @@ func (ms msgServer) SetAdminKey(ctx context.Context, msg *types.MsgSetAdminKey) 
 		}
 		if len(grant.LicenseTypes) == 0 {
 			return nil, fmt.Errorf("grant for permission %q must include at least one license type", grant.Permission)
+		}
+		for _, lt := range grant.LicenseTypes {
+			if _, found, err := ms.k.GetLicenseType(ctx, lt); err != nil {
+				return nil, err
+			} else if !found {
+				return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %q in grant for permission %q does not exist", lt, grant.Permission)
+			}
 		}
 	}
 
@@ -264,6 +274,7 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 	}
 
 	lt.IssuedCount = lt.IssuedCount.AddRaw(int64(count))
+	lt.ActiveCount = lt.ActiveCount.AddRaw(int64(count))
 	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
 		return nil, err
 	}
@@ -281,39 +292,76 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicense) (*types.MsgRevokeLicenseResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	license, err := ms.k.Licenses.Get(ctx, collections.Join(msg.LicenseTypeId, msg.Id))
+	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, "revoke"); !hasPerm {
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have revoke permission for license type %s", msg.Revoker, msg.LicenseTypeId)
+	}
+
+	count := msg.Count
+	if count == 0 {
+		count = 1
+	}
+
+	// Collect active license IDs for this holder+type.
+	rng := collections.NewSuperPrefixedTripleRange[string, string, uint64](msg.Holder, msg.LicenseTypeId)
+	var activeIDs []uint64
+	err := ms.k.LicenseByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64], _ uint64) (bool, error) {
+		license, err := ms.k.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
+		if err != nil {
+			return true, err
+		}
+		if license.Status == "active" {
+			activeIDs = append(activeIDs, key.K3())
+		}
+		return false, nil
+	})
 	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "license (type=%s, id=%d) not found", msg.LicenseTypeId, msg.Id)
-	}
-
-	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Revoker, license.Type, "revoke"); !hasPerm {
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have revoke permission for license type %s", msg.Revoker, license.Type)
-	}
-
-	// Remove holder index
-	if err := ms.k.LicenseByHolder.Remove(ctx, collections.Join3(license.Holder, msg.LicenseTypeId, msg.Id)); err != nil {
 		return nil, err
 	}
 
-	// Remove license
-	if err := ms.k.Licenses.Remove(ctx, collections.Join(msg.LicenseTypeId, msg.Id)); err != nil {
-		return nil, err
+	if uint64(len(activeIDs)) < count {
+		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "holder %s has %d active license(s) of type %s, but %d requested", msg.Holder, len(activeIDs), msg.LicenseTypeId, count)
 	}
 
-	// Decrement issued count
-	lt, err := ms.k.LicenseTypes.Get(ctx, license.Type)
-	if err == nil && !lt.IssuedCount.IsZero() {
-		lt.IssuedCount = lt.IssuedCount.SubRaw(1)
-		_ = ms.k.LicenseTypes.Set(ctx, license.Type, lt)
+	// Sort descending so we revoke the most recently issued first.
+	sort.Slice(activeIDs, func(i, j int) bool { return activeIDs[i] > activeIDs[j] })
+
+	endDate := sdkCtx.BlockTime().Format("2006-01-02")
+	revokedIDs := make([]uint64, 0, count)
+
+	for _, id := range activeIDs[:count] {
+		license, err := ms.k.Licenses.Get(ctx, collections.Join(msg.LicenseTypeId, id))
+		if err != nil {
+			return nil, err
+		}
+
+		license.Status = "revoked"
+		license.EndDate = endDate
+
+		if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, id), license); err != nil {
+			return nil, err
+		}
+
+		revokedIDs = append(revokedIDs, id)
+	}
+
+	lt, err := ms.k.LicenseTypes.Get(ctx, msg.LicenseTypeId)
+	if err != nil {
+		return nil, err
+	}
+	lt.ActiveCount = lt.ActiveCount.SubRaw(int64(count))
+	lt.RevokedCount = lt.RevokedCount.AddRaw(int64(count))
+	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
+		return nil, err
 	}
 
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
 		types.EventTypeRevokeLicense,
 		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
-		sdk.NewAttribute(types.AttributeKeyLicenseID, fmt.Sprintf("%d", msg.Id)),
+		sdk.NewAttribute(types.AttributeKeyHolder, msg.Holder),
+		sdk.NewAttribute("count", fmt.Sprintf("%d", count)),
 	))
 
-	return &types.MsgRevokeLicenseResponse{}, nil
+	return &types.MsgRevokeLicenseResponse{Ids: revokedIDs}, nil
 }
 
 func (ms msgServer) UpdateLicense(ctx context.Context, msg *types.MsgUpdateLicense) (*types.MsgUpdateLicenseResponse, error) {
@@ -464,6 +512,7 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 	}
 
 	lt.IssuedCount = lt.IssuedCount.AddRaw(count)
+	lt.ActiveCount = lt.ActiveCount.AddRaw(count)
 	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
 		return nil, err
 	}

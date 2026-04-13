@@ -218,7 +218,7 @@ func (k Keeper) hasAdminPermission(ctx context.Context, address string, licenseT
 			continue
 		}
 		for _, lt := range grant.LicenseTypes {
-			if lt == licenseTypeID || lt == "*" {
+			if lt == licenseTypeID {
 				return true, nil
 			}
 		}
@@ -265,8 +265,9 @@ func (k Keeper) issueSingleLicense(ctx context.Context, typeID string, lt types.
 		return 0, err
 	}
 
-	// Increment issued count
+	// Increment issued and active counts
 	lt.IssuedCount = lt.IssuedCount.Add(math.OneInt())
+	lt.ActiveCount = lt.ActiveCount.Add(math.OneInt())
 	if err := k.LicenseTypes.Set(ctx, typeID, lt); err != nil {
 		return 0, err
 	}

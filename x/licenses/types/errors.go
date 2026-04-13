@@ -17,4 +17,5 @@ var (
 	ErrEmptyLicenseTypeID     = errors.Register(ModuleName, 1111, "license type id cannot be empty")
 	ErrEmptyHolder            = errors.Register(ModuleName, 1112, "holder address cannot be empty")
 	ErrEmptyBatchEntries      = errors.Register(ModuleName, 1113, "batch entries cannot be empty")
+	ErrLicenseRevoked         = errors.Register(ModuleName, 1114, "license is already revoked")
 )

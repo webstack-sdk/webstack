@@ -45,7 +45,8 @@ type MsgClient interface {
 	RemoveAdminKey(ctx context.Context, in *MsgRemoveAdminKey, opts ...grpc.CallOption) (*MsgRemoveAdminKeyResponse, error)
 	// IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
 	IssueLicense(ctx context.Context, in *MsgIssueLicense, opts ...grpc.CallOption) (*MsgIssueLicenseResponse, error)
-	// RevokeLicense deletes a license. Signer must have the "revoke" grant for the license type.
+	// RevokeLicense revokes licenses for a holder, revoking the most recently issued first.
+	// Signer must have the "revoke" grant for the license type.
 	RevokeLicense(ctx context.Context, in *MsgRevokeLicense, opts ...grpc.CallOption) (*MsgRevokeLicenseResponse, error)
 	// UpdateLicense updates the status of a license. Signer must have the "update" grant for the license type.
 	UpdateLicense(ctx context.Context, in *MsgUpdateLicense, opts ...grpc.CallOption) (*MsgUpdateLicenseResponse, error)
@@ -169,7 +170,8 @@ type MsgServer interface {
 	RemoveAdminKey(context.Context, *MsgRemoveAdminKey) (*MsgRemoveAdminKeyResponse, error)
 	// IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
 	IssueLicense(context.Context, *MsgIssueLicense) (*MsgIssueLicenseResponse, error)
-	// RevokeLicense deletes a license. Signer must have the "revoke" grant for the license type.
+	// RevokeLicense revokes licenses for a holder, revoking the most recently issued first.
+	// Signer must have the "revoke" grant for the license type.
 	RevokeLicense(context.Context, *MsgRevokeLicense) (*MsgRevokeLicenseResponse, error)
 	// UpdateLicense updates the status of a license. Signer must have the "update" grant for the license type.
 	UpdateLicense(context.Context, *MsgUpdateLicense) (*MsgUpdateLicenseResponse, error)

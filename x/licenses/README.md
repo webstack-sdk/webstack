@@ -125,7 +125,7 @@ Admin keys delegate permissions to addresses. Each admin key has grants:
 
 Valid permissions: `issue`, `revoke`, `update`
 
-A wildcard `"*"` in `license_types` grants the permission for all types.
+Each license type in a grant must refer to an existing license type. Wildcards are not supported — grants must explicitly specify each license type.
 
 ## Messages
 

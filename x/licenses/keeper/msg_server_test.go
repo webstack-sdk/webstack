@@ -154,6 +154,12 @@ func TestSetAdminKey(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
+	// Create license types referenced by the grants
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t1", MaxSupply: math.ZeroInt()})
+	require.NoError(t, err)
+	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t2", MaxSupply: math.ZeroInt()})
+	require.NoError(t, err)
+
 	tests := []struct {
 		name      string
 		input     *types.MsgSetAdminKey
@@ -247,7 +253,10 @@ func TestRemoveAdminKey(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
-	_, err := ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t1", MaxSupply: math.ZeroInt()})
+	require.NoError(t, err)
+
+	_, err = ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
 		Owner:   owner,
 		Address: adminAddr,
 		Grants:  []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"t1"}}},
@@ -554,11 +563,12 @@ func TestRevokeLicense(t *testing.T) {
 	})
 	require.NoError(t, err)
 
+	// Issue 3 licenses to the same holder.
 	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "rev", Holder: holder, StartDate: "2026-01-01",
+		Issuer: issuer, LicenseTypeId: "rev", Holder: holder, StartDate: "2026-01-01", Count: 3,
 	})
 	require.NoError(t, err)
-	licenseID := resp.Ids[0]
+	require.Len(t, resp.Ids, 3)
 
 	tests := []struct {
 		name      string
@@ -567,36 +577,55 @@ func TestRevokeLicense(t *testing.T) {
 		expErrMsg string
 	}{
 		{
-			name:      "not found",
-			input:     &types.MsgRevokeLicense{Revoker: revoker, LicenseTypeId: "rev", Id: 999},
-			expErr:    true,
-			expErrMsg: "not found",
-		},
-		{
 			name:      "no permission",
-			input:     &types.MsgRevokeLicense{Revoker: sample.AccAddress(), LicenseTypeId: "rev", Id: licenseID},
+			input:     &types.MsgRevokeLicense{Revoker: sample.AccAddress(), LicenseTypeId: "rev", Holder: holder, Count: 1},
 			expErr:    true,
 			expErrMsg: "does not have revoke permission",
 		},
 		{
-			name:   "valid",
-			input:  &types.MsgRevokeLicense{Revoker: revoker, LicenseTypeId: "rev", Id: licenseID},
+			name:      "not enough active licenses",
+			input:     &types.MsgRevokeLicense{Revoker: revoker, LicenseTypeId: "rev", Holder: holder, Count: 10},
+			expErr:    true,
+			expErrMsg: "has 3 active license(s)",
+		},
+		{
+			name:   "revoke 2 — most recent first",
+			input:  &types.MsgRevokeLicense{Revoker: revoker, LicenseTypeId: "rev", Holder: holder, Count: 2},
 			expErr: false,
 		},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			_, err := ms.RevokeLicense(ctx, tc.input)
+			revokeResp, err := ms.RevokeLicense(ctx, tc.input)
 			if tc.expErr {
 				require.Error(t, err)
 				require.Contains(t, err.Error(), tc.expErrMsg)
 			} else {
 				require.NoError(t, err)
-				_, found, _ := k.GetLicense(ctx, "rev", licenseID)
-				require.False(t, found)
+				require.Len(t, revokeResp.Ids, 2)
+				// Most recently issued (id=3) should be revoked first, then id=2.
+				require.Equal(t, resp.Ids[2], revokeResp.Ids[0])
+				require.Equal(t, resp.Ids[1], revokeResp.Ids[1])
+
+				// Verify revoked licenses have status and end_date set.
+				for _, id := range revokeResp.Ids {
+					license, found, _ := k.GetLicense(ctx, "rev", id)
+					require.True(t, found)
+					require.Equal(t, "revoked", license.Status)
+					require.NotEmpty(t, license.EndDate)
+				}
+
+				// Verify the remaining license is still active.
+				license, found, _ := k.GetLicense(ctx, "rev", resp.Ids[0])
+				require.True(t, found)
+				require.Equal(t, "active", license.Status)
+
+				// Verify counters.
 				lt, _, _ := k.GetLicenseType(ctx, "rev")
-				require.True(t, lt.IssuedCount.IsZero())
+				require.Equal(t, math.NewInt(3), lt.IssuedCount)
+				require.Equal(t, math.NewInt(1), lt.ActiveCount)
+				require.Equal(t, math.NewInt(2), lt.RevokedCount)
 			}
 		})
 	}

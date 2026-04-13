@@ -20,8 +20,22 @@ message LicenseType {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
-  // issued_count tracks the number of currently active licenses issued.
+  // issued_count tracks the total number of licenses issued (used for ID generation).
   string issued_count = 4 [
+    (cosmos_proto.scalar) = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  // active_count tracks the number of currently active licenses.
+  string active_count = 5 [
+    (cosmos_proto.scalar) = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  // revoked_count tracks the number of revoked licenses.
+  string revoked_count = 6 [
     (cosmos_proto.scalar) = "cosmos.Int",
     (gogoproto.customtype) = "cosmossdk.io/math.Int",
     (gogoproto.nullable) = false,

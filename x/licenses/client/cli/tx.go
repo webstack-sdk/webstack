@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -24,6 +25,7 @@ func GetTxCmd() *cobra.Command {
 
 	cmd.AddCommand(CmdSetAdminKey())
 	cmd.AddCommand(CmdBatchIssueLicense())
+	cmd.AddCommand(CmdRevokeLicense())
 
 	return cmd
 }
@@ -166,6 +168,58 @@ Example:
 				Issuer:        clientCtx.GetFromAddress().String(),
 				LicenseTypeId: licenseTypeID,
 				Entries:       entries,
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+	return cmd
+}
+
+// CmdRevokeLicense returns a command to revoke licenses for a holder.
+//
+// Usage:
+//
+//	revoke-license [license-type-id] [holder] [count]
+//
+// The most recently issued active licenses are revoked first.
+// The revoker is taken from --from.
+func CmdRevokeLicense() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "revoke-license [license-type-id] [holder] [count]",
+		Short: "Revoke licenses for a holder, most recent first",
+		Long: `Revoke active licenses for a holder. The revoker (--from) must have "revoke" permission.
+
+The most recently issued active licenses are revoked first. Their status is set to "revoked"
+and end_date is set to the current block date.
+
+Example:
+  webstackd tx licenses revoke-license node.license cosmos1abc... 2 \
+    --from admin --gas auto --fees 100000aatom -y`,
+		Args: cobra.ExactArgs(3),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			holder := args[1]
+			if _, err := sdk.AccAddressFromBech32(holder); err != nil {
+				return fmt.Errorf("invalid holder address %q: %w", holder, err)
+			}
+
+			count, err := strconv.ParseUint(args[2], 10, 64)
+			if err != nil {
+				return fmt.Errorf("invalid count %q: %w", args[2], err)
+			}
+
+			msg := &types.MsgRevokeLicense{
+				Revoker:       clientCtx.GetFromAddress().String(),
+				LicenseTypeId: args[0],
+				Holder:        holder,
+				Count:         count,
 			}
 
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
