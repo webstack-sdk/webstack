@@ -140,11 +140,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "RevokeLicense",
-					Use:       "revoke-license [license-type-id] [id]",
-					Short:     "Revoke a license",
+					Use:       "revoke-license [license-type-id] [holder] [count]",
+					Short:     "Revoke licenses for a holder, most recent first",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "license_type_id"},
-						{ProtoField: "id"},
+						{ProtoField: "holder"},
+						{ProtoField: "count"},
 					},
 				},
 				{

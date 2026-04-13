@@ -166,10 +166,10 @@ webstackd tx licenses issue-license node.license cosmos1holder... --from admin
 The `count` field (default 1) allows issuing multiple licenses in one transaction.
 
 ### MsgRevokeLicense
-Delete a license and decrement the issued count. Signer must have `revoke` permission.
+Revoke active licenses for a holder, most recently issued first. Sets status to `revoked` and end date to the current block date. Signer must have `revoke` permission.
 
 ```bash
-webstackd tx licenses revoke-license node.license 1 --from admin
+webstackd tx licenses revoke-license node.license cosmos1abc... 2 --from admin
 ```
 
 ### MsgUpdateLicense

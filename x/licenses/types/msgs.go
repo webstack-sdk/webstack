@@ -83,6 +83,9 @@ func (msg *MsgRevokeLicense) ValidateBasic() error {
 	if msg.LicenseTypeId == "" {
 		return ErrEmptyLicenseTypeID
 	}
+	if _, err := sdk.AccAddressFromBech32(msg.Holder); err != nil {
+		return ErrEmptyHolder.Wrapf("invalid holder address: %s", err)
+	}
 	return nil
 }
 
