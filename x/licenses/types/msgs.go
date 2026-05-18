@@ -3,6 +3,8 @@ package types
 import (
 	"fmt"
 
+	"cosmossdk.io/math"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -34,7 +36,7 @@ func (msg *MsgCreateLicenseType) ValidateBasic() error {
 	if msg.Id == "" {
 		return ErrEmptyLicenseTypeID
 	}
-	return nil
+	return ValidateMaxSupply(msg.MaxSupply)
 }
 
 func (msg *MsgUpdateLicenseType) ValidateBasic() error {
@@ -43,6 +45,16 @@ func (msg *MsgUpdateLicenseType) ValidateBasic() error {
 	}
 	if msg.Id == "" {
 		return ErrEmptyLicenseTypeID
+	}
+	return ValidateMaxSupply(msg.MaxSupply)
+}
+
+func ValidateMaxSupply(v math.Int) error {
+	if v.IsNil() {
+		return ErrInvalidMaxSupply.Wrap("max_supply must be set")
+	}
+	if v.IsNegative() {
+		return ErrInvalidMaxSupply.Wrapf("max_supply must not be negative, got %s", v.String())
 	}
 	return nil
 }

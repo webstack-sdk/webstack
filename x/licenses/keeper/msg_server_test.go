@@ -131,6 +131,25 @@ func TestCreateLicenseType(t *testing.T) {
 			expErr:    true,
 			expErrMsg: "already exists",
 		},
+		{
+			name: "negative max_supply",
+			input: &types.MsgCreateLicenseType{
+				Owner:     owner,
+				Id:        "neg.type",
+				MaxSupply: math.NewInt(-1),
+			},
+			expErr:    true,
+			expErrMsg: "max_supply must not be negative",
+		},
+		{
+			name: "nil max_supply",
+			input: &types.MsgCreateLicenseType{
+				Owner: owner,
+				Id:    "nil.type",
+			},
+			expErr:    true,
+			expErrMsg: "max_supply must be set",
+		},
 	}
 
 	for _, tc := range tests {
@@ -997,6 +1016,18 @@ func TestUpdateLicenseType(t *testing.T) {
 			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true, MaxSupply: math.NewInt(3)},
 			expErr:    true,
 			expErrMsg: "cannot set max_supply",
+		},
+		{
+			name:      "negative max_supply",
+			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true, MaxSupply: math.NewInt(-1)},
+			expErr:    true,
+			expErrMsg: "max_supply must not be negative",
+		},
+		{
+			name:      "nil max_supply",
+			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true},
+			expErr:    true,
+			expErrMsg: "max_supply must be set",
 		},
 		{
 			name:   "valid update",

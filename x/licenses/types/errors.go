@@ -18,4 +18,5 @@ var (
 	ErrEmptyHolder            = errors.Register(ModuleName, 1112, "holder address cannot be empty")
 	ErrEmptyBatchEntries      = errors.Register(ModuleName, 1113, "batch entries cannot be empty")
 	ErrLicenseRevoked         = errors.Register(ModuleName, 1114, "license is already revoked")
+	ErrInvalidMaxSupply       = errors.Register(ModuleName, 1115, "invalid max_supply")
 )

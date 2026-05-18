@@ -75,6 +75,10 @@ func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateL
 		return nil, errorsmod.Wrap(types.ErrLicenseTypeNotFound, "license type id cannot be empty")
 	}
 
+	if err := types.ValidateMaxSupply(msg.MaxSupply); err != nil {
+		return nil, err
+	}
+
 	_, err = ms.k.LicenseTypes.Get(ctx, msg.Id)
 	if err == nil {
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeExists, "license type %s already exists", msg.Id)
@@ -111,6 +115,10 @@ func (ms msgServer) UpdateLicenseType(ctx context.Context, msg *types.MsgUpdateL
 	if !isOwner {
 		params, _ := ms.k.Params.Get(ctx)
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
+	}
+
+	if err := types.ValidateMaxSupply(msg.MaxSupply); err != nil {
+		return nil, err
 	}
 
 	lt, err := ms.k.LicenseTypes.Get(ctx, msg.Id)
