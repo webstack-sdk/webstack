@@ -113,6 +113,9 @@ func (msg *MsgIssueLicense) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Holder); err != nil {
 		return ErrEmptyHolder.Wrapf("invalid holder address: %s", err)
 	}
+	if msg.Count == 0 {
+		return ErrInvalidCount.Wrap("count must be greater than zero")
+	}
 	return nil
 }
 
@@ -125,6 +128,9 @@ func (msg *MsgRevokeLicense) ValidateBasic() error {
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Holder); err != nil {
 		return ErrEmptyHolder.Wrapf("invalid holder address: %s", err)
+	}
+	if msg.Count == 0 {
+		return ErrInvalidCount.Wrap("count must be greater than zero")
 	}
 	return nil
 }

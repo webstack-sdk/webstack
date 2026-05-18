@@ -507,10 +507,19 @@ func TestIssueLicense(t *testing.T) {
 			expErrMsg: "must not be before",
 		},
 		{
+			name: "count zero",
+			input: &types.MsgIssueLicense{
+				Issuer: issuer, LicenseTypeId: "node",
+				Holder: holder, StartDate: "2026-01-01",
+			},
+			expErr:    true,
+			expErrMsg: "count must be greater than zero",
+		},
+		{
 			name: "valid single",
 			input: &types.MsgIssueLicense{
 				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-01-01", EndDate: "2027-01-01",
+				Holder: holder, StartDate: "2026-01-01", EndDate: "2027-01-01", Count: 1,
 			},
 			expErr:   false,
 			expCount: 1,
@@ -789,13 +798,13 @@ func TestTransferLicense(t *testing.T) {
 	require.NoError(t, err)
 
 	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01",
+		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01", Count: 1,
 	})
 	require.NoError(t, err)
 	xferID := resp.Ids[0]
 
 	resp, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "noxfer", Holder: holder, StartDate: "2026-01-01",
+		Issuer: issuer, LicenseTypeId: "noxfer", Holder: holder, StartDate: "2026-01-01", Count: 1,
 	})
 	require.NoError(t, err)
 	noxferID := resp.Ids[0]
@@ -940,7 +949,7 @@ func TestTransferLicenseRejectsRevoked(t *testing.T) {
 	require.NoError(t, err)
 
 	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01",
+		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01", Count: 1,
 	})
 	require.NoError(t, err)
 	id := resp.Ids[0]

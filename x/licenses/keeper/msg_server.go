@@ -338,16 +338,16 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, msg.LicenseTypeId)
 	}
 
+	if msg.Count == 0 {
+		return nil, errorsmod.Wrap(types.ErrInvalidCount, "count must be greater than zero")
+	}
+
 	lt, err := ms.k.LicenseTypes.Get(ctx, msg.LicenseTypeId)
 	if err != nil {
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", msg.LicenseTypeId)
 	}
 
 	count := msg.Count
-	if count == 0 {
-		count = 1
-	}
-
 	countInt := math.NewIntFromUint64(count)
 	if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(countInt).GT(lt.MaxSupply) {
 		return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "license type %s: issuing %d would exceed max supply of %s (current: %s)", msg.LicenseTypeId, count, lt.MaxSupply.String(), lt.IssuedCount.String())
@@ -406,10 +406,10 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have revoke permission for license type %s", msg.Revoker, msg.LicenseTypeId)
 	}
 
-	count := msg.Count
-	if count == 0 {
-		count = 1
+	if msg.Count == 0 {
+		return nil, errorsmod.Wrap(types.ErrInvalidCount, "count must be greater than zero")
 	}
+	count := msg.Count
 
 	// Walk LicenseByHolder in descending id order so we collect the most
 	// recently issued active licenses first, and stop as soon as we have
