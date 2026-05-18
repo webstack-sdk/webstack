@@ -12,6 +12,16 @@ const (
 // ValidPermissions is the set of permissions that can be granted via admin keys.
 var Permissions = []string{"issue", "revoke", "update"}
 
+// IsValidPermission reports whether p is one of the known admin-key permissions.
+func IsValidPermission(p string) bool {
+	for _, vp := range Permissions {
+		if vp == p {
+			return true
+		}
+	}
+	return false
+}
+
 // MaxIssueBatchSize bounds the number of entries in a single
 // MsgBatchIssueLicense. Per-tx work is otherwise only bounded by the
 // CometBFT tx-size limit; this gives a clean error before the keeper

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"time"
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
@@ -26,15 +25,6 @@ var _ types.MsgServer = msgServer{}
 
 func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 	return &msgServer{k: keeper}
-}
-
-func isValidPermission(p string) bool {
-	for _, vp := range types.Permissions {
-		if vp == p {
-			return true
-		}
-	}
-	return false
 }
 
 func (ms msgServer) UpdateParams(ctx context.Context, msg *types.MsgUpdateParams) (*types.MsgUpdateParamsResponse, error) {
@@ -166,7 +156,7 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 	}
 
 	for _, grant := range msg.Grants {
-		if !isValidPermission(grant.Permission) {
+		if !types.IsValidPermission(grant.Permission) {
 			return nil, fmt.Errorf("invalid permission %q: must be one of issue, revoke, update", grant.Permission)
 		}
 		if len(grant.LicenseTypes) == 0 {
@@ -336,7 +326,7 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 		return nil, fmt.Errorf("invalid holder address %q: %w", msg.Holder, err)
 	}
 
-	if err := validateDates(msg.StartDate, msg.EndDate); err != nil {
+	if err := types.ValidateDates(msg.StartDate, msg.EndDate); err != nil {
 		return nil, err
 	}
 
@@ -574,7 +564,7 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 		if entry.StartDate == "" {
 			return nil, fmt.Errorf("entry %d: start_date is required", i)
 		}
-		if err := validateDates(entry.StartDate, entry.EndDate); err != nil {
+		if err := types.ValidateDates(entry.StartDate, entry.EndDate); err != nil {
 			return nil, fmt.Errorf("entry %d: %w", i, err)
 		}
 	}
@@ -618,26 +608,5 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 	))
 
 	return &types.MsgBatchIssueLicenseResponse{Ids: ids}, nil
-}
-
-// validateDates validates start_date and end_date in YYYY-MM-DD format.
-func validateDates(startDate, endDate string) error {
-	if startDate == "" {
-		return fmt.Errorf("start_date is required")
-	}
-	sd, err := time.Parse("2006-01-02", startDate)
-	if err != nil {
-		return fmt.Errorf("invalid start_date %q: must be YYYY-MM-DD format", startDate)
-	}
-	if endDate != "" {
-		ed, err := time.Parse("2006-01-02", endDate)
-		if err != nil {
-			return fmt.Errorf("invalid end_date %q: must be YYYY-MM-DD format", endDate)
-		}
-		if ed.Before(sd) {
-			return fmt.Errorf("end_date %s must not be before start_date %s", endDate, startDate)
-		}
-	}
-	return nil
 }
 

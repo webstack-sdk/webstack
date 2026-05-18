@@ -2,11 +2,35 @@ package types
 
 import (
 	"fmt"
+	"time"
 
 	"cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
+
+// ValidateDates validates start_date and end_date strings in YYYY-MM-DD form.
+// start_date is required; end_date is optional and, if present, must not be
+// before start_date.
+func ValidateDates(startDate, endDate string) error {
+	if startDate == "" {
+		return fmt.Errorf("start_date is required")
+	}
+	sd, err := time.Parse("2006-01-02", startDate)
+	if err != nil {
+		return fmt.Errorf("invalid start_date %q: must be YYYY-MM-DD format", startDate)
+	}
+	if endDate != "" {
+		ed, err := time.Parse("2006-01-02", endDate)
+		if err != nil {
+			return fmt.Errorf("invalid end_date %q: must be YYYY-MM-DD format", endDate)
+		}
+		if ed.Before(sd) {
+			return fmt.Errorf("end_date %s must not be before start_date %s", endDate, startDate)
+		}
+	}
+	return nil
+}
 
 var (
 	_ sdk.Msg = &MsgUpdateParams{}

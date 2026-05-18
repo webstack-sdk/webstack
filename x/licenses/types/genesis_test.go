@@ -148,6 +148,151 @@ func TestGenesisValidation(t *testing.T) {
 			expErr:    true,
 			expErrMsg: "invalid address",
 		},
+		{
+			name: "license type negative max_supply",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.NewInt(-1), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "max_supply must not be negative",
+		},
+		{
+			name: "license type nil counter",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "issued_count must be set",
+		},
+		{
+			name: "license type negative counter",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.NewInt(-1), RevokedCount: math.ZeroInt()},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "active_count must not be negative",
+		},
+		{
+			name: "issued_count mismatch",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.NewInt(100), IssuedCount: math.NewInt(2), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
+				},
+				Licenses: []types.License{
+					{Id: 1, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: "active"},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "issued_count 2 does not match",
+		},
+		{
+			name: "active_count mismatch",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.NewInt(100), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(0), RevokedCount: math.ZeroInt()},
+				},
+				Licenses: []types.License{
+					{Id: 1, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: "active"},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "active_count 0 does not match 1",
+		},
+		{
+			name: "revoked_count mismatch",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.NewInt(100), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.NewInt(2)},
+				},
+				Licenses: []types.License{
+					{Id: 1, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: "active"},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "revoked_count 2 does not match",
+		},
+		{
+			name: "license invalid date format",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
+				},
+				Licenses: []types.License{
+					{Id: 1, Type: "t1", Holder: holder, StartDate: "01-01-2026", Status: "active"},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "YYYY-MM-DD",
+		},
+		{
+			name: "license end_date before start_date",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
+				},
+				Licenses: []types.License{
+					{Id: 1, Type: "t1", Holder: holder, StartDate: "2026-06-01", EndDate: "2026-01-01", Status: "active"},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "must not be before",
+		},
+		{
+			name: "admin grant invalid permission",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+				},
+				AdminKeys: []types.AdminKey{
+					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: "destroy", LicenseTypes: []string{"t1"}}}},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "invalid permission",
+		},
+		{
+			name: "admin grant empty license types",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+				},
+				AdminKeys: []types.AdminKey{
+					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{}}}},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "at least one license type",
+		},
+		{
+			name: "admin grant unknown license type",
+			genesis: types.GenesisState{
+				Params: types.Params{Owner: owner},
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+				},
+				AdminKeys: []types.AdminKey{
+					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"missing"}}}},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "unknown license type",
+		},
 	}
 
 	for _, tc := range tests {
