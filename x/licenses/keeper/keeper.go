@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -114,7 +115,11 @@ func (k Keeper) GetLicense(ctx context.Context, typeID string, id uint64) (types
 	return l, true, nil
 }
 
-// HasPermission checks if an address has a specific permission for a license type.
+// HasPermission reports whether an address has a specific permission for a
+// license type. It treats any underlying store error as "no permission" so
+// callers that only need a yes/no answer (queries, tests) stay simple; callers
+// that must distinguish "missing" from "store failure" should use the
+// internal hasAdminPermission directly.
 func (k Keeper) HasPermission(ctx context.Context, address, permission, licenseTypeID string) bool {
 	ok, _ := k.hasAdminPermission(ctx, address, licenseTypeID, permission)
 	return ok
@@ -214,11 +219,18 @@ func (k Keeper) nextLicenseID(ctx context.Context, typeID string) (uint64, error
 	return count, nil
 }
 
-// hasAdminPermission checks if an address has a specific permission for a license type.
+// hasAdminPermission checks if an address has a specific permission for a
+// license type. A missing admin key for the address returns (false, nil) so
+// callers can treat it as a normal "not authorised" case; any other store
+// error is surfaced so the caller can fail the tx instead of silently
+// denying the action.
 func (k Keeper) hasAdminPermission(ctx context.Context, address string, licenseTypeID string, permission string) (bool, error) {
 	ak, err := k.AdminKeys.Get(ctx, address)
 	if err != nil {
-		return false, nil
+		if errors.Is(err, collections.ErrNotFound) {
+			return false, nil
+		}
+		return false, err
 	}
 
 	for _, grant := range ak.Grants {

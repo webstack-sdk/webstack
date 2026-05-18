@@ -330,7 +330,11 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 		return nil, err
 	}
 
-	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue"); !hasPerm {
+	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue")
+	if err != nil {
+		return nil, err
+	}
+	if !hasPerm {
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, msg.LicenseTypeId)
 	}
 
@@ -394,7 +398,11 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicense) (*types.MsgRevokeLicenseResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, "revoke"); !hasPerm {
+	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, "revoke")
+	if err != nil {
+		return nil, err
+	}
+	if !hasPerm {
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have revoke permission for license type %s", msg.Revoker, msg.LicenseTypeId)
 	}
 
@@ -403,10 +411,13 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 		count = 1
 	}
 
-	// Collect active license IDs for this holder+type.
-	rng := collections.NewSuperPrefixedTripleRange[string, string, uint64](msg.Holder, msg.LicenseTypeId)
-	var activeIDs []uint64
-	err := ms.k.LicenseByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64], _ uint64) (bool, error) {
+	// Walk LicenseByHolder in descending id order so we collect the most
+	// recently issued active licenses first, and stop as soon as we have
+	// enough. Avoids loading the holder's full license set when only a small
+	// number need to be revoked.
+	rng := collections.NewSuperPrefixedTripleRangeReversed[string, string, uint64](msg.Holder, msg.LicenseTypeId)
+	activeIDs := make([]uint64, 0, count)
+	err = ms.k.LicenseByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64], _ uint64) (bool, error) {
 		license, err := ms.k.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
 		if err != nil {
 			return true, err
@@ -414,7 +425,7 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 		if license.Status == "active" {
 			activeIDs = append(activeIDs, key.K3())
 		}
-		return false, nil
+		return uint64(len(activeIDs)) >= count, nil
 	})
 	if err != nil {
 		return nil, err
@@ -424,13 +435,10 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "holder %s has %d active license(s) of type %s, but %d requested", msg.Holder, len(activeIDs), msg.LicenseTypeId, count)
 	}
 
-	// Sort descending so we revoke the most recently issued first.
-	sort.Slice(activeIDs, func(i, j int) bool { return activeIDs[i] > activeIDs[j] })
-
 	endDate := sdkCtx.BlockTime().Format("2006-01-02")
 	revokedIDs := make([]uint64, 0, count)
 
-	for _, id := range activeIDs[:count] {
+	for _, id := range activeIDs {
 		license, err := ms.k.Licenses.Get(ctx, collections.Join(msg.LicenseTypeId, id))
 		if err != nil {
 			return nil, err
@@ -541,7 +549,11 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 		return nil, fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), types.MaxIssueBatchSize)
 	}
 
-	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue"); !hasPerm {
+	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue")
+	if err != nil {
+		return nil, err
+	}
+	if !hasPerm {
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, msg.LicenseTypeId)
 	}
 
