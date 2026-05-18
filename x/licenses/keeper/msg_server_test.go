@@ -840,6 +840,60 @@ func TestTransferLicense(t *testing.T) {
 	}
 }
 
+// TestTransferLicenseRejectsRevoked is a regression test for audit H-1:
+// a revoked license must not be transferable, even though the license entry
+// and LicenseByHolder index still exist with the original holder.
+func TestTransferLicenseRejectsRevoked(t *testing.T) {
+	k, ms, ctx, owner := setupWithOwner(t)
+	issuer := sample.AccAddress()
+	holder := sample.AccAddress()
+	recipient := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "xfer", Transferrable: true, MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: issuer,
+		Grants: []types.AdminKeyGrant{
+			{Permission: "issue", LicenseTypes: []string{"xfer"}},
+			{Permission: "revoke", LicenseTypes: []string{"xfer"}},
+		},
+	})
+	require.NoError(t, err)
+
+	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
+		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01",
+	})
+	require.NoError(t, err)
+	id := resp.Ids[0]
+
+	_, err = ms.RevokeLicense(ctx, &types.MsgRevokeLicense{
+		Revoker: issuer, LicenseTypeId: "xfer", Holder: holder, Count: 1,
+	})
+	require.NoError(t, err)
+
+	// Sanity: the license entry still exists with status=revoked.
+	l, found, err := k.GetLicense(ctx, "xfer", id)
+	require.NoError(t, err)
+	require.True(t, found)
+	require.Equal(t, "revoked", l.Status)
+	require.Equal(t, holder, l.Holder, "revoked license is still indexed under the original holder")
+
+	// Attempting to transfer the revoked license must fail.
+	_, err = ms.TransferLicense(ctx, &types.MsgTransferLicense{
+		Holder: holder, LicenseTypeId: "xfer", Id: id, Recipient: recipient,
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "revoked")
+
+	// And the holder must not have changed.
+	l, _, err = k.GetLicense(ctx, "xfer", id)
+	require.NoError(t, err)
+	require.Equal(t, holder, l.Holder)
+}
+
 // ---------------------------------------------------------------------------
 // UpdateLicenseType
 // ---------------------------------------------------------------------------

@@ -491,6 +491,10 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 		return nil, errorsmod.Wrapf(types.ErrNotLicenseHolder, "signer %s is not the holder of license (type=%s, id=%d)", msg.Holder, msg.LicenseTypeId, msg.Id)
 	}
 
+	if license.Status != "active" {
+		return nil, errorsmod.Wrapf(types.ErrLicenseRevoked, "license (type=%s, id=%d) is %s and cannot be transferred", msg.LicenseTypeId, msg.Id, license.Status)
+	}
+
 	lt, err := ms.k.LicenseTypes.Get(ctx, license.Type)
 	if err != nil {
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", license.Type)
