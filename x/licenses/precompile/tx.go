@@ -61,6 +61,10 @@ func (p Precompile) CreateLicenseType(
 		MaxSupply:     math.NewIntFromBigInt(maxSupply),
 	}
 
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
+	}
+
 	if _, err := p.msgServer.CreateLicenseType(ctx, msg); err != nil {
 		return nil, err
 	}
@@ -106,6 +110,10 @@ func (p Precompile) UpdateLicenseType(
 		Id:            id,
 		Transferrable: transferrable,
 		MaxSupply:     math.NewIntFromBigInt(maxSupply),
+	}
+
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
 	}
 
 	if _, err := p.msgServer.UpdateLicenseType(ctx, msg); err != nil {
@@ -163,6 +171,10 @@ func (p Precompile) GrantAdminPermissions(
 		Grants:  grants,
 	}
 
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
+	}
+
 	if _, err := p.msgServer.GrantAdminPermissions(ctx, msg); err != nil {
 		return nil, err
 	}
@@ -216,6 +228,10 @@ func (p Precompile) RevokeAdminKeyPermissions(
 		Owner:       owner,
 		Address:     adminBech,
 		Permissions: perms,
+	}
+
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
 	}
 
 	if _, err := p.msgServer.RevokeAdminKeyPermissions(ctx, msg); err != nil {
@@ -279,6 +295,10 @@ func (p Precompile) IssueLicense(
 		Count:         count,
 	}
 
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
+	}
+
 	res, err := p.msgServer.IssueLicense(ctx, msg)
 	if err != nil {
 		return nil, err
@@ -333,6 +353,10 @@ func (p Precompile) RevokeLicense(
 		LicenseTypeId: licenseTypeID,
 		Holder:        holder,
 		Count:         count,
+	}
+
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
 	}
 
 	res, err := p.msgServer.RevokeLicense(ctx, msg)
@@ -391,6 +415,10 @@ func (p Precompile) TransferLicense(
 		Recipient:     recipient,
 	}
 
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
+	}
+
 	if _, err := p.msgServer.TransferLicense(ctx, msg); err != nil {
 		return nil, err
 	}
@@ -445,6 +473,10 @@ func (p Precompile) BatchIssueLicense(
 		Issuer:        issuer,
 		LicenseTypeId: licenseTypeID,
 		Entries:       entries,
+	}
+
+	if err := msg.ValidateBasic(); err != nil {
+		return nil, err
 	}
 
 	res, err := p.msgServer.BatchIssueLicense(ctx, msg)

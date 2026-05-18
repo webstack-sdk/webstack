@@ -235,6 +235,27 @@ func TestTxIssueLicense(t *testing.T) {
 	require.Equal(t, common.LeftPadBytes(holderHex.Bytes(), 32), last.Topics[2].Bytes())
 }
 
+// TestTxIssueLicenseRunsValidateBasic verifies that the precompile path
+// invokes the SDK message's ValidateBasic — which an empty license_type_id
+// must surface as ErrEmptyLicenseTypeID rather than the keeper's downstream
+// "no permission" path that would fire if ValidateBasic were skipped.
+func TestTxIssueLicenseRunsValidateBasic(t *testing.T) {
+	f := newTestFixture(t)
+	seedLicenseType(t, f, "type.a", true, 0)
+	grantIssue(t, f, f.OwnerBech, "type.a")
+
+	method := ABI.Methods[IssueLicenseMethod]
+	_, err := f.precompile.IssueLicense(
+		f.ctx,
+		f.newContract(f.OwnerHex),
+		f.stateDB,
+		&method,
+		[]interface{}{"", common.HexToAddress("0x5555555555555555555555555555555555555555"), "2025-01-01", "", uint64(1)},
+	)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "license type id cannot be empty")
+}
+
 func TestTxIssueLicenseWithoutPermission(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
