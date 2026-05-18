@@ -12,6 +12,32 @@ import (
 	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
+// TestInitGenesisRunsFullValidation verifies that Keeper.InitGenesis itself
+// runs GenesisState.Validate — so direct keeper callers (tests, future
+// migrations) get the same invariant enforcement as the JSON path through
+// AppModule.ValidateGenesis.
+func TestInitGenesisRunsFullValidation(t *testing.T) {
+	k, ctx := keepertest.LicensesKeeper(t)
+	owner := k.GetParams(ctx).Owner
+
+	bad := &types.GenesisState{
+		Params: types.Params{Owner: owner},
+		LicenseTypes: []types.LicenseType{
+			{
+				Id:           "neg",
+				MaxSupply:    math.NewInt(-1),
+				IssuedCount:  math.ZeroInt(),
+				ActiveCount:  math.ZeroInt(),
+				RevokedCount: math.ZeroInt(),
+			},
+		},
+	}
+
+	err := k.InitGenesis(ctx, bad)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "max_supply must not be negative")
+}
+
 // TestGenesisRoundTripPreservesLicenseIDs covers the LicenseCounts genesis
 // export/import path: after exporting and re-importing genesis into a fresh
 // keeper, newly issued license IDs must not collide with pre-existing ones.

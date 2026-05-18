@@ -155,9 +155,16 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 		return nil, fmt.Errorf("invalid address %q: %w", msg.Address, err)
 	}
 
-	for _, grant := range msg.Grants {
+	if len(msg.Grants) > types.MaxAdminGrants {
+		return nil, fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), types.MaxAdminGrants)
+	}
+
+	for i, grant := range msg.Grants {
+		if len(grant.LicenseTypes) > types.MaxAdminGrants {
+			return nil, fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(grant.LicenseTypes), types.MaxAdminGrants)
+		}
 		if !types.IsValidPermission(grant.Permission) {
-			return nil, fmt.Errorf("invalid permission %q: must be one of issue, revoke, update", grant.Permission)
+			return nil, fmt.Errorf("invalid permission %q: must be one of issue, revoke", grant.Permission)
 		}
 		if len(grant.LicenseTypes) == 0 {
 			return nil, fmt.Errorf("grant for permission %q must include at least one license type", grant.Permission)
@@ -232,6 +239,10 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 	if !isOwner {
 		params, _ := ms.k.Params.Get(ctx)
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
+	}
+
+	if len(msg.Permissions) > types.MaxAdminGrants {
+		return nil, fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), types.MaxAdminGrants)
 	}
 
 	existing, err := ms.k.AdminKeys.Get(ctx, msg.Address)

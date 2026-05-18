@@ -3,17 +3,14 @@ package keeper
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	"cosmossdk.io/collections"
 	storetypes "cosmossdk.io/core/store"
 	"cosmossdk.io/log"
-	"cosmossdk.io/math"
 
 	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
@@ -125,9 +122,12 @@ func (k Keeper) HasPermission(ctx context.Context, address, permission, licenseT
 	return ok
 }
 
-// InitGenesis initializes the module's state from a genesis state.
+// InitGenesis initializes the module's state from a genesis state. It runs the
+// full GenesisState.Validate up front so direct keeper callers (tests, future
+// migrations) get the same invariant enforcement as the JSON ValidateGenesis
+// path on the AppModule.
 func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) error {
-	if err := data.Params.Validate(); err != nil {
+	if err := data.Validate(); err != nil {
 		return err
 	}
 
@@ -254,51 +254,4 @@ func (k Keeper) isOwner(ctx context.Context, sender string) (bool, error) {
 		return false, err
 	}
 	return params.Owner == sender, nil
-}
-
-// issueSingleLicense creates a single license and returns its ID.
-func (k Keeper) issueSingleLicense(ctx context.Context, typeID string, lt types.LicenseType, holder string, startDate string, endDate string) (uint64, error) {
-	// Check max supply
-	if lt.MaxSupply.IsPositive() && lt.IssuedCount.GTE(lt.MaxSupply) {
-		return 0, types.ErrMaxSupplyReached.Wrapf("type %s: issued %s / max %s", typeID, lt.IssuedCount, lt.MaxSupply)
-	}
-
-	id, err := k.nextLicenseID(ctx, typeID)
-	if err != nil {
-		return 0, err
-	}
-
-	license := types.License{
-		Id:        id,
-		Type:      typeID,
-		Holder:    holder,
-		StartDate: startDate,
-		EndDate:   endDate,
-		Status:    "active",
-	}
-
-	if err := k.Licenses.Set(ctx, collections.Join(typeID, id), license); err != nil {
-		return 0, err
-	}
-
-	if err := k.LicenseByHolder.Set(ctx, collections.Join3(holder, typeID, id), id); err != nil {
-		return 0, err
-	}
-
-	// Increment issued and active counts
-	lt.IssuedCount = lt.IssuedCount.Add(math.OneInt())
-	lt.ActiveCount = lt.ActiveCount.Add(math.OneInt())
-	if err := k.LicenseTypes.Set(ctx, typeID, lt); err != nil {
-		return 0, err
-	}
-
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		"license_issued",
-		sdk.NewAttribute("license_type_id", typeID),
-		sdk.NewAttribute("license_id", fmt.Sprintf("%d", id)),
-		sdk.NewAttribute("holder", holder),
-	))
-
-	return id, nil
 }

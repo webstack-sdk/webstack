@@ -31,14 +31,24 @@ func TestHexBech32Roundtrip(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, bech)
 
-	got := bech32ToHex(bech)
+	got, err := bech32ToHex(bech)
+	require.NoError(t, err)
 	require.Equal(t, hex, got)
 }
 
-// TestBech32ToHexInvalid returns the zero address rather than panicking on bad input.
+// TestBech32ToHexEmpty: empty string is the legitimate "unset" case (zero, nil).
+func TestBech32ToHexEmpty(t *testing.T) {
+	hex, err := bech32ToHex("")
+	require.NoError(t, err)
+	require.Equal(t, common.Address{}, hex)
+}
+
+// TestBech32ToHexInvalid: non-empty malformed input surfaces an error so
+// callers can flag state corruption instead of silently emitting a zero
+// address.
 func TestBech32ToHexInvalid(t *testing.T) {
-	require.Equal(t, common.Address{}, bech32ToHex(""))
-	require.Equal(t, common.Address{}, bech32ToHex("not-a-bech32-string"))
+	_, err := bech32ToHex("not-a-bech32-string")
+	require.Error(t, err)
 }
 
 // TestBigIntFromCosmosInt converts cosmos math.Ints, including the uninitialised
@@ -86,7 +96,8 @@ func TestLicenseToOutput(t *testing.T) {
 		Status:    "active",
 	}
 
-	out := licenseToOutput(l)
+	out, err := licenseToOutput(l)
+	require.NoError(t, err)
 	require.Equal(t, uint64(42), out.Id)
 	require.Equal(t, "type.a", out.TypeId)
 	require.Equal(t, hex, out.Holder)
@@ -110,7 +121,8 @@ func TestAdminKeyToOutput(t *testing.T) {
 		},
 	}
 
-	out := adminKeyToOutput(ak)
+	out, err := adminKeyToOutput(ak)
+	require.NoError(t, err)
 	require.Equal(t, hex, out.AdminAddress)
 	require.Len(t, out.Grants, 2)
 	require.Equal(t, "issue", out.Grants[0].Permission)

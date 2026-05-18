@@ -90,6 +90,14 @@ func (msg *MsgGrantAdminPermissions) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
 	}
+	if len(msg.Grants) > MaxAdminGrants {
+		return fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), MaxAdminGrants)
+	}
+	for i, g := range msg.Grants {
+		if len(g.LicenseTypes) > MaxAdminGrants {
+			return fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(g.LicenseTypes), MaxAdminGrants)
+		}
+	}
 	return nil
 }
 
@@ -99,6 +107,9 @@ func (msg *MsgRevokeAdminKeyPermissions) ValidateBasic() error {
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
+	}
+	if len(msg.Permissions) > MaxAdminGrants {
+		return fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), MaxAdminGrants)
 	}
 	return nil
 }

@@ -6,7 +6,7 @@ The `x/licenses` module provides on-chain license management for Cosmos SDK chai
 
 - **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and transferrability
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
-- **Admin Keys** grant granular permissions (issue, revoke, update) per license type to delegated addresses
+- **Admin Keys** grant granular permissions (issue, revoke) per license type to delegated addresses
 - **Module Owner** (set via params) controls license type creation and admin key management
 
 ## Installation
@@ -123,7 +123,7 @@ Admin keys delegate permissions to addresses. Each admin key has grants:
 }
 ```
 
-Valid permissions: `issue`, `revoke`, `update`
+Valid permissions: `issue`, `revoke`
 
 Each license type in a grant must refer to an existing license type. Wildcards are not supported — grants must explicitly specify each license type.
 

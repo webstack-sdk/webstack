@@ -34,10 +34,11 @@ func (p Precompile) Params(ctx sdk.Context, method *abi.Method, args []interface
 		return nil, err
 	}
 
-	out := LicensesParamsOutput{
-		Owner: bech32ToHex(res.Params.Owner),
+	owner, err := bech32ToHex(res.Params.Owner)
+	if err != nil {
+		return nil, err
 	}
-	return method.Outputs.Pack(out)
+	return method.Outputs.Pack(LicensesParamsOutput{Owner: owner})
 }
 
 // Permissions returns the list of valid grant permission strings.
@@ -109,7 +110,11 @@ func (p Precompile) License(ctx sdk.Context, method *abi.Method, args []interfac
 		return nil, err
 	}
 
-	return method.Outputs.Pack(licenseToOutput(res.License))
+	out, err := licenseToOutput(res.License)
+	if err != nil {
+		return nil, err
+	}
+	return method.Outputs.Pack(out)
 }
 
 // LicensesByType returns all licenses of a given type.
@@ -127,9 +132,9 @@ func (p Precompile) LicensesByType(ctx sdk.Context, method *abi.Method, args []i
 		return nil, err
 	}
 
-	out := make([]LicenseOutput, 0, len(res.Licenses))
-	for _, l := range res.Licenses {
-		out = append(out, licenseToOutput(l))
+	out, err := licensesToOutputs(res.Licenses)
+	if err != nil {
+		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
@@ -153,9 +158,9 @@ func (p Precompile) LicensesByHolder(ctx sdk.Context, method *abi.Method, args [
 		return nil, err
 	}
 
-	out := make([]LicenseOutput, 0, len(res.Licenses))
-	for _, l := range res.Licenses {
-		out = append(out, licenseToOutput(l))
+	out, err := licensesToOutputs(res.Licenses)
+	if err != nil {
+		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
@@ -186,9 +191,9 @@ func (p Precompile) LicensesByHolderAndType(ctx sdk.Context, method *abi.Method,
 		return nil, err
 	}
 
-	out := make([]LicenseOutput, 0, len(res.Licenses))
-	for _, l := range res.Licenses {
-		out = append(out, licenseToOutput(l))
+	out, err := licensesToOutputs(res.Licenses)
+	if err != nil {
+		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
@@ -212,7 +217,11 @@ func (p Precompile) AdminKey(ctx sdk.Context, method *abi.Method, args []interfa
 		return nil, err
 	}
 
-	return method.Outputs.Pack(adminKeyToOutput(res.AdminKey))
+	out, err := adminKeyToOutput(res.AdminKey)
+	if err != nil {
+		return nil, err
+	}
+	return method.Outputs.Pack(out)
 }
 
 // AdminKeys returns all admin key entries.
@@ -226,9 +235,9 @@ func (p Precompile) AdminKeys(ctx sdk.Context, method *abi.Method, args []interf
 		return nil, err
 	}
 
-	out := make([]AdminKeyOutput, 0, len(res.AdminKeys))
-	for _, ak := range res.AdminKeys {
-		out = append(out, adminKeyToOutput(ak))
+	out, err := adminKeysToOutputs(res.AdminKeys)
+	if err != nil {
+		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
@@ -255,9 +264,9 @@ func (p Precompile) AdminKeysByLicenseType(ctx sdk.Context, method *abi.Method, 
 		return nil, err
 	}
 
-	out := make([]AdminKeyOutput, 0, len(res.AdminKeys))
-	for _, ak := range res.AdminKeys {
-		out = append(out, adminKeyToOutput(ak))
+	out, err := adminKeysToOutputs(res.AdminKeys)
+	if err != nil {
+		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }

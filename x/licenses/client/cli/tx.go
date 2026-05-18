@@ -47,7 +47,7 @@ func CmdGrantAdminPermissions() *cobra.Command {
 		Short: "Grant admin key permissions for an address",
 		Long: `Grant admin key permissions for a given address. The module owner (--from) must sign.
 
-[permissions]    Comma-delimited list of permissions to grant. Valid values: issue, revoke, update.
+[permissions]    Comma-delimited list of permissions to grant. Valid values: issue, revoke.
 [license-types]  Comma-delimited list of license type IDs these permissions apply to.
 
 One grant is created per permission, each covering all specified license types.
@@ -85,6 +85,9 @@ Example:
 			for _, perm := range permissions {
 				if perm == "" {
 					continue
+				}
+				if !types.IsValidPermission(perm) {
+					return fmt.Errorf("invalid permission %q: must be one of %s", perm, strings.Join(types.Permissions, ", "))
 				}
 				grants = append(grants, types.AdminKeyGrant{
 					Permission:   perm,
@@ -131,7 +134,7 @@ The module owner (--from) must sign.
 Each pair after the address is colon-delimited:
   license-type-id:permission-name
 
-Valid permissions: issue, revoke, update.
+Valid permissions: issue, revoke.
 
 Pairs that aren't currently granted are silently ignored. A grant whose
 license types become empty is dropped; if no grants remain, the entire

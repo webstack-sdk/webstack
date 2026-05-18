@@ -457,6 +457,13 @@ func NewApp(
 		evmAddrCodec,
 		common.HexToAddress(licensestypes.PrecompileAddress),
 	)
+	// Guard against silent collision if a future cosmos/evm upgrade ships a
+	// stock precompile at the same address. The licenses precompile claims
+	// an application-reserved slot; if upstream ever lands one there, we
+	// want to fail loud at start-up rather than overwrite either side.
+	if _, exists := staticPrecompiles[licensesPrecompile.Address()]; exists {
+		panic(fmt.Sprintf("precompile address %s is already registered", licensesPrecompile.Address()))
+	}
 	staticPrecompiles[licensesPrecompile.Address()] = licensesPrecompile
 
 	app.EVMKeeper = evmkeeper.NewKeeper(

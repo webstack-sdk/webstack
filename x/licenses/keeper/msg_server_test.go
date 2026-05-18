@@ -412,7 +412,7 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 			Owner: owner, Address: adminAddr,
 			Permissions: []types.AdminKeyPermission{
 				{LicenseTypeId: "does-not-exist", Permission: "issue"},
-				{LicenseTypeId: "t1", Permission: "update"},
+				{LicenseTypeId: "t1", Permission: "ungranted-perm"},
 				{LicenseTypeId: "t2", Permission: "issue"}, // this one matches
 			},
 		})
@@ -894,6 +894,60 @@ func TestIssueLicenseSupplyCheckIsUnsigned(t *testing.T) {
 	})
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "exceed max supply")
+}
+
+// TestGrantAdminPermissionsGrantsCap rejects an over-cap Grants slice.
+func TestGrantAdminPermissionsGrantsCap(t *testing.T) {
+	_, ms, ctx, owner := setupWithOwner(t)
+	adminAddr := sample.AccAddress()
+
+	grants := make([]types.AdminKeyGrant, types.MaxAdminGrants+1)
+	for i := range grants {
+		grants[i] = types.AdminKeyGrant{Permission: "issue", LicenseTypes: []string{"t1"}}
+	}
+
+	_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: adminAddr, Grants: grants,
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "grants length")
+}
+
+// TestGrantAdminPermissionsLicenseTypesCap rejects an over-cap inner
+// LicenseTypes slice within a single grant.
+func TestGrantAdminPermissionsLicenseTypesCap(t *testing.T) {
+	_, ms, ctx, owner := setupWithOwner(t)
+	adminAddr := sample.AccAddress()
+
+	lts := make([]string, types.MaxAdminGrants+1)
+	for i := range lts {
+		lts[i] = "t1"
+	}
+
+	_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		Owner:   owner,
+		Address: adminAddr,
+		Grants:  []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: lts}},
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "license_types length")
+}
+
+// TestRevokeAdminKeyPermissionsCap rejects an over-cap Permissions slice.
+func TestRevokeAdminKeyPermissionsCap(t *testing.T) {
+	_, ms, ctx, owner := setupWithOwner(t)
+	adminAddr := sample.AccAddress()
+
+	perms := make([]types.AdminKeyPermission, types.MaxAdminGrants+1)
+	for i := range perms {
+		perms[i] = types.AdminKeyPermission{LicenseTypeId: "t1", Permission: "issue"}
+	}
+
+	_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		Owner: owner, Address: adminAddr, Permissions: perms,
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "permissions length")
 }
 
 // TestBatchIssueLicenseEntriesCap ensures BatchIssueLicense rejects entry

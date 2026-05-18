@@ -78,7 +78,8 @@ func (f *testFixture) newContract(caller common.Address) *vm.Contract {
 // hexFromBech32 is the inverse of the keeper's bech32 addresses for assertions.
 func (f *testFixture) hexFromBech32(t *testing.T, bech string) common.Address {
 	t.Helper()
-	hex := bech32ToHex(bech)
+	hex, err := bech32ToHex(bech)
+	require.NoError(t, err)
 	require.NotEqual(t, common.Address{}, hex, "bech32 %q produced zero address", bech)
 	return hex
 }

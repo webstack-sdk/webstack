@@ -88,17 +88,20 @@ func hexToBech32(addrCdc address.Codec, hex common.Address) (string, error) {
 	return bech, nil
 }
 
-// bech32ToHex converts a bech32 account address to its 20-byte EVM form. Returns
-// the zero address if the bech32 value is empty or cannot be parsed.
-func bech32ToHex(bech string) common.Address {
+// bech32ToHex converts a bech32 account address to its 20-byte EVM form. An
+// empty input returns the zero address with no error (the legitimate
+// "unset" case, e.g. Params.Owner before SetParams). Any non-empty input
+// that fails to decode returns an error so callers can surface state
+// corruption instead of silently emitting a zero-address holder.
+func bech32ToHex(bech string) (common.Address, error) {
 	if bech == "" {
-		return common.Address{}
+		return common.Address{}, nil
 	}
 	accAddr, err := sdk.AccAddressFromBech32(bech)
 	if err != nil {
-		return common.Address{}
+		return common.Address{}, fmt.Errorf("invalid bech32 address %q: %w", bech, err)
 	}
-	return common.BytesToAddress(accAddr.Bytes())
+	return common.BytesToAddress(accAddr.Bytes()), nil
 }
 
 // bigIntFromCosmosInt converts a (possibly nil) cosmos math.Int to a *big.Int,
@@ -122,20 +125,58 @@ func licenseTypeToOutput(lt licensestypes.LicenseType) LicenseTypeOutput {
 	}
 }
 
-// licenseToOutput converts an SDK License into its ABI counterpart.
-func licenseToOutput(l licensestypes.License) LicenseOutput {
+// licenseToOutput converts an SDK License into its ABI counterpart. Returns
+// an error if the stored holder bech32 is malformed.
+func licenseToOutput(l licensestypes.License) (LicenseOutput, error) {
+	holder, err := bech32ToHex(l.Holder)
+	if err != nil {
+		return LicenseOutput{}, fmt.Errorf("license (type=%s, id=%d): %w", l.Type, l.Id, err)
+	}
 	return LicenseOutput{
 		Id:        l.Id,
 		TypeId:    l.Type,
-		Holder:    bech32ToHex(l.Holder),
+		Holder:    holder,
 		StartDate: l.StartDate,
 		EndDate:   l.EndDate,
 		Status:    l.Status,
-	}
+	}, nil
 }
 
-// adminKeyToOutput converts an SDK AdminKey into its ABI counterpart.
-func adminKeyToOutput(ak licensestypes.AdminKey) AdminKeyOutput {
+// licensesToOutputs converts a slice of SDK Licenses into their ABI
+// counterparts, propagating the first decode error.
+func licensesToOutputs(ls []licensestypes.License) ([]LicenseOutput, error) {
+	out := make([]LicenseOutput, 0, len(ls))
+	for _, l := range ls {
+		o, err := licenseToOutput(l)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, o)
+	}
+	return out, nil
+}
+
+// adminKeysToOutputs converts a slice of SDK AdminKeys into their ABI
+// counterparts, propagating the first decode error.
+func adminKeysToOutputs(aks []licensestypes.AdminKey) ([]AdminKeyOutput, error) {
+	out := make([]AdminKeyOutput, 0, len(aks))
+	for _, ak := range aks {
+		o, err := adminKeyToOutput(ak)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, o)
+	}
+	return out, nil
+}
+
+// adminKeyToOutput converts an SDK AdminKey into its ABI counterpart. Returns
+// an error if the stored admin bech32 is malformed.
+func adminKeyToOutput(ak licensestypes.AdminKey) (AdminKeyOutput, error) {
+	addr, err := bech32ToHex(ak.Address)
+	if err != nil {
+		return AdminKeyOutput{}, fmt.Errorf("admin key %s: %w", ak.Address, err)
+	}
 	grants := make([]AdminKeyGrantOutput, 0, len(ak.Grants))
 	for _, g := range ak.Grants {
 		grants = append(grants, AdminKeyGrantOutput{
@@ -144,9 +185,9 @@ func adminKeyToOutput(ak licensestypes.AdminKey) AdminKeyOutput {
 		})
 	}
 	return AdminKeyOutput{
-		AdminAddress: bech32ToHex(ak.Address),
+		AdminAddress: addr,
 		Grants:       grants,
-	}
+	}, nil
 }
 
 // argToString unwraps a generic ABI argument expected to be a string.

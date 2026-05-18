@@ -3,7 +3,7 @@ pragma solidity >=0.8.17;
 
 /// @dev The default LicensesI precompile address. The chain may register the
 ///      precompile at a different address; consult chain documentation.
-address constant LICENSES_PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000001900;
+address constant LICENSES_PRECOMPILE_ADDRESS = 0x776562737461636B000000000000000000000001;
 
 /// @dev The LicensesI contract's instance.
 LicensesI constant LICENSES_CONTRACT = LicensesI(LICENSES_PRECOMPILE_ADDRESS);
