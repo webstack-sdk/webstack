@@ -5,8 +5,8 @@ import sdk "github.com/cosmos/cosmos-sdk/types"
 var (
 	_ sdk.Msg = &MsgUpdateParams{}
 	_ sdk.Msg = &MsgCreateLicenseType{}
-	_ sdk.Msg = &MsgSetAdminKey{}
-	_ sdk.Msg = &MsgRemoveAdminKey{}
+	_ sdk.Msg = &MsgGrantAdminPermissions{}
+	_ sdk.Msg = &MsgRevokeAdminKeyPermissions{}
 	_ sdk.Msg = &MsgIssueLicense{}
 	_ sdk.Msg = &MsgRevokeLicense{}
 	_ sdk.Msg = &MsgUpdateLicense{}
@@ -43,7 +43,7 @@ func (msg *MsgUpdateLicenseType) ValidateBasic() error {
 	return nil
 }
 
-func (msg *MsgSetAdminKey) ValidateBasic() error {
+func (msg *MsgGrantAdminPermissions) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
 	}
@@ -53,7 +53,7 @@ func (msg *MsgSetAdminKey) ValidateBasic() error {
 	return nil
 }
 
-func (msg *MsgRemoveAdminKey) ValidateBasic() error {
+func (msg *MsgRevokeAdminKeyPermissions) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
 	}

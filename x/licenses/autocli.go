@@ -127,7 +127,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "issue-license [license-type-id] [holder] [count] [start-date]",
 					Short:     "Issue one or more licenses",
 					Long:      "Issue licenses to a holder. Use --end-date flag to set an expiry.",
-					Example:   "webstackd tx licenses issue-license node.license cosmos1abc... 1 2026-01-01 --end-date 2027-01-01 --from admin",
+					Example:   "webstackd tx licenses issue-license node.license webstack1abc... 1 2026-01-01 --end-date 2027-01-01 --from admin",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "license_type_id"},
 						{ProtoField: "holder"},
@@ -150,13 +150,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "UpdateLicense",
-					Use:       "update-license [license-type-id] [id] [status]",
-					Short:     "Update a license status",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "license_type_id"},
-						{ProtoField: "id"},
-						{ProtoField: "status"},
-					},
+					Skip:      true,
 				},
 				{
 					RpcMethod: "TransferLicense",
@@ -169,20 +163,15 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
-					RpcMethod: "RemoveAdminKey",
-					Use:       "remove-admin-key [address]",
-					Short:     "Remove all admin key grants for an address",
-					Example:   "webstackd tx licenses remove-admin-key cosmos1abc... --from owner",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "address"},
-					},
-				},
-				{
 					RpcMethod: "UpdateParams",
 					Skip:      true,
 				},
 				{
-					RpcMethod: "SetAdminKey",
+					RpcMethod: "GrantAdminPermissions",
+					Skip:      true,
+				},
+				{
+					RpcMethod: "RevokeAdminKeyPermissions",
 					Skip:      true,
 				},
 				{

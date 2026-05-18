@@ -115,7 +115,7 @@ Admin keys delegate permissions to addresses. Each admin key has grants:
 
 ```json
 {
-  "address": "cosmos1abc...",
+  "address": "webstack1abc...",
   "grants": [
     { "permission": "issue", "license_types": ["node.license", "validator.license"] },
     { "permission": "revoke", "license_types": ["node.license"] }
@@ -146,21 +146,35 @@ Update an existing license type. Cannot set `max_supply` below `issued_count`.
 webstackd tx licenses update-license-type node.license true 2000 --from owner
 ```
 
-### MsgSetAdminKey
-Grant permissions to an address. Signer must be the module owner.
+### MsgGrantAdminPermissions
+Grant permissions to an address. Signer must be the module owner. Grants are
+**merged** with any existing grants for the address: the (permission, license
+type) pairs in the message are added to whatever is already stored, with
+duplicates deduped. Existing grants are never removed by `MsgGrantAdminPermissions`;
+use `MsgRevokeAdminKeyPermissions` to remove specific pairs.
 
 ```bash
-webstackd tx licenses set-admin-key cosmos1admin... issue,revoke node.license,validator.license --from owner
+webstackd tx licenses grant-admin-permissions webstack1admin... issue,revoke node.license,validator.license --from owner
 ```
 
-### MsgRemoveAdminKey
-Remove all grants for an address. Signer must be the module owner.
+### MsgRevokeAdminKeyPermissions
+Remove specific `(license_type_id, permission)` pairs from an admin key.
+Signer must be the module owner.
+
+Pairs that aren't currently granted are silently ignored. A grant whose
+license-type list becomes empty is dropped, and if no grants remain the
+admin key entry itself is deleted.
+
+```bash
+webstackd tx licenses revoke-admin-key-permissions webstack1admin... \
+  node.license:issue validator.license:revoke --from owner
+```
 
 ### MsgIssueLicense
 Issue one or more licenses. Signer must have `issue` permission for the license type.
 
 ```bash
-webstackd tx licenses issue-license node.license cosmos1holder... --from admin
+webstackd tx licenses issue-license node.license webstack1holder... --from admin
 ```
 
 The `count` field (default 1) allows issuing multiple licenses in one transaction.
@@ -169,21 +183,14 @@ The `count` field (default 1) allows issuing multiple licenses in one transactio
 Revoke active licenses for a holder, most recently issued first. Sets status to `revoked` and end date to the current block date. Signer must have `revoke` permission.
 
 ```bash
-webstackd tx licenses revoke-license node.license cosmos1abc... 2 --from admin
-```
-
-### MsgUpdateLicense
-Change a license's status to `active` or `revoked`. Signer must have `update` permission.
-
-```bash
-webstackd tx licenses update-license node.license 1 revoked --from admin
+webstackd tx licenses revoke-license node.license webstack1abc... 2 --from admin
 ```
 
 ### MsgTransferLicense
 Transfer a license to a new holder. Signer must be the current holder and the license type must be transferrable.
 
 ```bash
-webstackd tx licenses transfer-license node.license 1 cosmos1recipient... --from holder
+webstackd tx licenses transfer-license node.license 1 webstack1recipient... --from holder
 ```
 
 ### MsgBatchIssueLicense
@@ -191,8 +198,8 @@ Issue licenses to multiple holders in a single transaction. Signer must have `is
 
 ```bash
 webstackd tx licenses batch-issue-license node.license \
-  cosmos1aaa...:2026-01-01:2027-01-01 \
-  cosmos1bbb...:2026-01-01 \
+  webstack1aaa...:2026-01-01:2027-01-01 \
+  webstack1bbb...:2026-01-01 \
   --from admin
 ```
 
@@ -209,9 +216,9 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 | `LicenseTypes` | All license types (paginated) | `webstackd q licenses license-types` |
 | `License` | Single license by type + ID | `webstackd q licenses license node.license 1` |
 | `LicensesByType` | All licenses for a type | `webstackd q licenses licenses-by-type node.license` |
-| `LicensesByHolder` | All licenses for a holder | `webstackd q licenses licenses-by-holder cosmos1...` |
-| `LicensesByHolderAndType` | Licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type cosmos1... node.license` |
-| `AdminKey` | Grants for an address | `webstackd q licenses admin-key cosmos1...` |
+| `LicensesByHolder` | All licenses for a holder | `webstackd q licenses licenses-by-holder webstack1...` |
+| `LicensesByHolderAndType` | Licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
+| `AdminKey` | Grants for an address | `webstackd q licenses admin-key webstack1...` |
 | `AdminKeys` | All admin keys (paginated) | `webstackd q licenses admin-keys` |
 | `AdminKeysByLicenseType` | Admins for a license type | `webstackd q licenses admin-keys-by-license-type node.license` |
 
@@ -240,7 +247,7 @@ Example genesis configuration:
 {
   "licenses": {
     "params": {
-      "owner": "cosmos1owneraddress..."
+      "owner": "webstack1owneraddress..."
     },
     "license_types": [
       {
@@ -253,7 +260,7 @@ Example genesis configuration:
     "licenses": [],
     "admin_keys": [
       {
-        "address": "cosmos1adminaddress...",
+        "address": "webstack1adminaddress...",
         "grants": [
           {
             "permission": "issue",
@@ -274,8 +281,8 @@ All state-changing operations emit events:
 |-------|------------|
 | `create_license_type` | `license_type_id` |
 | `update_license_type` | `license_type_id` |
-| `set_admin_key` | `address`, `permissions`, `grant_license_types` |
-| `remove_admin_key` | `address` |
+| `grant_admin_permissions` | `address`, `permissions`, `grant_license_types` |
+| `revoke_admin_key_permissions` | `address`, `permissions`, `grant_license_types` |
 | `issue_license` | `license_type_id`, `holder`, `count` |
 | `batch_issue_license` | `license_type_id`, `count` |
 | `revoke_license` | `license_type_id`, `license_id` |

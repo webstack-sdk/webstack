@@ -132,6 +132,7 @@ import (
 	"github.com/webstack-sdk/webstack/docs"
 	licenses "github.com/webstack-sdk/webstack/x/licenses"
 	licenseskeeper "github.com/webstack-sdk/webstack/x/licenses/keeper"
+	licensesprecompile "github.com/webstack-sdk/webstack/x/licenses/precompile"
 	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
@@ -427,8 +428,36 @@ func NewApp(
 		app.AccountKeeper,
 	)
 
+	// LicensesKeeper is constructed before the EVM keeper so that the licenses
+	// precompile can be registered alongside the upstream static precompiles.
+	app.LicensesKeeper = licenseskeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[licensestypes.StoreKey]),
+		logger,
+		authAddr,
+	)
+
 	// Set up EVM keeper
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
+
+	evmAddrCodec := evmaddress.NewEvmCodec(sdk.GetConfig().GetBech32AccountAddrPrefix())
+	staticPrecompiles := precompiletypes.DefaultStaticPrecompiles(
+		*app.StakingKeeper,
+		app.DistrKeeper,
+		app.PreciseBankKeeper,
+		&app.Erc20Keeper,
+		&app.TransferKeeper,
+		app.IBCKeeper.ChannelKeeper,
+		app.GovKeeper,
+		app.SlashingKeeper,
+		appCodec,
+	)
+	licensesPrecompile := licensesprecompile.NewPrecompile(
+		app.LicensesKeeper,
+		evmAddrCodec,
+		common.HexToAddress(licensestypes.PrecompileAddress),
+	)
+	staticPrecompiles[licensesPrecompile.Address()] = licensesPrecompile
 
 	app.EVMKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], keys,
@@ -441,19 +470,7 @@ func NewApp(
 		&app.Erc20Keeper,
 		evmChainID,
 		tracer,
-	).WithStaticPrecompiles(
-		precompiletypes.DefaultStaticPrecompiles(
-			*app.StakingKeeper,
-			app.DistrKeeper,
-			app.PreciseBankKeeper,
-			&app.Erc20Keeper,
-			&app.TransferKeeper,
-			app.IBCKeeper.ChannelKeeper,
-			app.GovKeeper,
-			app.SlashingKeeper,
-			appCodec,
-		),
-	)
+	).WithStaticPrecompiles(staticPrecompiles)
 
 	app.Erc20Keeper = erc20keeper.NewKeeper(
 		keys[erc20types.StoreKey],
@@ -479,14 +496,6 @@ func NewApp(
 		authAddr,
 	)
 	app.TransferKeeper.SetAddressCodec(evmaddress.NewEvmCodec(sdk.GetConfig().GetBech32AccountAddrPrefix()))
-
-	// Custom module keepers
-	app.LicensesKeeper = licenseskeeper.NewKeeper(
-		appCodec,
-		runtime.NewKVStoreService(keys[licensestypes.StoreKey]),
-		logger,
-		authAddr,
-	)
 
 	// Create Transfer Stack
 	var transferStack porttypes.IBCModule

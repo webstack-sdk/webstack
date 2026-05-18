@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sort"
 	"strings"
@@ -136,7 +137,11 @@ func (ms msgServer) UpdateLicenseType(ctx context.Context, msg *types.MsgUpdateL
 	return &types.MsgUpdateLicenseTypeResponse{}, nil
 }
 
-func (ms msgServer) SetAdminKey(ctx context.Context, msg *types.MsgSetAdminKey) (*types.MsgSetAdminKeyResponse, error) {
+// GrantAdminPermissions merges the incoming grants with any existing grants for the
+// given address. (permission, license type) pairs that already exist are deduped;
+// nothing is ever removed by this message. Use MsgRevokeAdminKeyPermissions to remove
+// specific pairs.
+func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGrantAdminPermissions) (*types.MsgGrantAdminPermissionsResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
@@ -168,9 +173,30 @@ func (ms msgServer) SetAdminKey(ctx context.Context, msg *types.MsgSetAdminKey) 
 		}
 	}
 
+	existing, err := ms.k.AdminKeys.Get(ctx, msg.Address)
+	if err != nil && !errors.Is(err, collections.ErrNotFound) {
+		return nil, err
+	}
+
+	permToTypes := make(map[string]map[string]struct{})
+	addGrants := func(grants []types.AdminKeyGrant) {
+		for _, g := range grants {
+			set, ok := permToTypes[g.Permission]
+			if !ok {
+				set = make(map[string]struct{})
+				permToTypes[g.Permission] = set
+			}
+			for _, lt := range g.LicenseTypes {
+				set[lt] = struct{}{}
+			}
+		}
+	}
+	addGrants(existing.Grants)
+	addGrants(msg.Grants)
+
 	ak := types.AdminKey{
 		Address: msg.Address,
-		Grants:  msg.Grants,
+		Grants:  sortedGrants(permToTypes),
 	}
 
 	if err := ms.k.AdminKeys.Set(ctx, msg.Address, ak); err != nil {
@@ -185,16 +211,20 @@ func (ms msgServer) SetAdminKey(ctx context.Context, msg *types.MsgSetAdminKey) 
 	}
 
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeSetAdminKey,
+		types.EventTypeGrantAdminPermissions,
 		sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
 		sdk.NewAttribute(types.AttributeKeyPermissions, strings.Join(perms, ",")),
 		sdk.NewAttribute(types.AttributeKeyGrantTypes, strings.Join(grantTypes, ";")),
 	))
 
-	return &types.MsgSetAdminKeyResponse{}, nil
+	return &types.MsgGrantAdminPermissionsResponse{}, nil
 }
 
-func (ms msgServer) RemoveAdminKey(ctx context.Context, msg *types.MsgRemoveAdminKey) (*types.MsgRemoveAdminKeyResponse, error) {
+// RevokeAdminKeyPermissions removes specific (license type, permission) pairs from
+// an admin key. Pairs that are not currently present are silently ignored — the
+// caller can safely re-send the same revoke. A grant whose LicenseTypes list becomes
+// empty is dropped; if no grants remain the AdminKey entry itself is deleted.
+func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.MsgRevokeAdminKeyPermissions) (*types.MsgRevokeAdminKeyPermissionsResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
@@ -206,16 +236,89 @@ func (ms msgServer) RemoveAdminKey(ctx context.Context, msg *types.MsgRemoveAdmi
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
 	}
 
-	if err := ms.k.AdminKeys.Remove(ctx, msg.Address); err != nil {
+	existing, err := ms.k.AdminKeys.Get(ctx, msg.Address)
+	if err != nil {
+		if errors.Is(err, collections.ErrNotFound) {
+			// No grants exist for this address; revoke is a no-op.
+			sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+				types.EventTypeRevokeAdminKeyPermissions,
+				sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
+			))
+			return &types.MsgRevokeAdminKeyPermissionsResponse{}, nil
+		}
 		return nil, err
 	}
 
+	permToTypes := make(map[string]map[string]struct{})
+	for _, g := range existing.Grants {
+		set := make(map[string]struct{}, len(g.LicenseTypes))
+		for _, lt := range g.LicenseTypes {
+			set[lt] = struct{}{}
+		}
+		permToTypes[g.Permission] = set
+	}
+
+	for _, p := range msg.Permissions {
+		if set, ok := permToTypes[p.Permission]; ok {
+			delete(set, p.LicenseTypeId)
+			if len(set) == 0 {
+				delete(permToTypes, p.Permission)
+			}
+		}
+	}
+
+	if len(permToTypes) == 0 {
+		if err := ms.k.AdminKeys.Remove(ctx, msg.Address); err != nil {
+			return nil, err
+		}
+	} else {
+		ak := types.AdminKey{
+			Address: msg.Address,
+			Grants:  sortedGrants(permToTypes),
+		}
+		if err := ms.k.AdminKeys.Set(ctx, msg.Address, ak); err != nil {
+			return nil, err
+		}
+	}
+
+	var revokedPerms []string
+	var revokedTypes []string
+	for _, p := range msg.Permissions {
+		revokedPerms = append(revokedPerms, p.Permission)
+		revokedTypes = append(revokedTypes, p.LicenseTypeId)
+	}
+
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeRemoveAdminKey,
+		types.EventTypeRevokeAdminKeyPermissions,
 		sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
+		sdk.NewAttribute(types.AttributeKeyPermissions, strings.Join(revokedPerms, ",")),
+		sdk.NewAttribute(types.AttributeKeyGrantTypes, strings.Join(revokedTypes, ",")),
 	))
 
-	return &types.MsgRemoveAdminKeyResponse{}, nil
+	return &types.MsgRevokeAdminKeyPermissionsResponse{}, nil
+}
+
+// sortedGrants flattens a (permission -> {license_type}) map into a deterministically
+// ordered slice of AdminKeyGrants: permissions ascending, license types ascending
+// within each grant.
+func sortedGrants(permToTypes map[string]map[string]struct{}) []types.AdminKeyGrant {
+	perms := make([]string, 0, len(permToTypes))
+	for p := range permToTypes {
+		perms = append(perms, p)
+	}
+	sort.Strings(perms)
+
+	out := make([]types.AdminKeyGrant, 0, len(perms))
+	for _, p := range perms {
+		set := permToTypes[p]
+		lts := make([]string, 0, len(set))
+		for lt := range set {
+			lts = append(lts, lt)
+		}
+		sort.Strings(lts)
+		out = append(out, types.AdminKeyGrant{Permission: p, LicenseTypes: lts})
+	}
+	return out
 }
 
 func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense) (*types.MsgIssueLicenseResponse, error) {
@@ -364,36 +467,8 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 	return &types.MsgRevokeLicenseResponse{Ids: revokedIDs}, nil
 }
 
-func (ms msgServer) UpdateLicense(ctx context.Context, msg *types.MsgUpdateLicense) (*types.MsgUpdateLicenseResponse, error) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	license, err := ms.k.Licenses.Get(ctx, collections.Join(msg.LicenseTypeId, msg.Id))
-	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "license (type=%s, id=%d) not found", msg.LicenseTypeId, msg.Id)
-	}
-
-	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Updater, license.Type, "update"); !hasPerm {
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have update permission for license type %s", msg.Updater, license.Type)
-	}
-
-	if msg.Status != "active" && msg.Status != "revoked" {
-		return nil, fmt.Errorf("invalid status %q: must be \"active\" or \"revoked\"", msg.Status)
-	}
-
-	license.Status = msg.Status
-
-	if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, msg.Id), license); err != nil {
-		return nil, err
-	}
-
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeUpdateLicense,
-		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
-		sdk.NewAttribute(types.AttributeKeyLicenseID, fmt.Sprintf("%d", msg.Id)),
-		sdk.NewAttribute(types.AttributeKeyStatus, msg.Status),
-	))
-
-	return &types.MsgUpdateLicenseResponse{}, nil
+func (ms msgServer) UpdateLicense(_ context.Context, _ *types.MsgUpdateLicense) (*types.MsgUpdateLicenseResponse, error) {
+	return nil, fmt.Errorf("UpdateLicense is not supported")
 }
 
 func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferLicense) (*types.MsgTransferLicenseResponse, error) {
@@ -546,3 +621,4 @@ func validateDates(startDate, endDate string) error {
 	}
 	return nil
 }
+

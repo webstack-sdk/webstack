@@ -23,36 +23,41 @@ func GetTxCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	cmd.AddCommand(CmdSetAdminKey())
+	cmd.AddCommand(CmdGrantAdminPermissions())
+	cmd.AddCommand(CmdRevokeAdminKeyPermissions())
 	cmd.AddCommand(CmdBatchIssueLicense())
 	cmd.AddCommand(CmdRevokeLicense())
 
 	return cmd
 }
 
-// CmdSetAdminKey returns a command to set admin key grants for an address.
+// CmdGrantAdminPermissions returns a command to grant admin key permissions for an address.
 //
 // Usage:
 //
-//	set-admin-key [address] [permissions] [license-types]
+//	grant-admin-permissions [address] [permissions] [license-types]
 //
 // Where [permissions] is a comma-delimited list (e.g. "issue,revoke") and
 // [license-types] is a comma-delimited list of license type IDs.
 // One AdminKeyGrant is created per permission, each sharing the same list of license types.
 // The owner is taken from --from.
-func CmdSetAdminKey() *cobra.Command {
+func CmdGrantAdminPermissions() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "set-admin-key [address] [permissions] [license-types]",
-		Short: "Set admin key grants for an address",
-		Long: `Set admin key grants for a given address. The module owner (--from) must sign.
+		Use:   "grant-admin-permissions [address] [permissions] [license-types]",
+		Short: "Grant admin key permissions for an address",
+		Long: `Grant admin key permissions for a given address. The module owner (--from) must sign.
 
 [permissions]    Comma-delimited list of permissions to grant. Valid values: issue, revoke, update.
 [license-types]  Comma-delimited list of license type IDs these permissions apply to.
 
 One grant is created per permission, each covering all specified license types.
 
+Grants are MERGED with any existing grants for the address — previously
+granted permissions and license types are preserved. To remove specific
+(license-type, permission) pairs, use revoke-admin-key-permissions.
+
 Example:
-  webstackd tx licenses set-admin-key cosmos1abc... issue,revoke node.license,validator.license \
+  webstackd tx licenses grant-admin-permissions webstack1abc... issue,revoke node.license,validator.license \
     --from owner --gas auto --gas-adjustment 1.5 --fees 100000aatom -y`,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -91,10 +96,84 @@ Example:
 				return fmt.Errorf("at least one permission must be specified")
 			}
 
-			msg := &types.MsgSetAdminKey{
+			msg := &types.MsgGrantAdminPermissions{
 				Owner:   clientCtx.GetFromAddress().String(),
 				Address: address,
 				Grants:  grants,
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+	return cmd
+}
+
+// CmdRevokeAdminKeyPermissions returns a command to remove specific
+// (license-type, permission) pairs from an admin key.
+//
+// Usage:
+//
+//	revoke-admin-key-permissions [address] [pair1] [pair2] ...
+//
+// Each pair is colon-delimited: license-type-id:permission-name.
+// Pairs that aren't currently granted are silently ignored. If the resulting
+// admin key has no remaining grants, the entry is deleted entirely.
+// The owner is taken from --from.
+func CmdRevokeAdminKeyPermissions() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "revoke-admin-key-permissions [address] [license-type:permission ...]",
+		Short: "Revoke specific (license-type, permission) pairs from an admin key",
+		Long: `Revoke specific (license-type, permission) pairs from an admin key.
+The module owner (--from) must sign.
+
+Each pair after the address is colon-delimited:
+  license-type-id:permission-name
+
+Valid permissions: issue, revoke, update.
+
+Pairs that aren't currently granted are silently ignored. A grant whose
+license types become empty is dropped; if no grants remain, the entire
+admin key entry is deleted.
+
+Example:
+  webstackd tx licenses revoke-admin-key-permissions webstack1abc... \
+    node.license:issue validator.license:revoke \
+    --from owner --gas auto --fees 100000aatom -y`,
+		Args: cobra.MinimumNArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			address := args[0]
+			if _, err := sdk.AccAddressFromBech32(address); err != nil {
+				return fmt.Errorf("invalid address %q: %w", address, err)
+			}
+
+			permissions := make([]types.AdminKeyPermission, 0, len(args)-1)
+			for i, arg := range args[1:] {
+				parts := strings.SplitN(arg, ":", 2)
+				if len(parts) != 2 {
+					return fmt.Errorf("pair %d: expected format license-type:permission, got %q", i, arg)
+				}
+				lt := strings.TrimSpace(parts[0])
+				perm := strings.TrimSpace(parts[1])
+				if lt == "" || perm == "" {
+					return fmt.Errorf("pair %d: license-type and permission must both be non-empty (got %q)", i, arg)
+				}
+				permissions = append(permissions, types.AdminKeyPermission{
+					LicenseTypeId: lt,
+					Permission:    perm,
+				})
+			}
+
+			msg := &types.MsgRevokeAdminKeyPermissions{
+				Owner:       clientCtx.GetFromAddress().String(),
+				Address:     address,
+				Permissions: permissions,
 			}
 
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
@@ -127,8 +206,8 @@ The end_date is optional. If omitted, the license has no expiry.
 
 Example:
   webstackd tx licenses batch-issue-license node.license \
-    cosmos1abc...:2025-01-01:2026-01-01 \
-    cosmos1def...:2025-01-01 \
+    webstack1abc...:2025-01-01:2026-01-01 \
+    webstack1def...:2025-01-01 \
     --from admin --gas auto --fees 100000aatom -y`,
 		Args: cobra.MinimumNArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -196,7 +275,7 @@ The most recently issued active licenses are revoked first. Their status is set 
 and end_date is set to the current block date.
 
 Example:
-  webstackd tx licenses revoke-license node.license cosmos1abc... 2 \
+  webstackd tx licenses revoke-license node.license webstack1abc... 2 \
     --from admin --gas auto --fees 100000aatom -y`,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {

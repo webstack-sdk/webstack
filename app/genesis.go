@@ -10,6 +10,8 @@ import (
 	evmtypes "github.com/cosmos/evm/x/vm/types"
 
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+
+	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
 // GenesisState of the blockchain is represented here as a map of raw json
@@ -19,7 +21,13 @@ type GenesisState map[string]json.RawMessage
 // NewEVMGenesisState returns the default genesis state for the EVM module.
 func NewEVMGenesisState() *evmtypes.GenesisState {
 	evmGenState := evmtypes.DefaultGenesisState()
-	evmGenState.Params.ActiveStaticPrecompiles = evmtypes.AvailableStaticPrecompiles
+	// Include upstream defaults plus webstack's custom precompiles. Without
+	// listing an address here the EVM keeper won't dispatch to it, even if it's
+	// registered in the static precompile map.
+	evmGenState.Params.ActiveStaticPrecompiles = append(
+		append([]string{}, evmtypes.AvailableStaticPrecompiles...),
+		licensestypes.PrecompileAddress,
+	)
 	evmGenState.Preinstalls = evmtypes.DefaultPreinstalls
 
 	return evmGenState

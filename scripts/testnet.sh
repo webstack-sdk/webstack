@@ -14,8 +14,15 @@ KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
 CHAINDIR="$HOME/.webstackd"
-DENOM="aatom"
+DENOM="awebstack"
 BASEFEE=10000000
+# Bech32 account prefix the binary uses. Compiled in via evmconfig.SetBech32Prefixes
+# (see config/config.go); declared here so the script and downstream tooling agree
+# on it. Update both this var AND the Go side if the prefix ever changes.
+BECH32_PREFIX="webstack"
+# Bech32 address that owns the x/licenses module in genesis. The owner is the
+# only signer allowed to create license types and grant admin keys.
+LICENSES_OWNER="webstack1trg2p4ugswx8p0ywqpg2wrhgddknh0jqq6jxta"
 
 CONFIG_TOML="$CHAINDIR/config/config.toml"
 APP_TOML="$CHAINDIR/config/app.toml"
@@ -105,7 +112,8 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "uri_hash": ""
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
-  # Enable all static precompiles
+  # Enable all static precompiles. Must include the licenses precompile (0x1900)
+  # so callers can dispatch into x/licenses via the EVM.
   jq '.app_state["evm"]["params"]["active_static_precompiles"]=[
     "0x0000000000000000000000000000000000000100",
     "0x0000000000000000000000000000000000000400",
@@ -116,7 +124,8 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "0x0000000000000000000000000000000000000804",
     "0x0000000000000000000000000000000000000805",
     "0x0000000000000000000000000000000000000806",
-    "0x0000000000000000000000000000000000000807"
+    "0x0000000000000000000000000000000000000807",
+    "0x0000000000000000000000000000000000001900"
   ]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # ERC20 native precompile & token pair
@@ -126,6 +135,29 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "erc20_address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     "denom": "'"$DENOM"'",
     "enabled": true
+  }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+
+  # Set licenses module owner
+  jq '.app_state["licenses"]["params"]["owner"]="'"$LICENSES_OWNER"'"' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+
+  # Seed the webstack.node license type. max_supply="0" means unlimited.
+  jq '.app_state["licenses"]["license_types"]=[{
+    "id": "webstack.node",
+    "transferrable": false,
+    "max_supply": "0",
+    "issued_count": "0",
+    "active_count": "0",
+    "revoked_count": "0"
+  }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+
+  # Grant the owner issue+revoke admin rights over webstack.node so the testnet
+  # can mint and revoke licenses from genesis without an extra grant-admin-permissions tx.
+  jq '.app_state["licenses"]["admin_keys"]=[{
+    "address": "'"$LICENSES_OWNER"'",
+    "grants": [
+      { "permission": "issue",  "license_types": ["webstack.node"] },
+      { "permission": "revoke", "license_types": ["webstack.node"] }
+    ]
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # Block gas limit
@@ -190,6 +222,7 @@ echo "============================================"
 echo "  Starting webstackd testnet"
 echo "  Cosmos Chain ID:  $CHAINID"
 echo "  EVM Chain ID:     $EVM_CHAINID"
+echo "  Bech32 prefix:    $BECH32_PREFIX"
 echo "  RPC:        http://localhost:26657"
 echo "  REST API:   http://localhost:1317"
 echo "  gRPC:       localhost:9090"

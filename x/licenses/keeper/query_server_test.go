@@ -82,7 +82,7 @@ func TestQueryLicense(t *testing.T) {
 		Owner: owner, Id: "ql", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: issuer,
 		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"ql"}}},
 	})
@@ -117,7 +117,7 @@ func TestQueryLicensesByHolder(t *testing.T) {
 		Owner: owner, Id: "h2", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: issuer,
 		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"h1", "h2"}}},
 	})
@@ -159,12 +159,12 @@ func TestQueryAdminKeys(t *testing.T) {
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t1", MaxSupply: math.ZeroInt()})
 	require.NoError(t, err)
 
-	_, err = ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: admin1,
 		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"t1"}}},
 	})
 	require.NoError(t, err)
-	_, err = ms.SetAdminKey(ctx, &types.MsgSetAdminKey{
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: admin2,
 		Grants: []types.AdminKeyGrant{
 			{Permission: "issue", LicenseTypes: []string{"t1"}},
