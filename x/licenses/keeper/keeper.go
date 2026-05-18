@@ -134,6 +134,14 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 		if err := k.LicenseTypes.Set(ctx, lt.Id, lt); err != nil {
 			return err
 		}
+		// IssuedCount is the running per-type id counter for nextLicenseID.
+		// Without this, a genesis export/import would reset the counter to 0
+		// and the next issuance would overwrite license id=1 of this type.
+		if !lt.IssuedCount.IsNil() && lt.IssuedCount.IsPositive() {
+			if err := k.LicenseCounts.Set(ctx, lt.Id, lt.IssuedCount.Uint64()); err != nil {
+				return err
+			}
+		}
 	}
 
 	for _, license := range data.Licenses {
