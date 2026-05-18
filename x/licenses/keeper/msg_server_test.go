@@ -840,9 +840,66 @@ func TestTransferLicense(t *testing.T) {
 	}
 }
 
-// TestTransferLicenseRejectsRevoked is a regression test for audit H-1:
-// a revoked license must not be transferable, even though the license entry
-// and LicenseByHolder index still exist with the original holder.
+// TestIssueLicenseSupplyCheckIsUnsigned guards the supply-cap arithmetic:
+// a count with the high bit set must not wrap negative and silently bypass
+// the MaxSupply check.
+func TestIssueLicenseSupplyCheckIsUnsigned(t *testing.T) {
+	_, ms, ctx, owner := setupWithOwner(t)
+	issuer := sample.AccAddress()
+	holder := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "lim", Transferrable: false, MaxSupply: math.NewInt(100),
+	})
+	require.NoError(t, err)
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: issuer,
+		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"lim"}}},
+	})
+	require.NoError(t, err)
+
+	// 1<<63 is the smallest uint64 value that wraps to a negative int64.
+	_, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
+		Issuer: issuer, LicenseTypeId: "lim",
+		Holder: holder, StartDate: "2026-01-01",
+		Count:  1 << 63,
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "exceed max supply")
+}
+
+// TestBatchIssueLicenseEntriesCap ensures BatchIssueLicense rejects entry
+// lists larger than MaxIssueBatchSize.
+func TestBatchIssueLicenseEntriesCap(t *testing.T) {
+	_, ms, ctx, owner := setupWithOwner(t)
+	issuer := sample.AccAddress()
+	holder := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "cap", Transferrable: false, MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: issuer,
+		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"cap"}}},
+	})
+	require.NoError(t, err)
+
+	entries := make([]types.BatchIssueLicenseEntry, types.MaxIssueBatchSize+1)
+	for i := range entries {
+		entries[i] = types.BatchIssueLicenseEntry{Holder: holder, StartDate: "2026-01-01"}
+	}
+
+	_, err = ms.BatchIssueLicense(ctx, &types.MsgBatchIssueLicense{
+		Issuer: issuer, LicenseTypeId: "cap", Entries: entries,
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "exceeds max batch size")
+}
+
+// TestTransferLicenseRejectsRevoked: a revoked license must not be
+// transferable, even though the license entry and LicenseByHolder index
+// still exist under the original holder.
 func TestTransferLicenseRejectsRevoked(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	issuer := sample.AccAddress()

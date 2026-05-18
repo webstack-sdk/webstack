@@ -346,7 +346,8 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 		count = 1
 	}
 
-	if !lt.MaxSupply.IsZero() && lt.IssuedCount.AddRaw(int64(count)).GT(lt.MaxSupply) {
+	countInt := math.NewIntFromUint64(count)
+	if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(countInt).GT(lt.MaxSupply) {
 		return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "license type %s: issuing %d would exceed max supply of %s (current: %s)", msg.LicenseTypeId, count, lt.MaxSupply.String(), lt.IssuedCount.String())
 	}
 
@@ -376,8 +377,8 @@ func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense
 		ids = append(ids, id)
 	}
 
-	lt.IssuedCount = lt.IssuedCount.AddRaw(int64(count))
-	lt.ActiveCount = lt.ActiveCount.AddRaw(int64(count))
+	lt.IssuedCount = lt.IssuedCount.Add(countInt)
+	lt.ActiveCount = lt.ActiveCount.Add(countInt)
 	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
 		return nil, err
 	}
@@ -451,8 +452,9 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 	if err != nil {
 		return nil, err
 	}
-	lt.ActiveCount = lt.ActiveCount.SubRaw(int64(count))
-	lt.RevokedCount = lt.RevokedCount.AddRaw(int64(count))
+	countInt := math.NewIntFromUint64(count)
+	lt.ActiveCount = lt.ActiveCount.Sub(countInt)
+	lt.RevokedCount = lt.RevokedCount.Add(countInt)
 	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
 		return nil, err
 	}
@@ -537,6 +539,10 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 		return nil, fmt.Errorf("entries must not be empty")
 	}
 
+	if len(msg.Entries) > types.MaxIssueBatchSize {
+		return nil, fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), types.MaxIssueBatchSize)
+	}
+
 	if hasPerm, _ := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue"); !hasPerm {
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, msg.LicenseTypeId)
 	}
@@ -546,8 +552,9 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", msg.LicenseTypeId)
 	}
 
-	count := int64(len(msg.Entries))
-	if !lt.MaxSupply.IsZero() && lt.IssuedCount.AddRaw(count).GT(lt.MaxSupply) {
+	count := uint64(len(msg.Entries))
+	countInt := math.NewIntFromUint64(count)
+	if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(countInt).GT(lt.MaxSupply) {
 		return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "license type %s: issuing %d would exceed max supply of %s (current: %s)", msg.LicenseTypeId, count, lt.MaxSupply.String(), lt.IssuedCount.String())
 	}
 
@@ -590,8 +597,8 @@ func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIs
 		ids = append(ids, id)
 	}
 
-	lt.IssuedCount = lt.IssuedCount.AddRaw(count)
-	lt.ActiveCount = lt.ActiveCount.AddRaw(count)
+	lt.IssuedCount = lt.IssuedCount.Add(countInt)
+	lt.ActiveCount = lt.ActiveCount.Add(countInt)
 	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
 		return nil, err
 	}

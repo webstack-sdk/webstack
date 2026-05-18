@@ -12,10 +12,9 @@ import (
 	"github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
-// TestGenesisRoundTripPreservesLicenseIDs is a regression test for the
-// LicenseCounts genesis export/import bug (audit C-1). After exporting and
-// re-importing genesis into a fresh keeper, newly issued license IDs must
-// not collide with pre-existing ones.
+// TestGenesisRoundTripPreservesLicenseIDs covers the LicenseCounts genesis
+// export/import path: after exporting and re-importing genesis into a fresh
+// keeper, newly issued license IDs must not collide with pre-existing ones.
 func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	// Source keeper: create a license type, issue a handful of licenses,
 	// then export the genesis state.

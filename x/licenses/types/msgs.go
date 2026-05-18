@@ -1,6 +1,10 @@
 package types
 
-import sdk "github.com/cosmos/cosmos-sdk/types"
+import (
+	"fmt"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+)
 
 var (
 	_ sdk.Msg = &MsgUpdateParams{}
@@ -124,6 +128,9 @@ func (msg *MsgBatchIssueLicense) ValidateBasic() error {
 	}
 	if len(msg.Entries) == 0 {
 		return ErrEmptyBatchEntries
+	}
+	if len(msg.Entries) > MaxIssueBatchSize {
+		return fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), MaxIssueBatchSize)
 	}
 	for _, entry := range msg.Entries {
 		if _, err := sdk.AccAddressFromBech32(entry.Holder); err != nil {
