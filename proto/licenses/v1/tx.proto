@@ -191,20 +191,6 @@ message MsgRevokeLicenseResponse {
   repeated uint64 ids = 1;
 }
 
-// MsgUpdateLicense is the Msg/UpdateLicense request type.
-message MsgUpdateLicense {
-  option (cosmos.msg.v1.signer) = "updater";
-  option (amino.name) = "webstack/x/licenses/MsgUpdateLicense";
-
-  string updater = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string license_type_id = 2;
-  uint64 id = 3;
-  string status = 4;
-}
-
-// MsgUpdateLicenseResponse is the Msg/UpdateLicense response type.
-message MsgUpdateLicenseResponse {}
-
 // MsgTransferLicense is the Msg/TransferLicense request type.
 message MsgTransferLicense {
   option (cosmos.msg.v1.signer) = "holder";

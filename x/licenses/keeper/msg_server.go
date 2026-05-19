@@ -486,10 +486,6 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 	return &types.MsgRevokeLicenseResponse{Ids: revokedIDs}, nil
 }
 
-func (ms msgServer) UpdateLicense(_ context.Context, _ *types.MsgUpdateLicense) (*types.MsgUpdateLicenseResponse, error) {
-	return nil, fmt.Errorf("UpdateLicense is not supported")
-}
-
 func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferLicense) (*types.MsgTransferLicenseResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 

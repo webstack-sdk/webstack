@@ -21,4 +21,4 @@ package types
 // Operators that want to register the precompile at a different address can do
 // so when wiring it into the EVM keeper; this value is only consulted by the
 // default registration helper.
-const PrecompileAddress = "0x776562737461636b000000000000000000000001"
+const PrecompileAddress = "0x776562737461636B000000000000000000000001"

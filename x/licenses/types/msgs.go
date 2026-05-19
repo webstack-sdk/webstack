@@ -39,7 +39,6 @@ var (
 	_ sdk.Msg = &MsgRevokeAdminKeyPermissions{}
 	_ sdk.Msg = &MsgIssueLicense{}
 	_ sdk.Msg = &MsgRevokeLicense{}
-	_ sdk.Msg = &MsgUpdateLicense{}
 	_ sdk.Msg = &MsgTransferLicense{}
 	_ sdk.Msg = &MsgUpdateLicenseType{}
 	_ sdk.Msg = &MsgBatchIssueLicense{}
@@ -142,19 +141,6 @@ func (msg *MsgRevokeLicense) ValidateBasic() error {
 	}
 	if msg.Count == 0 {
 		return ErrInvalidCount.Wrap("count must be greater than zero")
-	}
-	return nil
-}
-
-func (msg *MsgUpdateLicense) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Updater); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid updater address: %s", err)
-	}
-	if msg.LicenseTypeId == "" {
-		return ErrEmptyLicenseTypeID
-	}
-	if msg.Status != "active" && msg.Status != "revoked" {
-		return ErrInvalidLicenseStatus.Wrapf("status must be 'active' or 'revoked', got '%s'", msg.Status)
 	}
 	return nil
 }

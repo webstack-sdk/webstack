@@ -12,7 +12,6 @@ var (
 	ErrLicenseNotTransferable = errors.Register(ModuleName, 1106, "license type is not transferrable")
 	ErrUnauthorized           = errors.Register(ModuleName, 1107, "signer does not have the required admin key permission")
 	ErrAdminKeyNotFound       = errors.Register(ModuleName, 1108, "admin key not found")
-	ErrInvalidLicenseStatus   = errors.Register(ModuleName, 1109, "invalid license status")
 	ErrInvalidPermission      = errors.Register(ModuleName, 1110, "invalid permission")
 	ErrEmptyLicenseTypeID     = errors.Register(ModuleName, 1111, "license type id cannot be empty")
 	ErrEmptyHolder            = errors.Register(ModuleName, 1112, "holder address cannot be empty")

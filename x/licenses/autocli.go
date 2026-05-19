@@ -149,10 +149,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
-					RpcMethod: "UpdateLicense",
-					Skip:      true,
-				},
-				{
 					RpcMethod: "TransferLicense",
 					Use:       "transfer-license [license-type-id] [id] [recipient]",
 					Short:     "Transfer a license to a new holder",
