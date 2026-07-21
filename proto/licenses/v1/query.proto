@@ -34,6 +34,11 @@ service Query {
     option (google.api.http).get = "/webstack/licenses/license/{type_id}/{id}";
   }
 
+  // Licenses queries all licenses across all license types, active and revoked.
+  rpc Licenses(QueryLicensesRequest) returns (QueryLicensesResponse) {
+    option (google.api.http).get = "/webstack/licenses/licenses";
+  }
+
   // LicensesByType queries all licenses for a given license type.
   rpc LicensesByType(QueryLicensesByTypeRequest) returns (QueryLicensesByTypeResponse) {
     option (google.api.http).get = "/webstack/licenses/licenses_by_type/{type_id}";
@@ -107,6 +112,17 @@ message QueryLicenseRequest {
 // QueryLicenseResponse is the response type for the Query/License RPC method.
 message QueryLicenseResponse {
   License license = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryLicensesRequest is the request type for the Query/Licenses RPC method.
+message QueryLicensesRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryLicensesResponse is the response type for the Query/Licenses RPC method.
+message QueryLicensesResponse {
+  repeated License licenses = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // QueryLicensesByTypeRequest is the request type for the Query/LicensesByType RPC method.

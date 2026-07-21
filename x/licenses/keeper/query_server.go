@@ -57,6 +57,20 @@ func (q Querier) License(ctx context.Context, req *types.QueryLicenseRequest) (*
 	return &types.QueryLicenseResponse{License: l}, nil
 }
 
+// Licenses returns every license across all license types, active and
+// revoked, paginated over the (type_id, id) key space.
+func (q Querier) Licenses(ctx context.Context, req *types.QueryLicensesRequest) (*types.QueryLicensesResponse, error) {
+	licenses, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.Licenses, req.Pagination,
+		func(_ collections.Pair[string, uint64], l types.License) (types.License, error) {
+			return l, nil
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &types.QueryLicensesResponse{Licenses: licenses, Pagination: pageResp}, nil
+}
+
 func (q Querier) LicensesByType(ctx context.Context, req *types.QueryLicensesByTypeRequest) (*types.QueryLicensesByTypeResponse, error) {
 	rng := collections.NewPrefixedPairRange[string, uint64](req.TypeId)
 	var licenses []types.License

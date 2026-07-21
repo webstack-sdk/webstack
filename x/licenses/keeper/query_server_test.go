@@ -1,9 +1,11 @@
 package keeper_test
 
 import (
+	"fmt"
 	"testing"
 
 	"cosmossdk.io/math"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 
 	"github.com/webstack-sdk/webstack/testutil/sample"
@@ -103,6 +105,73 @@ func TestQueryLicense(t *testing.T) {
 	// Not found
 	_, err = q.License(ctx, &types.QueryLicenseRequest{TypeId: "ql", Id: 999})
 	require.Error(t, err)
+}
+
+// TestQueryLicenses covers the all-licenses query: it spans license types,
+// includes revoked records, and paginates without gaps or duplicates.
+func TestQueryLicenses(t *testing.T) {
+	k, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(k)
+	admin := sample.AccAddress()
+	holder := sample.AccAddress()
+
+	for _, id := range []string{"a1", "b2"} {
+		_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+			Owner: owner, Id: id, MaxSupply: math.ZeroInt(),
+		})
+		require.NoError(t, err)
+	}
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner: owner, Address: admin,
+		Grants: []types.PermissionGrant{
+			{Permission: types.PermissionIssue, LicenseTypes: []string{"a1", "b2"}},
+			{Permission: types.PermissionRevoke, LicenseTypes: []string{"a1"}},
+		},
+	})
+	require.NoError(t, err)
+
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: admin, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "a1", Holder: holder, StartDate: "2026-01-01", Count: 3},
+			{LicenseTypeId: "b2", Holder: holder, StartDate: "2026-01-01", Count: 2},
+		},
+	})
+	require.NoError(t, err)
+	_, err = ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
+		Revoker: admin, LicenseTypeId: "a1", Holder: holder, Count: 1,
+	})
+	require.NoError(t, err)
+
+	// Full listing includes revoked licenses.
+	resp, err := q.Licenses(ctx, &types.QueryLicensesRequest{})
+	require.NoError(t, err)
+	require.Len(t, resp.Licenses, 5)
+
+	// Page through with limit 2: three pages, five records, no duplicates.
+	var all []types.License
+	var nextKey []byte
+	pages := 0
+	for {
+		page, err := q.Licenses(ctx, &types.QueryLicensesRequest{
+			Pagination: &query.PageRequest{Key: nextKey, Limit: 2},
+		})
+		require.NoError(t, err)
+		all = append(all, page.Licenses...)
+		pages++
+		nextKey = page.Pagination.NextKey
+		if len(nextKey) == 0 {
+			break
+		}
+	}
+	require.Equal(t, 3, pages)
+	require.Len(t, all, 5)
+	seen := make(map[string]struct{})
+	for _, l := range all {
+		key := fmt.Sprintf("%s/%d", l.Type, l.Id)
+		_, dup := seen[key]
+		require.False(t, dup, "no duplicates across pages")
+		seen[key] = struct{}{}
+	}
 }
 
 func TestQueryLicensesByHolder(t *testing.T) {

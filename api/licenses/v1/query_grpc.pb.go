@@ -23,6 +23,7 @@ const (
 	Query_LicenseType_FullMethodName              = "/licenses.v1.Query/LicenseType"
 	Query_LicenseTypes_FullMethodName             = "/licenses.v1.Query/LicenseTypes"
 	Query_License_FullMethodName                  = "/licenses.v1.Query/License"
+	Query_Licenses_FullMethodName                 = "/licenses.v1.Query/Licenses"
 	Query_LicensesByType_FullMethodName           = "/licenses.v1.Query/LicensesByType"
 	Query_LicensesByHolder_FullMethodName         = "/licenses.v1.Query/LicensesByHolder"
 	Query_LicensesByHolderAndType_FullMethodName  = "/licenses.v1.Query/LicensesByHolderAndType"
@@ -43,6 +44,8 @@ type QueryClient interface {
 	LicenseTypes(ctx context.Context, in *QueryLicenseTypesRequest, opts ...grpc.CallOption) (*QueryLicenseTypesResponse, error)
 	// License queries a license by type id and license id.
 	License(ctx context.Context, in *QueryLicenseRequest, opts ...grpc.CallOption) (*QueryLicenseResponse, error)
+	// Licenses queries all licenses across all license types, active and revoked.
+	Licenses(ctx context.Context, in *QueryLicensesRequest, opts ...grpc.CallOption) (*QueryLicensesResponse, error)
 	// LicensesByType queries all licenses for a given license type.
 	LicensesByType(ctx context.Context, in *QueryLicensesByTypeRequest, opts ...grpc.CallOption) (*QueryLicensesByTypeResponse, error)
 	// LicensesByHolder queries the active licenses held by a given address.
@@ -99,6 +102,15 @@ func (c *queryClient) LicenseTypes(ctx context.Context, in *QueryLicenseTypesReq
 func (c *queryClient) License(ctx context.Context, in *QueryLicenseRequest, opts ...grpc.CallOption) (*QueryLicenseResponse, error) {
 	out := new(QueryLicenseResponse)
 	err := c.cc.Invoke(ctx, Query_License_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) Licenses(ctx context.Context, in *QueryLicensesRequest, opts ...grpc.CallOption) (*QueryLicensesResponse, error) {
+	out := new(QueryLicensesResponse)
+	err := c.cc.Invoke(ctx, Query_Licenses_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -171,6 +183,8 @@ type QueryServer interface {
 	LicenseTypes(context.Context, *QueryLicenseTypesRequest) (*QueryLicenseTypesResponse, error)
 	// License queries a license by type id and license id.
 	License(context.Context, *QueryLicenseRequest) (*QueryLicenseResponse, error)
+	// Licenses queries all licenses across all license types, active and revoked.
+	Licenses(context.Context, *QueryLicensesRequest) (*QueryLicensesResponse, error)
 	// LicensesByType queries all licenses for a given license type.
 	LicensesByType(context.Context, *QueryLicensesByTypeRequest) (*QueryLicensesByTypeResponse, error)
 	// LicensesByHolder queries the active licenses held by a given address.
@@ -205,6 +219,9 @@ func (UnimplementedQueryServer) LicenseTypes(context.Context, *QueryLicenseTypes
 }
 func (UnimplementedQueryServer) License(context.Context, *QueryLicenseRequest) (*QueryLicenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method License not implemented")
+}
+func (UnimplementedQueryServer) Licenses(context.Context, *QueryLicensesRequest) (*QueryLicensesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Licenses not implemented")
 }
 func (UnimplementedQueryServer) LicensesByType(context.Context, *QueryLicensesByTypeRequest) (*QueryLicensesByTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LicensesByType not implemented")
@@ -305,6 +322,24 @@ func _Query_License_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).License(ctx, req.(*QueryLicenseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_Licenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryLicensesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Licenses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_Licenses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Licenses(ctx, req.(*QueryLicensesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -439,6 +474,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "License",
 			Handler:    _Query_License_Handler,
+		},
+		{
+			MethodName: "Licenses",
+			Handler:    _Query_Licenses_Handler,
 		},
 		{
 			MethodName: "LicensesByType",

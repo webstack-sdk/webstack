@@ -189,6 +189,36 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	require.Len(t, typeList, 1)
 }
 
+// TestQueryLicenses covers the all-licenses precompile query across types.
+func TestQueryLicenses(t *testing.T) {
+	f := newTestFixture(t)
+	seedLicenseType(t, f, "type.a", true, 0)
+	seedLicenseType(t, f, "type.b", true, 0)
+	grantIssue(t, f, f.OwnerBech, "type.a")
+	grantIssue(t, f, f.OwnerBech, "type.b")
+
+	holderHex := common.HexToAddress("0x2222222222222222222222222222222222222222")
+	issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
+	issueOne(t, f, f.OwnerHex, "type.b", holderHex, "2025-02-01", "")
+
+	method := ABI.Methods[LicensesMethod]
+	bz, err := f.precompile.Licenses(f.ctx, &method, nil)
+	require.NoError(t, err)
+	out, err := method.Outputs.Unpack(bz)
+	require.NoError(t, err)
+	list := out[0].([]struct {
+		Id          uint64         `json:"id"`
+		TypeId      string         `json:"typeId"`
+		Holder      common.Address `json:"holder"`
+		StartDate   string         `json:"startDate"`
+		EndDate     string         `json:"endDate"`
+		Status      string         `json:"status"`
+		RevokedDate string         `json:"revokedDate"`
+	})
+	require.Len(t, list, 2)
+	require.ElementsMatch(t, []string{"type.a", "type.b"}, []string{list[0].TypeId, list[1].TypeId})
+}
+
 // TestQueryPermissions covers all three permissions-by-address queries.
 func TestQueryPermissions(t *testing.T) {
 	f := newTestFixture(t)

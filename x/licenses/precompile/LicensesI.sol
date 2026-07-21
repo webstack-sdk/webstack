@@ -182,6 +182,9 @@ interface LicensesI {
     /// @dev Returns a single license by type+id. Reverts if not found.
     function license(string calldata typeId, uint64 id) external view returns (License memory);
 
+    /// @dev Returns every license across all license types, active and revoked.
+    function licenses() external view returns (License[] memory);
+
     /// @dev Returns all licenses of the given type.
     function licensesByType(string calldata typeId) external view returns (License[] memory);
 

@@ -24,6 +24,7 @@ func TestABIMethodsPresent(t *testing.T) {
 		LicenseTypeMethod,
 		LicenseTypesMethod,
 		LicenseMethod,
+		LicensesMethod,
 		LicensesByTypeMethod,
 		LicensesByHolderMethod,
 		LicensesByHolderAndTypeMethod,
@@ -70,7 +71,7 @@ func TestIsTransaction(t *testing.T) {
 	queryMethods := []string{
 		ParamsMethod,
 		LicenseTypeMethod, LicenseTypesMethod,
-		LicenseMethod, LicensesByTypeMethod,
+		LicenseMethod, LicensesMethod, LicensesByTypeMethod,
 		LicensesByHolderMethod, LicensesByHolderAndTypeMethod,
 		PermissionsByAddressMethod, PermissionsMethod, PermissionsByLicenseTypeMethod,
 	}

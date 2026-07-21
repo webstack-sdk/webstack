@@ -227,6 +227,7 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 | `LicenseType` | Single license type by ID | `webstackd q licenses license-type node.license` |
 | `LicenseTypes` | All license types (paginated) | `webstackd q licenses license-types` |
 | `License` | Single license by type + ID | `webstackd q licenses license node.license 1` |
+| `Licenses` | All licenses across all types (paginated) | `webstackd q licenses licenses` |
 | `LicensesByType` | All licenses for a type | `webstackd q licenses licenses-by-type node.license` |
 | `LicensesByHolder` | Active licenses for a holder | `webstackd q licenses licenses-by-holder webstack1...` |
 | `LicensesByHolderAndType` | Active licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
@@ -243,6 +244,7 @@ GET /licenses/params
 GET /licenses/license_type/{id}
 GET /licenses/license_types
 GET /licenses/license/{type_id}/{id}
+GET /licenses/licenses
 GET /licenses/licenses_by_type/{type_id}
 GET /licenses/licenses_by_holder/{holder}
 GET /licenses/licenses_by_holder/{holder}/{type_id}

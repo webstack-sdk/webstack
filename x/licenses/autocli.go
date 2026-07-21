@@ -38,6 +38,11 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
+					RpcMethod: "Licenses",
+					Use:       "licenses",
+					Short:     "Query all licenses across all types",
+				},
+				{
 					RpcMethod: "LicensesByType",
 					Use:       "licenses-by-type [type-id]",
 					Short:     "Query all licenses for a given type",

@@ -3,6 +3,8 @@ package licensesprecompile
 import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
+	"cosmossdk.io/collections"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
@@ -14,6 +16,7 @@ const (
 	LicenseTypeMethod              = "licenseType"
 	LicenseTypesMethod             = "licenseTypes"
 	LicenseMethod                  = "license"
+	LicensesMethod                 = "licenses"
 	LicensesByTypeMethod           = "licensesByType"
 	LicensesByHolderMethod         = "licensesByHolder"
 	LicensesByHolderAndTypeMethod  = "licensesByHolderAndType"
@@ -96,6 +99,29 @@ func (p Precompile) License(ctx sdk.Context, method *abi.Method, args []interfac
 	}
 
 	out, err := licenseToOutput(res.License)
+	if err != nil {
+		return nil, err
+	}
+	return method.Outputs.Pack(out)
+}
+
+// Licenses returns every license across all license types, active and
+// revoked. It walks the keeper directly so the result is not capped by the
+// gRPC default page limit; gas metering bounds the walk.
+func (p Precompile) Licenses(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
+	if err := argCount(args, 0); err != nil {
+		return nil, err
+	}
+
+	var licenses []licensestypes.License
+	if err := p.keeper.Licenses.Walk(ctx, nil, func(_ collections.Pair[string, uint64], l licensestypes.License) (bool, error) {
+		licenses = append(licenses, l)
+		return false, nil
+	}); err != nil {
+		return nil, err
+	}
+
+	out, err := licensesToOutputs(licenses)
 	if err != nil {
 		return nil, err
 	}

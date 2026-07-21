@@ -123,6 +123,8 @@ func (p Precompile) Execute(ctx sdk.Context, stateDB vm.StateDB, contract *vm.Co
 		return p.LicenseTypes(ctx, method, args)
 	case LicenseMethod:
 		return p.License(ctx, method, args)
+	case LicensesMethod:
+		return p.Licenses(ctx, method, args)
 	case LicensesByTypeMethod:
 		return p.LicensesByType(ctx, method, args)
 	case LicensesByHolderMethod:
