@@ -44,12 +44,16 @@ service Query {
     option (google.api.http).get = "/webstack/licenses/licenses_by_type/{type_id}";
   }
 
-  // LicensesByHolder queries all licenses held by a given address.
+  // LicensesByHolder queries the active licenses held by a given address.
+  // Revoked licenses are not indexed by holder; use License or LicensesByType
+  // to look them up.
   rpc LicensesByHolder(QueryLicensesByHolderRequest) returns (QueryLicensesByHolderResponse) {
     option (google.api.http).get = "/webstack/licenses/licenses_by_holder/{holder}";
   }
 
-  // LicensesByHolderAndType queries all licenses held by a given address for a specific type.
+  // LicensesByHolderAndType queries the active licenses held by a given
+  // address for a specific type. Revoked licenses are not indexed by holder;
+  // use License or LicensesByType to look them up.
   rpc LicensesByHolderAndType(QueryLicensesByHolderAndTypeRequest) returns (QueryLicensesByHolderAndTypeResponse) {
     option (google.api.http).get = "/webstack/licenses/licenses_by_holder/{holder}/{type_id}";
   }

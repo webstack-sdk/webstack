@@ -2,9 +2,7 @@ package keeper
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"sort"
 	"strings"
 
 	"cosmossdk.io/collections"
@@ -178,34 +176,14 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 		}
 	}
 
-	existing, err := ms.k.AdminKeys.Get(ctx, msg.Address)
-	if err != nil && !errors.Is(err, collections.ErrNotFound) {
-		return nil, err
-	}
-
-	permToTypes := make(map[string]map[string]struct{})
-	addGrants := func(grants []types.AdminKeyGrant) {
-		for _, g := range grants {
-			set, ok := permToTypes[g.Permission]
-			if !ok {
-				set = make(map[string]struct{})
-				permToTypes[g.Permission] = set
-			}
-			for _, lt := range g.LicenseTypes {
-				set[lt] = struct{}{}
+	// Grants are unioned into the flat keyset: existing pairs are untouched and
+	// re-granted pairs are idempotent overwrites.
+	for _, grant := range msg.Grants {
+		for _, lt := range grant.LicenseTypes {
+			if err := ms.k.AdminGrants.Set(ctx, collections.Join3(msg.Address, grant.Permission, lt)); err != nil {
+				return nil, err
 			}
 		}
-	}
-	addGrants(existing.Grants)
-	addGrants(msg.Grants)
-
-	ak := types.AdminKey{
-		Address: msg.Address,
-		Grants:  sortedGrants(permToTypes),
-	}
-
-	if err := ms.k.AdminKeys.Set(ctx, msg.Address, ak); err != nil {
-		return nil, err
 	}
 
 	var perms []string
@@ -225,10 +203,9 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 	return &types.MsgGrantAdminPermissionsResponse{}, nil
 }
 
-// RevokeAdminKeyPermissions removes specific (license type, permission) pairs from
-// an admin key. Pairs that are not currently present are silently ignored — the
-// caller can safely re-send the same revoke. A grant whose LicenseTypes list becomes
-// empty is dropped; if no grants remain the AdminKey entry itself is deleted.
+// RevokeAdminKeyPermissions removes specific (license type, permission) pairs
+// from an admin key. Pairs that are not currently present are silently ignored
+// (Remove is idempotent) — the caller can safely re-send the same revoke.
 func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.MsgRevokeAdminKeyPermissions) (*types.MsgRevokeAdminKeyPermissionsResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
@@ -245,47 +222,8 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 		return nil, fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), types.MaxAdminGrants)
 	}
 
-	existing, err := ms.k.AdminKeys.Get(ctx, msg.Address)
-	if err != nil {
-		if errors.Is(err, collections.ErrNotFound) {
-			// No grants exist for this address; revoke is a no-op.
-			sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-				types.EventTypeRevokeAdminKeyPermissions,
-				sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
-			))
-			return &types.MsgRevokeAdminKeyPermissionsResponse{}, nil
-		}
-		return nil, err
-	}
-
-	permToTypes := make(map[string]map[string]struct{})
-	for _, g := range existing.Grants {
-		set := make(map[string]struct{}, len(g.LicenseTypes))
-		for _, lt := range g.LicenseTypes {
-			set[lt] = struct{}{}
-		}
-		permToTypes[g.Permission] = set
-	}
-
 	for _, p := range msg.Permissions {
-		if set, ok := permToTypes[p.Permission]; ok {
-			delete(set, p.LicenseTypeId)
-			if len(set) == 0 {
-				delete(permToTypes, p.Permission)
-			}
-		}
-	}
-
-	if len(permToTypes) == 0 {
-		if err := ms.k.AdminKeys.Remove(ctx, msg.Address); err != nil {
-			return nil, err
-		}
-	} else {
-		ak := types.AdminKey{
-			Address: msg.Address,
-			Grants:  sortedGrants(permToTypes),
-		}
-		if err := ms.k.AdminKeys.Set(ctx, msg.Address, ak); err != nil {
+		if err := ms.k.AdminGrants.Remove(ctx, collections.Join3(msg.Address, p.Permission, p.LicenseTypeId)); err != nil {
 			return nil, err
 		}
 	}
@@ -305,29 +243,6 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 	))
 
 	return &types.MsgRevokeAdminKeyPermissionsResponse{}, nil
-}
-
-// sortedGrants flattens a (permission -> {license_type}) map into a deterministically
-// ordered slice of AdminKeyGrants: permissions ascending, license types ascending
-// within each grant.
-func sortedGrants(permToTypes map[string]map[string]struct{}) []types.AdminKeyGrant {
-	perms := make([]string, 0, len(permToTypes))
-	for p := range permToTypes {
-		perms = append(perms, p)
-	}
-	sort.Strings(perms)
-
-	out := make([]types.AdminKeyGrant, 0, len(perms))
-	for _, p := range perms {
-		set := permToTypes[p]
-		lts := make([]string, 0, len(set))
-		for lt := range set {
-			lts = append(lts, lt)
-		}
-		sort.Strings(lts)
-		out = append(out, types.AdminKeyGrant{Permission: p, LicenseTypes: lts})
-	}
-	return out
 }
 
 // IssueLicenses issues licenses for each entry in the message. Each entry
@@ -414,7 +329,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 			if err := ms.k.Licenses.Set(ctx, collections.Join(entry.LicenseTypeId, id), license); err != nil {
 				return nil, err
 			}
-			if err := ms.k.LicenseByHolder.Set(ctx, collections.Join3(entry.Holder, entry.LicenseTypeId, id), id); err != nil {
+			if err := ms.k.ActiveLicensesByHolder.Set(ctx, collections.Join3(entry.Holder, entry.LicenseTypeId, id)); err != nil {
 				return nil, err
 			}
 
@@ -454,20 +369,14 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 	}
 	count := msg.Count
 
-	// Walk LicenseByHolder in descending id order so we collect the most
-	// recently issued active licenses first, and stop as soon as we have
-	// enough. Avoids loading the holder's full license set when only a small
-	// number need to be revoked.
+	// Walk ActiveLicensesByHolder in descending id order so we collect the
+	// most recently issued licenses first, and stop as soon as we have enough.
+	// The index holds active licenses only, so no per-entry status check is
+	// needed.
 	rng := collections.NewSuperPrefixedTripleRangeReversed[string, string, uint64](msg.Holder, msg.LicenseTypeId)
 	activeIDs := make([]uint64, 0, count)
-	err = ms.k.LicenseByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64], _ uint64) (bool, error) {
-		license, err := ms.k.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
-		if err != nil {
-			return true, err
-		}
-		if license.Status == "active" {
-			activeIDs = append(activeIDs, key.K3())
-		}
+	err = ms.k.ActiveLicensesByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64]) (bool, error) {
+		activeIDs = append(activeIDs, key.K3())
 		return uint64(len(activeIDs)) >= count, nil
 	})
 	if err != nil {
@@ -491,6 +400,9 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 		license.EndDate = endDate
 
 		if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, id), license); err != nil {
+			return nil, err
+		}
+		if err := ms.k.ActiveLicensesByHolder.Remove(ctx, collections.Join3(msg.Holder, msg.LicenseTypeId, id)); err != nil {
 			return nil, err
 		}
 
@@ -551,7 +463,7 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 	}
 
 	// Remove old holder index
-	if err := ms.k.LicenseByHolder.Remove(ctx, collections.Join3(license.Holder, msg.LicenseTypeId, msg.Id)); err != nil {
+	if err := ms.k.ActiveLicensesByHolder.Remove(ctx, collections.Join3(license.Holder, msg.LicenseTypeId, msg.Id)); err != nil {
 		return nil, err
 	}
 
@@ -562,7 +474,7 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 	}
 
 	// Add new holder index
-	if err := ms.k.LicenseByHolder.Set(ctx, collections.Join3(msg.Recipient, msg.LicenseTypeId, msg.Id), msg.Id); err != nil {
+	if err := ms.k.ActiveLicensesByHolder.Set(ctx, collections.Join3(msg.Recipient, msg.LicenseTypeId, msg.Id)); err != nil {
 		return nil, err
 	}
 

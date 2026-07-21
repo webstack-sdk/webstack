@@ -2,8 +2,10 @@ package keeper_test
 
 import (
 	"testing"
+	"time"
 
 	"cosmossdk.io/math"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
@@ -36,6 +38,71 @@ func TestInitGenesisRunsFullValidation(t *testing.T) {
 	err := k.InitGenesis(ctx, bad)
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "max_supply must not be negative")
+}
+
+// TestGenesisRoundTripAdminGrantsAndActiveIndex verifies that admin grants
+// survive a genesis export/import through the flat AdminGrants keyset, and
+// that the holder index is rebuilt for active licenses only.
+func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
+	src, srcGoCtx := keepertest.LicensesKeeper(t)
+	// Revocation stamps end_date with the block date; give the context a block
+	// time after the licenses' start_date so the exported genesis validates.
+	srcCtx := sdk.UnwrapSDKContext(srcGoCtx).WithBlockTime(time.Date(2026, 7, 1, 0, 0, 0, 0, time.UTC))
+	owner := src.GetParams(srcCtx).Owner
+	holder := sample.AccAddress()
+	ms := keeper.NewMsgServerImpl(src)
+
+	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+	_, err = ms.GrantAdminPermissions(srcCtx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: owner,
+		Grants: []types.AdminKeyGrant{
+			{Permission: "issue", LicenseTypes: []string{"node"}},
+			{Permission: "revoke", LicenseTypes: []string{"node"}},
+		},
+	})
+	require.NoError(t, err)
+
+	resp, err := ms.IssueLicenses(srcCtx, &types.MsgIssueLicenses{
+		Issuer: owner, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 3},
+		},
+	})
+	require.NoError(t, err)
+	require.Len(t, resp.Ids, 3)
+
+	revResp, err := ms.RevokeLicenses(srcCtx, &types.MsgRevokeLicenses{
+		Revoker: owner, LicenseTypeId: "node", Holder: holder, Count: 1,
+	})
+	require.NoError(t, err)
+	require.Equal(t, []uint64{3}, revResp.Ids, "most recently issued license is revoked first")
+
+	exported := src.ExportGenesis(srcCtx)
+
+	dst, dstCtx := keepertest.LicensesKeeper(t)
+	require.NoError(t, dst.InitGenesis(dstCtx, exported))
+
+	// Admin grants survive the flat round-trip.
+	require.True(t, dst.HasPermission(dstCtx, owner, "issue", "node"))
+	require.True(t, dst.HasPermission(dstCtx, owner, "revoke", "node"))
+	ak, found, err := dst.GetAdminKey(dstCtx, owner)
+	require.NoError(t, err)
+	require.True(t, found)
+	require.Len(t, ak.Grants, 2)
+
+	// The holder index is rebuilt for active licenses only.
+	q := setupQuerier(dst)
+	byHolder, err := q.LicensesByHolder(dstCtx, &types.QueryLicensesByHolderRequest{Holder: holder})
+	require.NoError(t, err)
+	require.Len(t, byHolder.Licenses, 2)
+
+	// The revoked license itself survives with its status.
+	l, found, err := dst.GetLicense(dstCtx, "node", 3)
+	require.NoError(t, err)
+	require.True(t, found)
+	require.Equal(t, "revoked", l.Status)
 }
 
 // TestGenesisRoundTripPreservesLicenseIDs covers the LicenseCounts genesis

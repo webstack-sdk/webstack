@@ -109,6 +109,12 @@ Each license is an instance of a license type:
 | `end_date` | End date in `YYYY-MM-DD` format (empty = no expiry) |
 | `status` | `active` or `revoked` |
 
+Licenses are stored under `(type, id)` and never deleted; revocation flips
+`status` and stamps `end_date`. A secondary index keyed
+`(holder, type, id)` tracks **active** licenses only — it is written on
+issue, moved on transfer, and removed on revoke — which is what powers the
+holder queries and the revoke-most-recent-first walk.
+
 ### Admin Keys
 
 Admin keys delegate permissions to addresses. Each admin key has grants:
@@ -126,6 +132,11 @@ Admin keys delegate permissions to addresses. Each admin key has grants:
 Valid permissions: `issue`, `revoke`
 
 Each license type in a grant must refer to an existing license type. Wildcards are not supported — grants must explicitly specify each license type.
+
+On disk, grants are stored as a flat set of
+`(address, permission, license_type_id)` keys, so permission checks are a
+single point-read. The grouped shape above is the genesis and query API view,
+reconstructed on demand.
 
 ## Messages
 
@@ -210,8 +221,8 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 | `LicenseTypes` | All license types (paginated) | `webstackd q licenses license-types` |
 | `License` | Single license by type + ID | `webstackd q licenses license node.license 1` |
 | `LicensesByType` | All licenses for a type | `webstackd q licenses licenses-by-type node.license` |
-| `LicensesByHolder` | All licenses for a holder | `webstackd q licenses licenses-by-holder webstack1...` |
-| `LicensesByHolderAndType` | Licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
+| `LicensesByHolder` | Active licenses for a holder | `webstackd q licenses licenses-by-holder webstack1...` |
+| `LicensesByHolderAndType` | Active licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
 | `AdminKey` | Grants for an address | `webstackd q licenses admin-key webstack1...` |
 | `AdminKeys` | All admin keys (paginated) | `webstackd q licenses admin-keys` |
 | `AdminKeysByLicenseType` | Admins for a license type | `webstackd q licenses admin-keys-by-license-type node.license` |

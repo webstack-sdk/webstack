@@ -48,9 +48,13 @@ type QueryClient interface {
 	License(ctx context.Context, in *QueryLicenseRequest, opts ...grpc.CallOption) (*QueryLicenseResponse, error)
 	// LicensesByType queries all licenses for a given license type.
 	LicensesByType(ctx context.Context, in *QueryLicensesByTypeRequest, opts ...grpc.CallOption) (*QueryLicensesByTypeResponse, error)
-	// LicensesByHolder queries all licenses held by a given address.
+	// LicensesByHolder queries the active licenses held by a given address.
+	// Revoked licenses are not indexed by holder; use License or LicensesByType
+	// to look them up.
 	LicensesByHolder(ctx context.Context, in *QueryLicensesByHolderRequest, opts ...grpc.CallOption) (*QueryLicensesByHolderResponse, error)
-	// LicensesByHolderAndType queries all licenses held by a given address for a specific type.
+	// LicensesByHolderAndType queries the active licenses held by a given
+	// address for a specific type. Revoked licenses are not indexed by holder;
+	// use License or LicensesByType to look them up.
 	LicensesByHolderAndType(ctx context.Context, in *QueryLicensesByHolderAndTypeRequest, opts ...grpc.CallOption) (*QueryLicensesByHolderAndTypeResponse, error)
 	// AdminKey queries the admin key grants for a given address.
 	AdminKey(ctx context.Context, in *QueryAdminKeyRequest, opts ...grpc.CallOption) (*QueryAdminKeyResponse, error)
@@ -183,9 +187,13 @@ type QueryServer interface {
 	License(context.Context, *QueryLicenseRequest) (*QueryLicenseResponse, error)
 	// LicensesByType queries all licenses for a given license type.
 	LicensesByType(context.Context, *QueryLicensesByTypeRequest) (*QueryLicensesByTypeResponse, error)
-	// LicensesByHolder queries all licenses held by a given address.
+	// LicensesByHolder queries the active licenses held by a given address.
+	// Revoked licenses are not indexed by holder; use License or LicensesByType
+	// to look them up.
 	LicensesByHolder(context.Context, *QueryLicensesByHolderRequest) (*QueryLicensesByHolderResponse, error)
-	// LicensesByHolderAndType queries all licenses held by a given address for a specific type.
+	// LicensesByHolderAndType queries the active licenses held by a given
+	// address for a specific type. Revoked licenses are not indexed by holder;
+	// use License or LicensesByType to look them up.
 	LicensesByHolderAndType(context.Context, *QueryLicensesByHolderAndTypeRequest) (*QueryLicensesByHolderAndTypeResponse, error)
 	// AdminKey queries the admin key grants for a given address.
 	AdminKey(context.Context, *QueryAdminKeyRequest) (*QueryAdminKeyResponse, error)

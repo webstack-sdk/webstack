@@ -7,6 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/require"
 
+	"cosmossdk.io/collections"
 	"cosmossdk.io/math"
 
 	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
@@ -207,13 +208,8 @@ func TestQueryAdminKeys(t *testing.T) {
 	adminBech, err := f.addrCdc.BytesToString(adminHex.Bytes())
 	require.NoError(t, err)
 
-	require.NoError(t, f.keeper.AdminKeys.Set(f.ctx, adminBech, licensestypes.AdminKey{
-		Address: adminBech,
-		Grants: []licensestypes.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"type.a"}},
-			{Permission: "revoke", LicenseTypes: []string{"type.b"}},
-		},
-	}))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, "issue", "type.a")))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, "revoke", "type.b")))
 
 	// AdminKey ---------------------------------------------------------
 	akM := ABI.Methods[AdminKeyMethod]

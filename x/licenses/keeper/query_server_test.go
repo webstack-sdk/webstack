@@ -147,6 +147,58 @@ func TestQueryLicensesByHolder(t *testing.T) {
 	require.Len(t, resp2.Licenses, 2)
 }
 
+// TestQueryLicensesByHolderExcludesRevoked: the holder index tracks active
+// licenses only, so holder queries must not return revoked licenses.
+func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
+	k, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(k)
+	admin := sample.AccAddress()
+	holder := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "rvq", MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: admin,
+		Grants: []types.AdminKeyGrant{
+			{Permission: "issue", LicenseTypes: []string{"rvq"}},
+			{Permission: "revoke", LicenseTypes: []string{"rvq"}},
+		},
+	})
+	require.NoError(t, err)
+
+	issueResp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: admin, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "rvq", Holder: holder, StartDate: "2026-01-01", Count: 3},
+		},
+	})
+	require.NoError(t, err)
+
+	_, err = ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
+		Revoker: admin, LicenseTypeId: "rvq", Holder: holder, Count: 1,
+	})
+	require.NoError(t, err)
+
+	resp, err := q.LicensesByHolder(ctx, &types.QueryLicensesByHolderRequest{Holder: holder})
+	require.NoError(t, err)
+	require.Len(t, resp.Licenses, 2)
+	for _, l := range resp.Licenses {
+		require.Equal(t, "active", l.Status)
+	}
+
+	respBoth, err := q.LicensesByHolderAndType(ctx, &types.QueryLicensesByHolderAndTypeRequest{
+		Holder: holder, TypeId: "rvq",
+	})
+	require.NoError(t, err)
+	require.Len(t, respBoth.Licenses, 2)
+
+	// The revoked license is still reachable by direct lookup.
+	lresp, err := q.License(ctx, &types.QueryLicenseRequest{TypeId: "rvq", Id: issueResp.Ids[2]})
+	require.NoError(t, err)
+	require.Equal(t, "revoked", lresp.License.Status)
+}
+
 func TestQueryAdminKeys(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	q := setupQuerier(k)

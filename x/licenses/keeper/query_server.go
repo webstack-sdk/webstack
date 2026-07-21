@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"sort"
 
 	"cosmossdk.io/collections"
 
@@ -70,11 +71,13 @@ func (q Querier) LicensesByType(ctx context.Context, req *types.QueryLicensesByT
 	return &types.QueryLicensesByTypeResponse{Licenses: licenses}, nil
 }
 
+// LicensesByHolder returns the holder's active licenses. Revoked licenses are
+// not indexed by holder; they remain reachable via License / LicensesByType.
 func (q Querier) LicensesByHolder(ctx context.Context, req *types.QueryLicensesByHolderRequest) (*types.QueryLicensesByHolderResponse, error) {
 	rng := collections.NewPrefixedTripleRange[string, string, uint64](req.Holder)
 	var licenses []types.License
 
-	err := q.Keeper.LicenseByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64], _ uint64) (bool, error) {
+	err := q.Keeper.ActiveLicensesByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64]) (bool, error) {
 		l, err := q.Keeper.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
 		if err != nil {
 			return true, err
@@ -88,11 +91,14 @@ func (q Querier) LicensesByHolder(ctx context.Context, req *types.QueryLicensesB
 	return &types.QueryLicensesByHolderResponse{Licenses: licenses}, nil
 }
 
+// LicensesByHolderAndType returns the holder's active licenses of one type.
+// Revoked licenses are not indexed by holder; they remain reachable via
+// License / LicensesByType.
 func (q Querier) LicensesByHolderAndType(ctx context.Context, req *types.QueryLicensesByHolderAndTypeRequest) (*types.QueryLicensesByHolderAndTypeResponse, error) {
 	rng := collections.NewSuperPrefixedTripleRange[string, string, uint64](req.Holder, req.TypeId)
 	var licenses []types.License
 
-	err := q.Keeper.LicenseByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64], _ uint64) (bool, error) {
+	err := q.Keeper.ActiveLicensesByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64]) (bool, error) {
 		l, err := q.Keeper.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
 		if err != nil {
 			return true, err
@@ -107,48 +113,96 @@ func (q Querier) LicensesByHolderAndType(ctx context.Context, req *types.QueryLi
 }
 
 func (q Querier) AdminKey(ctx context.Context, req *types.QueryAdminKeyRequest) (*types.QueryAdminKeyResponse, error) {
-	ak, err := q.Keeper.AdminKeys.Get(ctx, req.Address)
+	ak, found, err := q.Keeper.GetAdminKey(ctx, req.Address)
 	if err != nil {
+		return nil, err
+	}
+	if !found {
 		return nil, types.ErrAdminKeyNotFound.Wrapf("admin key for %s not found", req.Address)
 	}
 	return &types.QueryAdminKeyResponse{AdminKey: ak}, nil
 }
 
+// paginateAdminKeys applies address-level pagination to a grouped admin key
+// slice (already in ascending address order). PageRequest.Key is an address:
+// results start at the first entry >= that address; NextKey is the address of
+// the first entry beyond the returned page. Offset is honored when Key is
+// unset.
+func paginateAdminKeys(adminKeys []types.AdminKey, page *query.PageRequest) ([]types.AdminKey, *query.PageResponse) {
+	limit := uint64(query.DefaultLimit)
+	var offset uint64
+	var startAddr string
+	if page != nil {
+		if page.Limit > 0 {
+			limit = page.Limit
+		}
+		if len(page.Key) > 0 {
+			startAddr = string(page.Key)
+		} else {
+			offset = page.Offset
+		}
+	}
+
+	start := 0
+	if startAddr != "" {
+		start = sort.Search(len(adminKeys), func(i int) bool { return adminKeys[i].Address >= startAddr })
+	} else if offset > 0 {
+		if offset > uint64(len(adminKeys)) {
+			offset = uint64(len(adminKeys))
+		}
+		start = int(offset)
+	}
+
+	end := start + int(limit)
+	if end > len(adminKeys) || end < start {
+		end = len(adminKeys)
+	}
+
+	pageResp := &query.PageResponse{}
+	if end < len(adminKeys) {
+		pageResp.NextKey = []byte(adminKeys[end].Address)
+	}
+	return adminKeys[start:end], pageResp
+}
+
 func (q Querier) AdminKeys(ctx context.Context, req *types.QueryAdminKeysRequest) (*types.QueryAdminKeysResponse, error) {
-	results, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.AdminKeys, req.Pagination,
-		func(_ string, ak types.AdminKey) (types.AdminKey, error) {
-			return ak, nil
-		},
-	)
+	all, err := q.Keeper.GetAdminKeys(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return &types.QueryAdminKeysResponse{AdminKeys: results, Pagination: pageResp}, nil
+	page, pageResp := paginateAdminKeys(all, req.Pagination)
+	return &types.QueryAdminKeysResponse{AdminKeys: page, Pagination: pageResp}, nil
 }
 
 func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdminKeysByLicenseTypeRequest) (*types.QueryAdminKeysByLicenseTypeResponse, error) {
-	var filtered []types.AdminKey
-
-	_, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.AdminKeys, req.Pagination,
-		func(_ string, ak types.AdminKey) (types.AdminKey, error) {
-			for _, grant := range ak.Grants {
-				if req.Permission != "" && grant.Permission != req.Permission {
-					continue
-				}
-				for _, lt := range grant.LicenseTypes {
-					if lt == req.LicenseTypeId {
-						filtered = append(filtered, ak)
-						return ak, nil
-					}
-				}
-			}
-			return ak, nil
-		},
-	)
+	all, err := q.Keeper.GetAdminKeys(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return &types.QueryAdminKeysByLicenseTypeResponse{AdminKeys: filtered, Pagination: pageResp}, nil
+
+	matches := func(ak types.AdminKey) bool {
+		for _, grant := range ak.Grants {
+			if req.Permission != "" && grant.Permission != req.Permission {
+				continue
+			}
+			for _, lt := range grant.LicenseTypes {
+				if lt == req.LicenseTypeId {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	var filtered []types.AdminKey
+	for _, ak := range all {
+		if matches(ak) {
+			filtered = append(filtered, ak)
+		}
+	}
+
+	page, pageResp := paginateAdminKeys(filtered, req.Pagination)
+	return &types.QueryAdminKeysByLicenseTypeResponse{AdminKeys: page, Pagination: pageResp}, nil
 }
 
 func (q Querier) Permissions(_ context.Context, _ *types.QueryPermissionsRequest) (*types.QueryPermissionsResponse, error) {

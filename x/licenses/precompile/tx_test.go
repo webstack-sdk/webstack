@@ -7,20 +7,15 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/require"
 
-	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
+	"cosmossdk.io/collections"
 )
 
-// grantIssue adds an admin grant for `address` directly via the keeper so tx tests
+// grantIssue adds admin grants for `address` directly via the keeper so tx tests
 // can focus on the precompile-side behaviour rather than chaining grantAdminPermissions.
 func grantIssue(t *testing.T, f *testFixture, addressBech, licenseTypeID string) {
 	t.Helper()
-	require.NoError(t, f.keeper.AdminKeys.Set(f.ctx, addressBech, licensestypes.AdminKey{
-		Address: addressBech,
-		Grants: []licensestypes.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{licenseTypeID}},
-			{Permission: "revoke", LicenseTypes: []string{licenseTypeID}},
-		},
-	}))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(addressBech, "issue", licenseTypeID)))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(addressBech, "revoke", licenseTypeID)))
 }
 
 // issueOne is a convenience that issues a single license through the precompile.
@@ -134,8 +129,9 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	require.NoError(t, err)
 	require.True(t, out[0].(bool))
 
-	ak, err := f.keeper.AdminKeys.Get(f.ctx, adminBech)
+	ak, found, err := f.keeper.GetAdminKey(f.ctx, adminBech)
 	require.NoError(t, err)
+	require.True(t, found)
 	require.Equal(t, adminBech, ak.Address)
 	require.Len(t, ak.Grants, 2)
 
@@ -154,8 +150,6 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 		&grantM,
 		[]interface{}{adminHex, moreGrants},
 	)
-	require.NoError(t, err)
-	ak, err = f.keeper.AdminKeys.Get(f.ctx, adminBech)
 	require.NoError(t, err)
 	require.True(t, f.keeper.HasPermission(f.ctx, adminBech, "issue", "type.a"))
 	require.True(t, f.keeper.HasPermission(f.ctx, adminBech, "revoke", "type.a"))
@@ -199,8 +193,9 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	)
 	require.NoError(t, err)
 
-	_, err = f.keeper.AdminKeys.Get(f.ctx, adminBech)
-	require.Error(t, err, "admin key entry should be deleted when no grants remain")
+	_, found, err = f.keeper.GetAdminKey(f.ctx, adminBech)
+	require.NoError(t, err)
+	require.False(t, found, "admin key entry should be gone when no grants remain")
 }
 
 func TestTxIssueLicenses(t *testing.T) {
@@ -379,12 +374,8 @@ func TestTxIssueLicensesMultipleEntries(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	seedLicenseType(t, f, "type.b", true, 0)
-	require.NoError(t, f.keeper.AdminKeys.Set(f.ctx, f.OwnerBech, licensestypes.AdminKey{
-		Address: f.OwnerBech,
-		Grants: []licensestypes.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"type.a", "type.b"}},
-		},
-	}))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(f.OwnerBech, "issue", "type.a")))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(f.OwnerBech, "issue", "type.b")))
 
 	holderA := common.HexToAddress("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	holderB := common.HexToAddress("0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")

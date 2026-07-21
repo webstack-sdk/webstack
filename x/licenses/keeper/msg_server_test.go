@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"cosmossdk.io/collections"
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
@@ -310,8 +311,9 @@ func TestGrantAdminPermissionsMerges(t *testing.T) {
 
 	// State should be deterministic: grants sorted by permission, license types sorted within each grant,
 	// with no duplicates.
-	ak, err := k.AdminKeys.Get(ctx, adminAddr)
+	ak, found, err := k.GetAdminKey(ctx, adminAddr)
 	require.NoError(t, err)
+	require.True(t, found)
 	require.Len(t, ak.Grants, 2)
 	require.Equal(t, "issue", ak.Grants[0].Permission)
 	require.Equal(t, []string{"t1", "t2", "t3"}, ak.Grants[0].LicenseTypes)
@@ -335,7 +337,7 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 	seed := func(t *testing.T) {
 		t.Helper()
 		// Reset to a known set of grants for each subtest.
-		_ = k.AdminKeys.Remove(ctx, adminAddr)
+		require.NoError(t, k.AdminGrants.Clear(ctx, collections.NewPrefixedTripleRange[string, string, string](adminAddr)))
 		_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 			Owner: owner, Address: adminAddr,
 			Grants: []types.AdminKeyGrant{
@@ -384,8 +386,9 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 			},
 		})
 		require.NoError(t, err)
-		ak, err := k.AdminKeys.Get(ctx, adminAddr)
+		ak, found, err := k.GetAdminKey(ctx, adminAddr)
 		require.NoError(t, err)
+		require.True(t, found)
 		// Only the "issue" grant should remain — "revoke" had only t1, now empty.
 		require.Len(t, ak.Grants, 1)
 		require.Equal(t, "issue", ak.Grants[0].Permission)
@@ -402,8 +405,9 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 			},
 		})
 		require.NoError(t, err)
-		_, err = k.AdminKeys.Get(ctx, adminAddr)
-		require.Error(t, err, "admin key entry should be deleted when no grants remain")
+		_, found, err := k.GetAdminKey(ctx, adminAddr)
+		require.NoError(t, err)
+		require.False(t, found, "admin key entry should be gone when no grants remain")
 	})
 
 	t.Run("unknown pairs are silently ignored", func(t *testing.T) {
@@ -431,6 +435,27 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 			},
 		})
 		require.NoError(t, err)
+	})
+
+	t.Run("re-grant after full removal works", func(t *testing.T) {
+		seed(t)
+		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+			Owner: owner, Address: adminAddr,
+			Permissions: []types.AdminKeyPermission{
+				{LicenseTypeId: "t1", Permission: "issue"},
+				{LicenseTypeId: "t2", Permission: "issue"},
+				{LicenseTypeId: "t1", Permission: "revoke"},
+			},
+		})
+		require.NoError(t, err)
+
+		_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+			Owner: owner, Address: adminAddr,
+			Grants: []types.AdminKeyGrant{{Permission: "revoke", LicenseTypes: []string{"t2"}}},
+		})
+		require.NoError(t, err)
+		require.True(t, k.HasPermission(ctx, adminAddr, "revoke", "t2"))
+		require.False(t, k.HasPermission(ctx, adminAddr, "issue", "t1"))
 	})
 }
 

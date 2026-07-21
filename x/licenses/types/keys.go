@@ -39,8 +39,8 @@ var (
 	LicenseTypePrefix  = collections.NewPrefix(1)
 	LicensePrefix      = collections.NewPrefix(2)
 	LicenseCountPrefix = collections.NewPrefix(3)
-	AdminKeyPrefix     = collections.NewPrefix(4)
+	AdminGrantPrefix   = collections.NewPrefix(4)
 
 	// Index prefixes
-	LicenseByHolderPrefix = collections.NewPrefix(10)
+	ActiveLicensesByHolderPrefix = collections.NewPrefix(10)
 )
