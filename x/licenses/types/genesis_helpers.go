@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+	"time"
 
 	"cosmossdk.io/math"
 
@@ -10,10 +11,11 @@ import (
 
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		Params:       DefaultParams(),
-		LicenseTypes: []LicenseType{},
-		Licenses:     []License{},
-		AdminKeys:    []AdminKey{},
+		Params:        DefaultParams(),
+		LicenseTypes:  []LicenseType{},
+		Licenses:      []License{},
+		AdminKeys:     []AdminKey{},
+		LicenseCounts: []LicenseCount{},
 	}
 }
 
@@ -55,21 +57,36 @@ func (gs GenesisState) Validate() error {
 		licenseKeys[key] = struct{}{}
 	}
 
-	// Pass 2: per-license validation + per-type tally of active/revoked.
+	// Pass 2: per-license validation + per-type tally of active/revoked and
+	// the highest id seen per type (for the counter invariant below).
 	activeByType := make(map[string]uint64)
 	revokedByType := make(map[string]uint64)
+	maxIDByType := make(map[string]uint64)
 	for _, l := range gs.Licenses {
 		if _, exists := typeIDs[l.Type]; !exists {
 			return fmt.Errorf("license (type=%s, id=%d) references unknown license type", l.Type, l.Id)
 		}
 
 		switch l.Status {
-		case "active":
+		case StatusActive:
 			activeByType[l.Type]++
-		case "revoked":
+			if l.RevokedDate != "" {
+				return fmt.Errorf("license (type=%s, id=%d) is active but has revoked_date %q", l.Type, l.Id, l.RevokedDate)
+			}
+		case StatusRevoked:
 			revokedByType[l.Type]++
+			if l.RevokedDate == "" {
+				return fmt.Errorf("license (type=%s, id=%d) is revoked but has no revoked_date", l.Type, l.Id)
+			}
+			if _, err := time.Parse("2006-01-02", l.RevokedDate); err != nil {
+				return fmt.Errorf("license (type=%s, id=%d) has invalid revoked_date %q: must be YYYY-MM-DD format", l.Type, l.Id, l.RevokedDate)
+			}
 		default:
-			return fmt.Errorf("license (type=%s, id=%d) has invalid status %q: must be \"active\" or \"revoked\"", l.Type, l.Id, l.Status)
+			return fmt.Errorf("license (type=%s, id=%d) has invalid status %q", l.Type, l.Id, l.Status.String())
+		}
+
+		if l.Id > maxIDByType[l.Type] {
+			maxIDByType[l.Type] = l.Id
 		}
 
 		if _, err := sdk.AccAddressFromBech32(l.Holder); err != nil {
@@ -98,6 +115,29 @@ func (gs GenesisState) Validate() error {
 		}
 	}
 
+	// Pass 4: the per-type id sequence must exist for every type that has
+	// licenses and must never be below the highest existing id — otherwise
+	// the next issuance would overwrite an imported license.
+	countByType := make(map[string]uint64)
+	for _, lc := range gs.LicenseCounts {
+		if _, exists := typeIDs[lc.LicenseTypeId]; !exists {
+			return fmt.Errorf("license count references unknown license type %q", lc.LicenseTypeId)
+		}
+		if _, dup := countByType[lc.LicenseTypeId]; dup {
+			return fmt.Errorf("duplicate license count for license type %q", lc.LicenseTypeId)
+		}
+		countByType[lc.LicenseTypeId] = lc.Count
+	}
+	for typeID, maxID := range maxIDByType {
+		count, ok := countByType[typeID]
+		if !ok {
+			return fmt.Errorf("license type %s has licenses but no license count entry", typeID)
+		}
+		if count < maxID {
+			return fmt.Errorf("license type %s: license count %d is below the highest license id %d", typeID, count, maxID)
+		}
+	}
+
 	adminAddrs := make(map[string]struct{})
 	for _, ak := range gs.AdminKeys {
 		if _, exists := adminAddrs[ak.Address]; exists {
@@ -110,15 +150,15 @@ func (gs GenesisState) Validate() error {
 		}
 
 		for i, g := range ak.Grants {
-			if !IsValidPermission(g.Permission) {
-				return fmt.Errorf("admin key %s grant %d: invalid permission %q", ak.Address, i, g.Permission)
+			if !g.Permission.IsValid() {
+				return fmt.Errorf("admin key %s grant %d: invalid permission %q", ak.Address, i, g.Permission.String())
 			}
 			if len(g.LicenseTypes) == 0 {
-				return fmt.Errorf("admin key %s grant %d (permission %q): must include at least one license type", ak.Address, i, g.Permission)
+				return fmt.Errorf("admin key %s grant %d (permission %q): must include at least one license type", ak.Address, i, g.Permission.Short())
 			}
 			for _, ltID := range g.LicenseTypes {
 				if _, exists := typeIDs[ltID]; !exists {
-					return fmt.Errorf("admin key %s grant %d (permission %q): unknown license type %q", ak.Address, i, g.Permission, ltID)
+					return fmt.Errorf("admin key %s grant %d (permission %q): unknown license type %q", ak.Address, i, g.Permission.Short(), ltID)
 				}
 			}
 		}

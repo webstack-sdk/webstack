@@ -5,6 +5,16 @@ import "cosmos_proto/cosmos.proto";
 
 option go_package = "github.com/webstack-sdk/webstack/x/licenses/types";
 
+// LicenseStatus enumerates the lifecycle states of a license.
+enum LicenseStatus {
+  // LICENSE_STATUS_UNSPECIFIED is the zero value and never valid in state.
+  LICENSE_STATUS_UNSPECIFIED = 0;
+  // LICENSE_STATUS_ACTIVE marks a license that is currently valid.
+  LICENSE_STATUS_ACTIVE = 1;
+  // LICENSE_STATUS_REVOKED marks a license that has been revoked.
+  LICENSE_STATUS_REVOKED = 2;
+}
+
 // License represents an issued license instance.
 message License {
   // id is the auto-incremented identifier, unique within the license type.
@@ -15,8 +25,12 @@ message License {
   string holder = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   // start_date is the date from which the license is valid.
   string start_date = 4;
-  // end_date is the expiry date. Empty string means no expiry.
+  // end_date is the expiry date as issued. Empty string means no expiry.
+  // Revocation does not modify this field.
   string end_date = 5;
-  // status is "active" or "revoked".
-  string status = 6;
+  // status is the license lifecycle state.
+  LicenseStatus status = 6;
+  // revoked_date is the date the license was revoked (block date).
+  // Empty unless status is LICENSE_STATUS_REVOKED.
+  string revoked_date = 7;
 }

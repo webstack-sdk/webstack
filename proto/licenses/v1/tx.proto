@@ -134,7 +134,7 @@ message MsgGrantAdminPermissionsResponse {}
 // AdminKeyPermission identifies a single (license_type, permission) pair to revoke.
 message AdminKeyPermission {
   string license_type_id = 1;
-  string permission = 2;
+  Permission permission = 2;
 }
 
 // MsgRevokeAdminKeyPermissions is the Msg/RevokeAdminKeyPermissions request type.

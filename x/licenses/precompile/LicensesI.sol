@@ -23,7 +23,8 @@ struct LicenseType {
     uint256 revokedCount;
 }
 
-/// @dev License is a single issued license.
+/// @dev License is a single issued license. endDate keeps its issued value;
+///      revokedDate is set (and status becomes "revoked") on revocation.
 struct License {
     uint64 id;
     string typeId;
@@ -31,6 +32,7 @@ struct License {
     string startDate;
     string endDate;
     string status;
+    string revokedDate;
 }
 
 /// @dev AdminKeyGrant is one (permission, [licenseTypeId]) entry on an admin key.

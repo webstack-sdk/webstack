@@ -14,13 +14,14 @@ import (
 )
 
 var (
-	md_License            protoreflect.MessageDescriptor
-	fd_License_id         protoreflect.FieldDescriptor
-	fd_License_type       protoreflect.FieldDescriptor
-	fd_License_holder     protoreflect.FieldDescriptor
-	fd_License_start_date protoreflect.FieldDescriptor
-	fd_License_end_date   protoreflect.FieldDescriptor
-	fd_License_status     protoreflect.FieldDescriptor
+	md_License              protoreflect.MessageDescriptor
+	fd_License_id           protoreflect.FieldDescriptor
+	fd_License_type         protoreflect.FieldDescriptor
+	fd_License_holder       protoreflect.FieldDescriptor
+	fd_License_start_date   protoreflect.FieldDescriptor
+	fd_License_end_date     protoreflect.FieldDescriptor
+	fd_License_status       protoreflect.FieldDescriptor
+	fd_License_revoked_date protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -32,6 +33,7 @@ func init() {
 	fd_License_start_date = md_License.Fields().ByName("start_date")
 	fd_License_end_date = md_License.Fields().ByName("end_date")
 	fd_License_status = md_License.Fields().ByName("status")
+	fd_License_revoked_date = md_License.Fields().ByName("revoked_date")
 }
 
 var _ protoreflect.Message = (*fastReflection_License)(nil)
@@ -129,9 +131,15 @@ func (x *fastReflection_License) Range(f func(protoreflect.FieldDescriptor, prot
 			return
 		}
 	}
-	if x.Status != "" {
-		value := protoreflect.ValueOfString(x.Status)
+	if x.Status != 0 {
+		value := protoreflect.ValueOfEnum((protoreflect.EnumNumber)(x.Status))
 		if !f(fd_License_status, value) {
+			return
+		}
+	}
+	if x.RevokedDate != "" {
+		value := protoreflect.ValueOfString(x.RevokedDate)
+		if !f(fd_License_revoked_date, value) {
 			return
 		}
 	}
@@ -161,7 +169,9 @@ func (x *fastReflection_License) Has(fd protoreflect.FieldDescriptor) bool {
 	case "licenses.v1.License.end_date":
 		return x.EndDate != ""
 	case "licenses.v1.License.status":
-		return x.Status != ""
+		return x.Status != 0
+	case "licenses.v1.License.revoked_date":
+		return x.RevokedDate != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.License"))
@@ -189,7 +199,9 @@ func (x *fastReflection_License) Clear(fd protoreflect.FieldDescriptor) {
 	case "licenses.v1.License.end_date":
 		x.EndDate = ""
 	case "licenses.v1.License.status":
-		x.Status = ""
+		x.Status = 0
+	case "licenses.v1.License.revoked_date":
+		x.RevokedDate = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.License"))
@@ -223,6 +235,9 @@ func (x *fastReflection_License) Get(descriptor protoreflect.FieldDescriptor) pr
 		return protoreflect.ValueOfString(value)
 	case "licenses.v1.License.status":
 		value := x.Status
+		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
+	case "licenses.v1.License.revoked_date":
+		value := x.RevokedDate
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
@@ -255,7 +270,9 @@ func (x *fastReflection_License) Set(fd protoreflect.FieldDescriptor, value prot
 	case "licenses.v1.License.end_date":
 		x.EndDate = value.Interface().(string)
 	case "licenses.v1.License.status":
-		x.Status = value.Interface().(string)
+		x.Status = (LicenseStatus)(value.Enum())
+	case "licenses.v1.License.revoked_date":
+		x.RevokedDate = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.License"))
@@ -288,6 +305,8 @@ func (x *fastReflection_License) Mutable(fd protoreflect.FieldDescriptor) protor
 		panic(fmt.Errorf("field end_date of message licenses.v1.License is not mutable"))
 	case "licenses.v1.License.status":
 		panic(fmt.Errorf("field status of message licenses.v1.License is not mutable"))
+	case "licenses.v1.License.revoked_date":
+		panic(fmt.Errorf("field revoked_date of message licenses.v1.License is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.License"))
@@ -312,6 +331,8 @@ func (x *fastReflection_License) NewField(fd protoreflect.FieldDescriptor) proto
 	case "licenses.v1.License.end_date":
 		return protoreflect.ValueOfString("")
 	case "licenses.v1.License.status":
+		return protoreflect.ValueOfEnum(0)
+	case "licenses.v1.License.revoked_date":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
@@ -401,7 +422,10 @@ func (x *fastReflection_License) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Status)
+		if x.Status != 0 {
+			n += 1 + runtime.Sov(uint64(x.Status))
+		}
+		l = len(x.RevokedDate)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -434,12 +458,17 @@ func (x *fastReflection_License) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.Status) > 0 {
-			i -= len(x.Status)
-			copy(dAtA[i:], x.Status)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Status)))
+		if len(x.RevokedDate) > 0 {
+			i -= len(x.RevokedDate)
+			copy(dAtA[i:], x.RevokedDate)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.RevokedDate)))
 			i--
-			dAtA[i] = 0x32
+			dAtA[i] = 0x3a
+		}
+		if x.Status != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Status))
+			i--
+			dAtA[i] = 0x30
 		}
 		if len(x.EndDate) > 0 {
 			i -= len(x.EndDate)
@@ -671,8 +700,27 @@ func (x *fastReflection_License) ProtoMethods() *protoiface.Methods {
 				x.EndDate = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 6:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+				}
+				x.Status = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Status |= LicenseStatus(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 7:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RevokedDate", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -700,7 +748,7 @@ func (x *fastReflection_License) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Status = string(dAtA[iNdEx:postIndex])
+				x.RevokedDate = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -750,6 +798,59 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// LicenseStatus enumerates the lifecycle states of a license.
+type LicenseStatus int32
+
+const (
+	// LICENSE_STATUS_UNSPECIFIED is the zero value and never valid in state.
+	LicenseStatus_LICENSE_STATUS_UNSPECIFIED LicenseStatus = 0
+	// LICENSE_STATUS_ACTIVE marks a license that is currently valid.
+	LicenseStatus_LICENSE_STATUS_ACTIVE LicenseStatus = 1
+	// LICENSE_STATUS_REVOKED marks a license that has been revoked.
+	LicenseStatus_LICENSE_STATUS_REVOKED LicenseStatus = 2
+)
+
+// Enum value maps for LicenseStatus.
+var (
+	LicenseStatus_name = map[int32]string{
+		0: "LICENSE_STATUS_UNSPECIFIED",
+		1: "LICENSE_STATUS_ACTIVE",
+		2: "LICENSE_STATUS_REVOKED",
+	}
+	LicenseStatus_value = map[string]int32{
+		"LICENSE_STATUS_UNSPECIFIED": 0,
+		"LICENSE_STATUS_ACTIVE":      1,
+		"LICENSE_STATUS_REVOKED":     2,
+	}
+)
+
+func (x LicenseStatus) Enum() *LicenseStatus {
+	p := new(LicenseStatus)
+	*p = x
+	return p
+}
+
+func (x LicenseStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LicenseStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_licenses_v1_license_proto_enumTypes[0].Descriptor()
+}
+
+func (LicenseStatus) Type() protoreflect.EnumType {
+	return &file_licenses_v1_license_proto_enumTypes[0]
+}
+
+func (x LicenseStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LicenseStatus.Descriptor instead.
+func (LicenseStatus) EnumDescriptor() ([]byte, []int) {
+	return file_licenses_v1_license_proto_rawDescGZIP(), []int{0}
+}
+
 // License represents an issued license instance.
 type License struct {
 	state         protoimpl.MessageState
@@ -764,10 +865,14 @@ type License struct {
 	Holder string `protobuf:"bytes,3,opt,name=holder,proto3" json:"holder,omitempty"`
 	// start_date is the date from which the license is valid.
 	StartDate string `protobuf:"bytes,4,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	// end_date is the expiry date. Empty string means no expiry.
+	// end_date is the expiry date as issued. Empty string means no expiry.
+	// Revocation does not modify this field.
 	EndDate string `protobuf:"bytes,5,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	// status is "active" or "revoked".
-	Status string `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
+	// status is the license lifecycle state.
+	Status LicenseStatus `protobuf:"varint,6,opt,name=status,proto3,enum=licenses.v1.LicenseStatus" json:"status,omitempty"`
+	// revoked_date is the date the license was revoked (block date).
+	// Empty unless status is LICENSE_STATUS_REVOKED.
+	RevokedDate string `protobuf:"bytes,7,opt,name=revoked_date,json=revokedDate,proto3" json:"revoked_date,omitempty"`
 }
 
 func (x *License) Reset() {
@@ -825,9 +930,16 @@ func (x *License) GetEndDate() string {
 	return ""
 }
 
-func (x *License) GetStatus() string {
+func (x *License) GetStatus() LicenseStatus {
 	if x != nil {
 		return x.Status
+	}
+	return LicenseStatus_LICENSE_STATUS_UNSPECIFIED
+}
+
+func (x *License) GetRevokedDate() string {
+	if x != nil {
+		return x.RevokedDate
 	}
 	return ""
 }
@@ -839,7 +951,7 @@ var file_licenses_v1_license_proto_rawDesc = []byte{
 	0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x6c, 0x69, 0x63,
 	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x1a, 0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
 	0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0xb1, 0x01, 0x0a, 0x07, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12,
+	0x6f, 0x74, 0x6f, 0x22, 0xf0, 0x01, 0x0a, 0x07, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12,
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12,
 	0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74,
 	0x79, 0x70, 0x65, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x03, 0x20,
@@ -849,19 +961,30 @@ var file_licenses_v1_license_proto_rawDesc = []byte{
 	0x61, 0x74, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72, 0x74,
 	0x44, 0x61, 0x74, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x5f, 0x64, 0x61, 0x74, 0x65,
 	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x65, 0x6e, 0x64, 0x44, 0x61, 0x74, 0x65, 0x12,
-	0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0xa9, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3b, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
-	0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02,
-	0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x3a,
-	0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x32, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x1a, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x12, 0x21, 0x0a, 0x0c, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x64, 0x5f, 0x64,
+	0x61, 0x74, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x65, 0x76, 0x6f, 0x6b,
+	0x65, 0x64, 0x44, 0x61, 0x74, 0x65, 0x2a, 0x66, 0x0a, 0x0d, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1e, 0x0a, 0x1a, 0x4c, 0x49, 0x43, 0x45, 0x4e,
+	0x53, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43,
+	0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x19, 0x0a, 0x15, 0x4c, 0x49, 0x43, 0x45, 0x4e,
+	0x53, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45,
+	0x10, 0x01, 0x12, 0x1a, 0x0a, 0x16, 0x4c, 0x49, 0x43, 0x45, 0x4e, 0x53, 0x45, 0x5f, 0x53, 0x54,
+	0x41, 0x54, 0x55, 0x53, 0x5f, 0x52, 0x45, 0x56, 0x4f, 0x4b, 0x45, 0x44, 0x10, 0x02, 0x42, 0xa9,
+	0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e,
+	0x76, 0x31, 0x42, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f,
+	0x50, 0x01, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77,
+	0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73,
+	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x76, 0x31, 0xa2,
+	0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56,
+	0x31, 0xe2, 0x02, 0x17, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0x5c,
+	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -876,16 +999,19 @@ func file_licenses_v1_license_proto_rawDescGZIP() []byte {
 	return file_licenses_v1_license_proto_rawDescData
 }
 
+var file_licenses_v1_license_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_licenses_v1_license_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_licenses_v1_license_proto_goTypes = []interface{}{
-	(*License)(nil), // 0: licenses.v1.License
+	(LicenseStatus)(0), // 0: licenses.v1.LicenseStatus
+	(*License)(nil),    // 1: licenses.v1.License
 }
 var file_licenses_v1_license_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: licenses.v1.License.status:type_name -> licenses.v1.LicenseStatus
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_licenses_v1_license_proto_init() }
@@ -912,13 +1038,14 @@ func file_licenses_v1_license_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_licenses_v1_license_proto_rawDesc,
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_licenses_v1_license_proto_goTypes,
 		DependencyIndexes: file_licenses_v1_license_proto_depIdxs,
+		EnumInfos:         file_licenses_v1_license_proto_enumTypes,
 		MessageInfos:      file_licenses_v1_license_proto_msgTypes,
 	}.Build()
 	File_licenses_v1_license_proto = out.File

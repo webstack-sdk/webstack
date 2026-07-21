@@ -16,9 +16,19 @@ message Params {
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }
 
+// Permission enumerates the admin-key permissions that can be granted.
+enum Permission {
+  // PERMISSION_UNSPECIFIED is the zero value and never valid in state.
+  PERMISSION_UNSPECIFIED = 0;
+  // PERMISSION_ISSUE allows issuing licenses of the granted types.
+  PERMISSION_ISSUE = 1;
+  // PERMISSION_REVOKE allows revoking licenses of the granted types.
+  PERMISSION_REVOKE = 2;
+}
+
 // AdminKeyGrant defines a permission grant for a specific set of license types.
 message AdminKeyGrant {
-  string permission = 1;
+  Permission permission = 1;
   repeated string license_types = 2;
 }
 

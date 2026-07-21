@@ -269,7 +269,8 @@
             { "internalType": "address", "name": "holder", "type": "address" },
             { "internalType": "string", "name": "startDate", "type": "string" },
             { "internalType": "string", "name": "endDate", "type": "string" },
-            { "internalType": "string", "name": "status", "type": "string" }
+            { "internalType": "string", "name": "status", "type": "string" },
+            { "internalType": "string", "name": "revokedDate", "type": "string" }
           ],
           "internalType": "struct License",
           "name": "",
@@ -292,7 +293,8 @@
             { "internalType": "address", "name": "holder", "type": "address" },
             { "internalType": "string", "name": "startDate", "type": "string" },
             { "internalType": "string", "name": "endDate", "type": "string" },
-            { "internalType": "string", "name": "status", "type": "string" }
+            { "internalType": "string", "name": "status", "type": "string" },
+            { "internalType": "string", "name": "revokedDate", "type": "string" }
           ],
           "internalType": "struct License[]",
           "name": "",
@@ -315,7 +317,8 @@
             { "internalType": "address", "name": "holder", "type": "address" },
             { "internalType": "string", "name": "startDate", "type": "string" },
             { "internalType": "string", "name": "endDate", "type": "string" },
-            { "internalType": "string", "name": "status", "type": "string" }
+            { "internalType": "string", "name": "status", "type": "string" },
+            { "internalType": "string", "name": "revokedDate", "type": "string" }
           ],
           "internalType": "struct License[]",
           "name": "",
@@ -339,7 +342,8 @@
             { "internalType": "address", "name": "holder", "type": "address" },
             { "internalType": "string", "name": "startDate", "type": "string" },
             { "internalType": "string", "name": "endDate", "type": "string" },
-            { "internalType": "string", "name": "status", "type": "string" }
+            { "internalType": "string", "name": "status", "type": "string" },
+            { "internalType": "string", "name": "revokedDate", "type": "string" }
           ],
           "internalType": "struct License[]",
           "name": "",

@@ -45,8 +45,8 @@ func TestInitGenesisRunsFullValidation(t *testing.T) {
 // that the holder index is rebuilt for active licenses only.
 func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
 	src, srcGoCtx := keepertest.LicensesKeeper(t)
-	// Revocation stamps end_date with the block date; give the context a block
-	// time after the licenses' start_date so the exported genesis validates.
+	// Revocation stamps revoked_date with the block date; use a realistic
+	// block time so the exported dates are meaningful.
 	srcCtx := sdk.UnwrapSDKContext(srcGoCtx).WithBlockTime(time.Date(2026, 7, 1, 0, 0, 0, 0, time.UTC))
 	owner := src.GetParams(srcCtx).Owner
 	holder := sample.AccAddress()
@@ -59,8 +59,8 @@ func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
 	_, err = ms.GrantAdminPermissions(srcCtx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: owner,
 		Grants: []types.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"node"}},
-			{Permission: "revoke", LicenseTypes: []string{"node"}},
+			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
+			{Permission: types.PermissionRevoke, LicenseTypes: []string{"node"}},
 		},
 	})
 	require.NoError(t, err)
@@ -85,8 +85,8 @@ func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
 	require.NoError(t, dst.InitGenesis(dstCtx, exported))
 
 	// Admin grants survive the flat round-trip.
-	require.True(t, dst.HasPermission(dstCtx, owner, "issue", "node"))
-	require.True(t, dst.HasPermission(dstCtx, owner, "revoke", "node"))
+	require.True(t, dst.HasPermission(dstCtx, owner, types.PermissionIssue, "node"))
+	require.True(t, dst.HasPermission(dstCtx, owner, types.PermissionRevoke, "node"))
 	ak, found, err := dst.GetAdminKey(dstCtx, owner)
 	require.NoError(t, err)
 	require.True(t, found)
@@ -98,11 +98,64 @@ func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, byHolder.Licenses, 2)
 
-	// The revoked license itself survives with its status.
+	// The revoked license itself survives with its status and revoked_date,
+	// and its end_date is untouched by revocation.
 	l, found, err := dst.GetLicense(dstCtx, "node", 3)
 	require.NoError(t, err)
 	require.True(t, found)
-	require.Equal(t, "revoked", l.Status)
+	require.Equal(t, types.StatusRevoked, l.Status)
+	require.Equal(t, "2026-07-01", l.RevokedDate)
+	require.Empty(t, l.EndDate)
+}
+
+// TestGenesisRoundTripPreservesExplicitCounter verifies that the id sequence
+// is genesis state in its own right: a counter deliberately larger than
+// issued_count must survive export/import unchanged instead of being
+// re-derived from the stats counter.
+func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
+	src, srcCtx := keepertest.LicensesKeeper(t)
+	owner := src.GetParams(srcCtx).Owner
+	holder := sample.AccAddress()
+	ms := keeper.NewMsgServerImpl(src)
+
+	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+	_, err = ms.GrantAdminPermissions(srcCtx, &types.MsgGrantAdminPermissions{
+		Owner: owner, Address: owner,
+		Grants: []types.AdminKeyGrant{
+			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
+		},
+	})
+	require.NoError(t, err)
+	_, err = ms.IssueLicenses(srcCtx, &types.MsgIssueLicenses{
+		Issuer: owner, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 2},
+		},
+	})
+	require.NoError(t, err)
+
+	// Bump the sequence past issued_count (2) to simulate the concepts
+	// diverging.
+	require.NoError(t, src.LicenseCounts.Set(srcCtx, "node", 10))
+
+	exported := src.ExportGenesis(srcCtx)
+	require.Equal(t, []types.LicenseCount{{LicenseTypeId: "node", Count: 10}}, exported.LicenseCounts)
+
+	dst, dstCtx := keepertest.LicensesKeeper(t)
+	require.NoError(t, dst.InitGenesis(dstCtx, exported))
+
+	// The next issued id continues from the explicit counter, not from
+	// issued_count.
+	dstMs := keeper.NewMsgServerImpl(dst)
+	resp, err := dstMs.IssueLicenses(dstCtx, &types.MsgIssueLicenses{
+		Issuer: owner, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "node", Holder: holder, StartDate: "2026-02-01", Count: 1},
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, []uint64{11}, resp.Ids)
 }
 
 // TestGenesisRoundTripPreservesLicenseIDs covers the LicenseCounts genesis
@@ -129,7 +182,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 		Owner:   owner,
 		Address: owner,
 		Grants: []types.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"node"}},
+			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
 		},
 	})
 	require.NoError(t, err)

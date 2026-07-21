@@ -161,8 +161,8 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 		if len(grant.LicenseTypes) > types.MaxAdminGrants {
 			return nil, fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(grant.LicenseTypes), types.MaxAdminGrants)
 		}
-		if !types.IsValidPermission(grant.Permission) {
-			return nil, fmt.Errorf("invalid permission %q: must be one of issue, revoke", grant.Permission)
+		if !grant.Permission.IsValid() {
+			return nil, fmt.Errorf("invalid permission %q: must be one of %s", grant.Permission.String(), strings.Join(types.ValidPermissionStrings(), ", "))
 		}
 		if len(grant.LicenseTypes) == 0 {
 			return nil, fmt.Errorf("grant for permission %q must include at least one license type", grant.Permission)
@@ -180,7 +180,7 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 	// re-granted pairs are idempotent overwrites.
 	for _, grant := range msg.Grants {
 		for _, lt := range grant.LicenseTypes {
-			if err := ms.k.AdminGrants.Set(ctx, collections.Join3(msg.Address, grant.Permission, lt)); err != nil {
+			if err := ms.k.AdminGrants.Set(ctx, collections.Join3(msg.Address, int32(grant.Permission), lt)); err != nil {
 				return nil, err
 			}
 		}
@@ -189,7 +189,7 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 	var perms []string
 	var grantTypes []string
 	for _, grant := range msg.Grants {
-		perms = append(perms, grant.Permission)
+		perms = append(perms, grant.Permission.Short())
 		grantTypes = append(grantTypes, strings.Join(grant.LicenseTypes, ","))
 	}
 
@@ -223,7 +223,7 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 	}
 
 	for _, p := range msg.Permissions {
-		if err := ms.k.AdminGrants.Remove(ctx, collections.Join3(msg.Address, p.Permission, p.LicenseTypeId)); err != nil {
+		if err := ms.k.AdminGrants.Remove(ctx, collections.Join3(msg.Address, int32(p.Permission), p.LicenseTypeId)); err != nil {
 			return nil, err
 		}
 	}
@@ -231,7 +231,7 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 	var revokedPerms []string
 	var revokedTypes []string
 	for _, p := range msg.Permissions {
-		revokedPerms = append(revokedPerms, p.Permission)
+		revokedPerms = append(revokedPerms, p.Permission.Short())
 		revokedTypes = append(revokedTypes, p.LicenseTypeId)
 	}
 
@@ -271,7 +271,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 			return nil, errorsmod.Wrapf(types.ErrInvalidCount, "entry %d: count must be greater than zero", i)
 		}
 
-		hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, entry.LicenseTypeId, "issue")
+		hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, entry.LicenseTypeId, types.PermissionIssue)
 		if err != nil {
 			return nil, err
 		}
@@ -323,7 +323,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 				Holder:    entry.Holder,
 				StartDate: entry.StartDate,
 				EndDate:   entry.EndDate,
-				Status:    "active",
+				Status:    types.StatusActive,
 			}
 
 			if err := ms.k.Licenses.Set(ctx, collections.Join(entry.LicenseTypeId, id), license); err != nil {
@@ -356,7 +356,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLicenses) (*types.MsgRevokeLicensesResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, "revoke")
+	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, types.PermissionRevoke)
 	if err != nil {
 		return nil, err
 	}
@@ -387,7 +387,7 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "holder %s has %d active license(s) of type %s, but %d requested", msg.Holder, len(activeIDs), msg.LicenseTypeId, count)
 	}
 
-	endDate := sdkCtx.BlockTime().Format("2006-01-02")
+	revokedDate := sdkCtx.BlockTime().Format("2006-01-02")
 	revokedIDs := make([]uint64, 0, count)
 
 	for _, id := range activeIDs {
@@ -396,8 +396,10 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 			return nil, err
 		}
 
-		license.Status = "revoked"
-		license.EndDate = endDate
+		// EndDate keeps its issued value; the revocation date is recorded
+		// separately.
+		license.Status = types.StatusRevoked
+		license.RevokedDate = revokedDate
 
 		if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, id), license); err != nil {
 			return nil, err
@@ -450,8 +452,8 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 		return nil, errorsmod.Wrapf(types.ErrNotLicenseHolder, "signer %s is not the holder of license (type=%s, id=%d)", msg.Holder, msg.LicenseTypeId, msg.Id)
 	}
 
-	if license.Status != "active" {
-		return nil, errorsmod.Wrapf(types.ErrLicenseRevoked, "license (type=%s, id=%d) is %s and cannot be transferred", msg.LicenseTypeId, msg.Id, license.Status)
+	if license.Status != types.StatusActive {
+		return nil, errorsmod.Wrapf(types.ErrLicenseRevoked, "license (type=%s, id=%d) is %s and cannot be transferred", msg.LicenseTypeId, msg.Id, license.Status.Short())
 	}
 
 	lt, err := ms.k.LicenseTypes.Get(ctx, license.Type)

@@ -26,9 +26,10 @@ type Keeper struct {
 	LicenseCounts collections.Map[string, uint64]
 
 	// AdminGrants is the flat set of (address, permission, license_type_id)
-	// grant pairs. The grouped AdminKey view served by queries and genesis is
-	// reconstructed from this keyset; see GetAdminKey / GetAdminKeys.
-	AdminGrants collections.KeySet[collections.Triple[string, string, string]]
+	// grant pairs; the permission component is the Permission enum value. The
+	// grouped AdminKey view served by queries and genesis is reconstructed
+	// from this keyset; see GetAdminKey / GetAdminKeys.
+	AdminGrants collections.KeySet[collections.Triple[string, int32, string]]
 
 	// ActiveLicensesByHolder indexes (holder, license_type_id, license_id) for
 	// active licenses only: entries are added on issue, moved on transfer, and
@@ -60,7 +61,7 @@ func NewKeeper(
 		LicenseTypes:  collections.NewMap(sb, types.LicenseTypePrefix, "license_types", collections.StringKey, codec.CollValue[types.LicenseType](cdc)),
 		Licenses:      collections.NewMap(sb, types.LicensePrefix, "licenses", collections.PairKeyCodec(collections.StringKey, collections.Uint64Key), codec.CollValue[types.License](cdc)),
 		LicenseCounts: collections.NewMap(sb, types.LicenseCountPrefix, "license_counts", collections.StringKey, collections.Uint64Value),
-		AdminGrants:   collections.NewKeySet(sb, types.AdminGrantPrefix, "admin_grants", collections.TripleKeyCodec(collections.StringKey, collections.StringKey, collections.StringKey)),
+		AdminGrants:   collections.NewKeySet(sb, types.AdminGrantPrefix, "admin_grants", collections.TripleKeyCodec(collections.StringKey, collections.Int32Key, collections.StringKey)),
 
 		ActiveLicensesByHolder: collections.NewKeySet(sb, types.ActiveLicensesByHolderPrefix, "active_licenses_by_holder", collections.TripleKeyCodec(collections.StringKey, collections.StringKey, collections.Uint64Key)),
 
@@ -122,7 +123,7 @@ func (k Keeper) GetLicense(ctx context.Context, typeID string, id uint64) (types
 // callers that only need a yes/no answer (queries, tests) stay simple; callers
 // that must distinguish "missing" from "store failure" should use the
 // internal hasAdminPermission directly.
-func (k Keeper) HasPermission(ctx context.Context, address, permission, licenseTypeID string) bool {
+func (k Keeper) HasPermission(ctx context.Context, address string, permission types.Permission, licenseTypeID string) bool {
 	ok, _ := k.hasAdminPermission(ctx, address, licenseTypeID, permission)
 	return ok
 }
@@ -144,13 +145,13 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 		if err := k.LicenseTypes.Set(ctx, lt.Id, lt); err != nil {
 			return err
 		}
-		// IssuedCount is the running per-type id counter for nextLicenseID.
-		// Without this, a genesis export/import would reset the counter to 0
-		// and the next issuance would overwrite license id=1 of this type.
-		if !lt.IssuedCount.IsNil() && lt.IssuedCount.IsPositive() {
-			if err := k.LicenseCounts.Set(ctx, lt.Id, lt.IssuedCount.Uint64()); err != nil {
-				return err
-			}
+	}
+
+	// The id sequence is genesis state in its own right; it is never derived
+	// from the stats counters.
+	for _, lc := range data.LicenseCounts {
+		if err := k.LicenseCounts.Set(ctx, lc.LicenseTypeId, lc.Count); err != nil {
+			return err
 		}
 	}
 
@@ -159,7 +160,7 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 			return err
 		}
 		// The holder index tracks active licenses only.
-		if license.Status == "active" {
+		if license.Status == types.StatusActive {
 			if err := k.ActiveLicensesByHolder.Set(ctx, collections.Join3(license.Holder, license.Type, license.Id)); err != nil {
 				return err
 			}
@@ -169,7 +170,7 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 	for _, ak := range data.AdminKeys {
 		for _, g := range ak.Grants {
 			for _, lt := range g.LicenseTypes {
-				if err := k.AdminGrants.Set(ctx, collections.Join3(ak.Address, g.Permission, lt)); err != nil {
+				if err := k.AdminGrants.Set(ctx, collections.Join3(ak.Address, int32(g.Permission), lt)); err != nil {
 					return err
 				}
 			}
@@ -207,11 +208,20 @@ func (k *Keeper) ExportGenesis(ctx context.Context) *types.GenesisState {
 		panic(err)
 	}
 
+	var licenseCounts []types.LicenseCount
+	if err := k.LicenseCounts.Walk(ctx, nil, func(typeID string, count uint64) (bool, error) {
+		licenseCounts = append(licenseCounts, types.LicenseCount{LicenseTypeId: typeID, Count: count})
+		return false, nil
+	}); err != nil {
+		panic(err)
+	}
+
 	return &types.GenesisState{
-		Params:       params,
-		LicenseTypes: licenseTypes,
-		Licenses:     licenses,
-		AdminKeys:    adminKeys,
+		Params:        params,
+		LicenseTypes:  licenseTypes,
+		Licenses:      licenses,
+		AdminKeys:     adminKeys,
+		LicenseCounts: licenseCounts,
 	}
 }
 
@@ -232,15 +242,15 @@ func (k Keeper) nextLicenseID(ctx context.Context, typeID string) (uint64, error
 // license type. A missing grant returns (false, nil) so callers can treat it
 // as a normal "not authorised" case; a store error is surfaced so the caller
 // can fail the tx instead of silently denying the action.
-func (k Keeper) hasAdminPermission(ctx context.Context, address string, licenseTypeID string, permission string) (bool, error) {
-	return k.AdminGrants.Has(ctx, collections.Join3(address, permission, licenseTypeID))
+func (k Keeper) hasAdminPermission(ctx context.Context, address string, licenseTypeID string, permission types.Permission) (bool, error) {
+	return k.AdminGrants.Has(ctx, collections.Join3(address, int32(permission), licenseTypeID))
 }
 
 // appendGrantPair folds one (permission, license_type_id) pair into a grouped
 // grants slice. Pairs must arrive in ascending (permission, license_type_id)
 // order — which is exactly the AdminGrants key order — so the resulting
 // grouped view is deterministic without any sorting.
-func appendGrantPair(grants []types.AdminKeyGrant, permission, licenseTypeID string) []types.AdminKeyGrant {
+func appendGrantPair(grants []types.AdminKeyGrant, permission types.Permission, licenseTypeID string) []types.AdminKeyGrant {
 	if n := len(grants); n > 0 && grants[n-1].Permission == permission {
 		grants[n-1].LicenseTypes = append(grants[n-1].LicenseTypes, licenseTypeID)
 		return grants
@@ -252,9 +262,9 @@ func appendGrantPair(grants []types.AdminKeyGrant, permission, licenseTypeID str
 // flat AdminGrants keyset. Returns found=false when the address has no grants.
 func (k Keeper) GetAdminKey(ctx context.Context, address string) (types.AdminKey, bool, error) {
 	var grants []types.AdminKeyGrant
-	rng := collections.NewPrefixedTripleRange[string, string, string](address)
-	err := k.AdminGrants.Walk(ctx, rng, func(key collections.Triple[string, string, string]) (bool, error) {
-		grants = appendGrantPair(grants, key.K2(), key.K3())
+	rng := collections.NewPrefixedTripleRange[string, int32, string](address)
+	err := k.AdminGrants.Walk(ctx, rng, func(key collections.Triple[string, int32, string]) (bool, error) {
+		grants = appendGrantPair(grants, types.Permission(key.K2()), key.K3())
 		return false, nil
 	})
 	if err != nil {
@@ -270,13 +280,13 @@ func (k Keeper) GetAdminKey(ctx context.Context, address string) (types.AdminKey
 // at least one grant, in ascending address order.
 func (k Keeper) GetAdminKeys(ctx context.Context) ([]types.AdminKey, error) {
 	var adminKeys []types.AdminKey
-	err := k.AdminGrants.Walk(ctx, nil, func(key collections.Triple[string, string, string]) (bool, error) {
+	err := k.AdminGrants.Walk(ctx, nil, func(key collections.Triple[string, int32, string]) (bool, error) {
 		addr := key.K1()
 		if n := len(adminKeys); n == 0 || adminKeys[n-1].Address != addr {
 			adminKeys = append(adminKeys, types.AdminKey{Address: addr})
 		}
 		ak := &adminKeys[len(adminKeys)-1]
-		ak.Grants = appendGrantPair(ak.Grants, key.K2(), key.K3())
+		ak.Grants = appendGrantPair(ak.Grants, types.Permission(key.K2()), key.K3())
 		return false, nil
 	})
 	if err != nil {

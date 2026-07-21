@@ -559,8 +559,8 @@ func (x *fastReflection_AdminKeyGrant) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_AdminKeyGrant) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Permission != "" {
-		value := protoreflect.ValueOfString(x.Permission)
+	if x.Permission != 0 {
+		value := protoreflect.ValueOfEnum((protoreflect.EnumNumber)(x.Permission))
 		if !f(fd_AdminKeyGrant_permission, value) {
 			return
 		}
@@ -587,7 +587,7 @@ func (x *fastReflection_AdminKeyGrant) Range(f func(protoreflect.FieldDescriptor
 func (x *fastReflection_AdminKeyGrant) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "licenses.v1.AdminKeyGrant.permission":
-		return x.Permission != ""
+		return x.Permission != 0
 	case "licenses.v1.AdminKeyGrant.license_types":
 		return len(x.LicenseTypes) != 0
 	default:
@@ -607,7 +607,7 @@ func (x *fastReflection_AdminKeyGrant) Has(fd protoreflect.FieldDescriptor) bool
 func (x *fastReflection_AdminKeyGrant) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "licenses.v1.AdminKeyGrant.permission":
-		x.Permission = ""
+		x.Permission = 0
 	case "licenses.v1.AdminKeyGrant.license_types":
 		x.LicenseTypes = nil
 	default:
@@ -628,7 +628,7 @@ func (x *fastReflection_AdminKeyGrant) Get(descriptor protoreflect.FieldDescript
 	switch descriptor.FullName() {
 	case "licenses.v1.AdminKeyGrant.permission":
 		value := x.Permission
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
 	case "licenses.v1.AdminKeyGrant.license_types":
 		if len(x.LicenseTypes) == 0 {
 			return protoreflect.ValueOfList(&_AdminKeyGrant_2_list{})
@@ -656,7 +656,7 @@ func (x *fastReflection_AdminKeyGrant) Get(descriptor protoreflect.FieldDescript
 func (x *fastReflection_AdminKeyGrant) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	case "licenses.v1.AdminKeyGrant.permission":
-		x.Permission = value.Interface().(string)
+		x.Permission = (Permission)(value.Enum())
 	case "licenses.v1.AdminKeyGrant.license_types":
 		lv := value.List()
 		clv := lv.(*_AdminKeyGrant_2_list)
@@ -703,7 +703,7 @@ func (x *fastReflection_AdminKeyGrant) Mutable(fd protoreflect.FieldDescriptor) 
 func (x *fastReflection_AdminKeyGrant) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "licenses.v1.AdminKeyGrant.permission":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfEnum(0)
 	case "licenses.v1.AdminKeyGrant.license_types":
 		list := []string{}
 		return protoreflect.ValueOfList(&_AdminKeyGrant_2_list{list: &list})
@@ -776,9 +776,8 @@ func (x *fastReflection_AdminKeyGrant) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		l = len(x.Permission)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.Permission != 0 {
+			n += 1 + runtime.Sov(uint64(x.Permission))
 		}
 		if len(x.LicenseTypes) > 0 {
 			for _, s := range x.LicenseTypes {
@@ -824,12 +823,10 @@ func (x *fastReflection_AdminKeyGrant) ProtoMethods() *protoiface.Methods {
 				dAtA[i] = 0x12
 			}
 		}
-		if len(x.Permission) > 0 {
-			i -= len(x.Permission)
-			copy(dAtA[i:], x.Permission)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Permission)))
+		if x.Permission != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Permission))
 			i--
-			dAtA[i] = 0xa
+			dAtA[i] = 0x8
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -881,10 +878,10 @@ func (x *fastReflection_AdminKeyGrant) ProtoMethods() *protoiface.Methods {
 			}
 			switch fieldNum {
 			case 1:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permission", wireType)
 				}
-				var stringLen uint64
+				x.Permission = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -894,24 +891,11 @@ func (x *fastReflection_AdminKeyGrant) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.Permission |= Permission(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Permission = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseTypes", wireType)
@@ -1550,6 +1534,59 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Permission enumerates the admin-key permissions that can be granted.
+type Permission int32
+
+const (
+	// PERMISSION_UNSPECIFIED is the zero value and never valid in state.
+	Permission_PERMISSION_UNSPECIFIED Permission = 0
+	// PERMISSION_ISSUE allows issuing licenses of the granted types.
+	Permission_PERMISSION_ISSUE Permission = 1
+	// PERMISSION_REVOKE allows revoking licenses of the granted types.
+	Permission_PERMISSION_REVOKE Permission = 2
+)
+
+// Enum value maps for Permission.
+var (
+	Permission_name = map[int32]string{
+		0: "PERMISSION_UNSPECIFIED",
+		1: "PERMISSION_ISSUE",
+		2: "PERMISSION_REVOKE",
+	}
+	Permission_value = map[string]int32{
+		"PERMISSION_UNSPECIFIED": 0,
+		"PERMISSION_ISSUE":       1,
+		"PERMISSION_REVOKE":      2,
+	}
+)
+
+func (x Permission) Enum() *Permission {
+	p := new(Permission)
+	*p = x
+	return p
+}
+
+func (x Permission) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Permission) Descriptor() protoreflect.EnumDescriptor {
+	return file_licenses_v1_params_proto_enumTypes[0].Descriptor()
+}
+
+func (Permission) Type() protoreflect.EnumType {
+	return &file_licenses_v1_params_proto_enumTypes[0]
+}
+
+func (x Permission) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Permission.Descriptor instead.
+func (Permission) EnumDescriptor() ([]byte, []int) {
+	return file_licenses_v1_params_proto_rawDescGZIP(), []int{0}
+}
+
 // Params defines the parameters for the licenses module.
 type Params struct {
 	state         protoimpl.MessageState
@@ -1593,8 +1630,8 @@ type AdminKeyGrant struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Permission   string   `protobuf:"bytes,1,opt,name=permission,proto3" json:"permission,omitempty"`
-	LicenseTypes []string `protobuf:"bytes,2,rep,name=license_types,json=licenseTypes,proto3" json:"license_types,omitempty"`
+	Permission   Permission `protobuf:"varint,1,opt,name=permission,proto3,enum=licenses.v1.Permission" json:"permission,omitempty"`
+	LicenseTypes []string   `protobuf:"bytes,2,rep,name=license_types,json=licenseTypes,proto3" json:"license_types,omitempty"`
 }
 
 func (x *AdminKeyGrant) Reset() {
@@ -1617,11 +1654,11 @@ func (*AdminKeyGrant) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_params_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AdminKeyGrant) GetPermission() string {
+func (x *AdminKeyGrant) GetPermission() Permission {
 	if x != nil {
 		return x.Permission
 	}
-	return ""
+	return Permission_PERMISSION_UNSPECIFIED
 }
 
 func (x *AdminKeyGrant) GetLicenseTypes() []string {
@@ -1690,20 +1727,27 @@ var file_licenses_v1_params_proto_rawDesc = []byte{
 	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05,
 	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x3a, 0x23, 0xe8, 0xa0, 0x1f, 0x01, 0x8a, 0xe7, 0xb0, 0x2a, 0x1a,
 	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x2f, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x54, 0x0a, 0x0d, 0x41, 0x64,
-	0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03,
-	0x28, 0x09, 0x52, 0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73,
-	0x22, 0x78, 0x0a, 0x08, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x32, 0x0a, 0x07,
-	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
-	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x12, 0x38, 0x0a, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x41,
-	0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x42, 0x04, 0xc8, 0xde,
-	0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0xa8, 0x01, 0x0a, 0x0f, 0x63,
+	0x73, 0x65, 0x73, 0x2f, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x6d, 0x0a, 0x0d, 0x41, 0x64,
+	0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x12, 0x37, 0x0a, 0x0a, 0x70,
+	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x17, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f,
+	0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x22, 0x78, 0x0a, 0x08, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x32, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
+	0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x38, 0x0a, 0x06, 0x67, 0x72, 0x61,
+	0x6e, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79,
+	0x47, 0x72, 0x61, 0x6e, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61,
+	0x6e, 0x74, 0x73, 0x2a, 0x55, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x12, 0x1a, 0x0a, 0x16, 0x50, 0x45, 0x52, 0x4d, 0x49, 0x53, 0x53, 0x49, 0x4f, 0x4e, 0x5f,
+	0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x14, 0x0a,
+	0x10, 0x50, 0x45, 0x52, 0x4d, 0x49, 0x53, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x49, 0x53, 0x53, 0x55,
+	0x45, 0x10, 0x01, 0x12, 0x15, 0x0a, 0x11, 0x50, 0x45, 0x52, 0x4d, 0x49, 0x53, 0x53, 0x49, 0x4f,
+	0x4e, 0x5f, 0x52, 0x45, 0x56, 0x4f, 0x4b, 0x45, 0x10, 0x02, 0x42, 0xa8, 0x01, 0x0a, 0x0f, 0x63,
 	0x6f, 0x6d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x0b,
 	0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3b, 0x67,
 	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
@@ -1729,19 +1773,22 @@ func file_licenses_v1_params_proto_rawDescGZIP() []byte {
 	return file_licenses_v1_params_proto_rawDescData
 }
 
+var file_licenses_v1_params_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_licenses_v1_params_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_licenses_v1_params_proto_goTypes = []interface{}{
-	(*Params)(nil),        // 0: licenses.v1.Params
-	(*AdminKeyGrant)(nil), // 1: licenses.v1.AdminKeyGrant
-	(*AdminKey)(nil),      // 2: licenses.v1.AdminKey
+	(Permission)(0),       // 0: licenses.v1.Permission
+	(*Params)(nil),        // 1: licenses.v1.Params
+	(*AdminKeyGrant)(nil), // 2: licenses.v1.AdminKeyGrant
+	(*AdminKey)(nil),      // 3: licenses.v1.AdminKey
 }
 var file_licenses_v1_params_proto_depIdxs = []int32{
-	1, // 0: licenses.v1.AdminKey.grants:type_name -> licenses.v1.AdminKeyGrant
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: licenses.v1.AdminKeyGrant.permission:type_name -> licenses.v1.Permission
+	2, // 1: licenses.v1.AdminKey.grants:type_name -> licenses.v1.AdminKeyGrant
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_licenses_v1_params_proto_init() }
@@ -1792,13 +1839,14 @@ func file_licenses_v1_params_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_licenses_v1_params_proto_rawDesc,
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_licenses_v1_params_proto_goTypes,
 		DependencyIndexes: file_licenses_v1_params_proto_depIdxs,
+		EnumInfos:         file_licenses_v1_params_proto_enumTypes,
 		MessageInfos:      file_licenses_v1_params_proto_msgTypes,
 	}.Build()
 	File_licenses_v1_params_proto = out.File

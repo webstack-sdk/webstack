@@ -55,7 +55,7 @@ func TestQueryPermissions(t *testing.T) {
 	out, err := method.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	require.Len(t, out, 1)
-	require.Equal(t, licensestypes.Permissions, out[0].([]string))
+	require.Equal(t, licensestypes.ValidPermissionStrings(), out[0].([]string))
 }
 
 func TestQueryLicenseType(t *testing.T) {
@@ -136,12 +136,13 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	licOut, err := licM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	got := licOut[0].(struct {
-		Id        uint64         `json:"id"`
-		TypeId    string         `json:"typeId"`
-		Holder    common.Address `json:"holder"`
-		StartDate string         `json:"startDate"`
-		EndDate   string         `json:"endDate"`
-		Status    string         `json:"status"`
+		Id          uint64         `json:"id"`
+		TypeId      string         `json:"typeId"`
+		Holder      common.Address `json:"holder"`
+		StartDate   string         `json:"startDate"`
+		EndDate     string         `json:"endDate"`
+		Status      string         `json:"status"`
+		RevokedDate string         `json:"revokedDate"`
 	})
 	require.Equal(t, uint64(1), got.Id)
 	require.Equal(t, "type.a", got.TypeId)
@@ -155,12 +156,13 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	holderOut, err := holderM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	holderList := holderOut[0].([]struct {
-		Id        uint64         `json:"id"`
-		TypeId    string         `json:"typeId"`
-		Holder    common.Address `json:"holder"`
-		StartDate string         `json:"startDate"`
-		EndDate   string         `json:"endDate"`
-		Status    string         `json:"status"`
+		Id          uint64         `json:"id"`
+		TypeId      string         `json:"typeId"`
+		Holder      common.Address `json:"holder"`
+		StartDate   string         `json:"startDate"`
+		EndDate     string         `json:"endDate"`
+		Status      string         `json:"status"`
+		RevokedDate string         `json:"revokedDate"`
 	})
 	require.Len(t, holderList, 1)
 	require.Equal(t, uint64(1), holderList[0].Id)
@@ -172,12 +174,13 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	htOut, err := htM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	htList := htOut[0].([]struct {
-		Id        uint64         `json:"id"`
-		TypeId    string         `json:"typeId"`
-		Holder    common.Address `json:"holder"`
-		StartDate string         `json:"startDate"`
-		EndDate   string         `json:"endDate"`
-		Status    string         `json:"status"`
+		Id          uint64         `json:"id"`
+		TypeId      string         `json:"typeId"`
+		Holder      common.Address `json:"holder"`
+		StartDate   string         `json:"startDate"`
+		EndDate     string         `json:"endDate"`
+		Status      string         `json:"status"`
+		RevokedDate string         `json:"revokedDate"`
 	})
 	require.Len(t, htList, 1)
 
@@ -188,12 +191,13 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	typeOut, err := typeM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	typeList := typeOut[0].([]struct {
-		Id        uint64         `json:"id"`
-		TypeId    string         `json:"typeId"`
-		Holder    common.Address `json:"holder"`
-		StartDate string         `json:"startDate"`
-		EndDate   string         `json:"endDate"`
-		Status    string         `json:"status"`
+		Id          uint64         `json:"id"`
+		TypeId      string         `json:"typeId"`
+		Holder      common.Address `json:"holder"`
+		StartDate   string         `json:"startDate"`
+		EndDate     string         `json:"endDate"`
+		Status      string         `json:"status"`
+		RevokedDate string         `json:"revokedDate"`
 	})
 	require.Len(t, typeList, 1)
 }
@@ -208,8 +212,8 @@ func TestQueryAdminKeys(t *testing.T) {
 	adminBech, err := f.addrCdc.BytesToString(adminHex.Bytes())
 	require.NoError(t, err)
 
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, "issue", "type.a")))
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, "revoke", "type.b")))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, int32(licensestypes.PermissionIssue), "type.a")))
+	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, int32(licensestypes.PermissionRevoke), "type.b")))
 
 	// AdminKey ---------------------------------------------------------
 	akM := ABI.Methods[AdminKeyMethod]

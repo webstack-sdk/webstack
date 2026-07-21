@@ -182,7 +182,8 @@ func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdm
 
 	matches := func(ak types.AdminKey) bool {
 		for _, grant := range ak.Grants {
-			if req.Permission != "" && grant.Permission != req.Permission {
+			// The request carries the lowercase boundary form ("issue").
+			if req.Permission != "" && grant.Permission.Short() != req.Permission {
 				continue
 			}
 			for _, lt := range grant.LicenseTypes {
@@ -206,5 +207,5 @@ func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdm
 }
 
 func (q Querier) Permissions(_ context.Context, _ *types.QueryPermissionsRequest) (*types.QueryPermissionsResponse, error) {
-	return &types.QueryPermissionsResponse{Permissions: types.Permissions}, nil
+	return &types.QueryPermissionsResponse{Permissions: types.ValidPermissionStrings()}, nil
 }

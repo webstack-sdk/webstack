@@ -61,12 +61,13 @@ type LicenseTypeOutput struct {
 
 // LicenseOutput mirrors the Solidity License tuple (output side).
 type LicenseOutput struct {
-	Id        uint64         `abi:"id"`
-	TypeId    string         `abi:"typeId"`
-	Holder    common.Address `abi:"holder"`
-	StartDate string         `abi:"startDate"`
-	EndDate   string         `abi:"endDate"`
-	Status    string         `abi:"status"`
+	Id          uint64         `abi:"id"`
+	TypeId      string         `abi:"typeId"`
+	Holder      common.Address `abi:"holder"`
+	StartDate   string         `abi:"startDate"`
+	EndDate     string         `abi:"endDate"`
+	Status      string         `abi:"status"`
+	RevokedDate string         `abi:"revokedDate"`
 }
 
 // AdminKeyGrantOutput mirrors the Solidity AdminKeyGrant tuple (output side).
@@ -135,12 +136,13 @@ func licenseToOutput(l licensestypes.License) (LicenseOutput, error) {
 		return LicenseOutput{}, fmt.Errorf("license (type=%s, id=%d): %w", l.Type, l.Id, err)
 	}
 	return LicenseOutput{
-		Id:        l.Id,
-		TypeId:    l.Type,
-		Holder:    holder,
-		StartDate: l.StartDate,
-		EndDate:   l.EndDate,
-		Status:    l.Status,
+		Id:          l.Id,
+		TypeId:      l.Type,
+		Holder:      holder,
+		StartDate:   l.StartDate,
+		EndDate:     l.EndDate,
+		Status:      l.Status.Short(),
+		RevokedDate: l.RevokedDate,
 	}, nil
 }
 
@@ -182,7 +184,7 @@ func adminKeyToOutput(ak licensestypes.AdminKey) (AdminKeyOutput, error) {
 	grants := make([]AdminKeyGrantOutput, 0, len(ak.Grants))
 	for _, g := range ak.Grants {
 		grants = append(grants, AdminKeyGrantOutput{
-			Permission:   g.Permission,
+			Permission:   g.Permission.Short(),
 			LicenseTypes: append([]string{}, g.LicenseTypes...),
 		})
 	}

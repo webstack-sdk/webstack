@@ -84,7 +84,7 @@ func TestQueryLicense(t *testing.T) {
 	require.NoError(t, err)
 	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"ql"}}},
+		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"ql"}}},
 	})
 	require.NoError(t, err)
 
@@ -98,7 +98,7 @@ func TestQueryLicense(t *testing.T) {
 	resp, err := q.License(ctx, &types.QueryLicenseRequest{TypeId: "ql", Id: issueResp.Ids[0]})
 	require.NoError(t, err)
 	require.Equal(t, holder, resp.License.Holder)
-	require.Equal(t, "active", resp.License.Status)
+	require.Equal(t, types.StatusActive, resp.License.Status)
 
 	// Not found
 	_, err = q.License(ctx, &types.QueryLicenseRequest{TypeId: "ql", Id: 999})
@@ -121,7 +121,7 @@ func TestQueryLicensesByHolder(t *testing.T) {
 	require.NoError(t, err)
 	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"h1", "h2"}}},
+		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"h1", "h2"}}},
 	})
 	require.NoError(t, err)
 
@@ -162,8 +162,8 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: admin,
 		Grants: []types.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"rvq"}},
-			{Permission: "revoke", LicenseTypes: []string{"rvq"}},
+			{Permission: types.PermissionIssue, LicenseTypes: []string{"rvq"}},
+			{Permission: types.PermissionRevoke, LicenseTypes: []string{"rvq"}},
 		},
 	})
 	require.NoError(t, err)
@@ -184,7 +184,7 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, resp.Licenses, 2)
 	for _, l := range resp.Licenses {
-		require.Equal(t, "active", l.Status)
+		require.Equal(t, types.StatusActive, l.Status)
 	}
 
 	respBoth, err := q.LicensesByHolderAndType(ctx, &types.QueryLicensesByHolderAndTypeRequest{
@@ -196,7 +196,7 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	// The revoked license is still reachable by direct lookup.
 	lresp, err := q.License(ctx, &types.QueryLicenseRequest{TypeId: "rvq", Id: issueResp.Ids[2]})
 	require.NoError(t, err)
-	require.Equal(t, "revoked", lresp.License.Status)
+	require.Equal(t, types.StatusRevoked, lresp.License.Status)
 }
 
 func TestQueryAdminKeys(t *testing.T) {
@@ -210,14 +210,14 @@ func TestQueryAdminKeys(t *testing.T) {
 
 	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: admin1,
-		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"t1"}}},
+		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
 	})
 	require.NoError(t, err)
 	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: admin2,
 		Grants: []types.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"t1"}},
-			{Permission: "revoke", LicenseTypes: []string{"t1"}},
+			{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}},
+			{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}},
 		},
 	})
 	require.NoError(t, err)

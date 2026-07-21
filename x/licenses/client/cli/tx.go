@@ -86,11 +86,12 @@ Example:
 				if perm == "" {
 					continue
 				}
-				if !types.IsValidPermission(perm) {
-					return fmt.Errorf("invalid permission %q: must be one of %s", perm, strings.Join(types.Permissions, ", "))
+				p, err := types.ParsePermission(perm)
+				if err != nil {
+					return err
 				}
 				grants = append(grants, types.AdminKeyGrant{
-					Permission:   perm,
+					Permission:   p,
 					LicenseTypes: licenseTypes,
 				})
 			}
@@ -167,9 +168,13 @@ Example:
 				if lt == "" || perm == "" {
 					return fmt.Errorf("pair %d: license-type and permission must both be non-empty (got %q)", i, arg)
 				}
+				p, err := types.ParsePermission(perm)
+				if err != nil {
+					return fmt.Errorf("pair %d: %w", i, err)
+				}
 				permissions = append(permissions, types.AdminKeyPermission{
 					LicenseTypeId: lt,
-					Permission:    perm,
+					Permission:    p,
 				})
 			}
 

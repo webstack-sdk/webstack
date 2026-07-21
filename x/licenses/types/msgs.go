@@ -92,6 +92,9 @@ func (msg *MsgGrantAdminPermissions) ValidateBasic() error {
 		return fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), MaxAdminGrants)
 	}
 	for i, g := range msg.Grants {
+		if !g.Permission.IsValid() {
+			return fmt.Errorf("grant %d: invalid permission %q", i, g.Permission.String())
+		}
 		if len(g.LicenseTypes) > MaxAdminGrants {
 			return fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(g.LicenseTypes), MaxAdminGrants)
 		}
@@ -108,6 +111,11 @@ func (msg *MsgRevokeAdminKeyPermissions) ValidateBasic() error {
 	}
 	if len(msg.Permissions) > MaxAdminGrants {
 		return fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), MaxAdminGrants)
+	}
+	for i, p := range msg.Permissions {
+		if !p.Permission.IsValid() {
+			return fmt.Errorf("pair %d: invalid permission %q", i, p.Permission.String())
+		}
 	}
 	return nil
 }

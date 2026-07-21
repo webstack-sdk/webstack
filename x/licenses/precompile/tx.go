@@ -157,9 +157,13 @@ func (p Precompile) GrantAdminPermissions(
 	}
 
 	grants := make([]licensestypes.AdminKeyGrant, 0, len(rawGrants))
-	for _, g := range rawGrants {
+	for i, g := range rawGrants {
+		perm, err := licensestypes.ParsePermission(g.Permission)
+		if err != nil {
+			return nil, fmt.Errorf("grant %d: %w", i, err)
+		}
 		grants = append(grants, licensestypes.AdminKeyGrant{
-			Permission:   g.Permission,
+			Permission:   perm,
 			LicenseTypes: append([]string{}, g.LicenseTypes...),
 		})
 	}
@@ -216,10 +220,14 @@ func (p Precompile) RevokeAdminKeyPermissions(
 	}
 
 	perms := make([]licensestypes.AdminKeyPermission, 0, len(rawPerms))
-	for _, pp := range rawPerms {
+	for i, pp := range rawPerms {
+		perm, err := licensestypes.ParsePermission(pp.Permission)
+		if err != nil {
+			return nil, fmt.Errorf("pair %d: %w", i, err)
+		}
 		perms = append(perms, licensestypes.AdminKeyPermission{
 			LicenseTypeId: pp.LicenseTypeId,
-			Permission:    pp.Permission,
+			Permission:    perm,
 		})
 	}
 

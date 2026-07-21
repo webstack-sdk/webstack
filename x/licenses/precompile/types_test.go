@@ -93,7 +93,7 @@ func TestLicenseToOutput(t *testing.T) {
 		Holder:    bech,
 		StartDate: "2025-01-01",
 		EndDate:   "2026-01-01",
-		Status:    "active",
+		Status:    licensestypes.StatusActive,
 	}
 
 	out, err := licenseToOutput(l)
@@ -116,8 +116,8 @@ func TestAdminKeyToOutput(t *testing.T) {
 	ak := licensestypes.AdminKey{
 		Address: bech,
 		Grants: []licensestypes.AdminKeyGrant{
-			{Permission: "issue", LicenseTypes: []string{"a", "b"}},
-			{Permission: "revoke", LicenseTypes: []string{"a"}},
+			{Permission: licensestypes.PermissionIssue, LicenseTypes: []string{"a", "b"}},
+			{Permission: licensestypes.PermissionRevoke, LicenseTypes: []string{"a"}},
 		},
 	}
 

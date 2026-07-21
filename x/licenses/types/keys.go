@@ -1,6 +1,11 @@
 package types
 
-import "cosmossdk.io/collections"
+import (
+	"fmt"
+	"strings"
+
+	"cosmossdk.io/collections"
+)
 
 const (
 	ModuleName   = "licenses"
@@ -9,17 +14,65 @@ const (
 	QuerierRoute = ModuleName
 )
 
-// ValidPermissions is the set of permissions that can be granted via admin keys.
-var Permissions = []string{"issue", "revoke"}
+// Short aliases for the generated enum constants.
+const (
+	StatusActive  = LicenseStatus_LICENSE_STATUS_ACTIVE
+	StatusRevoked = LicenseStatus_LICENSE_STATUS_REVOKED
 
-// IsValidPermission reports whether p is one of the known admin-key permissions.
-func IsValidPermission(p string) bool {
-	for _, vp := range Permissions {
-		if vp == p {
-			return true
+	PermissionIssue  = Permission_PERMISSION_ISSUE
+	PermissionRevoke = Permission_PERMISSION_REVOKE
+)
+
+// permissionShort maps each valid permission to the lowercase form used at the
+// CLI/precompile/event boundary.
+var permissionShort = map[Permission]string{
+	PermissionIssue:  "issue",
+	PermissionRevoke: "revoke",
+}
+
+// Short returns the lowercase boundary form of a permission ("issue",
+// "revoke"), or the raw enum name for unknown values.
+func (p Permission) Short() string {
+	if s, ok := permissionShort[p]; ok {
+		return s
+	}
+	return p.String()
+}
+
+// IsValid reports whether p is one of the known admin-key permissions.
+func (p Permission) IsValid() bool {
+	_, ok := permissionShort[p]
+	return ok
+}
+
+// ParsePermission converts a lowercase boundary string ("issue", "revoke")
+// into its Permission enum value.
+func ParsePermission(s string) (Permission, error) {
+	for p, short := range permissionShort {
+		if short == s {
+			return p, nil
 		}
 	}
-	return false
+	return Permission_PERMISSION_UNSPECIFIED, fmt.Errorf("invalid permission %q: must be one of %s", s, strings.Join(ValidPermissionStrings(), ", "))
+}
+
+// ValidPermissionStrings returns the lowercase boundary forms of all valid
+// permissions in enum order, for error text and the Permissions query.
+func ValidPermissionStrings() []string {
+	return []string{PermissionIssue.Short(), PermissionRevoke.Short()}
+}
+
+// Short returns the lowercase boundary form of a license status ("active",
+// "revoked"), or the raw enum name for unknown values.
+func (s LicenseStatus) Short() string {
+	switch s {
+	case StatusActive:
+		return "active"
+	case StatusRevoked:
+		return "revoked"
+	default:
+		return s.String()
+	}
 }
 
 // MaxIssueBatchSize bounds the number of entries in a single
