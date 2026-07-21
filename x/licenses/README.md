@@ -6,7 +6,7 @@ The `x/licenses` module provides on-chain license management for Cosmos SDK chai
 
 - **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and transferrability
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
-- **Admin Keys** grant granular permissions (issue, revoke) per license type to delegated addresses
+- **Permissions** grant granular rights (issue, revoke) per license type to delegated addresses
 - **Module Owner** (set via params) controls license type creation and permission management
 
 ## Installation
@@ -129,7 +129,7 @@ The owner delegates permissions to addresses. Each address's permissions are a s
   "address": "webstack1abc...",
   "grants": [
     { "permission": "PERMISSION_ISSUE", "license_types": ["node.license", "validator.license"] },
-    { "permission": "revoke", "license_types": ["node.license"] }
+    { "permission": "PERMISSION_REVOKE", "license_types": ["node.license"] }
   ]
 }
 ```
@@ -228,9 +228,9 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 | `LicenseTypes` | All license types (paginated) | `webstackd q licenses license-types` |
 | `License` | Single license by type + ID | `webstackd q licenses license node.license 1` |
 | `Licenses` | All licenses across all types (paginated) | `webstackd q licenses licenses` |
-| `LicensesByType` | All licenses for a type | `webstackd q licenses licenses-by-type node.license` |
-| `LicensesByHolder` | Active licenses for a holder | `webstackd q licenses licenses-by-holder webstack1...` |
-| `LicensesByHolderAndType` | Active licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
+| `LicensesByType` | All licenses for a type (paginated) | `webstackd q licenses licenses-by-type node.license` |
+| `LicensesByHolder` | Active licenses for a holder (paginated) | `webstackd q licenses licenses-by-holder webstack1...` |
+| `LicensesByHolderAndType` | Active licenses by holder + type (paginated) | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
 | `PermissionsByAddress` | Grants for an address | `webstackd q licenses permissions-by-address webstack1...` |
 | `Permissions` | Grants of every address (paginated) | `webstackd q licenses permissions` |
 | `PermissionsByLicenseType` | Addresses with grants for a license type | `webstackd q licenses permissions-by-license-type node.license` |

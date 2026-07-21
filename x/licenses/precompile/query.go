@@ -1,6 +1,8 @@
 package licensesprecompile
 
 import (
+	"slices"
+
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
 	"cosmossdk.io/collections"
@@ -61,20 +63,20 @@ func (p Precompile) LicenseType(ctx sdk.Context, method *abi.Method, args []inte
 	return method.Outputs.Pack(licenseTypeToOutput(res.LicenseType))
 }
 
-// LicenseTypes returns all license types.
+// LicenseTypes returns all license types. It walks the keeper directly: the
+// gRPC handler paginates with a default page limit an EVM call cannot page
+// through.
 func (p Precompile) LicenseTypes(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
 	if err := argCount(args, 0); err != nil {
 		return nil, err
 	}
 
-	res, err := p.queryServer.LicenseTypes(ctx, &licensestypes.QueryLicenseTypesRequest{})
-	if err != nil {
-		return nil, err
-	}
-
-	out := make([]LicenseTypeOutput, 0, len(res.LicenseTypes))
-	for _, lt := range res.LicenseTypes {
+	var out []LicenseTypeOutput
+	if err := p.keeper.LicenseTypes.Walk(ctx, nil, func(_ string, lt licensestypes.LicenseType) (bool, error) {
 		out = append(out, licenseTypeToOutput(lt))
+		return false, nil
+	}); err != nil {
+		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
@@ -138,12 +140,18 @@ func (p Precompile) LicensesByType(ctx sdk.Context, method *abi.Method, args []i
 		return nil, err
 	}
 
-	res, err := p.queryServer.LicensesByType(ctx, &licensestypes.QueryLicensesByTypeRequest{TypeId: typeID})
-	if err != nil {
+	// Walk the keeper directly: the gRPC handler paginates with a default
+	// page limit, which an EVM call cannot page through.
+	var licenses []licensestypes.License
+	rng := collections.NewPrefixedPairRange[string, uint64](typeID)
+	if err := p.keeper.Licenses.Walk(ctx, rng, func(_ collections.Pair[string, uint64], l licensestypes.License) (bool, error) {
+		licenses = append(licenses, l)
+		return false, nil
+	}); err != nil {
 		return nil, err
 	}
 
-	out, err := licensesToOutputs(res.Licenses)
+	out, err := licensesToOutputs(licenses)
 	if err != nil {
 		return nil, err
 	}
@@ -164,16 +172,36 @@ func (p Precompile) LicensesByHolder(ctx sdk.Context, method *abi.Method, args [
 		return nil, err
 	}
 
-	res, err := p.queryServer.LicensesByHolder(ctx, &licensestypes.QueryLicensesByHolderRequest{Holder: holder})
+	licenses, err := p.activeLicensesForHolder(ctx, collections.NewPrefixedTripleRange[string, string, uint64](holder))
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := licensesToOutputs(res.Licenses)
+	out, err := licensesToOutputs(licenses)
 	if err != nil {
 		return nil, err
 	}
 	return method.Outputs.Pack(out)
+}
+
+// activeLicensesForHolder walks the active-licenses holder index over the
+// given range and loads the full license records. Used instead of the gRPC
+// handlers, which paginate with a default page limit an EVM call cannot page
+// through.
+func (p Precompile) activeLicensesForHolder(ctx sdk.Context, rng collections.Ranger[collections.Triple[string, string, uint64]]) ([]licensestypes.License, error) {
+	var licenses []licensestypes.License
+	err := p.keeper.ActiveLicensesByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64]) (bool, error) {
+		l, err := p.keeper.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
+		if err != nil {
+			return true, err
+		}
+		licenses = append(licenses, l)
+		return false, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return licenses, nil
 }
 
 // LicensesByHolderAndType returns all licenses of a given type held by the given holder.
@@ -194,15 +222,12 @@ func (p Precompile) LicensesByHolderAndType(ctx sdk.Context, method *abi.Method,
 		return nil, err
 	}
 
-	res, err := p.queryServer.LicensesByHolderAndType(ctx, &licensestypes.QueryLicensesByHolderAndTypeRequest{
-		Holder: holder,
-		TypeId: typeID,
-	})
+	licenses, err := p.activeLicensesForHolder(ctx, collections.NewSuperPrefixedTripleRange[string, string, uint64](holder, typeID))
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := licensesToOutputs(res.Licenses)
+	out, err := licensesToOutputs(licenses)
 	if err != nil {
 		return nil, err
 	}
@@ -235,18 +260,20 @@ func (p Precompile) PermissionsByAddress(ctx sdk.Context, method *abi.Method, ar
 	return method.Outputs.Pack(out)
 }
 
-// Permissions returns all permission entries.
+// Permissions returns all permission entries. It reads the keeper directly:
+// the gRPC handler paginates with a default page limit an EVM call cannot
+// page through.
 func (p Precompile) Permissions(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
 	if err := argCount(args, 0); err != nil {
 		return nil, err
 	}
 
-	res, err := p.queryServer.Permissions(ctx, &licensestypes.QueryPermissionsRequest{})
+	all, err := p.keeper.GetAllPermissions(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := addressPermissionsListToOutputs(res.Permissions)
+	out, err := addressPermissionsListToOutputs(all)
 	if err != nil {
 		return nil, err
 	}
@@ -267,15 +294,27 @@ func (p Precompile) PermissionsByLicenseType(ctx sdk.Context, method *abi.Method
 		return nil, err
 	}
 
-	res, err := p.queryServer.PermissionsByLicenseType(ctx, &licensestypes.QueryPermissionsByLicenseTypeRequest{
-		LicenseTypeId: licenseTypeID,
-		Permission:    permission,
-	})
+	all, err := p.keeper.GetAllPermissions(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := addressPermissionsListToOutputs(res.Permissions)
+	var filtered []licensestypes.AddressPermissions
+	for _, ap := range all {
+		for _, grant := range ap.Grants {
+			// The Solidity argument carries the lowercase boundary form
+			// ("issue"); empty matches any permission.
+			if permission != "" && grant.Permission.Short() != permission {
+				continue
+			}
+			if slices.Contains(grant.LicenseTypes, licenseTypeID) {
+				filtered = append(filtered, ap)
+				break
+			}
+		}
+	}
+
+	out, err := addressPermissionsListToOutputs(filtered)
 	if err != nil {
 		return nil, err
 	}

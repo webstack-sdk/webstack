@@ -214,6 +214,42 @@ func TestQueryLicensesByHolder(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.Len(t, resp2.Licenses, 2)
+
+	// Pagination over the holder's 3 active licenses: page boundaries stay
+	// within the holder prefix (the other holder's license never appears).
+	page1, err := q.LicensesByHolder(ctx, &types.QueryLicensesByHolderRequest{
+		Holder: holder, Pagination: &query.PageRequest{Limit: 2},
+	})
+	require.NoError(t, err)
+	require.Len(t, page1.Licenses, 2)
+	require.NotEmpty(t, page1.Pagination.NextKey)
+
+	page2, err := q.LicensesByHolder(ctx, &types.QueryLicensesByHolderRequest{
+		Holder: holder, Pagination: &query.PageRequest{Key: page1.Pagination.NextKey, Limit: 2},
+	})
+	require.NoError(t, err)
+	require.Len(t, page2.Licenses, 1)
+	require.Empty(t, page2.Pagination.NextKey)
+	for _, l := range append(page1.Licenses, page2.Licenses...) {
+		require.Equal(t, holder, l.Holder)
+	}
+
+	// LicensesByType paginates over the (type, id) keyspace: h1 has 3
+	// licenses total across both holders.
+	typePage, err := q.LicensesByType(ctx, &types.QueryLicensesByTypeRequest{
+		TypeId: "h1", Pagination: &query.PageRequest{Limit: 2},
+	})
+	require.NoError(t, err)
+	require.Len(t, typePage.Licenses, 2)
+	require.NotEmpty(t, typePage.Pagination.NextKey)
+
+	// LicensesByHolderAndType honors pagination too.
+	htPage, err := q.LicensesByHolderAndType(ctx, &types.QueryLicensesByHolderAndTypeRequest{
+		Holder: holder, TypeId: "h1", Pagination: &query.PageRequest{Limit: 1},
+	})
+	require.NoError(t, err)
+	require.Len(t, htPage.Licenses, 1)
+	require.NotEmpty(t, htPage.Pagination.NextKey)
 }
 
 // TestQueryLicensesByHolderExcludesRevoked: the holder index tracks active
