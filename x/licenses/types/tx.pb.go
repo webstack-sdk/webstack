@@ -471,28 +471,27 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgRevokeAdminKeyPermissionsResponse proto.InternalMessageInfo
 
-// MsgIssueLicense is the Msg/IssueLicense request type.
-type MsgIssueLicense struct {
-	Issuer        string `protobuf:"bytes,1,opt,name=issuer,proto3" json:"issuer,omitempty"`
-	LicenseTypeId string `protobuf:"bytes,2,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
-	Holder        string `protobuf:"bytes,3,opt,name=holder,proto3" json:"holder,omitempty"`
-	StartDate     string `protobuf:"bytes,4,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	EndDate       string `protobuf:"bytes,5,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	Count         uint64 `protobuf:"varint,6,opt,name=count,proto3" json:"count,omitempty"`
+// IssueLicenseEntry defines a single issuance within a MsgIssueLicenses.
+type IssueLicenseEntry struct {
+	LicenseTypeId string `protobuf:"bytes,1,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
+	Holder        string `protobuf:"bytes,2,opt,name=holder,proto3" json:"holder,omitempty"`
+	StartDate     string `protobuf:"bytes,3,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
+	EndDate       string `protobuf:"bytes,4,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
+	Count         uint64 `protobuf:"varint,5,opt,name=count,proto3" json:"count,omitempty"`
 }
 
-func (m *MsgIssueLicense) Reset()         { *m = MsgIssueLicense{} }
-func (m *MsgIssueLicense) String() string { return proto.CompactTextString(m) }
-func (*MsgIssueLicense) ProtoMessage()    {}
-func (*MsgIssueLicense) Descriptor() ([]byte, []int) {
+func (m *IssueLicenseEntry) Reset()         { *m = IssueLicenseEntry{} }
+func (m *IssueLicenseEntry) String() string { return proto.CompactTextString(m) }
+func (*IssueLicenseEntry) ProtoMessage()    {}
+func (*IssueLicenseEntry) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{9}
 }
-func (m *MsgIssueLicense) XXX_Unmarshal(b []byte) error {
+func (m *IssueLicenseEntry) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgIssueLicense) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *IssueLicenseEntry) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgIssueLicense.Marshal(b, m, deterministic)
+		return xxx_messageInfo_IssueLicenseEntry.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -502,77 +501,71 @@ func (m *MsgIssueLicense) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-func (m *MsgIssueLicense) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgIssueLicense.Merge(m, src)
+func (m *IssueLicenseEntry) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IssueLicenseEntry.Merge(m, src)
 }
-func (m *MsgIssueLicense) XXX_Size() int {
+func (m *IssueLicenseEntry) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgIssueLicense) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgIssueLicense.DiscardUnknown(m)
+func (m *IssueLicenseEntry) XXX_DiscardUnknown() {
+	xxx_messageInfo_IssueLicenseEntry.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgIssueLicense proto.InternalMessageInfo
+var xxx_messageInfo_IssueLicenseEntry proto.InternalMessageInfo
 
-func (m *MsgIssueLicense) GetIssuer() string {
-	if m != nil {
-		return m.Issuer
-	}
-	return ""
-}
-
-func (m *MsgIssueLicense) GetLicenseTypeId() string {
+func (m *IssueLicenseEntry) GetLicenseTypeId() string {
 	if m != nil {
 		return m.LicenseTypeId
 	}
 	return ""
 }
 
-func (m *MsgIssueLicense) GetHolder() string {
+func (m *IssueLicenseEntry) GetHolder() string {
 	if m != nil {
 		return m.Holder
 	}
 	return ""
 }
 
-func (m *MsgIssueLicense) GetStartDate() string {
+func (m *IssueLicenseEntry) GetStartDate() string {
 	if m != nil {
 		return m.StartDate
 	}
 	return ""
 }
 
-func (m *MsgIssueLicense) GetEndDate() string {
+func (m *IssueLicenseEntry) GetEndDate() string {
 	if m != nil {
 		return m.EndDate
 	}
 	return ""
 }
 
-func (m *MsgIssueLicense) GetCount() uint64 {
+func (m *IssueLicenseEntry) GetCount() uint64 {
 	if m != nil {
 		return m.Count
 	}
 	return 0
 }
 
-// MsgIssueLicenseResponse is the Msg/IssueLicense response type.
-type MsgIssueLicenseResponse struct {
-	Ids []uint64 `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
+// MsgIssueLicenses is the Msg/IssueLicenses request type.
+type MsgIssueLicenses struct {
+	Issuer  string              `protobuf:"bytes,1,opt,name=issuer,proto3" json:"issuer,omitempty"`
+	Entries []IssueLicenseEntry `protobuf:"bytes,2,rep,name=entries,proto3" json:"entries"`
 }
 
-func (m *MsgIssueLicenseResponse) Reset()         { *m = MsgIssueLicenseResponse{} }
-func (m *MsgIssueLicenseResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgIssueLicenseResponse) ProtoMessage()    {}
-func (*MsgIssueLicenseResponse) Descriptor() ([]byte, []int) {
+func (m *MsgIssueLicenses) Reset()         { *m = MsgIssueLicenses{} }
+func (m *MsgIssueLicenses) String() string { return proto.CompactTextString(m) }
+func (*MsgIssueLicenses) ProtoMessage()    {}
+func (*MsgIssueLicenses) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{10}
 }
-func (m *MsgIssueLicenseResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgIssueLicenses) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgIssueLicenseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgIssueLicenses) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgIssueLicenseResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgIssueLicenses.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -582,45 +575,98 @@ func (m *MsgIssueLicenseResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-func (m *MsgIssueLicenseResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgIssueLicenseResponse.Merge(m, src)
+func (m *MsgIssueLicenses) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgIssueLicenses.Merge(m, src)
 }
-func (m *MsgIssueLicenseResponse) XXX_Size() int {
+func (m *MsgIssueLicenses) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgIssueLicenseResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgIssueLicenseResponse.DiscardUnknown(m)
+func (m *MsgIssueLicenses) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgIssueLicenses.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgIssueLicenseResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgIssueLicenses proto.InternalMessageInfo
 
-func (m *MsgIssueLicenseResponse) GetIds() []uint64 {
+func (m *MsgIssueLicenses) GetIssuer() string {
+	if m != nil {
+		return m.Issuer
+	}
+	return ""
+}
+
+func (m *MsgIssueLicenses) GetEntries() []IssueLicenseEntry {
+	if m != nil {
+		return m.Entries
+	}
+	return nil
+}
+
+// MsgIssueLicensesResponse is the Msg/IssueLicenses response type.
+// Ids are the issued license ids, flattened in entry order.
+type MsgIssueLicensesResponse struct {
+	Ids []uint64 `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
+}
+
+func (m *MsgIssueLicensesResponse) Reset()         { *m = MsgIssueLicensesResponse{} }
+func (m *MsgIssueLicensesResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgIssueLicensesResponse) ProtoMessage()    {}
+func (*MsgIssueLicensesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e2811ecaf66379ee, []int{11}
+}
+func (m *MsgIssueLicensesResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgIssueLicensesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgIssueLicensesResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgIssueLicensesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgIssueLicensesResponse.Merge(m, src)
+}
+func (m *MsgIssueLicensesResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgIssueLicensesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgIssueLicensesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgIssueLicensesResponse proto.InternalMessageInfo
+
+func (m *MsgIssueLicensesResponse) GetIds() []uint64 {
 	if m != nil {
 		return m.Ids
 	}
 	return nil
 }
 
-// MsgRevokeLicense is the Msg/RevokeLicense request type.
-type MsgRevokeLicense struct {
+// MsgRevokeLicenses is the Msg/RevokeLicenses request type.
+type MsgRevokeLicenses struct {
 	Revoker       string `protobuf:"bytes,1,opt,name=revoker,proto3" json:"revoker,omitempty"`
 	LicenseTypeId string `protobuf:"bytes,2,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
 	Holder        string `protobuf:"bytes,3,opt,name=holder,proto3" json:"holder,omitempty"`
 	Count         uint64 `protobuf:"varint,4,opt,name=count,proto3" json:"count,omitempty"`
 }
 
-func (m *MsgRevokeLicense) Reset()         { *m = MsgRevokeLicense{} }
-func (m *MsgRevokeLicense) String() string { return proto.CompactTextString(m) }
-func (*MsgRevokeLicense) ProtoMessage()    {}
-func (*MsgRevokeLicense) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{11}
+func (m *MsgRevokeLicenses) Reset()         { *m = MsgRevokeLicenses{} }
+func (m *MsgRevokeLicenses) String() string { return proto.CompactTextString(m) }
+func (*MsgRevokeLicenses) ProtoMessage()    {}
+func (*MsgRevokeLicenses) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e2811ecaf66379ee, []int{12}
 }
-func (m *MsgRevokeLicense) XXX_Unmarshal(b []byte) error {
+func (m *MsgRevokeLicenses) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgRevokeLicense) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgRevokeLicenses) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgRevokeLicense.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgRevokeLicenses.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -630,63 +676,63 @@ func (m *MsgRevokeLicense) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgRevokeLicense) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgRevokeLicense.Merge(m, src)
+func (m *MsgRevokeLicenses) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgRevokeLicenses.Merge(m, src)
 }
-func (m *MsgRevokeLicense) XXX_Size() int {
+func (m *MsgRevokeLicenses) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgRevokeLicense) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgRevokeLicense.DiscardUnknown(m)
+func (m *MsgRevokeLicenses) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgRevokeLicenses.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgRevokeLicense proto.InternalMessageInfo
+var xxx_messageInfo_MsgRevokeLicenses proto.InternalMessageInfo
 
-func (m *MsgRevokeLicense) GetRevoker() string {
+func (m *MsgRevokeLicenses) GetRevoker() string {
 	if m != nil {
 		return m.Revoker
 	}
 	return ""
 }
 
-func (m *MsgRevokeLicense) GetLicenseTypeId() string {
+func (m *MsgRevokeLicenses) GetLicenseTypeId() string {
 	if m != nil {
 		return m.LicenseTypeId
 	}
 	return ""
 }
 
-func (m *MsgRevokeLicense) GetHolder() string {
+func (m *MsgRevokeLicenses) GetHolder() string {
 	if m != nil {
 		return m.Holder
 	}
 	return ""
 }
 
-func (m *MsgRevokeLicense) GetCount() uint64 {
+func (m *MsgRevokeLicenses) GetCount() uint64 {
 	if m != nil {
 		return m.Count
 	}
 	return 0
 }
 
-// MsgRevokeLicenseResponse is the Msg/RevokeLicense response type.
-type MsgRevokeLicenseResponse struct {
+// MsgRevokeLicensesResponse is the Msg/RevokeLicenses response type.
+type MsgRevokeLicensesResponse struct {
 	Ids []uint64 `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
 }
 
-func (m *MsgRevokeLicenseResponse) Reset()         { *m = MsgRevokeLicenseResponse{} }
-func (m *MsgRevokeLicenseResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgRevokeLicenseResponse) ProtoMessage()    {}
-func (*MsgRevokeLicenseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{12}
+func (m *MsgRevokeLicensesResponse) Reset()         { *m = MsgRevokeLicensesResponse{} }
+func (m *MsgRevokeLicensesResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgRevokeLicensesResponse) ProtoMessage()    {}
+func (*MsgRevokeLicensesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e2811ecaf66379ee, []int{13}
 }
-func (m *MsgRevokeLicenseResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgRevokeLicensesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgRevokeLicenseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgRevokeLicensesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgRevokeLicenseResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgRevokeLicensesResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -696,19 +742,19 @@ func (m *MsgRevokeLicenseResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgRevokeLicenseResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgRevokeLicenseResponse.Merge(m, src)
+func (m *MsgRevokeLicensesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgRevokeLicensesResponse.Merge(m, src)
 }
-func (m *MsgRevokeLicenseResponse) XXX_Size() int {
+func (m *MsgRevokeLicensesResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgRevokeLicenseResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgRevokeLicenseResponse.DiscardUnknown(m)
+func (m *MsgRevokeLicensesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgRevokeLicensesResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgRevokeLicenseResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgRevokeLicensesResponse proto.InternalMessageInfo
 
-func (m *MsgRevokeLicenseResponse) GetIds() []uint64 {
+func (m *MsgRevokeLicensesResponse) GetIds() []uint64 {
 	if m != nil {
 		return m.Ids
 	}
@@ -727,7 +773,7 @@ func (m *MsgTransferLicense) Reset()         { *m = MsgTransferLicense{} }
 func (m *MsgTransferLicense) String() string { return proto.CompactTextString(m) }
 func (*MsgTransferLicense) ProtoMessage()    {}
 func (*MsgTransferLicense) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{13}
+	return fileDescriptor_e2811ecaf66379ee, []int{14}
 }
 func (m *MsgTransferLicense) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -792,7 +838,7 @@ func (m *MsgTransferLicenseResponse) Reset()         { *m = MsgTransferLicenseRe
 func (m *MsgTransferLicenseResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgTransferLicenseResponse) ProtoMessage()    {}
 func (*MsgTransferLicenseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{14}
+	return fileDescriptor_e2811ecaf66379ee, []int{15}
 }
 func (m *MsgTransferLicenseResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -833,7 +879,7 @@ func (m *MsgUpdateLicenseType) Reset()         { *m = MsgUpdateLicenseType{} }
 func (m *MsgUpdateLicenseType) String() string { return proto.CompactTextString(m) }
 func (*MsgUpdateLicenseType) ProtoMessage()    {}
 func (*MsgUpdateLicenseType) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{15}
+	return fileDescriptor_e2811ecaf66379ee, []int{16}
 }
 func (m *MsgUpdateLicenseType) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -891,7 +937,7 @@ func (m *MsgUpdateLicenseTypeResponse) Reset()         { *m = MsgUpdateLicenseTy
 func (m *MsgUpdateLicenseTypeResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgUpdateLicenseTypeResponse) ProtoMessage()    {}
 func (*MsgUpdateLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{16}
+	return fileDescriptor_e2811ecaf66379ee, []int{17}
 }
 func (m *MsgUpdateLicenseTypeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -920,173 +966,6 @@ func (m *MsgUpdateLicenseTypeResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateLicenseTypeResponse proto.InternalMessageInfo
 
-// BatchIssueLicenseEntry defines a single entry in a batch issue request.
-type BatchIssueLicenseEntry struct {
-	Holder    string `protobuf:"bytes,1,opt,name=holder,proto3" json:"holder,omitempty"`
-	StartDate string `protobuf:"bytes,2,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	EndDate   string `protobuf:"bytes,3,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-}
-
-func (m *BatchIssueLicenseEntry) Reset()         { *m = BatchIssueLicenseEntry{} }
-func (m *BatchIssueLicenseEntry) String() string { return proto.CompactTextString(m) }
-func (*BatchIssueLicenseEntry) ProtoMessage()    {}
-func (*BatchIssueLicenseEntry) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{17}
-}
-func (m *BatchIssueLicenseEntry) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *BatchIssueLicenseEntry) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_BatchIssueLicenseEntry.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *BatchIssueLicenseEntry) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchIssueLicenseEntry.Merge(m, src)
-}
-func (m *BatchIssueLicenseEntry) XXX_Size() int {
-	return m.Size()
-}
-func (m *BatchIssueLicenseEntry) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchIssueLicenseEntry.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchIssueLicenseEntry proto.InternalMessageInfo
-
-func (m *BatchIssueLicenseEntry) GetHolder() string {
-	if m != nil {
-		return m.Holder
-	}
-	return ""
-}
-
-func (m *BatchIssueLicenseEntry) GetStartDate() string {
-	if m != nil {
-		return m.StartDate
-	}
-	return ""
-}
-
-func (m *BatchIssueLicenseEntry) GetEndDate() string {
-	if m != nil {
-		return m.EndDate
-	}
-	return ""
-}
-
-// MsgBatchIssueLicense is the Msg/BatchIssueLicense request type.
-type MsgBatchIssueLicense struct {
-	Issuer        string                   `protobuf:"bytes,1,opt,name=issuer,proto3" json:"issuer,omitempty"`
-	LicenseTypeId string                   `protobuf:"bytes,2,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
-	Entries       []BatchIssueLicenseEntry `protobuf:"bytes,3,rep,name=entries,proto3" json:"entries"`
-}
-
-func (m *MsgBatchIssueLicense) Reset()         { *m = MsgBatchIssueLicense{} }
-func (m *MsgBatchIssueLicense) String() string { return proto.CompactTextString(m) }
-func (*MsgBatchIssueLicense) ProtoMessage()    {}
-func (*MsgBatchIssueLicense) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{18}
-}
-func (m *MsgBatchIssueLicense) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgBatchIssueLicense) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgBatchIssueLicense.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgBatchIssueLicense) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBatchIssueLicense.Merge(m, src)
-}
-func (m *MsgBatchIssueLicense) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgBatchIssueLicense) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBatchIssueLicense.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgBatchIssueLicense proto.InternalMessageInfo
-
-func (m *MsgBatchIssueLicense) GetIssuer() string {
-	if m != nil {
-		return m.Issuer
-	}
-	return ""
-}
-
-func (m *MsgBatchIssueLicense) GetLicenseTypeId() string {
-	if m != nil {
-		return m.LicenseTypeId
-	}
-	return ""
-}
-
-func (m *MsgBatchIssueLicense) GetEntries() []BatchIssueLicenseEntry {
-	if m != nil {
-		return m.Entries
-	}
-	return nil
-}
-
-// MsgBatchIssueLicenseResponse is the Msg/BatchIssueLicense response type.
-type MsgBatchIssueLicenseResponse struct {
-	Ids []uint64 `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
-}
-
-func (m *MsgBatchIssueLicenseResponse) Reset()         { *m = MsgBatchIssueLicenseResponse{} }
-func (m *MsgBatchIssueLicenseResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgBatchIssueLicenseResponse) ProtoMessage()    {}
-func (*MsgBatchIssueLicenseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e2811ecaf66379ee, []int{19}
-}
-func (m *MsgBatchIssueLicenseResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgBatchIssueLicenseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgBatchIssueLicenseResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgBatchIssueLicenseResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBatchIssueLicenseResponse.Merge(m, src)
-}
-func (m *MsgBatchIssueLicenseResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgBatchIssueLicenseResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBatchIssueLicenseResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgBatchIssueLicenseResponse proto.InternalMessageInfo
-
-func (m *MsgBatchIssueLicenseResponse) GetIds() []uint64 {
-	if m != nil {
-		return m.Ids
-	}
-	return nil
-}
-
 func init() {
 	proto.RegisterType((*MsgUpdateParams)(nil), "licenses.v1.MsgUpdateParams")
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "licenses.v1.MsgUpdateParamsResponse")
@@ -1097,103 +976,98 @@ func init() {
 	proto.RegisterType((*AdminKeyPermission)(nil), "licenses.v1.AdminKeyPermission")
 	proto.RegisterType((*MsgRevokeAdminKeyPermissions)(nil), "licenses.v1.MsgRevokeAdminKeyPermissions")
 	proto.RegisterType((*MsgRevokeAdminKeyPermissionsResponse)(nil), "licenses.v1.MsgRevokeAdminKeyPermissionsResponse")
-	proto.RegisterType((*MsgIssueLicense)(nil), "licenses.v1.MsgIssueLicense")
-	proto.RegisterType((*MsgIssueLicenseResponse)(nil), "licenses.v1.MsgIssueLicenseResponse")
-	proto.RegisterType((*MsgRevokeLicense)(nil), "licenses.v1.MsgRevokeLicense")
-	proto.RegisterType((*MsgRevokeLicenseResponse)(nil), "licenses.v1.MsgRevokeLicenseResponse")
+	proto.RegisterType((*IssueLicenseEntry)(nil), "licenses.v1.IssueLicenseEntry")
+	proto.RegisterType((*MsgIssueLicenses)(nil), "licenses.v1.MsgIssueLicenses")
+	proto.RegisterType((*MsgIssueLicensesResponse)(nil), "licenses.v1.MsgIssueLicensesResponse")
+	proto.RegisterType((*MsgRevokeLicenses)(nil), "licenses.v1.MsgRevokeLicenses")
+	proto.RegisterType((*MsgRevokeLicensesResponse)(nil), "licenses.v1.MsgRevokeLicensesResponse")
 	proto.RegisterType((*MsgTransferLicense)(nil), "licenses.v1.MsgTransferLicense")
 	proto.RegisterType((*MsgTransferLicenseResponse)(nil), "licenses.v1.MsgTransferLicenseResponse")
 	proto.RegisterType((*MsgUpdateLicenseType)(nil), "licenses.v1.MsgUpdateLicenseType")
 	proto.RegisterType((*MsgUpdateLicenseTypeResponse)(nil), "licenses.v1.MsgUpdateLicenseTypeResponse")
-	proto.RegisterType((*BatchIssueLicenseEntry)(nil), "licenses.v1.BatchIssueLicenseEntry")
-	proto.RegisterType((*MsgBatchIssueLicense)(nil), "licenses.v1.MsgBatchIssueLicense")
-	proto.RegisterType((*MsgBatchIssueLicenseResponse)(nil), "licenses.v1.MsgBatchIssueLicenseResponse")
 }
 
 func init() { proto.RegisterFile("licenses/v1/tx.proto", fileDescriptor_e2811ecaf66379ee) }
 
 var fileDescriptor_e2811ecaf66379ee = []byte{
-	// 1274 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x58, 0xcf, 0x6f, 0x1b, 0xc5,
-	0x17, 0xcf, 0xd8, 0x89, 0x53, 0xbf, 0x7c, 0xfb, 0x4d, 0xbb, 0xa4, 0xd4, 0xb1, 0x52, 0xc7, 0xdd,
-	0xa4, 0xc1, 0x49, 0x1b, 0x6f, 0xe2, 0x42, 0x1a, 0x19, 0x21, 0xd4, 0x14, 0x54, 0x45, 0x25, 0xa2,
-	0x72, 0xcb, 0x05, 0x21, 0x59, 0x1b, 0xef, 0xb0, 0x59, 0xc5, 0xde, 0xb5, 0x76, 0xc6, 0x69, 0x7c,
-	0x43, 0x11, 0xea, 0x01, 0x21, 0x84, 0xc4, 0x81, 0x3b, 0x17, 0x38, 0xe6, 0xd0, 0x03, 0xfc, 0x07,
-	0x3d, 0x56, 0xe5, 0x82, 0x38, 0x54, 0x28, 0x41, 0xca, 0x09, 0x38, 0x71, 0x47, 0x33, 0xb3, 0xbb,
-	0xde, 0xdf, 0x36, 0x48, 0xe5, 0xc2, 0x25, 0xf2, 0xbe, 0xf7, 0x66, 0xde, 0xe7, 0x7d, 0xde, 0xaf,
-	0x51, 0x60, 0xa6, 0x6d, 0xb4, 0xb0, 0x49, 0x30, 0x51, 0x0e, 0xd6, 0x15, 0x7a, 0x58, 0xed, 0xda,
-	0x16, 0xb5, 0xa4, 0x29, 0x57, 0x5a, 0x3d, 0x58, 0x2f, 0x5e, 0x54, 0x3b, 0x86, 0x69, 0x29, 0xfc,
-	0xaf, 0xd0, 0x17, 0x2f, 0xb7, 0x2c, 0xd2, 0xb1, 0x88, 0xd2, 0x21, 0x3a, 0x3b, 0xd7, 0x21, 0xba,
-	0xa3, 0x98, 0x15, 0x8a, 0x26, 0xff, 0x52, 0xc4, 0x87, 0xa3, 0x9a, 0xd1, 0x2d, 0xdd, 0x12, 0x72,
-	0xf6, 0xcb, 0x91, 0xce, 0xe9, 0x96, 0xa5, 0xb7, 0xb1, 0xa2, 0x76, 0x0d, 0x45, 0x35, 0x4d, 0x8b,
-	0xaa, 0xd4, 0xb0, 0x4c, 0xf7, 0x4c, 0xc1, 0x8f, 0xae, 0xab, 0xda, 0x6a, 0xc7, 0xd1, 0xc8, 0x3f,
-	0x20, 0x98, 0xde, 0x21, 0xfa, 0x07, 0x5d, 0x4d, 0xa5, 0xf8, 0x3e, 0xd7, 0x48, 0x1b, 0x90, 0x57,
-	0x7b, 0x74, 0xcf, 0xb2, 0x0d, 0xda, 0x2f, 0xa0, 0x32, 0xaa, 0xe4, 0xb7, 0x0a, 0xcf, 0x9f, 0xac,
-	0xce, 0x38, 0x30, 0x6e, 0x6b, 0x9a, 0x8d, 0x09, 0x79, 0x40, 0x6d, 0xc3, 0xd4, 0x1b, 0x03, 0x53,
-	0x69, 0x03, 0x72, 0xe2, 0xee, 0x42, 0xa6, 0x8c, 0x2a, 0x53, 0xb5, 0x57, 0xaa, 0xbe, 0xf0, 0xab,
-	0xe2, 0xf2, 0xad, 0xfc, 0xd3, 0x17, 0xf3, 0x63, 0xdf, 0x9d, 0x1d, 0xaf, 0xa0, 0x86, 0x63, 0x5d,
-	0xdf, 0x38, 0x3a, 0x3b, 0x5e, 0x19, 0xdc, 0xf3, 0xd9, 0xd9, 0xf1, 0xca, 0xc2, 0x23, 0xbc, 0x4b,
-	0xa8, 0xda, 0xda, 0x57, 0x0e, 0x15, 0x0f, 0x7b, 0x08, 0xa7, 0x3c, 0x0b, 0x97, 0x43, 0xa2, 0x06,
-	0x26, 0x5d, 0xcb, 0x24, 0x58, 0x7e, 0x9c, 0x81, 0x99, 0x1d, 0xa2, 0xdf, 0xb1, 0xb1, 0x4a, 0xf1,
-	0x7b, 0xe2, 0x82, 0x87, 0xfd, 0x2e, 0x96, 0xaa, 0x30, 0x61, 0x3d, 0x32, 0xb1, 0x3d, 0x34, 0x2e,
-	0x61, 0x26, 0xfd, 0x1f, 0x32, 0x86, 0xc6, 0xe3, 0xc9, 0x37, 0x32, 0x86, 0x26, 0x2d, 0xc2, 0x79,
-	0x6a, 0xab, 0x26, 0xf9, 0x18, 0xdb, 0xb6, 0xba, 0xdb, 0xc6, 0x85, 0x6c, 0x19, 0x55, 0xce, 0x35,
-	0x82, 0x42, 0xe9, 0x7d, 0x80, 0x8e, 0x7a, 0xd8, 0x24, 0xbd, 0x6e, 0xb7, 0xdd, 0x2f, 0x8c, 0x73,
-	0x57, 0x6b, 0x2c, 0xf0, 0x9f, 0x5f, 0xcc, 0x5f, 0x12, 0xee, 0x88, 0xb6, 0x5f, 0x35, 0x2c, 0xa5,
-	0xa3, 0xd2, 0xbd, 0xea, 0xb6, 0x49, 0x9f, 0x3f, 0x59, 0x05, 0x07, 0xc7, 0xb6, 0x49, 0x05, 0x3f,
-	0xf9, 0x8e, 0x7a, 0xf8, 0x80, 0x5f, 0x51, 0xbf, 0xc5, 0x28, 0x12, 0x90, 0x18, 0x3d, 0x95, 0x04,
-	0x7a, 0x22, 0xf1, 0xca, 0x25, 0x98, 0x8b, 0x93, 0x7b, 0x44, 0xfd, 0x89, 0xa0, 0xb0, 0x43, 0xf4,
-	0xbb, 0xb6, 0x6a, 0xd2, 0xdb, 0x5a, 0xc7, 0x30, 0xef, 0x63, 0xbb, 0x63, 0x10, 0xc2, 0x8a, 0xe7,
-	0x6f, 0x93, 0x55, 0x83, 0x49, 0x55, 0xc8, 0x05, 0x63, 0x29, 0x27, 0x5c, 0x43, 0x69, 0x13, 0x72,
-	0x3a, 0x73, 0x4e, 0x0a, 0xd9, 0x72, 0xb6, 0x32, 0x55, 0x2b, 0x06, 0x8a, 0x86, 0x43, 0xba, 0x87,
-	0xfb, 0x1c, 0xdf, 0xd6, 0x38, 0xa3, 0xb0, 0xe1, 0xd8, 0xd7, 0xdf, 0x0c, 0x72, 0x72, 0x23, 0x81,
-	0x93, 0xd8, 0xd0, 0x64, 0x19, 0xca, 0x49, 0x3a, 0x8f, 0x9b, 0x8f, 0x40, 0x72, 0xfd, 0x0f, 0xd4,
-	0xd2, 0x12, 0x4c, 0x3b, 0xd7, 0x37, 0x69, 0xbf, 0x8b, 0x9b, 0x86, 0x26, 0xe8, 0x69, 0x9c, 0x6f,
-	0x0f, 0xf8, 0xdd, 0xd6, 0xa4, 0x12, 0x40, 0xd7, 0x3b, 0xe5, 0x54, 0x90, 0x4f, 0x22, 0x7f, 0x9e,
-	0xe1, 0xa9, 0x69, 0xe0, 0x03, 0x6b, 0x1f, 0x47, 0xfd, 0xfc, 0x3b, 0xec, 0xdf, 0x85, 0xa9, 0x01,
-	0x24, 0x37, 0x05, 0xf3, 0xb1, 0x29, 0x18, 0x40, 0x73, 0xf2, 0xe0, 0x3f, 0x59, 0x7f, 0x3b, 0x98,
-	0x8c, 0xb5, 0x84, 0x64, 0x24, 0x46, 0x2b, 0x2f, 0xc1, 0x62, 0x9a, 0xde, 0x4b, 0xca, 0x37, 0x19,
-	0x3e, 0xb0, 0xb6, 0x09, 0xe9, 0xb9, 0x05, 0x2d, 0xad, 0x41, 0xce, 0x60, 0xdf, 0xc3, 0xa9, 0x72,
-	0xec, 0xe2, 0x92, 0x98, 0x89, 0x4b, 0xe2, 0x1a, 0xe4, 0xf6, 0xac, 0xb6, 0x86, 0x6d, 0xde, 0xe7,
-	0xa9, 0x37, 0x0b, 0x3b, 0xe9, 0x0a, 0x00, 0xa1, 0xaa, 0x4d, 0x9b, 0x6c, 0x2a, 0x89, 0xd6, 0x6f,
-	0xe4, 0xb9, 0xe4, 0x1d, 0x95, 0x62, 0x69, 0x16, 0xce, 0x61, 0x53, 0x13, 0xca, 0x09, 0xae, 0x9c,
-	0xc4, 0xa6, 0xc6, 0x55, 0x33, 0x30, 0xd1, 0xb2, 0x7a, 0x26, 0x2d, 0xe4, 0xca, 0xa8, 0x32, 0xde,
-	0x10, 0x1f, 0xf5, 0x9b, 0x8c, 0x58, 0x07, 0x76, 0xda, 0x64, 0xf4, 0x13, 0x22, 0x5f, 0xe7, 0x93,
-	0xd1, 0x2f, 0x72, 0xf9, 0x93, 0x2e, 0x40, 0xd6, 0xd0, 0x48, 0x01, 0x95, 0xb3, 0x95, 0xf1, 0x06,
-	0xfb, 0x29, 0xff, 0x86, 0xe0, 0x82, 0x47, 0xbd, 0x4b, 0x69, 0x0d, 0x26, 0x6d, 0x2e, 0x18, 0xce,
-	0xa9, 0x6b, 0xf8, 0x12, 0x49, 0xf5, 0xa8, 0x19, 0xf7, 0x53, 0xf3, 0x06, 0xa3, 0xc6, 0xf5, 0xce,
-	0xb8, 0x59, 0x4c, 0xad, 0x3a, 0x97, 0x9c, 0x1b, 0x7c, 0xe2, 0x05, 0x64, 0x29, 0xec, 0xfc, 0x8e,
-	0x40, 0xda, 0x21, 0xfa, 0x43, 0x67, 0xbe, 0xfb, 0x4a, 0xce, 0x89, 0x01, 0x8d, 0x18, 0xc3, 0xa8,
-	0xec, 0x88, 0x8d, 0x93, 0xe5, 0x81, 0xb2, 0x8d, 0xb3, 0x01, 0x79, 0x1b, 0xb7, 0x8c, 0xae, 0x81,
-	0x9d, 0xf8, 0x53, 0xb7, 0xb1, 0x67, 0x2a, 0xb6, 0xaa, 0xe3, 0x9c, 0x91, 0xb3, 0x94, 0x40, 0x4e,
-	0x28, 0x32, 0x79, 0x0e, 0x8a, 0x51, 0x69, 0x78, 0xb1, 0x8a, 0xa5, 0xfb, 0xdf, 0x59, 0xac, 0x91,
-	0x78, 0x9d, 0xc5, 0x1a, 0x91, 0x7b, 0x44, 0x7d, 0x8a, 0xe0, 0xd5, 0x2d, 0x95, 0xb6, 0xf6, 0xfc,
-	0x5d, 0xf8, 0xae, 0x49, 0xed, 0xfe, 0x3f, 0xa8, 0x9d, 0xe0, 0x50, 0xc9, 0xa4, 0x0d, 0x95, 0x6c,
-	0x60, 0xa8, 0xc8, 0x7f, 0x20, 0x9e, 0xaf, 0x08, 0x92, 0x97, 0x38, 0x33, 0xef, 0xc0, 0x24, 0x36,
-	0xa9, 0x6d, 0x60, 0x77, 0x9f, 0x2c, 0x04, 0xf6, 0x49, 0x3c, 0x29, 0xce, 0x4e, 0x71, 0x4f, 0xd6,
-	0x37, 0x43, 0x63, 0x2f, 0x29, 0x31, 0x91, 0xdb, 0xe4, 0x35, 0x9e, 0x98, 0x88, 0x3c, 0xb9, 0xc5,
-	0x6b, 0xa7, 0x00, 0xd9, 0x1d, 0xa2, 0x4b, 0x47, 0x08, 0xfe, 0x17, 0x78, 0x08, 0xcf, 0x05, 0x80,
-	0x87, 0xde, 0x9a, 0xc5, 0xc5, 0x34, 0xad, 0x57, 0x07, 0xd5, 0xa3, 0x1f, 0x7f, 0xfd, 0x2a, 0x53,
-	0xa9, 0xa3, 0x15, 0x79, 0x41, 0xf1, 0x82, 0xf0, 0x42, 0xa0, 0x87, 0x4a, 0x8f, 0x1f, 0x6b, 0x8a,
-	0xc7, 0xb0, 0xf4, 0x35, 0x82, 0x8b, 0xd1, 0x67, 0xeb, 0xd5, 0xb0, 0xaf, 0x88, 0x49, 0x71, 0x79,
-	0xa8, 0x89, 0x87, 0xe9, 0x75, 0x8e, 0xa9, 0xca, 0x30, 0x2d, 0xc7, 0x63, 0x6a, 0xf1, 0xb3, 0x4d,
-	0x7f, 0xbe, 0xa5, 0x6f, 0x11, 0x5c, 0x8a, 0x7f, 0x27, 0x5e, 0x0b, 0xbb, 0x8e, 0x35, 0x2b, 0xae,
-	0x8e, 0x64, 0xe6, 0xa1, 0xdc, 0xe4, 0x28, 0x6b, 0x0c, 0xe5, 0x6a, 0x3c, 0x4a, 0xfe, 0x10, 0x6c,
-	0xaa, 0xec, 0x82, 0xa6, 0xef, 0x31, 0x22, 0x7d, 0x8f, 0x60, 0x36, 0xf9, 0x5d, 0x15, 0x21, 0x2a,
-	0xd1, 0xb4, 0xb8, 0x3e, 0xb2, 0xa9, 0x87, 0xfa, 0x2d, 0x8e, 0xfa, 0x16, 0x43, 0x5d, 0x8b, 0x47,
-	0x2d, 0x16, 0x96, 0x03, 0x7b, 0x1f, 0xf7, 0x03, 0xd0, 0x59, 0x0d, 0x06, 0xfa, 0x34, 0x52, 0x83,
-	0x7e, 0x6d, 0xb4, 0x06, 0xe3, 0x4a, 0x7e, 0x84, 0x1a, 0xe4, 0x8d, 0xe6, 0xa6, 0x5b, 0x7a, 0x8c,
-	0xe0, 0x7c, 0xf0, 0x39, 0x70, 0x25, 0x9e, 0x08, 0x17, 0xc6, 0xb5, 0x54, 0xb5, 0x87, 0x43, 0xe1,
-	0x38, 0x96, 0x19, 0x8e, 0xc5, 0x54, 0x6e, 0x5c, 0x20, 0x5f, 0x20, 0x98, 0x0e, 0x6f, 0xde, 0xf9,
-	0xb0, 0xaf, 0x90, 0x41, 0xf1, 0xb5, 0x21, 0x06, 0x1e, 0x9c, 0x75, 0x0e, 0xe7, 0x3a, 0x83, 0xb3,
-	0x14, 0x0f, 0xc7, 0x5d, 0x3e, 0x1e, 0x20, 0xd6, 0x9d, 0xd1, 0xdd, 0x77, 0x35, 0x7e, 0x12, 0xa4,
-	0x76, 0x67, 0xf2, 0xe6, 0x18, 0xde, 0x9d, 0xce, 0xc4, 0x08, 0x74, 0x27, 0x43, 0x16, 0x9d, 0xf2,
-	0x11, 0x64, 0x11, 0x93, 0x28, 0xb2, 0xc4, 0xd1, 0x39, 0x02, 0xb2, 0x5d, 0x76, 0xb6, 0x19, 0xa8,
-	0xa6, 0xe2, 0xc4, 0x27, 0x6c, 0xe9, 0x6e, 0xdd, 0x7b, 0x7a, 0x52, 0x42, 0xcf, 0x4e, 0x4a, 0xe8,
-	0x97, 0x93, 0x12, 0xfa, 0xf2, 0xb4, 0x34, 0xf6, 0xec, 0xb4, 0x34, 0xf6, 0xd3, 0x69, 0x69, 0xec,
-	0xc3, 0x75, 0xdd, 0xa0, 0x7b, 0xbd, 0xdd, 0x6a, 0xcb, 0xea, 0x78, 0xb7, 0xae, 0x12, 0x6d, 0x5f,
-	0x89, 0x9b, 0xf9, 0x2c, 0x58, 0xb2, 0x9b, 0xe3, 0xff, 0xbd, 0xb8, 0xf9, 0x57, 0x00, 0x00, 0x00,
-	0xff, 0xff, 0xca, 0xdd, 0x0e, 0xe5, 0x77, 0x11, 0x00, 0x00,
+	// 1224 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x57, 0xcf, 0x6f, 0x1b, 0xc5,
+	0x17, 0xcf, 0xd8, 0xf9, 0x51, 0xbf, 0x7c, 0xdb, 0x34, 0xfb, 0x4d, 0x55, 0xc7, 0x4a, 0x1d, 0x77,
+	0x9b, 0x04, 0x27, 0xd4, 0xde, 0xc4, 0x54, 0x69, 0x65, 0x04, 0xa8, 0x01, 0x54, 0x45, 0xc5, 0xa2,
+	0xda, 0x96, 0x0b, 0x42, 0xb2, 0x36, 0xde, 0x61, 0xb3, 0x8a, 0xbd, 0x6b, 0xed, 0x8c, 0xd3, 0xf8,
+	0x86, 0x72, 0xe8, 0xa1, 0x42, 0x08, 0x89, 0x03, 0x7f, 0x02, 0x1c, 0x73, 0xe8, 0x01, 0x90, 0xb8,
+	0xf7, 0x58, 0xca, 0x05, 0x71, 0xa8, 0x50, 0x82, 0x94, 0x1b, 0x9c, 0xb8, 0xa3, 0x99, 0x9d, 0x1d,
+	0x7b, 0xd7, 0xeb, 0xb5, 0xb9, 0x70, 0xe1, 0x12, 0x79, 0xdf, 0x7b, 0x33, 0xef, 0xf3, 0x3e, 0x9f,
+	0x99, 0xf7, 0x26, 0xb0, 0xd0, 0xb4, 0x1b, 0xd8, 0x21, 0x98, 0x68, 0x87, 0x5b, 0x1a, 0x3d, 0x2a,
+	0xb7, 0x3d, 0x97, 0xba, 0xca, 0x6c, 0x60, 0x2d, 0x1f, 0x6e, 0xe5, 0xe6, 0x8d, 0x96, 0xed, 0xb8,
+	0x1a, 0xff, 0xeb, 0xfb, 0x73, 0x57, 0x1b, 0x2e, 0x69, 0xb9, 0x44, 0x6b, 0x11, 0x8b, 0xad, 0x6b,
+	0x11, 0x4b, 0x38, 0x16, 0x7d, 0x47, 0x9d, 0x7f, 0x69, 0xfe, 0x87, 0x70, 0x2d, 0x58, 0xae, 0xe5,
+	0xfa, 0x76, 0xf6, 0x4b, 0x58, 0x97, 0x2c, 0xd7, 0xb5, 0x9a, 0x58, 0x33, 0xda, 0xb6, 0x66, 0x38,
+	0x8e, 0x4b, 0x0d, 0x6a, 0xbb, 0x4e, 0xb0, 0x26, 0xdb, 0x8f, 0xae, 0x6d, 0x78, 0x46, 0x4b, 0x78,
+	0xd4, 0xef, 0x11, 0xcc, 0xd5, 0x88, 0xf5, 0x51, 0xdb, 0x34, 0x28, 0x7e, 0xc0, 0x3d, 0xca, 0x36,
+	0x64, 0x8c, 0x0e, 0xdd, 0x77, 0x3d, 0x9b, 0x76, 0xb3, 0xa8, 0x80, 0x8a, 0x99, 0x9d, 0xec, 0xcb,
+	0x67, 0xa5, 0x05, 0x01, 0xe3, 0xae, 0x69, 0x7a, 0x98, 0x90, 0x87, 0xd4, 0xb3, 0x1d, 0x4b, 0xef,
+	0x85, 0x2a, 0xdb, 0x30, 0xed, 0xef, 0x9d, 0x4d, 0x15, 0x50, 0x71, 0xb6, 0xf2, 0xff, 0x72, 0x5f,
+	0xf9, 0x65, 0x7f, 0xf3, 0x9d, 0xcc, 0xf3, 0x57, 0xcb, 0x13, 0xdf, 0x9e, 0x9f, 0x6c, 0x20, 0x5d,
+	0x44, 0x57, 0xb7, 0x8f, 0xcf, 0x4f, 0x36, 0x7a, 0xfb, 0x3c, 0x3d, 0x3f, 0xd9, 0xb8, 0xf1, 0x18,
+	0xef, 0x11, 0x6a, 0x34, 0x0e, 0xb4, 0x23, 0x4d, 0x62, 0x8f, 0xe0, 0x54, 0x17, 0xe1, 0x6a, 0xc4,
+	0xa4, 0x63, 0xd2, 0x76, 0x1d, 0x82, 0xd5, 0x27, 0x29, 0x58, 0xa8, 0x11, 0xeb, 0x5d, 0x0f, 0x1b,
+	0x14, 0x7f, 0xe0, 0x6f, 0xf0, 0xa8, 0xdb, 0xc6, 0x4a, 0x19, 0xa6, 0xdc, 0xc7, 0x0e, 0xf6, 0x46,
+	0xd6, 0xe5, 0x87, 0x29, 0x97, 0x20, 0x65, 0x9b, 0xbc, 0x9e, 0x8c, 0x9e, 0xb2, 0x4d, 0x65, 0x05,
+	0x2e, 0x52, 0xcf, 0x70, 0xc8, 0xa7, 0xd8, 0xf3, 0x8c, 0xbd, 0x26, 0xce, 0xa6, 0x0b, 0xa8, 0x78,
+	0x41, 0x0f, 0x1b, 0x95, 0x0f, 0x01, 0x5a, 0xc6, 0x51, 0x9d, 0x74, 0xda, 0xed, 0x66, 0x37, 0x3b,
+	0xc9, 0x53, 0x6d, 0xb2, 0xc2, 0x7f, 0x7d, 0xb5, 0x7c, 0xc5, 0x4f, 0x47, 0xcc, 0x83, 0xb2, 0xed,
+	0x6a, 0x2d, 0x83, 0xee, 0x97, 0x77, 0x1d, 0xfa, 0xf2, 0x59, 0x09, 0x04, 0x8e, 0x5d, 0x87, 0xfa,
+	0xfc, 0x64, 0x5a, 0xc6, 0xd1, 0x43, 0xbe, 0x45, 0xf5, 0x36, 0xa3, 0xc8, 0x87, 0xc4, 0xe8, 0x29,
+	0x0e, 0xa1, 0x67, 0xa0, 0x5e, 0x35, 0x0f, 0x4b, 0x71, 0x76, 0x49, 0xd4, 0x5f, 0x08, 0xb2, 0x35,
+	0x62, 0xdd, 0xf3, 0x0c, 0x87, 0xde, 0x35, 0x5b, 0xb6, 0xf3, 0x00, 0x7b, 0x2d, 0x9b, 0x10, 0x76,
+	0x78, 0xfe, 0x31, 0x59, 0x15, 0x98, 0x31, 0x7c, 0xbb, 0xcf, 0x58, 0xc2, 0x8a, 0x20, 0x50, 0xb9,
+	0x03, 0xd3, 0x16, 0x4b, 0x4e, 0xb2, 0xe9, 0x42, 0xba, 0x38, 0x5b, 0xc9, 0x85, 0x0e, 0x0d, 0x87,
+	0x74, 0x1f, 0x77, 0x39, 0xbe, 0x9d, 0x49, 0x46, 0xa1, 0x2e, 0xe2, 0xab, 0x6f, 0x86, 0x39, 0xb9,
+	0x39, 0x84, 0x93, 0xd8, 0xd2, 0x54, 0x15, 0x0a, 0xc3, 0x7c, 0x92, 0x9b, 0x4f, 0x40, 0x09, 0xf2,
+	0xf7, 0xdc, 0xca, 0x1a, 0xcc, 0x89, 0xed, 0xeb, 0xb4, 0xdb, 0xc6, 0x75, 0xdb, 0xf4, 0xe9, 0xd1,
+	0x2f, 0x36, 0x7b, 0xfc, 0xee, 0x9a, 0x4a, 0x1e, 0xa0, 0x2d, 0x57, 0x89, 0x13, 0xd4, 0x67, 0x51,
+	0x3f, 0x4f, 0x71, 0x69, 0x74, 0x7c, 0xe8, 0x1e, 0xe0, 0xc1, 0x3c, 0xff, 0x0e, 0xfb, 0xf7, 0x60,
+	0xb6, 0x07, 0x29, 0x90, 0x60, 0x39, 0x56, 0x82, 0x1e, 0x34, 0xa1, 0x43, 0xff, 0xca, 0xea, 0x3b,
+	0x61, 0x31, 0x36, 0x87, 0x88, 0x31, 0xb4, 0x5a, 0x75, 0x0d, 0x56, 0x92, 0xfc, 0x52, 0x94, 0x1f,
+	0x11, 0xcc, 0xef, 0x12, 0xd2, 0x09, 0x4e, 0xf3, 0xfb, 0x0e, 0xf5, 0xba, 0x63, 0x8b, 0xb2, 0x09,
+	0xd3, 0xfb, 0x6e, 0xd3, 0xc4, 0xde, 0x48, 0x8a, 0x44, 0x9c, 0x72, 0x0d, 0x80, 0x50, 0xc3, 0xa3,
+	0x75, 0xd6, 0x65, 0xf8, 0x6d, 0xcf, 0xe8, 0x19, 0x6e, 0x79, 0xcf, 0xa0, 0x58, 0x59, 0x84, 0x0b,
+	0xd8, 0x31, 0x7d, 0x27, 0xbf, 0xe7, 0xfa, 0x0c, 0x76, 0x4c, 0xee, 0x5a, 0x80, 0xa9, 0x86, 0xdb,
+	0x71, 0x68, 0x76, 0xaa, 0x80, 0x8a, 0x93, 0xba, 0xff, 0xa1, 0xfe, 0x80, 0xe0, 0x72, 0x8d, 0x58,
+	0xfd, 0x25, 0x10, 0x06, 0xcb, 0x66, 0x86, 0xd1, 0x5a, 0x8b, 0x38, 0xe5, 0x6d, 0x98, 0xc1, 0x0e,
+	0xf5, 0x6c, 0xcc, 0xc4, 0x66, 0xa2, 0xe5, 0x43, 0xa2, 0x0d, 0x30, 0x24, 0x34, 0x0b, 0x16, 0x55,
+	0x6f, 0x31, 0xbd, 0xc4, 0x66, 0x4c, 0xb0, 0x95, 0x21, 0x82, 0x85, 0x70, 0xaa, 0x37, 0x79, 0xb3,
+	0x08, 0xd9, 0x02, 0x61, 0x94, 0xcb, 0x90, 0xb6, 0x4d, 0x92, 0x45, 0x85, 0x74, 0x71, 0x52, 0x67,
+	0x3f, 0xd5, 0x3f, 0x11, 0xcc, 0x4b, 0x4d, 0x65, 0xad, 0x15, 0x98, 0xf1, 0xb8, 0x65, 0x74, 0xb1,
+	0x41, 0x60, 0x9c, 0xbc, 0xa9, 0x64, 0x79, 0xd3, 0x63, 0xca, 0x2b, 0x45, 0x9a, 0xec, 0x13, 0xc9,
+	0x9f, 0x48, 0x41, 0x76, 0x46, 0xcf, 0x6a, 0xe2, 0x79, 0x96, 0xfc, 0x94, 0x60, 0x71, 0xc0, 0x98,
+	0x40, 0xd0, 0x1f, 0x08, 0x94, 0x1a, 0xb1, 0x1e, 0x89, 0xd9, 0x21, 0x56, 0xf4, 0x55, 0x81, 0xc6,
+	0xac, 0x62, 0x5c, 0x7e, 0xfc, 0x69, 0x96, 0xe6, 0xa5, 0xb2, 0x69, 0xb6, 0x0d, 0x19, 0x0f, 0x37,
+	0xec, 0xb6, 0x8d, 0x05, 0x03, 0x89, 0x93, 0x5e, 0x86, 0xfa, 0xfc, 0x88, 0xe4, 0x8c, 0x9e, 0xb5,
+	0x21, 0xf4, 0x44, 0x2a, 0x53, 0x97, 0x20, 0x37, 0x68, 0x8d, 0x0e, 0x6d, 0x7f, 0xa0, 0xff, 0x77,
+	0x86, 0xf6, 0x40, 0xbd, 0x62, 0x68, 0x0f, 0xd8, 0x03, 0xa2, 0x2a, 0x3f, 0x65, 0x20, 0x5d, 0x23,
+	0x96, 0x72, 0x8c, 0xe0, 0x7f, 0xa1, 0x97, 0xdb, 0x52, 0xa8, 0x09, 0x44, 0x1e, 0x47, 0xb9, 0x95,
+	0x24, 0xaf, 0x54, 0xa1, 0x7c, 0xfc, 0xf3, 0xef, 0x5f, 0xa5, 0x8a, 0x55, 0xb4, 0xa1, 0xde, 0xd0,
+	0x24, 0x64, 0x09, 0x98, 0x1e, 0x69, 0x1d, 0xbe, 0xac, 0xee, 0xbf, 0xde, 0x94, 0xaf, 0x11, 0xcc,
+	0x0f, 0xbe, 0xb3, 0xae, 0x47, 0x73, 0x0d, 0x84, 0xe4, 0xd6, 0x47, 0x86, 0x48, 0x4c, 0xb7, 0x38,
+	0xa6, 0x32, 0xc3, 0xb4, 0x1e, 0x8f, 0xa9, 0xc1, 0xd7, 0xd6, 0xfb, 0x6f, 0x81, 0xf2, 0x0d, 0x82,
+	0x2b, 0xf1, 0x0f, 0x9b, 0xd5, 0x68, 0xea, 0xd8, 0xb0, 0x5c, 0x69, 0xac, 0x30, 0x89, 0xf2, 0x0e,
+	0x47, 0x59, 0x61, 0x28, 0x4b, 0xf1, 0x28, 0xf9, 0xcb, 0xa5, 0x6e, 0xb0, 0x0d, 0xea, 0x7d, 0xd3,
+	0x53, 0xf9, 0x0e, 0xc1, 0xe2, 0xf0, 0x87, 0xc0, 0x00, 0x51, 0x43, 0x43, 0x73, 0x5b, 0x63, 0x87,
+	0x4a, 0xd4, 0x6f, 0x71, 0xd4, 0xb7, 0x19, 0xea, 0x4a, 0x3c, 0x6a, 0xbf, 0x0f, 0x0a, 0xd8, 0x07,
+	0xb8, 0x1b, 0x82, 0xfe, 0x04, 0xc1, 0xc5, 0xf0, 0x30, 0xbb, 0x16, 0xc5, 0x10, 0x72, 0xe7, 0x56,
+	0x13, 0xdd, 0x12, 0x96, 0xc6, 0x61, 0xad, 0x33, 0x58, 0x2b, 0xf1, 0xb0, 0xf8, 0xf0, 0x0a, 0x14,
+	0x27, 0xca, 0x53, 0x04, 0x97, 0x22, 0xa3, 0x26, 0x1f, 0xcf, 0x86, 0x84, 0xb2, 0x96, 0xec, 0x97,
+	0x58, 0x36, 0x39, 0x96, 0x0d, 0x86, 0x65, 0x35, 0x91, 0x22, 0x09, 0xe6, 0x0b, 0x04, 0x73, 0xd1,
+	0xb6, 0xbe, 0x1c, 0xcd, 0x16, 0x09, 0xc8, 0xbd, 0x36, 0x22, 0x40, 0xe2, 0xd9, 0xe2, 0x78, 0x5e,
+	0x67, 0x78, 0xd6, 0xe2, 0xf1, 0x04, 0x9d, 0x2d, 0x40, 0xc4, 0x6f, 0xe9, 0x60, 0x63, 0xbd, 0x1e,
+	0xdf, 0x11, 0x12, 0x6f, 0xe9, 0xd0, 0xb6, 0x34, 0xc6, 0x2d, 0x15, 0x9d, 0xa3, 0xff, 0x96, 0xe6,
+	0xa6, 0x3e, 0x63, 0x7d, 0x73, 0xe7, 0xfe, 0xf3, 0xd3, 0x3c, 0x7a, 0x71, 0x9a, 0x47, 0xbf, 0x9d,
+	0xe6, 0xd1, 0x97, 0x67, 0xf9, 0x89, 0x17, 0x67, 0xf9, 0x89, 0x5f, 0xce, 0xf2, 0x13, 0x1f, 0x6f,
+	0x59, 0x36, 0xdd, 0xef, 0xec, 0x95, 0x1b, 0x6e, 0x4b, 0xee, 0x5a, 0x22, 0xe6, 0x81, 0x16, 0xd7,
+	0x4f, 0xd9, 0x96, 0x64, 0x6f, 0x9a, 0xff, 0x73, 0xfb, 0xc6, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff,
+	0x00, 0x62, 0xba, 0xd3, 0x96, 0x0f, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1219,17 +1093,15 @@ type MsgClient interface {
 	// key's grants. If a grant's license types become empty it is dropped; if all grants are gone
 	// the admin key entry itself is deleted. Signer must be the module owner.
 	RevokeAdminKeyPermissions(ctx context.Context, in *MsgRevokeAdminKeyPermissions, opts ...grpc.CallOption) (*MsgRevokeAdminKeyPermissionsResponse, error)
-	// IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
-	IssueLicense(ctx context.Context, in *MsgIssueLicense, opts ...grpc.CallOption) (*MsgIssueLicenseResponse, error)
-	// RevokeLicense revokes licenses for a holder, revoking the most recently issued first.
+	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
+	IssueLicenses(ctx context.Context, in *MsgIssueLicenses, opts ...grpc.CallOption) (*MsgIssueLicensesResponse, error)
+	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
 	// Signer must have the "revoke" grant for the license type.
-	RevokeLicense(ctx context.Context, in *MsgRevokeLicense, opts ...grpc.CallOption) (*MsgRevokeLicenseResponse, error)
+	RevokeLicenses(ctx context.Context, in *MsgRevokeLicenses, opts ...grpc.CallOption) (*MsgRevokeLicensesResponse, error)
 	// TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
 	TransferLicense(ctx context.Context, in *MsgTransferLicense, opts ...grpc.CallOption) (*MsgTransferLicenseResponse, error)
 	// UpdateLicenseType updates an existing license type. Signer must be the module owner.
 	UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseType, opts ...grpc.CallOption) (*MsgUpdateLicenseTypeResponse, error)
-	// BatchIssueLicense issues multiple licenses in a single transaction. Signer must have the "issue" grant for the license type.
-	BatchIssueLicense(ctx context.Context, in *MsgBatchIssueLicense, opts ...grpc.CallOption) (*MsgBatchIssueLicenseResponse, error)
 }
 
 type msgClient struct {
@@ -1276,18 +1148,18 @@ func (c *msgClient) RevokeAdminKeyPermissions(ctx context.Context, in *MsgRevoke
 	return out, nil
 }
 
-func (c *msgClient) IssueLicense(ctx context.Context, in *MsgIssueLicense, opts ...grpc.CallOption) (*MsgIssueLicenseResponse, error) {
-	out := new(MsgIssueLicenseResponse)
-	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/IssueLicense", in, out, opts...)
+func (c *msgClient) IssueLicenses(ctx context.Context, in *MsgIssueLicenses, opts ...grpc.CallOption) (*MsgIssueLicensesResponse, error) {
+	out := new(MsgIssueLicensesResponse)
+	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/IssueLicenses", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) RevokeLicense(ctx context.Context, in *MsgRevokeLicense, opts ...grpc.CallOption) (*MsgRevokeLicenseResponse, error) {
-	out := new(MsgRevokeLicenseResponse)
-	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/RevokeLicense", in, out, opts...)
+func (c *msgClient) RevokeLicenses(ctx context.Context, in *MsgRevokeLicenses, opts ...grpc.CallOption) (*MsgRevokeLicensesResponse, error) {
+	out := new(MsgRevokeLicensesResponse)
+	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/RevokeLicenses", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1312,15 +1184,6 @@ func (c *msgClient) UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseT
 	return out, nil
 }
 
-func (c *msgClient) BatchIssueLicense(ctx context.Context, in *MsgBatchIssueLicense, opts ...grpc.CallOption) (*MsgBatchIssueLicenseResponse, error) {
-	out := new(MsgBatchIssueLicenseResponse)
-	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/BatchIssueLicense", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// UpdateParams defines a governance operation for updating the module parameters.
@@ -1334,17 +1197,15 @@ type MsgServer interface {
 	// key's grants. If a grant's license types become empty it is dropped; if all grants are gone
 	// the admin key entry itself is deleted. Signer must be the module owner.
 	RevokeAdminKeyPermissions(context.Context, *MsgRevokeAdminKeyPermissions) (*MsgRevokeAdminKeyPermissionsResponse, error)
-	// IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
-	IssueLicense(context.Context, *MsgIssueLicense) (*MsgIssueLicenseResponse, error)
-	// RevokeLicense revokes licenses for a holder, revoking the most recently issued first.
+	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
+	IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error)
+	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
 	// Signer must have the "revoke" grant for the license type.
-	RevokeLicense(context.Context, *MsgRevokeLicense) (*MsgRevokeLicenseResponse, error)
+	RevokeLicenses(context.Context, *MsgRevokeLicenses) (*MsgRevokeLicensesResponse, error)
 	// TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
 	TransferLicense(context.Context, *MsgTransferLicense) (*MsgTransferLicenseResponse, error)
 	// UpdateLicenseType updates an existing license type. Signer must be the module owner.
 	UpdateLicenseType(context.Context, *MsgUpdateLicenseType) (*MsgUpdateLicenseTypeResponse, error)
-	// BatchIssueLicense issues multiple licenses in a single transaction. Signer must have the "issue" grant for the license type.
-	BatchIssueLicense(context.Context, *MsgBatchIssueLicense) (*MsgBatchIssueLicenseResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -1363,20 +1224,17 @@ func (*UnimplementedMsgServer) GrantAdminPermissions(ctx context.Context, req *M
 func (*UnimplementedMsgServer) RevokeAdminKeyPermissions(ctx context.Context, req *MsgRevokeAdminKeyPermissions) (*MsgRevokeAdminKeyPermissionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeAdminKeyPermissions not implemented")
 }
-func (*UnimplementedMsgServer) IssueLicense(ctx context.Context, req *MsgIssueLicense) (*MsgIssueLicenseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IssueLicense not implemented")
+func (*UnimplementedMsgServer) IssueLicenses(ctx context.Context, req *MsgIssueLicenses) (*MsgIssueLicensesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IssueLicenses not implemented")
 }
-func (*UnimplementedMsgServer) RevokeLicense(ctx context.Context, req *MsgRevokeLicense) (*MsgRevokeLicenseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokeLicense not implemented")
+func (*UnimplementedMsgServer) RevokeLicenses(ctx context.Context, req *MsgRevokeLicenses) (*MsgRevokeLicensesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeLicenses not implemented")
 }
 func (*UnimplementedMsgServer) TransferLicense(ctx context.Context, req *MsgTransferLicense) (*MsgTransferLicenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferLicense not implemented")
 }
 func (*UnimplementedMsgServer) UpdateLicenseType(ctx context.Context, req *MsgUpdateLicenseType) (*MsgUpdateLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLicenseType not implemented")
-}
-func (*UnimplementedMsgServer) BatchIssueLicense(ctx context.Context, req *MsgBatchIssueLicense) (*MsgBatchIssueLicenseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BatchIssueLicense not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -1455,38 +1313,38 @@ func _Msg_RevokeAdminKeyPermissions_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_IssueLicense_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgIssueLicense)
+func _Msg_IssueLicenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgIssueLicenses)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).IssueLicense(ctx, in)
+		return srv.(MsgServer).IssueLicenses(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/licenses.v1.Msg/IssueLicense",
+		FullMethod: "/licenses.v1.Msg/IssueLicenses",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).IssueLicense(ctx, req.(*MsgIssueLicense))
+		return srv.(MsgServer).IssueLicenses(ctx, req.(*MsgIssueLicenses))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_RevokeLicense_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgRevokeLicense)
+func _Msg_RevokeLicenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRevokeLicenses)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).RevokeLicense(ctx, in)
+		return srv.(MsgServer).RevokeLicenses(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/licenses.v1.Msg/RevokeLicense",
+		FullMethod: "/licenses.v1.Msg/RevokeLicenses",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RevokeLicense(ctx, req.(*MsgRevokeLicense))
+		return srv.(MsgServer).RevokeLicenses(ctx, req.(*MsgRevokeLicenses))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1527,24 +1385,6 @@ func _Msg_UpdateLicenseType_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_BatchIssueLicense_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgBatchIssueLicense)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).BatchIssueLicense(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/licenses.v1.Msg/BatchIssueLicense",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).BatchIssueLicense(ctx, req.(*MsgBatchIssueLicense))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "licenses.v1.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -1566,12 +1406,12 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_RevokeAdminKeyPermissions_Handler,
 		},
 		{
-			MethodName: "IssueLicense",
-			Handler:    _Msg_IssueLicense_Handler,
+			MethodName: "IssueLicenses",
+			Handler:    _Msg_IssueLicenses_Handler,
 		},
 		{
-			MethodName: "RevokeLicense",
-			Handler:    _Msg_RevokeLicense_Handler,
+			MethodName: "RevokeLicenses",
+			Handler:    _Msg_RevokeLicenses_Handler,
 		},
 		{
 			MethodName: "TransferLicense",
@@ -1580,10 +1420,6 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateLicenseType",
 			Handler:    _Msg_UpdateLicenseType_Handler,
-		},
-		{
-			MethodName: "BatchIssueLicense",
-			Handler:    _Msg_BatchIssueLicense_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1918,7 +1754,7 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) MarshalToSizedBuffer(dAtA []byte)
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgIssueLicense) Marshal() (dAtA []byte, err error) {
+func (m *IssueLicenseEntry) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1928,12 +1764,12 @@ func (m *MsgIssueLicense) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgIssueLicense) MarshalTo(dAtA []byte) (int, error) {
+func (m *IssueLicenseEntry) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgIssueLicense) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *IssueLicenseEntry) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1941,35 +1777,72 @@ func (m *MsgIssueLicense) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.Count != 0 {
 		i = encodeVarintTx(dAtA, i, uint64(m.Count))
 		i--
-		dAtA[i] = 0x30
+		dAtA[i] = 0x28
 	}
 	if len(m.EndDate) > 0 {
 		i -= len(m.EndDate)
 		copy(dAtA[i:], m.EndDate)
 		i = encodeVarintTx(dAtA, i, uint64(len(m.EndDate)))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x22
 	}
 	if len(m.StartDate) > 0 {
 		i -= len(m.StartDate)
 		copy(dAtA[i:], m.StartDate)
 		i = encodeVarintTx(dAtA, i, uint64(len(m.StartDate)))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x1a
 	}
 	if len(m.Holder) > 0 {
 		i -= len(m.Holder)
 		copy(dAtA[i:], m.Holder)
 		i = encodeVarintTx(dAtA, i, uint64(len(m.Holder)))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x12
 	}
 	if len(m.LicenseTypeId) > 0 {
 		i -= len(m.LicenseTypeId)
 		copy(dAtA[i:], m.LicenseTypeId)
 		i = encodeVarintTx(dAtA, i, uint64(len(m.LicenseTypeId)))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgIssueLicenses) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgIssueLicenses) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgIssueLicenses) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Entries) > 0 {
+		for iNdEx := len(m.Entries) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Entries[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
 	}
 	if len(m.Issuer) > 0 {
 		i -= len(m.Issuer)
@@ -1981,7 +1854,7 @@ func (m *MsgIssueLicense) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgIssueLicenseResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgIssueLicensesResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1991,12 +1864,12 @@ func (m *MsgIssueLicenseResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgIssueLicenseResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgIssueLicensesResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgIssueLicenseResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgIssueLicensesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -2022,7 +1895,7 @@ func (m *MsgIssueLicenseResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgRevokeLicense) Marshal() (dAtA []byte, err error) {
+func (m *MsgRevokeLicenses) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -2032,12 +1905,12 @@ func (m *MsgRevokeLicense) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgRevokeLicense) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgRevokeLicenses) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgRevokeLicense) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgRevokeLicenses) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -2071,7 +1944,7 @@ func (m *MsgRevokeLicense) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgRevokeLicenseResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgRevokeLicensesResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -2081,12 +1954,12 @@ func (m *MsgRevokeLicenseResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgRevokeLicenseResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgRevokeLicensesResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgRevokeLicenseResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgRevokeLicensesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -2264,142 +2137,6 @@ func (m *MsgUpdateLicenseTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, e
 	return len(dAtA) - i, nil
 }
 
-func (m *BatchIssueLicenseEntry) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *BatchIssueLicenseEntry) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *BatchIssueLicenseEntry) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.EndDate) > 0 {
-		i -= len(m.EndDate)
-		copy(dAtA[i:], m.EndDate)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.EndDate)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.StartDate) > 0 {
-		i -= len(m.StartDate)
-		copy(dAtA[i:], m.StartDate)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.StartDate)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Holder) > 0 {
-		i -= len(m.Holder)
-		copy(dAtA[i:], m.Holder)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Holder)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgBatchIssueLicense) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgBatchIssueLicense) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgBatchIssueLicense) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Entries) > 0 {
-		for iNdEx := len(m.Entries) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Entries[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintTx(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.LicenseTypeId) > 0 {
-		i -= len(m.LicenseTypeId)
-		copy(dAtA[i:], m.LicenseTypeId)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.LicenseTypeId)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Issuer) > 0 {
-		i -= len(m.Issuer)
-		copy(dAtA[i:], m.Issuer)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Issuer)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgBatchIssueLicenseResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgBatchIssueLicenseResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgBatchIssueLicenseResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Ids) > 0 {
-		dAtA7 := make([]byte, len(m.Ids)*10)
-		var j6 int
-		for _, num := range m.Ids {
-			for num >= 1<<7 {
-				dAtA7[j6] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				j6++
-			}
-			dAtA7[j6] = uint8(num)
-			j6++
-		}
-		i -= j6
-		copy(dAtA[i:], dAtA7[:j6])
-		i = encodeVarintTx(dAtA, i, uint64(j6))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -2547,16 +2284,12 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgIssueLicense) Size() (n int) {
+func (m *IssueLicenseEntry) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.Issuer)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
 	l = len(m.LicenseTypeId)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
@@ -2579,7 +2312,26 @@ func (m *MsgIssueLicense) Size() (n int) {
 	return n
 }
 
-func (m *MsgIssueLicenseResponse) Size() (n int) {
+func (m *MsgIssueLicenses) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Issuer)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if len(m.Entries) > 0 {
+		for _, e := range m.Entries {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *MsgIssueLicensesResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2595,7 +2347,7 @@ func (m *MsgIssueLicenseResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgRevokeLicense) Size() (n int) {
+func (m *MsgRevokeLicenses) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2619,7 +2371,7 @@ func (m *MsgRevokeLicense) Size() (n int) {
 	return n
 }
 
-func (m *MsgRevokeLicenseResponse) Size() (n int) {
+func (m *MsgRevokeLicensesResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2696,66 +2448,6 @@ func (m *MsgUpdateLicenseTypeResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	return n
-}
-
-func (m *BatchIssueLicenseEntry) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Holder)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.StartDate)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.EndDate)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgBatchIssueLicense) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Issuer)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.LicenseTypeId)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	if len(m.Entries) > 0 {
-		for _, e := range m.Entries {
-			l = e.Size()
-			n += 1 + l + sovTx(uint64(l))
-		}
-	}
-	return n
-}
-
-func (m *MsgBatchIssueLicenseResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Ids) > 0 {
-		l = 0
-		for _, e := range m.Ids {
-			l += sovTx(uint64(e))
-		}
-		n += 1 + sovTx(uint64(l)) + l
-	}
 	return n
 }
 
@@ -3658,7 +3350,7 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
+func (m *IssueLicenseEntry) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3681,45 +3373,13 @@ func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgIssueLicense: wiretype end group for non-group")
+			return fmt.Errorf("proto: IssueLicenseEntry: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgIssueLicense: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: IssueLicenseEntry: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Issuer", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Issuer = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
 			}
@@ -3751,7 +3411,7 @@ func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
 			}
 			m.LicenseTypeId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Holder", wireType)
 			}
@@ -3783,7 +3443,7 @@ func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
 			}
 			m.Holder = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StartDate", wireType)
 			}
@@ -3815,7 +3475,7 @@ func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
 			}
 			m.StartDate = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field EndDate", wireType)
 			}
@@ -3847,7 +3507,7 @@ func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
 			}
 			m.EndDate = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 6:
+		case 5:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
 			}
@@ -3887,7 +3547,7 @@ func (m *MsgIssueLicense) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgIssueLicenseResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgIssueLicenses) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3910,10 +3570,126 @@ func (m *MsgIssueLicenseResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgIssueLicenseResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgIssueLicenses: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgIssueLicenseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgIssueLicenses: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Issuer", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Issuer = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Entries", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Entries = append(m.Entries, IssueLicenseEntry{})
+			if err := m.Entries[len(m.Entries)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgIssueLicensesResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgIssueLicensesResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgIssueLicensesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -4013,7 +3789,7 @@ func (m *MsgIssueLicenseResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgRevokeLicense) Unmarshal(dAtA []byte) error {
+func (m *MsgRevokeLicenses) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -4036,10 +3812,10 @@ func (m *MsgRevokeLicense) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgRevokeLicense: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgRevokeLicenses: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgRevokeLicense: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgRevokeLicenses: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -4178,7 +3954,7 @@ func (m *MsgRevokeLicense) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgRevokeLicenseResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgRevokeLicensesResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -4201,10 +3977,10 @@ func (m *MsgRevokeLicenseResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgRevokeLicenseResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgRevokeLicensesResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgRevokeLicenseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgRevokeLicensesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -4716,426 +4492,6 @@ func (m *MsgUpdateLicenseTypeResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgUpdateLicenseTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *BatchIssueLicenseEntry) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: BatchIssueLicenseEntry: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: BatchIssueLicenseEntry: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Holder", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Holder = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StartDate", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.StartDate = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EndDate", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.EndDate = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgBatchIssueLicense) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBatchIssueLicense: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBatchIssueLicense: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Issuer", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Issuer = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.LicenseTypeId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Entries", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Entries = append(m.Entries, BatchIssueLicenseEntry{})
-			if err := m.Entries[len(m.Entries)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgBatchIssueLicenseResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBatchIssueLicenseResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBatchIssueLicenseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType == 0 {
-				var v uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTx
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					v |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				m.Ids = append(m.Ids, v)
-			} else if wireType == 2 {
-				var packedLen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTx
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					packedLen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if packedLen < 0 {
-					return ErrInvalidLengthTx
-				}
-				postIndex := iNdEx + packedLen
-				if postIndex < 0 {
-					return ErrInvalidLengthTx
-				}
-				if postIndex > l {
-					return io.ErrUnexpectedEOF
-				}
-				var elementCount int
-				var count int
-				for _, integer := range dAtA[iNdEx:postIndex] {
-					if integer < 128 {
-						count++
-					}
-				}
-				elementCount = count
-				if elementCount != 0 && len(m.Ids) == 0 {
-					m.Ids = make([]uint64, 0, elementCount)
-				}
-				for iNdEx < postIndex {
-					var v uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTx
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						v |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					m.Ids = append(m.Ids, v)
-				}
-			} else {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ids", wireType)
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])

@@ -19,10 +19,9 @@ const (
 	UpdateLicenseTypeMethod         = "updateLicenseType"
 	GrantAdminPermissionsMethod     = "grantAdminPermissions"
 	RevokeAdminKeyPermissionsMethod = "revokeAdminKeyPermissions"
-	IssueLicenseMethod              = "issueLicense"
-	RevokeLicenseMethod             = "revokeLicense"
+	IssueLicensesMethod             = "issueLicenses"
+	RevokeLicensesMethod            = "revokeLicenses"
 	TransferLicenseMethod           = "transferLicense"
-	BatchIssueLicenseMethod         = "batchIssueLicense"
 )
 
 // CreateLicenseType handles the createLicenseType ABI method.
@@ -245,78 +244,68 @@ func (p Precompile) RevokeAdminKeyPermissions(
 	return method.Outputs.Pack(true)
 }
 
-// IssueLicense handles the issueLicense ABI method.
-func (p Precompile) IssueLicense(
+// IssueLicenses handles the issueLicenses ABI method.
+func (p Precompile) IssueLicenses(
 	ctx sdk.Context,
 	contract *vm.Contract,
 	stateDB vm.StateDB,
 	method *abi.Method,
 	args []interface{},
 ) ([]byte, error) {
-	if err := argCount(args, 5); err != nil {
+	if err := argCount(args, 1); err != nil {
 		return nil, err
 	}
-	licenseTypeID, err := argToString(args[0], "licenseTypeId")
-	if err != nil {
-		return nil, err
-	}
-	holderHex, err := argToAddress(args[1], "holder")
-	if err != nil {
-		return nil, err
-	}
-	startDate, err := argToString(args[2], "startDate")
-	if err != nil {
-		return nil, err
-	}
-	endDate, err := argToString(args[3], "endDate")
-	if err != nil {
-		return nil, err
-	}
-	count, err := argToUint64(args[4], "count")
-	if err != nil {
-		return nil, err
+
+	rawEntries, ok := args[0].([]IssueLicenseEntryArg)
+	if !ok {
+		return nil, fmt.Errorf("invalid type for entries: expected IssueLicenseEntry[], got %T", args[0])
 	}
 
 	issuer, err := hexToBech32(p.addrCdc, contract.Caller())
 	if err != nil {
 		return nil, err
 	}
-	holder, err := hexToBech32(p.addrCdc, holderHex)
-	if err != nil {
-		return nil, err
+
+	entries := make([]licensestypes.IssueLicenseEntry, 0, len(rawEntries))
+	for i, e := range rawEntries {
+		holder, err := hexToBech32(p.addrCdc, e.Holder)
+		if err != nil {
+			return nil, fmt.Errorf("entry %d: %w", i, err)
+		}
+		entries = append(entries, licensestypes.IssueLicenseEntry{
+			LicenseTypeId: e.LicenseTypeId,
+			Holder:        holder,
+			StartDate:     e.StartDate,
+			EndDate:       e.EndDate,
+			Count:         e.Count,
+		})
 	}
 
-	msg := &licensestypes.MsgIssueLicense{
-		Issuer:        issuer,
-		LicenseTypeId: licenseTypeID,
-		Holder:        holder,
-		StartDate:     startDate,
-		EndDate:       endDate,
-		Count:         count,
+	msg := &licensestypes.MsgIssueLicenses{
+		Issuer:  issuer,
+		Entries: entries,
 	}
 
 	if err := msg.ValidateBasic(); err != nil {
 		return nil, err
 	}
 
-	res, err := p.msgServer.IssueLicense(ctx, msg)
+	res, err := p.msgServer.IssueLicenses(ctx, msg)
 	if err != nil {
 		return nil, err
 	}
 
-	emitted := count
-	if emitted == 0 {
-		emitted = uint64(len(res.Ids))
-	}
-	if err := p.EmitLicenseIssued(ctx, stateDB, contract.Caller(), holderHex, licenseTypeID, emitted); err != nil {
-		return nil, err
+	for _, e := range rawEntries {
+		if err := p.EmitLicenseIssued(ctx, stateDB, contract.Caller(), e.Holder, e.LicenseTypeId, e.Count); err != nil {
+			return nil, err
+		}
 	}
 
 	return method.Outputs.Pack(res.Ids)
 }
 
-// RevokeLicense handles the revokeLicense ABI method.
-func (p Precompile) RevokeLicense(
+// RevokeLicenses handles the revokeLicenses ABI method.
+func (p Precompile) RevokeLicenses(
 	ctx sdk.Context,
 	contract *vm.Contract,
 	stateDB vm.StateDB,
@@ -348,7 +337,7 @@ func (p Precompile) RevokeLicense(
 		return nil, err
 	}
 
-	msg := &licensestypes.MsgRevokeLicense{
+	msg := &licensestypes.MsgRevokeLicenses{
 		Revoker:       revoker,
 		LicenseTypeId: licenseTypeID,
 		Holder:        holder,
@@ -359,7 +348,7 @@ func (p Precompile) RevokeLicense(
 		return nil, err
 	}
 
-	res, err := p.msgServer.RevokeLicense(ctx, msg)
+	res, err := p.msgServer.RevokeLicenses(ctx, msg)
 	if err != nil {
 		return nil, err
 	}
@@ -428,65 +417,4 @@ func (p Precompile) TransferLicense(
 	}
 
 	return method.Outputs.Pack(true)
-}
-
-// BatchIssueLicense handles the batchIssueLicense ABI method.
-func (p Precompile) BatchIssueLicense(
-	ctx sdk.Context,
-	contract *vm.Contract,
-	stateDB vm.StateDB,
-	method *abi.Method,
-	args []interface{},
-) ([]byte, error) {
-	if err := argCount(args, 2); err != nil {
-		return nil, err
-	}
-	licenseTypeID, err := argToString(args[0], "licenseTypeId")
-	if err != nil {
-		return nil, err
-	}
-
-	rawEntries, ok := args[1].([]BatchIssueEntryArg)
-	if !ok {
-		return nil, fmt.Errorf("invalid type for entries: expected BatchIssueEntry[], got %T", args[1])
-	}
-
-	issuer, err := hexToBech32(p.addrCdc, contract.Caller())
-	if err != nil {
-		return nil, err
-	}
-
-	entries := make([]licensestypes.BatchIssueLicenseEntry, 0, len(rawEntries))
-	for i, e := range rawEntries {
-		holder, err := hexToBech32(p.addrCdc, e.Holder)
-		if err != nil {
-			return nil, fmt.Errorf("entry %d: %w", i, err)
-		}
-		entries = append(entries, licensestypes.BatchIssueLicenseEntry{
-			Holder:    holder,
-			StartDate: e.StartDate,
-			EndDate:   e.EndDate,
-		})
-	}
-
-	msg := &licensestypes.MsgBatchIssueLicense{
-		Issuer:        issuer,
-		LicenseTypeId: licenseTypeID,
-		Entries:       entries,
-	}
-
-	if err := msg.ValidateBasic(); err != nil {
-		return nil, err
-	}
-
-	res, err := p.msgServer.BatchIssueLicense(ctx, msg)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := p.EmitLicenseBatchIssued(ctx, stateDB, contract.Caller(), licenseTypeID, uint64(len(res.Ids))); err != nil {
-		return nil, err
-	}
-
-	return method.Outputs.Pack(res.Ids)
 }

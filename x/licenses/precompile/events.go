@@ -15,14 +15,13 @@ import (
 
 // Event names. Must match the event names in LicensesI.sol / abi.json.
 const (
-	EventTypeLicenseTypeCreated = "LicenseTypeCreated"
-	EventTypeLicenseTypeUpdated = "LicenseTypeUpdated"
-	EventTypeAdminPermissionsGranted   = "AdminPermissionsGranted"
+	EventTypeLicenseTypeCreated         = "LicenseTypeCreated"
+	EventTypeLicenseTypeUpdated         = "LicenseTypeUpdated"
+	EventTypeAdminPermissionsGranted    = "AdminPermissionsGranted"
 	EventTypeAdminKeyPermissionsRevoked = "AdminKeyPermissionsRevoked"
-	EventTypeLicenseIssued      = "LicenseIssued"
-	EventTypeLicenseRevoked     = "LicenseRevoked"
-	EventTypeLicenseTransferred = "LicenseTransferred"
-	EventTypeLicenseBatchIssued = "LicenseBatchIssued"
+	EventTypeLicenseIssued              = "LicenseIssued"
+	EventTypeLicenseRevoked             = "LicenseRevoked"
+	EventTypeLicenseTransferred         = "LicenseTransferred"
 )
 
 // emitLog writes an EVM log entry to the stateDB.
@@ -168,22 +167,3 @@ func (p Precompile) EmitLicenseTransferred(ctx sdk.Context, stateDB vm.StateDB, 
 	p.emitLog(ctx, stateDB, []common.Hash{event.ID, fromTopic, toTopic}, data)
 	return nil
 }
-
-// EmitLicenseBatchIssued emits the LicenseBatchIssued event.
-func (p Precompile) EmitLicenseBatchIssued(ctx sdk.Context, stateDB vm.StateDB, issuer common.Address, licenseTypeID string, count uint64) error {
-	event := p.Events[EventTypeLicenseBatchIssued]
-
-	issuerTopic, err := cmn.MakeTopic(issuer)
-	if err != nil {
-		return err
-	}
-
-	data, err := packArgs(event, licenseTypeID, count)
-	if err != nil {
-		return err
-	}
-
-	p.emitLog(ctx, stateDB, []common.Hash{event.ID, issuerTopic}, data)
-	return nil
-}
-

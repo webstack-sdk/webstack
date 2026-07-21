@@ -25,8 +25,8 @@ func GetTxCmd() *cobra.Command {
 
 	cmd.AddCommand(CmdGrantAdminPermissions())
 	cmd.AddCommand(CmdRevokeAdminKeyPermissions())
-	cmd.AddCommand(CmdBatchIssueLicense())
-	cmd.AddCommand(CmdRevokeLicense())
+	cmd.AddCommand(CmdIssueLicenses())
+	cmd.AddCommand(CmdRevokeLicenses())
 
 	return cmd
 }
@@ -187,69 +187,81 @@ Example:
 	return cmd
 }
 
-// CmdBatchIssueLicense returns a command to issue licenses to multiple holders in one tx.
+// CmdIssueLicenses returns a command to issue licenses to one or more holders,
+// across one or more license types, in a single transaction.
 //
 // Usage:
 //
-//	batch-issue-license [license-type-id] [holder1:start:end] [holder2:start:end] ...
+//	issue-licenses [entry1] [entry2] ...
 //
-// Each entry is colon-delimited: holder_address:start_date:end_date
-// The end_date is optional (omit or leave empty after the second colon).
+// Each entry is colon-delimited: license_type_id:holder:count:start_date[:end_date]
+// The end_date is optional (omit or leave empty after the fourth colon).
 // The issuer is taken from --from.
-func CmdBatchIssueLicense() *cobra.Command {
+func CmdIssueLicenses() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "batch-issue-license [license-type-id] [entries...]",
-		Short: "Issue licenses to multiple holders in a single transaction",
-		Long: `Issue licenses to multiple holders in a single transaction. The issuer (--from) must have "issue" permission.
+		Use:   "issue-licenses [entries...]",
+		Short: "Issue licenses to one or more holders in a single transaction",
+		Long: `Issue licenses in a single transaction. Each entry can target a different
+license type and holder. The issuer (--from) must have "issue" permission for
+every referenced license type.
 
-Each entry after the license type ID is colon-delimited:
-  holder_address:start_date:end_date
+Each entry is colon-delimited:
+  license_type_id:holder:count:start_date[:end_date]
 
 The end_date is optional. If omitted, the license has no expiry.
 
 Example:
-  webstackd tx licenses batch-issue-license node.license \
-    webstack1abc...:2025-01-01:2026-01-01 \
-    webstack1def...:2025-01-01 \
+  webstackd tx licenses issue-licenses \
+    node.license:webstack1abc...:1:2025-01-01:2026-01-01 \
+    validator.license:webstack1def...:3:2025-01-01 \
     --from admin --gas auto --fees 100000aatom -y`,
-		Args: cobra.MinimumNArgs(2),
+		Args: cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			licenseTypeID := args[0]
-			entries := make([]types.BatchIssueLicenseEntry, 0, len(args)-1)
-
-			for i, arg := range args[1:] {
-				parts := strings.SplitN(arg, ":", 3)
-				if len(parts) < 2 {
-					return fmt.Errorf("entry %d: expected format holder:start_date[:end_date], got %q", i, arg)
+			entries := make([]types.IssueLicenseEntry, 0, len(args))
+			for i, arg := range args {
+				parts := strings.SplitN(arg, ":", 5)
+				if len(parts) < 4 {
+					return fmt.Errorf("entry %d: expected format license_type_id:holder:count:start_date[:end_date], got %q", i, arg)
 				}
 
-				holder := strings.TrimSpace(parts[0])
+				licenseTypeID := strings.TrimSpace(parts[0])
+				if licenseTypeID == "" {
+					return fmt.Errorf("entry %d: license type id must not be empty", i)
+				}
+
+				holder := strings.TrimSpace(parts[1])
 				if _, err := sdk.AccAddressFromBech32(holder); err != nil {
 					return fmt.Errorf("entry %d: invalid holder address %q: %w", i, holder, err)
 				}
 
-				startDate := strings.TrimSpace(parts[1])
-				var endDate string
-				if len(parts) == 3 {
-					endDate = strings.TrimSpace(parts[2])
+				count, err := strconv.ParseUint(strings.TrimSpace(parts[2]), 10, 64)
+				if err != nil {
+					return fmt.Errorf("entry %d: invalid count %q: %w", i, parts[2], err)
 				}
 
-				entries = append(entries, types.BatchIssueLicenseEntry{
-					Holder:    holder,
-					StartDate: startDate,
-					EndDate:   endDate,
+				startDate := strings.TrimSpace(parts[3])
+				var endDate string
+				if len(parts) == 5 {
+					endDate = strings.TrimSpace(parts[4])
+				}
+
+				entries = append(entries, types.IssueLicenseEntry{
+					LicenseTypeId: licenseTypeID,
+					Holder:        holder,
+					Count:         count,
+					StartDate:     startDate,
+					EndDate:       endDate,
 				})
 			}
 
-			msg := &types.MsgBatchIssueLicense{
-				Issuer:        clientCtx.GetFromAddress().String(),
-				LicenseTypeId: licenseTypeID,
-				Entries:       entries,
+			msg := &types.MsgIssueLicenses{
+				Issuer:  clientCtx.GetFromAddress().String(),
+				Entries: entries,
 			}
 
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
@@ -260,17 +272,17 @@ Example:
 	return cmd
 }
 
-// CmdRevokeLicense returns a command to revoke licenses for a holder.
+// CmdRevokeLicenses returns a command to revoke licenses for a holder.
 //
 // Usage:
 //
-//	revoke-license [license-type-id] [holder] [count]
+//	revoke-licenses [license-type-id] [holder] [count]
 //
 // The most recently issued active licenses are revoked first.
 // The revoker is taken from --from.
-func CmdRevokeLicense() *cobra.Command {
+func CmdRevokeLicenses() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "revoke-license [license-type-id] [holder] [count]",
+		Use:   "revoke-licenses [license-type-id] [holder] [count]",
 		Short: "Revoke licenses for a holder, most recent first",
 		Long: `Revoke active licenses for a holder. The revoker (--from) must have "revoke" permission.
 
@@ -278,7 +290,7 @@ The most recently issued active licenses are revoked first. Their status is set 
 and end_date is set to the current block date.
 
 Example:
-  webstackd tx licenses revoke-license node.license webstack1abc... 2 \
+  webstackd tx licenses revoke-licenses node.license webstack1abc... 2 \
     --from admin --gas auto --fees 100000aatom -y`,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -297,7 +309,7 @@ Example:
 				return fmt.Errorf("invalid count %q: %w", args[2], err)
 			}
 
-			msg := &types.MsgRevokeLicense{
+			msg := &types.MsgRevokeLicenses{
 				Revoker:       clientCtx.GetFromAddress().String(),
 				LicenseTypeId: args[0],
 				Holder:        holder,

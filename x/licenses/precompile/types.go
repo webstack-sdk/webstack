@@ -9,8 +9,8 @@ import (
 	"cosmossdk.io/core/address"
 	"cosmossdk.io/math"
 
-	cmn "github.com/cosmos/evm/precompiles/common"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	cmn "github.com/cosmos/evm/precompiles/common"
 
 	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
 )
@@ -24,13 +24,15 @@ type AdminKeyGrantArg = struct {
 	LicenseTypes []string `json:"licenseTypes"`
 }
 
-// BatchIssueEntryArg mirrors the Solidity BatchIssueEntry tuple.
+// IssueLicenseEntryArg mirrors the Solidity IssueLicenseEntry tuple.
 //
 // NOTE: alias type, see AdminKeyGrantArg.
-type BatchIssueEntryArg = struct {
-	Holder    common.Address `json:"holder"`
-	StartDate string         `json:"startDate"`
-	EndDate   string         `json:"endDate"`
+type IssueLicenseEntryArg = struct {
+	LicenseTypeId string         `json:"licenseTypeId"`
+	Holder        common.Address `json:"holder"`
+	StartDate     string         `json:"startDate"`
+	EndDate       string         `json:"endDate"`
+	Count         uint64         `json:"count"`
 }
 
 // AdminKeyPermissionArg mirrors the Solidity AdminKeyPermission tuple

@@ -73,16 +73,6 @@
       "type": "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        { "indexed": true, "internalType": "address", "name": "issuer", "type": "address" },
-        { "indexed": false, "internalType": "string", "name": "licenseTypeId", "type": "string" },
-        { "indexed": false, "internalType": "uint64", "name": "count", "type": "uint64" }
-      ],
-      "name": "LicenseBatchIssued",
-      "type": "event"
-    },
-    {
       "inputs": [
         { "internalType": "string", "name": "id", "type": "string" },
         { "internalType": "bool", "name": "transferrable", "type": "bool" },
@@ -150,13 +140,20 @@
     },
     {
       "inputs": [
-        { "internalType": "string", "name": "licenseTypeId", "type": "string" },
-        { "internalType": "address", "name": "holder", "type": "address" },
-        { "internalType": "string", "name": "startDate", "type": "string" },
-        { "internalType": "string", "name": "endDate", "type": "string" },
-        { "internalType": "uint64", "name": "count", "type": "uint64" }
+        {
+          "components": [
+            { "internalType": "string", "name": "licenseTypeId", "type": "string" },
+            { "internalType": "address", "name": "holder", "type": "address" },
+            { "internalType": "string", "name": "startDate", "type": "string" },
+            { "internalType": "string", "name": "endDate", "type": "string" },
+            { "internalType": "uint64", "name": "count", "type": "uint64" }
+          ],
+          "internalType": "struct IssueLicenseEntry[]",
+          "name": "entries",
+          "type": "tuple[]"
+        }
       ],
-      "name": "issueLicense",
+      "name": "issueLicenses",
       "outputs": [
         { "internalType": "uint64[]", "name": "ids", "type": "uint64[]" }
       ],
@@ -169,7 +166,7 @@
         { "internalType": "address", "name": "holder", "type": "address" },
         { "internalType": "uint64", "name": "count", "type": "uint64" }
       ],
-      "name": "revokeLicense",
+      "name": "revokeLicenses",
       "outputs": [
         { "internalType": "uint64[]", "name": "ids", "type": "uint64[]" }
       ],
@@ -185,27 +182,6 @@
       "name": "transferLicense",
       "outputs": [
         { "internalType": "bool", "name": "success", "type": "bool" }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        { "internalType": "string", "name": "licenseTypeId", "type": "string" },
-        {
-          "components": [
-            { "internalType": "address", "name": "holder", "type": "address" },
-            { "internalType": "string", "name": "startDate", "type": "string" },
-            { "internalType": "string", "name": "endDate", "type": "string" }
-          ],
-          "internalType": "struct BatchIssueEntry[]",
-          "name": "entries",
-          "type": "tuple[]"
-        }
-      ],
-      "name": "batchIssueLicense",
-      "outputs": [
-        { "internalType": "uint64[]", "name": "ids", "type": "uint64[]" }
       ],
       "stateMutability": "nonpayable",
       "type": "function"

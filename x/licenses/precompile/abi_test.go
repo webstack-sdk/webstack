@@ -16,10 +16,9 @@ func TestABIMethodsPresent(t *testing.T) {
 		UpdateLicenseTypeMethod,
 		GrantAdminPermissionsMethod,
 		RevokeAdminKeyPermissionsMethod,
-		IssueLicenseMethod,
-		RevokeLicenseMethod,
+		IssueLicensesMethod,
+		RevokeLicensesMethod,
 		TransferLicenseMethod,
-		BatchIssueLicenseMethod,
 		// queries
 		ParamsMethod,
 		PermissionsMethod,
@@ -46,7 +45,6 @@ func TestABIMethodsPresent(t *testing.T) {
 		EventTypeLicenseIssued,
 		EventTypeLicenseRevoked,
 		EventTypeLicenseTransferred,
-		EventTypeLicenseBatchIssued,
 	}
 	for _, name := range wantEvents {
 		_, ok := ABI.Events[name]
@@ -62,8 +60,8 @@ func TestIsTransaction(t *testing.T) {
 	txMethods := []string{
 		CreateLicenseTypeMethod, UpdateLicenseTypeMethod,
 		GrantAdminPermissionsMethod, RevokeAdminKeyPermissionsMethod,
-		IssueLicenseMethod, RevokeLicenseMethod,
-		TransferLicenseMethod, BatchIssueLicenseMethod,
+		IssueLicensesMethod, RevokeLicensesMethod,
+		TransferLicenseMethod,
 	}
 	for _, name := range txMethods {
 		m := ABI.Methods[name]

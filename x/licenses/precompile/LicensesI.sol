@@ -52,11 +52,13 @@ struct AdminKeyPermission {
     string permission;
 }
 
-/// @dev BatchIssueEntry is a single (holder, dates) tuple in a batch issuance.
-struct BatchIssueEntry {
+/// @dev IssueLicenseEntry is a single issuance within an issueLicenses call.
+struct IssueLicenseEntry {
+    string licenseTypeId;
     address holder;
     string startDate;
     string endDate;
+    uint64 count;
 }
 
 /// @author Webstack
@@ -104,13 +106,6 @@ interface LicensesI {
         uint64 id
     );
 
-    /// @dev Emitted when a batch of licenses are issued.
-    event LicenseBatchIssued(
-        address indexed issuer,
-        string licenseTypeId,
-        uint64 count
-    );
-
     // ---------------------------------------------------------------------
     // Transactions
     // ---------------------------------------------------------------------
@@ -146,20 +141,17 @@ interface LicensesI {
         AdminKeyPermission[] calldata permissions
     ) external returns (bool success);
 
-    /// @dev Issue one or more licenses of the given type to a holder.
-    ///      Caller must hold the `issue` permission for that license type.
-    ///      Dates are formatted as YYYY-MM-DD.
-    function issueLicense(
-        string calldata licenseTypeId,
-        address holder,
-        string calldata startDate,
-        string calldata endDate,
-        uint64 count
+    /// @dev Issue licenses for each entry. Each entry names its own license
+    ///      type, holder, dates, and count; the caller must hold the `issue`
+    ///      permission for every referenced license type. Dates are formatted
+    ///      as YYYY-MM-DD. Returned ids are flattened in entry order.
+    function issueLicenses(
+        IssueLicenseEntry[] calldata entries
     ) external returns (uint64[] memory ids);
 
     /// @dev Revoke `count` active licenses (most recently issued first) of the given
     ///      type from `holder`. Caller must hold the `revoke` permission.
-    function revokeLicense(
+    function revokeLicenses(
         string calldata licenseTypeId,
         address holder,
         uint64 count
@@ -171,12 +163,6 @@ interface LicensesI {
         uint64 id,
         address recipient
     ) external returns (bool success);
-
-    /// @dev Issue a batch of licenses of a single type with per-entry holders and dates.
-    function batchIssueLicense(
-        string calldata licenseTypeId,
-        BatchIssueEntry[] calldata entries
-    ) external returns (uint64[] memory ids);
 
     // ---------------------------------------------------------------------
     // Queries

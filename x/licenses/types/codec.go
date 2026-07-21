@@ -12,11 +12,10 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateLicenseType{}, "webstack/x/licenses/MsgCreateLicenseType", nil)
 	cdc.RegisterConcrete(&MsgGrantAdminPermissions{}, "webstack/x/licenses/MsgGrantAdminPermissions", nil)
 	cdc.RegisterConcrete(&MsgRevokeAdminKeyPermissions{}, "webstack/x/licenses/MsgRevokeAdminKeyPermissions", nil)
-	cdc.RegisterConcrete(&MsgIssueLicense{}, "webstack/x/licenses/MsgIssueLicense", nil)
-	cdc.RegisterConcrete(&MsgRevokeLicense{}, "webstack/x/licenses/MsgRevokeLicense", nil)
+	cdc.RegisterConcrete(&MsgIssueLicenses{}, "webstack/x/licenses/MsgIssueLicenses", nil)
+	cdc.RegisterConcrete(&MsgRevokeLicenses{}, "webstack/x/licenses/MsgRevokeLicenses", nil)
 	cdc.RegisterConcrete(&MsgTransferLicense{}, "webstack/x/licenses/MsgTransferLicense", nil)
 	cdc.RegisterConcrete(&MsgUpdateLicenseType{}, "webstack/x/licenses/MsgUpdateLicenseType", nil)
-	cdc.RegisterConcrete(&MsgBatchIssueLicense{}, "webstack/x/licenses/MsgBatchIssueLicense", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
@@ -25,11 +24,10 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateLicenseType{},
 		&MsgGrantAdminPermissions{},
 		&MsgRevokeAdminKeyPermissions{},
-		&MsgIssueLicense{},
-		&MsgRevokeLicense{},
+		&MsgIssueLicenses{},
+		&MsgRevokeLicenses{},
 		&MsgTransferLicense{},
 		&MsgUpdateLicenseType{},
-		&MsgBatchIssueLicense{},
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }

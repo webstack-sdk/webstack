@@ -23,7 +23,7 @@ func IsValidPermission(p string) bool {
 }
 
 // MaxIssueBatchSize bounds the number of entries in a single
-// MsgBatchIssueLicense. Per-tx work is otherwise only bounded by the
+// MsgIssueLicenses. Per-tx work is otherwise only bounded by the
 // CometBFT tx-size limit; this gives a clean error before the keeper
 // starts iterating a pathologically large batch.
 const MaxIssueBatchSize = 100

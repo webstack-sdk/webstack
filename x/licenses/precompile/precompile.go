@@ -41,10 +41,10 @@ type Precompile struct {
 	cmn.Precompile
 
 	abi.ABI
-	keeper       licenseskeeper.Keeper
-	msgServer    licensestypes.MsgServer
-	queryServer  licensestypes.QueryServer
-	addrCdc      address.Codec
+	keeper      licenseskeeper.Keeper
+	msgServer   licensestypes.MsgServer
+	queryServer licensestypes.QueryServer
+	addrCdc     address.Codec
 }
 
 // NewPrecompile builds a licenses precompile bound to the given keeper. The
@@ -107,14 +107,12 @@ func (p Precompile) Execute(ctx sdk.Context, stateDB vm.StateDB, contract *vm.Co
 		return p.GrantAdminPermissions(ctx, contract, stateDB, method, args)
 	case RevokeAdminKeyPermissionsMethod:
 		return p.RevokeAdminKeyPermissions(ctx, contract, stateDB, method, args)
-	case IssueLicenseMethod:
-		return p.IssueLicense(ctx, contract, stateDB, method, args)
-	case RevokeLicenseMethod:
-		return p.RevokeLicense(ctx, contract, stateDB, method, args)
+	case IssueLicensesMethod:
+		return p.IssueLicenses(ctx, contract, stateDB, method, args)
+	case RevokeLicensesMethod:
+		return p.RevokeLicenses(ctx, contract, stateDB, method, args)
 	case TransferLicenseMethod:
 		return p.TransferLicense(ctx, contract, stateDB, method, args)
-	case BatchIssueLicenseMethod:
-		return p.BatchIssueLicense(ctx, contract, stateDB, method, args)
 
 	// queries
 	case ParamsMethod:
@@ -151,10 +149,9 @@ func (Precompile) IsTransaction(method *abi.Method) bool {
 		UpdateLicenseTypeMethod,
 		GrantAdminPermissionsMethod,
 		RevokeAdminKeyPermissionsMethod,
-		IssueLicenseMethod,
-		RevokeLicenseMethod,
-		TransferLicenseMethod,
-		BatchIssueLicenseMethod:
+		IssueLicensesMethod,
+		RevokeLicensesMethod,
+		TransferLicenseMethod:
 		return true
 	default:
 		return false

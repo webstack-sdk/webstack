@@ -170,20 +170,26 @@ webstackd tx licenses revoke-admin-key-permissions webstack1admin... \
   node.license:issue validator.license:revoke --from owner
 ```
 
-### MsgIssueLicense
-Issue one or more licenses. Signer must have `issue` permission for the license type.
+### MsgIssueLicenses
+Issue licenses in a single transaction. Each entry carries its own license
+type, holder, dates, and count, so one message can issue to multiple holders
+across multiple license types. Signer must have `issue` permission for every
+referenced license type. Returned ids are flattened in entry order.
 
 ```bash
-webstackd tx licenses issue-license node.license webstack1holder... --from admin
+webstackd tx licenses issue-licenses \
+  node.license:webstack1aaa...:1:2026-01-01:2027-01-01 \
+  validator.license:webstack1bbb...:3:2026-01-01 \
+  --from admin
 ```
 
-The `count` field (default 1) allows issuing multiple licenses in one transaction.
+Each entry is `license_type_id:holder:count:start_date[:end_date]`.
 
-### MsgRevokeLicense
+### MsgRevokeLicenses
 Revoke active licenses for a holder, most recently issued first. Sets status to `revoked` and end date to the current block date. Signer must have `revoke` permission.
 
 ```bash
-webstackd tx licenses revoke-license node.license webstack1abc... 2 --from admin
+webstackd tx licenses revoke-licenses node.license webstack1abc... 2 --from admin
 ```
 
 ### MsgTransferLicense
@@ -192,18 +198,6 @@ Transfer a license to a new holder. Signer must be the current holder and the li
 ```bash
 webstackd tx licenses transfer-license node.license 1 webstack1recipient... --from holder
 ```
-
-### MsgBatchIssueLicense
-Issue licenses to multiple holders in a single transaction. Signer must have `issue` permission.
-
-```bash
-webstackd tx licenses batch-issue-license node.license \
-  webstack1aaa...:2026-01-01:2027-01-01 \
-  webstack1bbb...:2026-01-01 \
-  --from admin
-```
-
-Each entry is `holder:start_date[:end_date]`.
 
 ## Queries
 

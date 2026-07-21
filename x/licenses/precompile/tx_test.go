@@ -26,13 +26,15 @@ func grantIssue(t *testing.T, f *testFixture, addressBech, licenseTypeID string)
 // issueOne is a convenience that issues a single license through the precompile.
 func issueOne(t *testing.T, f *testFixture, issuerHex common.Address, licenseTypeID string, holderHex common.Address, startDate, endDate string) []uint64 {
 	t.Helper()
-	method := ABI.Methods[IssueLicenseMethod]
-	bz, err := f.precompile.IssueLicense(
+	method := ABI.Methods[IssueLicensesMethod]
+	bz, err := f.precompile.IssueLicenses(
 		f.ctx,
 		f.newContract(issuerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{licenseTypeID, holderHex, startDate, endDate, uint64(1)},
+		[]interface{}{[]IssueLicenseEntryArg{
+			{LicenseTypeId: licenseTypeID, Holder: holderHex, StartDate: startDate, EndDate: endDate, Count: 1},
+		}},
 	)
 	require.NoError(t, err)
 
@@ -201,20 +203,22 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	require.Error(t, err, "admin key entry should be deleted when no grants remain")
 }
 
-func TestTxIssueLicense(t *testing.T) {
+func TestTxIssueLicenses(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	grantIssue(t, f, f.OwnerBech, "type.a")
 
 	holderHex := common.HexToAddress("0x5555555555555555555555555555555555555555")
-	method := ABI.Methods[IssueLicenseMethod]
+	method := ABI.Methods[IssueLicensesMethod]
 
-	bz, err := f.precompile.IssueLicense(
+	bz, err := f.precompile.IssueLicenses(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"type.a", holderHex, "2025-01-01", "", uint64(3)},
+		[]interface{}{[]IssueLicenseEntryArg{
+			{LicenseTypeId: "type.a", Holder: holderHex, StartDate: "2025-01-01", EndDate: "", Count: 3},
+		}},
 	)
 	require.NoError(t, err)
 	out, err := method.Outputs.Unpack(bz)
@@ -235,44 +239,48 @@ func TestTxIssueLicense(t *testing.T) {
 	require.Equal(t, common.LeftPadBytes(holderHex.Bytes(), 32), last.Topics[2].Bytes())
 }
 
-// TestTxIssueLicenseRunsValidateBasic verifies that the precompile path
+// TestTxIssueLicensesRunsValidateBasic verifies that the precompile path
 // invokes the SDK message's ValidateBasic — which an empty license_type_id
 // must surface as ErrEmptyLicenseTypeID rather than the keeper's downstream
 // "no permission" path that would fire if ValidateBasic were skipped.
-func TestTxIssueLicenseRunsValidateBasic(t *testing.T) {
+func TestTxIssueLicensesRunsValidateBasic(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	grantIssue(t, f, f.OwnerBech, "type.a")
 
-	method := ABI.Methods[IssueLicenseMethod]
-	_, err := f.precompile.IssueLicense(
+	method := ABI.Methods[IssueLicensesMethod]
+	_, err := f.precompile.IssueLicenses(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"", common.HexToAddress("0x5555555555555555555555555555555555555555"), "2025-01-01", "", uint64(1)},
+		[]interface{}{[]IssueLicenseEntryArg{
+			{LicenseTypeId: "", Holder: common.HexToAddress("0x5555555555555555555555555555555555555555"), StartDate: "2025-01-01", EndDate: "", Count: 1},
+		}},
 	)
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "license type id cannot be empty")
 }
 
-func TestTxIssueLicenseWithoutPermission(t *testing.T) {
+func TestTxIssueLicensesWithoutPermission(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	// owner has no admin grants for type.a
 
-	method := ABI.Methods[IssueLicenseMethod]
-	_, err := f.precompile.IssueLicense(
+	method := ABI.Methods[IssueLicensesMethod]
+	_, err := f.precompile.IssueLicenses(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"type.a", common.HexToAddress("0x5555555555555555555555555555555555555555"), "2025-01-01", "", uint64(1)},
+		[]interface{}{[]IssueLicenseEntryArg{
+			{LicenseTypeId: "type.a", Holder: common.HexToAddress("0x5555555555555555555555555555555555555555"), StartDate: "2025-01-01", EndDate: "", Count: 1},
+		}},
 	)
 	require.Error(t, err)
 }
 
-func TestTxRevokeLicense(t *testing.T) {
+func TestTxRevokeLicenses(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	grantIssue(t, f, f.OwnerBech, "type.a")
@@ -281,8 +289,8 @@ func TestTxRevokeLicense(t *testing.T) {
 	issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
 	issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
 
-	method := ABI.Methods[RevokeLicenseMethod]
-	bz, err := f.precompile.RevokeLicense(
+	method := ABI.Methods[RevokeLicensesMethod]
+	bz, err := f.precompile.RevokeLicenses(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
@@ -364,40 +372,59 @@ func TestTxTransferLicenseNonHolderRejected(t *testing.T) {
 	require.Error(t, err, "non-holder should not be able to transfer")
 }
 
-func TestTxBatchIssueLicense(t *testing.T) {
+// TestTxIssueLicensesMultipleEntries issues to multiple holders across
+// multiple license types in one call and expects one LicenseIssued event
+// per entry.
+func TestTxIssueLicensesMultipleEntries(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
-	grantIssue(t, f, f.OwnerBech, "type.a")
+	seedLicenseType(t, f, "type.b", true, 0)
+	require.NoError(t, f.keeper.AdminKeys.Set(f.ctx, f.OwnerBech, licensestypes.AdminKey{
+		Address: f.OwnerBech,
+		Grants: []licensestypes.AdminKeyGrant{
+			{Permission: "issue", LicenseTypes: []string{"type.a", "type.b"}},
+		},
+	}))
 
 	holderA := common.HexToAddress("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	holderB := common.HexToAddress("0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 
-	entries := []BatchIssueEntryArg{
-		{Holder: holderA, StartDate: "2025-01-01", EndDate: ""},
-		{Holder: holderB, StartDate: "2025-02-01", EndDate: "2026-02-01"},
+	entries := []IssueLicenseEntryArg{
+		{LicenseTypeId: "type.a", Holder: holderA, StartDate: "2025-01-01", EndDate: "", Count: 1},
+		{LicenseTypeId: "type.a", Holder: holderB, StartDate: "2025-02-01", EndDate: "2026-02-01", Count: 2},
+		{LicenseTypeId: "type.b", Holder: holderB, StartDate: "2025-03-01", EndDate: "", Count: 1},
 	}
 
-	method := ABI.Methods[BatchIssueLicenseMethod]
-	bz, err := f.precompile.BatchIssueLicense(
+	method := ABI.Methods[IssueLicensesMethod]
+	bz, err := f.precompile.IssueLicenses(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"type.a", entries},
+		[]interface{}{entries},
 	)
 	require.NoError(t, err)
 	out, err := method.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	ids := out[0].([]uint64)
-	require.Equal(t, []uint64{1, 2}, ids)
+	require.Len(t, ids, 4, "ids flattened in entry order")
 
 	lt, err := f.keeper.LicenseTypes.Get(f.ctx, "type.a")
 	require.NoError(t, err)
-	require.Equal(t, "2", lt.IssuedCount.String())
-	require.Equal(t, "2", lt.ActiveCount.String())
+	require.Equal(t, "3", lt.IssuedCount.String())
+	require.Equal(t, "3", lt.ActiveCount.String())
+	lt, err = f.keeper.LicenseTypes.Get(f.ctx, "type.b")
+	require.NoError(t, err)
+	require.Equal(t, "1", lt.IssuedCount.String())
 
-	last := f.stateDB.logs[len(f.stateDB.logs)-1]
-	require.Equal(t, ABI.Events[EventTypeLicenseBatchIssued].ID, last.Topics[0])
+	// One LicenseIssued event per entry, in entry order.
+	require.GreaterOrEqual(t, len(f.stateDB.logs), 3)
+	eventLogs := f.stateDB.logs[len(f.stateDB.logs)-3:]
+	for i, log := range eventLogs {
+		require.Equal(t, ABI.Events[EventTypeLicenseIssued].ID, log.Topics[0])
+		require.Equal(t, common.LeftPadBytes(f.OwnerHex.Bytes(), 32), log.Topics[1].Bytes())
+		require.Equal(t, common.LeftPadBytes(entries[i].Holder.Bytes(), 32), log.Topics[2].Bytes())
+	}
 }
 
 // bechFor is a small fixture helper for the address conversions tx tests need.

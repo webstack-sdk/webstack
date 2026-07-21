@@ -49,19 +49,19 @@ service Msg {
     };
   }
 
-  // IssueLicense issues a new license. Signer must have the "issue" grant for the license type.
-  rpc IssueLicense(MsgIssueLicense) returns (MsgIssueLicenseResponse) {
+  // IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
+  rpc IssueLicenses(MsgIssueLicenses) returns (MsgIssueLicensesResponse) {
     option (google.api.http) = {
-      post: "/webstack/licenses/tx/issue_license"
+      post: "/webstack/licenses/tx/issue_licenses"
       body: "*"
     };
   }
 
-  // RevokeLicense revokes licenses for a holder, revoking the most recently issued first.
+  // RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
   // Signer must have the "revoke" grant for the license type.
-  rpc RevokeLicense(MsgRevokeLicense) returns (MsgRevokeLicenseResponse) {
+  rpc RevokeLicenses(MsgRevokeLicenses) returns (MsgRevokeLicensesResponse) {
     option (google.api.http) = {
-      post: "/webstack/licenses/tx/revoke_license"
+      post: "/webstack/licenses/tx/revoke_licenses"
       body: "*"
     };
   }
@@ -82,13 +82,6 @@ service Msg {
     };
   }
 
-  // BatchIssueLicense issues multiple licenses in a single transaction. Signer must have the "issue" grant for the license type.
-  rpc BatchIssueLicense(MsgBatchIssueLicense) returns (MsgBatchIssueLicenseResponse) {
-    option (google.api.http) = {
-      post: "/webstack/licenses/tx/batch_issue_license"
-      body: "*"
-    };
-  }
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -157,28 +150,34 @@ message MsgRevokeAdminKeyPermissions {
 // MsgRevokeAdminKeyPermissionsResponse is the Msg/RevokeAdminKeyPermissions response type.
 message MsgRevokeAdminKeyPermissionsResponse {}
 
-// MsgIssueLicense is the Msg/IssueLicense request type.
-message MsgIssueLicense {
-  option (cosmos.msg.v1.signer) = "issuer";
-  option (amino.name) = "webstack/x/licenses/MsgIssueLicense";
-
-  string issuer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string license_type_id = 2;
-  string holder = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string start_date = 4;
-  string end_date = 5;
-  uint64 count = 6;
+// IssueLicenseEntry defines a single issuance within a MsgIssueLicenses.
+message IssueLicenseEntry {
+  string license_type_id = 1;
+  string holder = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string start_date = 3;
+  string end_date = 4;
+  uint64 count = 5;
 }
 
-// MsgIssueLicenseResponse is the Msg/IssueLicense response type.
-message MsgIssueLicenseResponse {
+// MsgIssueLicenses is the Msg/IssueLicenses request type.
+message MsgIssueLicenses {
+  option (cosmos.msg.v1.signer) = "issuer";
+  option (amino.name) = "webstack/x/licenses/MsgIssueLicenses";
+
+  string issuer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  repeated IssueLicenseEntry entries = 2 [(gogoproto.nullable) = false];
+}
+
+// MsgIssueLicensesResponse is the Msg/IssueLicenses response type.
+// Ids are the issued license ids, flattened in entry order.
+message MsgIssueLicensesResponse {
   repeated uint64 ids = 1;
 }
 
-// MsgRevokeLicense is the Msg/RevokeLicense request type.
-message MsgRevokeLicense {
+// MsgRevokeLicenses is the Msg/RevokeLicenses request type.
+message MsgRevokeLicenses {
   option (cosmos.msg.v1.signer) = "revoker";
-  option (amino.name) = "webstack/x/licenses/MsgRevokeLicense";
+  option (amino.name) = "webstack/x/licenses/MsgRevokeLicenses";
 
   string revoker = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   string license_type_id = 2;
@@ -186,8 +185,8 @@ message MsgRevokeLicense {
   uint64 count = 4;
 }
 
-// MsgRevokeLicenseResponse is the Msg/RevokeLicense response type.
-message MsgRevokeLicenseResponse {
+// MsgRevokeLicensesResponse is the Msg/RevokeLicenses response type.
+message MsgRevokeLicensesResponse {
   repeated uint64 ids = 1;
 }
 
@@ -223,25 +222,3 @@ message MsgUpdateLicenseType {
 
 // MsgUpdateLicenseTypeResponse is the Msg/UpdateLicenseType response type.
 message MsgUpdateLicenseTypeResponse {}
-
-// BatchIssueLicenseEntry defines a single entry in a batch issue request.
-message BatchIssueLicenseEntry {
-  string holder = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string start_date = 2;
-  string end_date = 3;
-}
-
-// MsgBatchIssueLicense is the Msg/BatchIssueLicense request type.
-message MsgBatchIssueLicense {
-  option (cosmos.msg.v1.signer) = "issuer";
-  option (amino.name) = "webstack/x/licenses/MsgBatchIssueLicense";
-
-  string issuer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string license_type_id = 2;
-  repeated BatchIssueLicenseEntry entries = 3 [(gogoproto.nullable) = false];
-}
-
-// MsgBatchIssueLicenseResponse is the Msg/BatchIssueLicense response type.
-message MsgBatchIssueLicenseResponse {
-  repeated uint64 ids = 1;
-}

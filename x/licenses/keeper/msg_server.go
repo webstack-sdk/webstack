@@ -330,83 +330,115 @@ func sortedGrants(permToTypes map[string]map[string]struct{}) []types.AdminKeyGr
 	return out
 }
 
-func (ms msgServer) IssueLicense(ctx context.Context, msg *types.MsgIssueLicense) (*types.MsgIssueLicenseResponse, error) {
+// IssueLicenses issues licenses for each entry in the message. Each entry
+// carries its own license type, holder, dates, and count; the signer must hold
+// the "issue" grant for every referenced license type. All entries are
+// validated before any license is issued, and the returned ids are flattened
+// in entry order.
+func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicenses) (*types.MsgIssueLicensesResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	if _, err := sdk.AccAddressFromBech32(msg.Holder); err != nil {
-		return nil, fmt.Errorf("invalid holder address %q: %w", msg.Holder, err)
+	if len(msg.Entries) == 0 {
+		return nil, errorsmod.Wrap(types.ErrEmptyBatchEntries, "entries must not be empty")
+	}
+	if len(msg.Entries) > types.MaxIssueBatchSize {
+		return nil, fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), types.MaxIssueBatchSize)
 	}
 
-	if err := types.ValidateDates(msg.StartDate, msg.EndDate); err != nil {
-		return nil, err
-	}
+	for i, entry := range msg.Entries {
+		if _, err := sdk.AccAddressFromBech32(entry.Holder); err != nil {
+			return nil, fmt.Errorf("entry %d: invalid holder address %q: %w", i, entry.Holder, err)
+		}
+		if err := types.ValidateDates(entry.StartDate, entry.EndDate); err != nil {
+			return nil, fmt.Errorf("entry %d: %w", i, err)
+		}
+		if entry.Count == 0 {
+			return nil, errorsmod.Wrapf(types.ErrInvalidCount, "entry %d: count must be greater than zero", i)
+		}
 
-	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue")
-	if err != nil {
-		return nil, err
-	}
-	if !hasPerm {
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, msg.LicenseTypeId)
-	}
-
-	if msg.Count == 0 {
-		return nil, errorsmod.Wrap(types.ErrInvalidCount, "count must be greater than zero")
-	}
-
-	lt, err := ms.k.LicenseTypes.Get(ctx, msg.LicenseTypeId)
-	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", msg.LicenseTypeId)
-	}
-
-	count := msg.Count
-	countInt := math.NewIntFromUint64(count)
-	if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(countInt).GT(lt.MaxSupply) {
-		return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "license type %s: issuing %d would exceed max supply of %s (current: %s)", msg.LicenseTypeId, count, lt.MaxSupply.String(), lt.IssuedCount.String())
-	}
-
-	ids := make([]uint64, 0, count)
-	for i := uint64(0); i < count; i++ {
-		id, err := ms.k.nextLicenseID(ctx, msg.LicenseTypeId)
+		hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, entry.LicenseTypeId, "issue")
 		if err != nil {
 			return nil, err
 		}
-
-		license := types.License{
-			Id:        id,
-			Type:      msg.LicenseTypeId,
-			Holder:    msg.Holder,
-			StartDate: msg.StartDate,
-			EndDate:   msg.EndDate,
-			Status:    "active",
+		if !hasPerm {
+			return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, entry.LicenseTypeId)
 		}
-
-		if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, id), license); err != nil {
-			return nil, err
-		}
-		if err := ms.k.LicenseByHolder.Set(ctx, collections.Join3(msg.Holder, msg.LicenseTypeId, id), id); err != nil {
-			return nil, err
-		}
-
-		ids = append(ids, id)
 	}
 
-	lt.IssuedCount = lt.IssuedCount.Add(countInt)
-	lt.ActiveCount = lt.ActiveCount.Add(countInt)
-	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
-		return nil, err
+	// Check supply caps up front, aggregating requested counts per license
+	// type, so no licenses are issued if any entry would exceed a cap.
+	totals := make(map[string]math.Int)
+	for i, entry := range msg.Entries {
+		lt, err := ms.k.LicenseTypes.Get(ctx, entry.LicenseTypeId)
+		if err != nil {
+			return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "entry %d: license type %s not found", i, entry.LicenseTypeId)
+		}
+
+		total, ok := totals[entry.LicenseTypeId]
+		if !ok {
+			total = math.ZeroInt()
+		}
+		total = total.Add(math.NewIntFromUint64(entry.Count))
+		totals[entry.LicenseTypeId] = total
+
+		if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(total).GT(lt.MaxSupply) {
+			return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "entry %d: license type %s: issuing %d would exceed max supply of %s (current: %s)", i, entry.LicenseTypeId, entry.Count, lt.MaxSupply.String(), lt.IssuedCount.String())
+		}
 	}
 
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeIssueLicense,
-		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
-		sdk.NewAttribute(types.AttributeKeyHolder, msg.Holder),
-		sdk.NewAttribute("count", fmt.Sprintf("%d", count)),
-	))
+	ids := make([]uint64, 0, len(msg.Entries))
+	for _, entry := range msg.Entries {
+		// Re-read the license type each entry so counts accumulate correctly
+		// when multiple entries reference the same type.
+		lt, err := ms.k.LicenseTypes.Get(ctx, entry.LicenseTypeId)
+		if err != nil {
+			return nil, err
+		}
+		countInt := math.NewIntFromUint64(entry.Count)
 
-	return &types.MsgIssueLicenseResponse{Ids: ids}, nil
+		for j := uint64(0); j < entry.Count; j++ {
+			id, err := ms.k.nextLicenseID(ctx, entry.LicenseTypeId)
+			if err != nil {
+				return nil, err
+			}
+
+			license := types.License{
+				Id:        id,
+				Type:      entry.LicenseTypeId,
+				Holder:    entry.Holder,
+				StartDate: entry.StartDate,
+				EndDate:   entry.EndDate,
+				Status:    "active",
+			}
+
+			if err := ms.k.Licenses.Set(ctx, collections.Join(entry.LicenseTypeId, id), license); err != nil {
+				return nil, err
+			}
+			if err := ms.k.LicenseByHolder.Set(ctx, collections.Join3(entry.Holder, entry.LicenseTypeId, id), id); err != nil {
+				return nil, err
+			}
+
+			ids = append(ids, id)
+		}
+
+		lt.IssuedCount = lt.IssuedCount.Add(countInt)
+		lt.ActiveCount = lt.ActiveCount.Add(countInt)
+		if err := ms.k.LicenseTypes.Set(ctx, entry.LicenseTypeId, lt); err != nil {
+			return nil, err
+		}
+
+		sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+			types.EventTypeIssueLicenses,
+			sdk.NewAttribute(types.AttributeKeyLicenseTypeID, entry.LicenseTypeId),
+			sdk.NewAttribute(types.AttributeKeyHolder, entry.Holder),
+			sdk.NewAttribute("count", fmt.Sprintf("%d", entry.Count)),
+		))
+	}
+
+	return &types.MsgIssueLicensesResponse{Ids: ids}, nil
 }
 
-func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicense) (*types.MsgRevokeLicenseResponse, error) {
+func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLicenses) (*types.MsgRevokeLicensesResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, "revoke")
@@ -477,13 +509,13 @@ func (ms msgServer) RevokeLicense(ctx context.Context, msg *types.MsgRevokeLicen
 	}
 
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeRevokeLicense,
+		types.EventTypeRevokeLicenses,
 		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
 		sdk.NewAttribute(types.AttributeKeyHolder, msg.Holder),
 		sdk.NewAttribute("count", fmt.Sprintf("%d", count)),
 	))
 
-	return &types.MsgRevokeLicenseResponse{Ids: revokedIDs}, nil
+	return &types.MsgRevokeLicensesResponse{Ids: revokedIDs}, nil
 }
 
 func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferLicense) (*types.MsgTransferLicenseResponse, error) {
@@ -544,88 +576,3 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 
 	return &types.MsgTransferLicenseResponse{}, nil
 }
-
-func (ms msgServer) BatchIssueLicense(ctx context.Context, msg *types.MsgBatchIssueLicense) (*types.MsgBatchIssueLicenseResponse, error) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	if len(msg.Entries) == 0 {
-		return nil, fmt.Errorf("entries must not be empty")
-	}
-
-	if len(msg.Entries) > types.MaxIssueBatchSize {
-		return nil, fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), types.MaxIssueBatchSize)
-	}
-
-	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, msg.LicenseTypeId, "issue")
-	if err != nil {
-		return nil, err
-	}
-	if !hasPerm {
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have issue permission for license type %s", msg.Issuer, msg.LicenseTypeId)
-	}
-
-	lt, err := ms.k.LicenseTypes.Get(ctx, msg.LicenseTypeId)
-	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", msg.LicenseTypeId)
-	}
-
-	count := uint64(len(msg.Entries))
-	countInt := math.NewIntFromUint64(count)
-	if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(countInt).GT(lt.MaxSupply) {
-		return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "license type %s: issuing %d would exceed max supply of %s (current: %s)", msg.LicenseTypeId, count, lt.MaxSupply.String(), lt.IssuedCount.String())
-	}
-
-	// Validate all entries before issuing any
-	for i, entry := range msg.Entries {
-		if _, err := sdk.AccAddressFromBech32(entry.Holder); err != nil {
-			return nil, fmt.Errorf("entry %d: invalid holder address %q: %w", i, entry.Holder, err)
-		}
-		if entry.StartDate == "" {
-			return nil, fmt.Errorf("entry %d: start_date is required", i)
-		}
-		if err := types.ValidateDates(entry.StartDate, entry.EndDate); err != nil {
-			return nil, fmt.Errorf("entry %d: %w", i, err)
-		}
-	}
-
-	ids := make([]uint64, 0, count)
-	for _, entry := range msg.Entries {
-		id, err := ms.k.nextLicenseID(ctx, msg.LicenseTypeId)
-		if err != nil {
-			return nil, err
-		}
-
-		license := types.License{
-			Id:        id,
-			Type:      msg.LicenseTypeId,
-			Holder:    entry.Holder,
-			StartDate: entry.StartDate,
-			EndDate:   entry.EndDate,
-			Status:    "active",
-		}
-
-		if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, id), license); err != nil {
-			return nil, err
-		}
-		if err := ms.k.LicenseByHolder.Set(ctx, collections.Join3(entry.Holder, msg.LicenseTypeId, id), id); err != nil {
-			return nil, err
-		}
-
-		ids = append(ids, id)
-	}
-
-	lt.IssuedCount = lt.IssuedCount.Add(countInt)
-	lt.ActiveCount = lt.ActiveCount.Add(countInt)
-	if err := ms.k.LicenseTypes.Set(ctx, msg.LicenseTypeId, lt); err != nil {
-		return nil, err
-	}
-
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeBatchIssueLicense,
-		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
-		sdk.NewAttribute("count", fmt.Sprintf("%d", count)),
-	))
-
-	return &types.MsgBatchIssueLicenseResponse{Ids: ids}, nil
-}
-

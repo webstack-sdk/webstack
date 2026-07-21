@@ -67,12 +67,11 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	resp, err := ms.IssueLicense(srcCtx, &types.MsgIssueLicense{
-		Issuer:        owner,
-		LicenseTypeId: "node",
-		Holder:        holder,
-		StartDate:     "2026-01-01",
-		Count:         5,
+	resp, err := ms.IssueLicenses(srcCtx, &types.MsgIssueLicenses{
+		Issuer: owner,
+		Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 5},
+		},
 	})
 	require.NoError(t, err)
 	require.Equal(t, []uint64{1, 2, 3, 4, 5}, resp.Ids)
@@ -103,12 +102,11 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	// restored, so issuing returns id=1 and overwrites the existing one.
 	dstMs := keeper.NewMsgServerImpl(dst)
 	newHolder := sample.AccAddress()
-	issueResp, err := dstMs.IssueLicense(dstCtx, &types.MsgIssueLicense{
-		Issuer:        owner,
-		LicenseTypeId: "node",
-		Holder:        newHolder,
-		StartDate:     "2026-02-01",
-		Count:         1,
+	issueResp, err := dstMs.IssueLicenses(dstCtx, &types.MsgIssueLicenses{
+		Issuer: owner,
+		Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "node", Holder: newHolder, StartDate: "2026-02-01", Count: 1},
+		},
 	})
 	require.NoError(t, err)
 	require.Len(t, issueResp.Ids, 1)

@@ -88,8 +88,10 @@ func TestQueryLicense(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	issueResp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "ql", Holder: holder, StartDate: "2026-01-01", Count: 1,
+	issueResp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "ql", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
 	})
 	require.NoError(t, err)
 
@@ -123,18 +125,13 @@ func TestQueryLicensesByHolder(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	// Issue 2 of h1 and 1 of h2 to holder
-	_, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "h1", Holder: holder, StartDate: "2026-01-01", Count: 2,
-	})
-	require.NoError(t, err)
-	_, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "h2", Holder: holder, StartDate: "2026-01-01", Count: 1,
-	})
-	require.NoError(t, err)
-	// Issue 1 to someone else
-	_, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "h1", Holder: sample.AccAddress(), StartDate: "2026-01-01", Count: 1,
+	// Issue 2 of h1 and 1 of h2 to holder, and 1 of h1 to someone else
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "h1", Holder: holder, StartDate: "2026-01-01", Count: 2},
+			{LicenseTypeId: "h2", Holder: holder, StartDate: "2026-01-01", Count: 1},
+			{LicenseTypeId: "h1", Holder: sample.AccAddress(), StartDate: "2026-01-01", Count: 1},
+		},
 	})
 	require.NoError(t, err)
 

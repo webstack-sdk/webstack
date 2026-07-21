@@ -435,10 +435,10 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
-// IssueLicense
+// IssueLicenses
 // ---------------------------------------------------------------------------
 
-func TestIssueLicense(t *testing.T) {
+func TestIssueLicenses(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	issuer := sample.AccAddress()
 	holder := sample.AccAddress()
@@ -456,88 +456,105 @@ func TestIssueLicense(t *testing.T) {
 
 	tests := []struct {
 		name      string
-		input     *types.MsgIssueLicense
+		input     *types.MsgIssueLicenses
 		expErr    bool
 		expErrMsg string
 		expCount  int
 	}{
 		{
+			name: "empty entries",
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{},
+			},
+			expErr:    true,
+			expErrMsg: "must not be empty",
+		},
+		{
 			name: "no permission",
-			input: &types.MsgIssueLicense{
-				Issuer: sample.AccAddress(), LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-01-01",
+			input: &types.MsgIssueLicenses{
+				Issuer: sample.AccAddress(), Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 1},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "does not have issue permission",
 		},
 		{
 			name: "invalid holder",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: "bad", StartDate: "2026-01-01",
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: "bad", StartDate: "2026-01-01", Count: 1},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "invalid holder address",
 		},
 		{
 			name: "missing start_date",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "",
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "", Count: 1},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "start_date is required",
 		},
 		{
 			name: "bad date format",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "01-01-2026",
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "01-01-2026", Count: 1},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "YYYY-MM-DD",
 		},
 		{
 			name: "end_date before start_date",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-06-01", EndDate: "2026-01-01",
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "2026-06-01", EndDate: "2026-01-01", Count: 1},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "must not be before",
 		},
 		{
 			name: "count zero",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-01-01",
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01"},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "count must be greater than zero",
 		},
 		{
 			name: "valid single",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-01-01", EndDate: "2027-01-01", Count: 1,
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", EndDate: "2027-01-01", Count: 1},
+				},
 			},
 			expErr:   false,
 			expCount: 1,
 		},
 		{
 			name: "valid with count=3",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-01-01", Count: 3,
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 3},
+				},
 			},
 			expErr:   false,
 			expCount: 3,
 		},
 		{
 			name: "max supply exceeded",
-			input: &types.MsgIssueLicense{
-				Issuer: issuer, LicenseTypeId: "node",
-				Holder: holder, StartDate: "2026-01-01", Count: 10,
+			input: &types.MsgIssueLicenses{
+				Issuer: issuer, Entries: []types.IssueLicenseEntry{
+					{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 10},
+				},
 			},
 			expErr:    true,
 			expErrMsg: "exceed max supply",
@@ -546,7 +563,7 @@ func TestIssueLicense(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			resp, err := ms.IssueLicense(ctx, tc.input)
+			resp, err := ms.IssueLicenses(ctx, tc.input)
 			if tc.expErr {
 				require.Error(t, err)
 				require.Contains(t, err.Error(), tc.expErrMsg)
@@ -563,126 +580,101 @@ func TestIssueLicense(t *testing.T) {
 	require.Equal(t, math.NewInt(4), lt.IssuedCount)
 }
 
-// ---------------------------------------------------------------------------
-// BatchIssueLicense
-// ---------------------------------------------------------------------------
-
-func TestBatchIssueLicense(t *testing.T) {
+// TestIssueLicensesMultipleEntries covers the multi-entry behavior: entries
+// can target different holders and license types, per-entry counts accumulate
+// against the supply cap, and the signer needs the "issue" grant for every
+// referenced type.
+func TestIssueLicensesMultipleEntries(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	issuer := sample.AccAddress()
+	holder1 := sample.AccAddress()
+	holder2 := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "batch", MaxSupply: math.NewInt(5),
+		Owner: owner, Id: "capped", MaxSupply: math.NewInt(5),
+	})
+	require.NoError(t, err)
+	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "open", MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "ungranted", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 
 	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"batch"}}},
+		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"capped", "open"}}},
 	})
 	require.NoError(t, err)
 
-	tests := []struct {
-		name      string
-		input     *types.MsgBatchIssueLicense
-		expErr    bool
-		expErrMsg string
-		expCount  int
-	}{
-		{
-			name: "empty entries",
-			input: &types.MsgBatchIssueLicense{
-				Issuer: issuer, LicenseTypeId: "batch",
-				Entries: []types.BatchIssueLicenseEntry{},
-			},
-			expErr:    true,
-			expErrMsg: "must not be empty",
+	// Signer must hold the issue grant for every type referenced by the entries.
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "open", Holder: holder1, StartDate: "2026-01-01", Count: 1},
+			{LicenseTypeId: "ungranted", Holder: holder1, StartDate: "2026-01-01", Count: 1},
 		},
-		{
-			name: "no permission",
-			input: &types.MsgBatchIssueLicense{
-				Issuer: sample.AccAddress(), LicenseTypeId: "batch",
-				Entries: []types.BatchIssueLicenseEntry{
-					{Holder: sample.AccAddress(), StartDate: "2026-01-01"},
-				},
-			},
-			expErr:    true,
-			expErrMsg: "does not have issue permission",
-		},
-		{
-			name: "invalid holder in entry",
-			input: &types.MsgBatchIssueLicense{
-				Issuer: issuer, LicenseTypeId: "batch",
-				Entries: []types.BatchIssueLicenseEntry{
-					{Holder: "bad", StartDate: "2026-01-01"},
-				},
-			},
-			expErr:    true,
-			expErrMsg: "invalid holder address",
-		},
-		{
-			name: "invalid date in entry",
-			input: &types.MsgBatchIssueLicense{
-				Issuer: issuer, LicenseTypeId: "batch",
-				Entries: []types.BatchIssueLicenseEntry{
-					{Holder: sample.AccAddress(), StartDate: "bad-date"},
-				},
-			},
-			expErr:    true,
-			expErrMsg: "YYYY-MM-DD",
-		},
-		{
-			name: "valid 3 entries",
-			input: &types.MsgBatchIssueLicense{
-				Issuer: issuer, LicenseTypeId: "batch",
-				Entries: []types.BatchIssueLicenseEntry{
-					{Holder: sample.AccAddress(), StartDate: "2026-01-01", EndDate: "2027-01-01"},
-					{Holder: sample.AccAddress(), StartDate: "2026-02-01"},
-					{Holder: sample.AccAddress(), StartDate: "2026-03-01"},
-				},
-			},
-			expErr:   false,
-			expCount: 3,
-		},
-		{
-			name: "max supply exceeded",
-			input: &types.MsgBatchIssueLicense{
-				Issuer: issuer, LicenseTypeId: "batch",
-				Entries: []types.BatchIssueLicenseEntry{
-					{Holder: sample.AccAddress(), StartDate: "2026-01-01"},
-					{Holder: sample.AccAddress(), StartDate: "2026-01-01"},
-					{Holder: sample.AccAddress(), StartDate: "2026-01-01"},
-				},
-			},
-			expErr:    true,
-			expErrMsg: "exceed max supply",
-		},
-	}
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "does not have issue permission for license type ungranted")
+	// Nothing was issued for the granted entry either.
+	lt, _, err := k.GetLicenseType(ctx, "open")
+	require.NoError(t, err)
+	require.True(t, lt.IssuedCount.IsZero())
 
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			resp, err := ms.BatchIssueLicense(ctx, tc.input)
-			if tc.expErr {
-				require.Error(t, err)
-				require.Contains(t, err.Error(), tc.expErrMsg)
-			} else {
-				require.NoError(t, err)
-				require.Len(t, resp.Ids, tc.expCount)
-			}
-		})
-	}
+	// Counts for entries referencing the same type accumulate against the cap.
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "capped", Holder: holder1, StartDate: "2026-01-01", Count: 3},
+			{LicenseTypeId: "capped", Holder: holder2, StartDate: "2026-01-01", Count: 3},
+		},
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "exceed max supply")
+	lt, _, err = k.GetLicenseType(ctx, "capped")
+	require.NoError(t, err)
+	require.True(t, lt.IssuedCount.IsZero(), "failed batch must not issue anything")
 
-	lt, found, err := k.GetLicenseType(ctx, "batch")
+	// Valid mixed batch across types and holders.
+	resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "capped", Holder: holder1, StartDate: "2026-01-01", EndDate: "2027-01-01", Count: 2},
+			{LicenseTypeId: "capped", Holder: holder2, StartDate: "2026-02-01", Count: 3},
+			{LicenseTypeId: "open", Holder: holder2, StartDate: "2026-03-01", Count: 1},
+		},
+	})
+	require.NoError(t, err)
+	require.Len(t, resp.Ids, 6, "ids are flattened in entry order")
+
+	// Per-type counters reflect the aggregate issuance.
+	lt, _, err = k.GetLicenseType(ctx, "capped")
+	require.NoError(t, err)
+	require.Equal(t, math.NewInt(5), lt.IssuedCount)
+	lt, _, err = k.GetLicenseType(ctx, "open")
+	require.NoError(t, err)
+	require.Equal(t, math.NewInt(1), lt.IssuedCount)
+
+	// Each holder got the licenses from their entries.
+	l, found, err := k.GetLicense(ctx, "capped", resp.Ids[0])
 	require.NoError(t, err)
 	require.True(t, found)
-	require.Equal(t, math.NewInt(3), lt.IssuedCount)
+	require.Equal(t, holder1, l.Holder)
+	l, found, err = k.GetLicense(ctx, "capped", resp.Ids[2])
+	require.NoError(t, err)
+	require.True(t, found)
+	require.Equal(t, holder2, l.Holder)
+	l, found, err = k.GetLicense(ctx, "open", resp.Ids[5])
+	require.NoError(t, err)
+	require.True(t, found)
+	require.Equal(t, holder2, l.Holder)
 }
 
 // ---------------------------------------------------------------------------
-// RevokeLicense
+// RevokeLicenses
 // ---------------------------------------------------------------------------
 
-func TestRevokeLicense(t *testing.T) {
+func TestRevokeLicenses(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	issuer := sample.AccAddress()
 	revoker := sample.AccAddress()
@@ -704,40 +696,42 @@ func TestRevokeLicense(t *testing.T) {
 	require.NoError(t, err)
 
 	// Issue 3 licenses to the same holder.
-	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "rev", Holder: holder, StartDate: "2026-01-01", Count: 3,
+	resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "rev", Holder: holder, StartDate: "2026-01-01", Count: 3},
+		},
 	})
 	require.NoError(t, err)
 	require.Len(t, resp.Ids, 3)
 
 	tests := []struct {
 		name      string
-		input     *types.MsgRevokeLicense
+		input     *types.MsgRevokeLicenses
 		expErr    bool
 		expErrMsg string
 	}{
 		{
 			name:      "no permission",
-			input:     &types.MsgRevokeLicense{Revoker: sample.AccAddress(), LicenseTypeId: "rev", Holder: holder, Count: 1},
+			input:     &types.MsgRevokeLicenses{Revoker: sample.AccAddress(), LicenseTypeId: "rev", Holder: holder, Count: 1},
 			expErr:    true,
 			expErrMsg: "does not have revoke permission",
 		},
 		{
 			name:      "not enough active licenses",
-			input:     &types.MsgRevokeLicense{Revoker: revoker, LicenseTypeId: "rev", Holder: holder, Count: 10},
+			input:     &types.MsgRevokeLicenses{Revoker: revoker, LicenseTypeId: "rev", Holder: holder, Count: 10},
 			expErr:    true,
 			expErrMsg: "has 3 active license(s)",
 		},
 		{
 			name:   "revoke 2 — most recent first",
-			input:  &types.MsgRevokeLicense{Revoker: revoker, LicenseTypeId: "rev", Holder: holder, Count: 2},
+			input:  &types.MsgRevokeLicenses{Revoker: revoker, LicenseTypeId: "rev", Holder: holder, Count: 2},
 			expErr: false,
 		},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			revokeResp, err := ms.RevokeLicense(ctx, tc.input)
+			revokeResp, err := ms.RevokeLicenses(ctx, tc.input)
 			if tc.expErr {
 				require.Error(t, err)
 				require.Contains(t, err.Error(), tc.expErrMsg)
@@ -797,14 +791,18 @@ func TestTransferLicense(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01", Count: 1,
+	resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
 	})
 	require.NoError(t, err)
 	xferID := resp.Ids[0]
 
-	resp, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "noxfer", Holder: holder, StartDate: "2026-01-01", Count: 1,
+	resp, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "noxfer", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
 	})
 	require.NoError(t, err)
 	noxferID := resp.Ids[0]
@@ -868,10 +866,10 @@ func TestTransferLicense(t *testing.T) {
 	}
 }
 
-// TestIssueLicenseSupplyCheckIsUnsigned guards the supply-cap arithmetic:
+// TestIssueLicensesSupplyCheckIsUnsigned guards the supply-cap arithmetic:
 // a count with the high bit set must not wrap negative and silently bypass
 // the MaxSupply check.
-func TestIssueLicenseSupplyCheckIsUnsigned(t *testing.T) {
+func TestIssueLicensesSupplyCheckIsUnsigned(t *testing.T) {
 	_, ms, ctx, owner := setupWithOwner(t)
 	issuer := sample.AccAddress()
 	holder := sample.AccAddress()
@@ -887,10 +885,10 @@ func TestIssueLicenseSupplyCheckIsUnsigned(t *testing.T) {
 	require.NoError(t, err)
 
 	// 1<<63 is the smallest uint64 value that wraps to a negative int64.
-	_, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "lim",
-		Holder: holder, StartDate: "2026-01-01",
-		Count:  1 << 63,
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "lim", Holder: holder, StartDate: "2026-01-01", Count: 1 << 63},
+		},
 	})
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "exceed max supply")
@@ -950,9 +948,9 @@ func TestRevokeAdminKeyPermissionsCap(t *testing.T) {
 	require.Contains(t, err.Error(), "permissions length")
 }
 
-// TestBatchIssueLicenseEntriesCap ensures BatchIssueLicense rejects entry
-// lists larger than MaxIssueBatchSize.
-func TestBatchIssueLicenseEntriesCap(t *testing.T) {
+// TestIssueLicensesEntriesCap ensures IssueLicenses rejects entry lists
+// larger than MaxIssueBatchSize.
+func TestIssueLicensesEntriesCap(t *testing.T) {
 	_, ms, ctx, owner := setupWithOwner(t)
 	issuer := sample.AccAddress()
 	holder := sample.AccAddress()
@@ -967,13 +965,13 @@ func TestBatchIssueLicenseEntriesCap(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	entries := make([]types.BatchIssueLicenseEntry, types.MaxIssueBatchSize+1)
+	entries := make([]types.IssueLicenseEntry, types.MaxIssueBatchSize+1)
 	for i := range entries {
-		entries[i] = types.BatchIssueLicenseEntry{Holder: holder, StartDate: "2026-01-01"}
+		entries[i] = types.IssueLicenseEntry{LicenseTypeId: "cap", Holder: holder, StartDate: "2026-01-01", Count: 1}
 	}
 
-	_, err = ms.BatchIssueLicense(ctx, &types.MsgBatchIssueLicense{
-		Issuer: issuer, LicenseTypeId: "cap", Entries: entries,
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: entries,
 	})
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "exceeds max batch size")
@@ -1002,13 +1000,15 @@ func TestTransferLicenseRejectsRevoked(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	resp, err := ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01", Count: 1,
+	resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "xfer", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
 	})
 	require.NoError(t, err)
 	id := resp.Ids[0]
 
-	_, err = ms.RevokeLicense(ctx, &types.MsgRevokeLicense{
+	_, err = ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
 		Revoker: issuer, LicenseTypeId: "xfer", Holder: holder, Count: 1,
 	})
 	require.NoError(t, err)
@@ -1050,9 +1050,10 @@ func TestUpdateLicenseType(t *testing.T) {
 		Grants: []types.AdminKeyGrant{{Permission: "issue", LicenseTypes: []string{"lt1"}}},
 	})
 	require.NoError(t, err)
-	_, err = ms.IssueLicense(ctx, &types.MsgIssueLicense{
-		Issuer: issuer, LicenseTypeId: "lt1", Holder: sample.AccAddress(),
-		StartDate: "2026-01-01", Count: 5,
+	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: issuer, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "lt1", Holder: sample.AccAddress(), StartDate: "2026-01-01", Count: 5},
+		},
 	})
 	require.NoError(t, err)
 

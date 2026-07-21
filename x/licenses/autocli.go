@@ -123,24 +123,8 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
-					RpcMethod: "IssueLicense",
-					Use:       "issue-license [license-type-id] [holder] [count] [start-date]",
-					Short:     "Issue one or more licenses",
-					Long:      "Issue licenses to a holder. Use --end-date flag to set an expiry.",
-					Example:   "webstackd tx licenses issue-license node.license webstack1abc... 1 2026-01-01 --end-date 2027-01-01 --from admin",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "license_type_id"},
-						{ProtoField: "holder"},
-						{ProtoField: "count"},
-						{ProtoField: "start_date"},
-					},
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"end_date": {Name: "end-date", Usage: "expiry date in YYYY-MM-DD format (optional)"},
-					},
-				},
-				{
-					RpcMethod: "RevokeLicense",
-					Use:       "revoke-license [license-type-id] [holder] [count]",
+					RpcMethod: "RevokeLicenses",
+					Use:       "revoke-licenses [license-type-id] [holder] [count]",
 					Short:     "Revoke licenses for a holder, most recent first",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "license_type_id"},
@@ -171,7 +155,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Skip:      true,
 				},
 				{
-					RpcMethod: "BatchIssueLicense",
+					// Handled by the custom CmdIssueLicenses command; the
+					// repeated entries field doesn't map to positional args.
+					RpcMethod: "IssueLicenses",
 					Skip:      true,
 				},
 			},

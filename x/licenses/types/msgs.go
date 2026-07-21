@@ -37,11 +37,10 @@ var (
 	_ sdk.Msg = &MsgCreateLicenseType{}
 	_ sdk.Msg = &MsgGrantAdminPermissions{}
 	_ sdk.Msg = &MsgRevokeAdminKeyPermissions{}
-	_ sdk.Msg = &MsgIssueLicense{}
-	_ sdk.Msg = &MsgRevokeLicense{}
+	_ sdk.Msg = &MsgIssueLicenses{}
+	_ sdk.Msg = &MsgRevokeLicenses{}
 	_ sdk.Msg = &MsgTransferLicense{}
 	_ sdk.Msg = &MsgUpdateLicenseType{}
-	_ sdk.Msg = &MsgBatchIssueLicense{}
 )
 
 func (msg *MsgUpdateParams) ValidateBasic() error {
@@ -113,23 +112,31 @@ func (msg *MsgRevokeAdminKeyPermissions) ValidateBasic() error {
 	return nil
 }
 
-func (msg *MsgIssueLicense) ValidateBasic() error {
+func (msg *MsgIssueLicenses) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Issuer); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid issuer address: %s", err)
 	}
-	if msg.LicenseTypeId == "" {
-		return ErrEmptyLicenseTypeID
+	if len(msg.Entries) == 0 {
+		return ErrEmptyBatchEntries
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.Holder); err != nil {
-		return ErrEmptyHolder.Wrapf("invalid holder address: %s", err)
+	if len(msg.Entries) > MaxIssueBatchSize {
+		return fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), MaxIssueBatchSize)
 	}
-	if msg.Count == 0 {
-		return ErrInvalidCount.Wrap("count must be greater than zero")
+	for i, entry := range msg.Entries {
+		if entry.LicenseTypeId == "" {
+			return ErrEmptyLicenseTypeID.Wrapf("entry %d", i)
+		}
+		if _, err := sdk.AccAddressFromBech32(entry.Holder); err != nil {
+			return ErrEmptyHolder.Wrapf("entry %d: invalid holder address: %s", i, err)
+		}
+		if entry.Count == 0 {
+			return ErrInvalidCount.Wrapf("entry %d: count must be greater than zero", i)
+		}
 	}
 	return nil
 }
 
-func (msg *MsgRevokeLicense) ValidateBasic() error {
+func (msg *MsgRevokeLicenses) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Revoker); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid revoker address: %s", err)
 	}
@@ -154,27 +161,6 @@ func (msg *MsgTransferLicense) ValidateBasic() error {
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Recipient); err != nil {
 		return ErrEmptyHolder.Wrapf("invalid recipient address: %s", err)
-	}
-	return nil
-}
-
-func (msg *MsgBatchIssueLicense) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Issuer); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid issuer address: %s", err)
-	}
-	if msg.LicenseTypeId == "" {
-		return ErrEmptyLicenseTypeID
-	}
-	if len(msg.Entries) == 0 {
-		return ErrEmptyBatchEntries
-	}
-	if len(msg.Entries) > MaxIssueBatchSize {
-		return fmt.Errorf("entries length %d exceeds max batch size %d", len(msg.Entries), MaxIssueBatchSize)
-	}
-	for _, entry := range msg.Entries {
-		if _, err := sdk.AccAddressFromBech32(entry.Holder); err != nil {
-			return ErrEmptyHolder.Wrapf("invalid holder address in batch entry: %s", err)
-		}
 	}
 	return nil
 }
