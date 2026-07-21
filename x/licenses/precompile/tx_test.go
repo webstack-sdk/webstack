@@ -13,11 +13,11 @@ import (
 )
 
 // grantIssue adds admin grants for `address` directly via the keeper so tx tests
-// can focus on the precompile-side behaviour rather than chaining grantAdminPermissions.
+// can focus on the precompile-side behaviour rather than chaining grantPermissions.
 func grantIssue(t *testing.T, f *testFixture, addressBech, licenseTypeID string) {
 	t.Helper()
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(addressBech, int32(licensestypes.PermissionIssue), licenseTypeID)))
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(addressBech, int32(licensestypes.PermissionRevoke), licenseTypeID)))
+	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(addressBech, int32(licensestypes.PermissionIssue), licenseTypeID)))
+	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(addressBech, int32(licensestypes.PermissionRevoke), licenseTypeID)))
 }
 
 // issueOne is a convenience that issues a single license through the precompile.
@@ -113,13 +113,13 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	adminHex := common.HexToAddress("0x4444444444444444444444444444444444444444")
 	adminBech := f.bechFor(t, adminHex)
 
-	// grantAdminPermissions --------------------------------------------
-	grantM := ABI.Methods[GrantAdminPermissionsMethod]
-	grants := []AdminKeyGrantArg{
+	// grantPermissions --------------------------------------------
+	grantM := ABI.Methods[GrantPermissionsMethod]
+	grants := []PermissionGrantArg{
 		{Permission: "issue", LicenseTypes: []string{"type.a", "type.b"}},
 		{Permission: "revoke", LicenseTypes: []string{"type.a"}},
 	}
-	bz, err := f.precompile.GrantAdminPermissions(
+	bz, err := f.precompile.GrantPermissions(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
@@ -131,21 +131,21 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	require.NoError(t, err)
 	require.True(t, out[0].(bool))
 
-	ak, found, err := f.keeper.GetAdminKey(f.ctx, adminBech)
+	ak, found, err := f.keeper.GetPermissionsByAddress(f.ctx, adminBech)
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, adminBech, ak.Address)
 	require.Len(t, ak.Grants, 2)
 
-	// AdminPermissionsGranted event emitted
+	// PermissionsGranted event emitted
 	require.NotEmpty(t, f.stateDB.logs)
-	require.Equal(t, ABI.Events[EventTypeAdminPermissionsGranted].ID, f.stateDB.logs[len(f.stateDB.logs)-1].Topics[0])
+	require.Equal(t, ABI.Events[EventTypePermissionsGranted].ID, f.stateDB.logs[len(f.stateDB.logs)-1].Topics[0])
 
 	// A second grant call merges rather than replaces.
-	moreGrants := []AdminKeyGrantArg{
+	moreGrants := []PermissionGrantArg{
 		{Permission: "revoke", LicenseTypes: []string{"type.b"}},
 	}
-	_, err = f.precompile.GrantAdminPermissions(
+	_, err = f.precompile.GrantPermissions(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
@@ -157,13 +157,13 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	require.True(t, f.keeper.HasPermission(f.ctx, adminBech, licensestypes.PermissionRevoke, "type.a"))
 	require.True(t, f.keeper.HasPermission(f.ctx, adminBech, licensestypes.PermissionRevoke, "type.b"))
 
-	// revokeAdminKeyPermissions ----------------------------------------
+	// revokePermissions ----------------------------------------
 	// Remove only (type.a, revoke). type.a:issue, type.b:issue, type.b:revoke stay.
-	revM := ABI.Methods[RevokeAdminKeyPermissionsMethod]
-	pairs := []AdminKeyPermissionArg{
+	revM := ABI.Methods[RevokePermissionsMethod]
+	pairs := []PermissionPairArg{
 		{LicenseTypeId: "type.a", Permission: "revoke"},
 	}
-	bz, err = f.precompile.RevokeAdminKeyPermissions(
+	bz, err = f.precompile.RevokePermissions(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
@@ -178,15 +178,15 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	require.False(t, f.keeper.HasPermission(f.ctx, adminBech, licensestypes.PermissionRevoke, "type.a"))
 	require.True(t, f.keeper.HasPermission(f.ctx, adminBech, licensestypes.PermissionIssue, "type.a"))
 	require.True(t, f.keeper.HasPermission(f.ctx, adminBech, licensestypes.PermissionRevoke, "type.b"))
-	require.Equal(t, ABI.Events[EventTypeAdminKeyPermissionsRevoked].ID, f.stateDB.logs[len(f.stateDB.logs)-1].Topics[0])
+	require.Equal(t, ABI.Events[EventTypePermissionsRevoked].ID, f.stateDB.logs[len(f.stateDB.logs)-1].Topics[0])
 
-	// Revoking every remaining pair deletes the admin key entry.
-	pairs = []AdminKeyPermissionArg{
+	// Revoking every remaining pair deletes the permissions entry.
+	pairs = []PermissionPairArg{
 		{LicenseTypeId: "type.a", Permission: "issue"},
 		{LicenseTypeId: "type.b", Permission: "issue"},
 		{LicenseTypeId: "type.b", Permission: "revoke"},
 	}
-	_, err = f.precompile.RevokeAdminKeyPermissions(
+	_, err = f.precompile.RevokePermissions(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
@@ -195,21 +195,21 @@ func TestTxGrantAndRevokeAdminPermissions(t *testing.T) {
 	)
 	require.NoError(t, err)
 
-	_, found, err = f.keeper.GetAdminKey(f.ctx, adminBech)
+	_, found, err = f.keeper.GetPermissionsByAddress(f.ctx, adminBech)
 	require.NoError(t, err)
-	require.False(t, found, "admin key entry should be gone when no grants remain")
+	require.False(t, found, "permissions entry should be gone when no grants remain")
 }
 
-// TestTxGrantAdminPermissionsUnknownPermission: the precompile parses the
+// TestTxGrantPermissionsUnknownPermission: the precompile parses the
 // Solidity permission string at the boundary and rejects unknown values.
-func TestTxGrantAdminPermissionsUnknownPermission(t *testing.T) {
+func TestTxGrantPermissionsUnknownPermission(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 
-	grantM := ABI.Methods[GrantAdminPermissionsMethod]
+	grantM := ABI.Methods[GrantPermissionsMethod]
 	adminHex := common.HexToAddress("0x4444444444444444444444444444444444444444")
-	grants := []AdminKeyGrantArg{{Permission: "destroy", LicenseTypes: []string{"type.a"}}}
-	_, err := f.precompile.GrantAdminPermissions(
+	grants := []PermissionGrantArg{{Permission: "destroy", LicenseTypes: []string{"type.a"}}}
+	_, err := f.precompile.GrantPermissions(
 		f.ctx,
 		f.newContract(f.OwnerHex),
 		f.stateDB,
@@ -397,8 +397,8 @@ func TestTxIssueLicensesMultipleEntries(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	seedLicenseType(t, f, "type.b", true, 0)
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(f.OwnerBech, int32(licensestypes.PermissionIssue), "type.a")))
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(f.OwnerBech, int32(licensestypes.PermissionIssue), "type.b")))
+	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(f.OwnerBech, int32(licensestypes.PermissionIssue), "type.a")))
+	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(f.OwnerBech, int32(licensestypes.PermissionIssue), "type.b")))
 
 	holderA := common.HexToAddress("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	holderB := common.HexToAddress("0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")

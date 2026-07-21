@@ -15,13 +15,13 @@ import (
 
 // Transaction method names. Must match the function names in LicensesI.sol / abi.json.
 const (
-	CreateLicenseTypeMethod         = "createLicenseType"
-	UpdateLicenseTypeMethod         = "updateLicenseType"
-	GrantAdminPermissionsMethod     = "grantAdminPermissions"
-	RevokeAdminKeyPermissionsMethod = "revokeAdminKeyPermissions"
-	IssueLicensesMethod             = "issueLicenses"
-	RevokeLicensesMethod            = "revokeLicenses"
-	TransferLicenseMethod           = "transferLicense"
+	CreateLicenseTypeMethod = "createLicenseType"
+	UpdateLicenseTypeMethod = "updateLicenseType"
+	GrantPermissionsMethod  = "grantPermissions"
+	RevokePermissionsMethod = "revokePermissions"
+	IssueLicensesMethod     = "issueLicenses"
+	RevokeLicensesMethod    = "revokeLicenses"
+	TransferLicenseMethod   = "transferLicense"
 )
 
 // CreateLicenseType handles the createLicenseType ABI method.
@@ -126,8 +126,8 @@ func (p Precompile) UpdateLicenseType(
 	return method.Outputs.Pack(true)
 }
 
-// GrantAdminPermissions handles the grantAdminPermissions ABI method.
-func (p Precompile) GrantAdminPermissions(
+// GrantPermissions handles the grantPermissions ABI method.
+func (p Precompile) GrantPermissions(
 	ctx sdk.Context,
 	contract *vm.Contract,
 	stateDB vm.StateDB,
@@ -142,9 +142,9 @@ func (p Precompile) GrantAdminPermissions(
 		return nil, err
 	}
 
-	rawGrants, ok := args[1].([]AdminKeyGrantArg)
+	rawGrants, ok := args[1].([]PermissionGrantArg)
 	if !ok {
-		return nil, fmt.Errorf("invalid type for grants: expected AdminKeyGrant[], got %T", args[1])
+		return nil, fmt.Errorf("invalid type for grants: expected PermissionGrant[], got %T", args[1])
 	}
 
 	owner, err := hexToBech32(p.addrCdc, contract.Caller())
@@ -156,19 +156,19 @@ func (p Precompile) GrantAdminPermissions(
 		return nil, err
 	}
 
-	grants := make([]licensestypes.AdminKeyGrant, 0, len(rawGrants))
+	grants := make([]licensestypes.PermissionGrant, 0, len(rawGrants))
 	for i, g := range rawGrants {
 		perm, err := licensestypes.ParsePermission(g.Permission)
 		if err != nil {
 			return nil, fmt.Errorf("grant %d: %w", i, err)
 		}
-		grants = append(grants, licensestypes.AdminKeyGrant{
+		grants = append(grants, licensestypes.PermissionGrant{
 			Permission:   perm,
 			LicenseTypes: append([]string{}, g.LicenseTypes...),
 		})
 	}
 
-	msg := &licensestypes.MsgGrantAdminPermissions{
+	msg := &licensestypes.MsgGrantPermissions{
 		Owner:   owner,
 		Address: adminBech,
 		Grants:  grants,
@@ -178,19 +178,19 @@ func (p Precompile) GrantAdminPermissions(
 		return nil, err
 	}
 
-	if _, err := p.msgServer.GrantAdminPermissions(ctx, msg); err != nil {
+	if _, err := p.msgServer.GrantPermissions(ctx, msg); err != nil {
 		return nil, err
 	}
 
-	if err := p.EmitAdminPermissionsGranted(ctx, stateDB, adminHex); err != nil {
+	if err := p.EmitPermissionsGranted(ctx, stateDB, adminHex); err != nil {
 		return nil, err
 	}
 
 	return method.Outputs.Pack(true)
 }
 
-// RevokeAdminKeyPermissions handles the revokeAdminKeyPermissions ABI method.
-func (p Precompile) RevokeAdminKeyPermissions(
+// RevokePermissions handles the revokePermissions ABI method.
+func (p Precompile) RevokePermissions(
 	ctx sdk.Context,
 	contract *vm.Contract,
 	stateDB vm.StateDB,
@@ -205,9 +205,9 @@ func (p Precompile) RevokeAdminKeyPermissions(
 		return nil, err
 	}
 
-	rawPerms, ok := args[1].([]AdminKeyPermissionArg)
+	rawPerms, ok := args[1].([]PermissionPairArg)
 	if !ok {
-		return nil, fmt.Errorf("invalid type for permissions: expected AdminKeyPermission[], got %T", args[1])
+		return nil, fmt.Errorf("invalid type for permissions: expected PermissionPair[], got %T", args[1])
 	}
 
 	owner, err := hexToBech32(p.addrCdc, contract.Caller())
@@ -219,19 +219,19 @@ func (p Precompile) RevokeAdminKeyPermissions(
 		return nil, err
 	}
 
-	perms := make([]licensestypes.AdminKeyPermission, 0, len(rawPerms))
+	perms := make([]licensestypes.PermissionPair, 0, len(rawPerms))
 	for i, pp := range rawPerms {
 		perm, err := licensestypes.ParsePermission(pp.Permission)
 		if err != nil {
 			return nil, fmt.Errorf("pair %d: %w", i, err)
 		}
-		perms = append(perms, licensestypes.AdminKeyPermission{
+		perms = append(perms, licensestypes.PermissionPair{
 			LicenseTypeId: pp.LicenseTypeId,
 			Permission:    perm,
 		})
 	}
 
-	msg := &licensestypes.MsgRevokeAdminKeyPermissions{
+	msg := &licensestypes.MsgRevokePermissions{
 		Owner:       owner,
 		Address:     adminBech,
 		Permissions: perms,
@@ -241,11 +241,11 @@ func (p Precompile) RevokeAdminKeyPermissions(
 		return nil, err
 	}
 
-	if _, err := p.msgServer.RevokeAdminKeyPermissions(ctx, msg); err != nil {
+	if _, err := p.msgServer.RevokePermissions(ctx, msg); err != nil {
 		return nil, err
 	}
 
-	if err := p.EmitAdminKeyPermissionsRevoked(ctx, stateDB, adminHex); err != nil {
+	if err := p.EmitPermissionsRevoked(ctx, stateDB, adminHex); err != nil {
 		return nil, err
 	}
 

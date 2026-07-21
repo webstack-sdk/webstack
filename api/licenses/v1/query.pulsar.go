@@ -809,842 +809,6 @@ func (x *fastReflection_QueryParamsResponse) ProtoMethods() *protoiface.Methods 
 }
 
 var (
-	md_QueryPermissionsRequest protoreflect.MessageDescriptor
-)
-
-func init() {
-	file_licenses_v1_query_proto_init()
-	md_QueryPermissionsRequest = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsRequest")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsRequest)(nil)
-
-type fastReflection_QueryPermissionsRequest QueryPermissionsRequest
-
-func (x *QueryPermissionsRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsRequest)(x)
-}
-
-func (x *QueryPermissionsRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsRequest_messageType fastReflection_QueryPermissionsRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsRequest_messageType{}
-
-type fastReflection_QueryPermissionsRequest_messageType struct{}
-
-func (x fastReflection_QueryPermissionsRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsRequest)(nil)
-}
-func (x fastReflection_QueryPermissionsRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsRequest)
-}
-func (x fastReflection_QueryPermissionsRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsRequest
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsRequest
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsRequest_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsRequest)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsRequest)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsRequest) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsRequest", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsRequest) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsRequest) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsRequest) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsRequest)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsRequest)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsRequest)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsRequest: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var _ protoreflect.List = (*_QueryPermissionsResponse_1_list)(nil)
-
-type _QueryPermissionsResponse_1_list struct {
-	list *[]string
-}
-
-func (x *_QueryPermissionsResponse_1_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_QueryPermissionsResponse_1_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
-}
-
-func (x *_QueryPermissionsResponse_1_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_QueryPermissionsResponse_1_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_QueryPermissionsResponse_1_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message QueryPermissionsResponse at list field Permissions as it is not of Message kind"))
-}
-
-func (x *_QueryPermissionsResponse_1_list) Truncate(n int) {
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_QueryPermissionsResponse_1_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
-}
-
-func (x *_QueryPermissionsResponse_1_list) IsValid() bool {
-	return x.list != nil
-}
-
-var (
-	md_QueryPermissionsResponse             protoreflect.MessageDescriptor
-	fd_QueryPermissionsResponse_permissions protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_licenses_v1_query_proto_init()
-	md_QueryPermissionsResponse = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsResponse")
-	fd_QueryPermissionsResponse_permissions = md_QueryPermissionsResponse.Fields().ByName("permissions")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsResponse)(nil)
-
-type fastReflection_QueryPermissionsResponse QueryPermissionsResponse
-
-func (x *QueryPermissionsResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsResponse)(x)
-}
-
-func (x *QueryPermissionsResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsResponse_messageType fastReflection_QueryPermissionsResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsResponse_messageType{}
-
-type fastReflection_QueryPermissionsResponse_messageType struct{}
-
-func (x fastReflection_QueryPermissionsResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsResponse)(nil)
-}
-func (x fastReflection_QueryPermissionsResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsResponse)
-}
-func (x fastReflection_QueryPermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsResponse
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsResponse
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsResponse_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsResponse)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsResponse)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.Permissions) != 0 {
-		value := protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{list: &x.Permissions})
-		if !f(fd_QueryPermissionsResponse_permissions, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "licenses.v1.QueryPermissionsResponse.permissions":
-		return len(x.Permissions) != 0
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "licenses.v1.QueryPermissionsResponse.permissions":
-		x.Permissions = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "licenses.v1.QueryPermissionsResponse.permissions":
-		if len(x.Permissions) == 0 {
-			return protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{})
-		}
-		listValue := &_QueryPermissionsResponse_1_list{list: &x.Permissions}
-		return protoreflect.ValueOfList(listValue)
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "licenses.v1.QueryPermissionsResponse.permissions":
-		lv := value.List()
-		clv := lv.(*_QueryPermissionsResponse_1_list)
-		x.Permissions = *clv.list
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "licenses.v1.QueryPermissionsResponse.permissions":
-		if x.Permissions == nil {
-			x.Permissions = []string{}
-		}
-		value := &_QueryPermissionsResponse_1_list{list: &x.Permissions}
-		return protoreflect.ValueOfList(value)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "licenses.v1.QueryPermissionsResponse.permissions":
-		list := []string{}
-		return protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{list: &list})
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsResponse", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsResponse) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsResponse) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsResponse) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsResponse)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if len(x.Permissions) > 0 {
-			for _, s := range x.Permissions {
-				l = len(s)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsResponse)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if len(x.Permissions) > 0 {
-			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.Permissions[iNdEx])
-				copy(dAtA[i:], x.Permissions[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Permissions[iNdEx])))
-				i--
-				dAtA[i] = 0xa
-			}
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsResponse)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsResponse: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Permissions = append(x.Permissions, string(dAtA[iNdEx:postIndex]))
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
 	md_QueryLicenseTypeRequest    protoreflect.MessageDescriptor
 	fd_QueryLicenseTypeRequest_id protoreflect.FieldDescriptor
 )
@@ -1664,7 +828,7 @@ func (x *QueryLicenseTypeRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[4]
+	mi := &file_licenses_v1_query_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2084,7 +1248,7 @@ func (x *QueryLicenseTypeResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[5]
+	mi := &file_licenses_v1_query_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2519,7 +1683,7 @@ func (x *QueryLicenseTypesRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypesRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[6]
+	mi := &file_licenses_v1_query_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3007,7 +2171,7 @@ func (x *QueryLicenseTypesResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypesResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[7]
+	mi := &file_licenses_v1_query_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3529,7 +2693,7 @@ func (x *QueryLicenseRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[8]
+	mi := &file_licenses_v1_query_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3995,7 +3159,7 @@ func (x *QueryLicenseResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[9]
+	mi := &file_licenses_v1_query_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4432,7 +3596,7 @@ func (x *QueryLicensesByTypeRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[10]
+	mi := &file_licenses_v1_query_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4982,7 +4146,7 @@ func (x *QueryLicensesByTypeResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[11]
+	mi := &file_licenses_v1_query_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5504,7 +4668,7 @@ func (x *QueryLicensesByHolderRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByHolderRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[12]
+	mi := &file_licenses_v1_query_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6054,7 +5218,7 @@ func (x *QueryLicensesByHolderResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByHolderResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[13]
+	mi := &file_licenses_v1_query_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6578,7 +5742,7 @@ func (x *QueryLicensesByHolderAndTypeRequest) ProtoReflect() protoreflect.Messag
 }
 
 func (x *QueryLicensesByHolderAndTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[14]
+	mi := &file_licenses_v1_query_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7190,7 +6354,7 @@ func (x *QueryLicensesByHolderAndTypeResponse) ProtoReflect() protoreflect.Messa
 }
 
 func (x *QueryLicensesByHolderAndTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[15]
+	mi := &file_licenses_v1_query_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7691,26 +6855,26 @@ func (x *fastReflection_QueryLicensesByHolderAndTypeResponse) ProtoMethods() *pr
 }
 
 var (
-	md_QueryAdminKeyRequest         protoreflect.MessageDescriptor
-	fd_QueryAdminKeyRequest_address protoreflect.FieldDescriptor
+	md_QueryPermissionsByAddressRequest         protoreflect.MessageDescriptor
+	fd_QueryPermissionsByAddressRequest_address protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_query_proto_init()
-	md_QueryAdminKeyRequest = File_licenses_v1_query_proto.Messages().ByName("QueryAdminKeyRequest")
-	fd_QueryAdminKeyRequest_address = md_QueryAdminKeyRequest.Fields().ByName("address")
+	md_QueryPermissionsByAddressRequest = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsByAddressRequest")
+	fd_QueryPermissionsByAddressRequest_address = md_QueryPermissionsByAddressRequest.Fields().ByName("address")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAdminKeyRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryPermissionsByAddressRequest)(nil)
 
-type fastReflection_QueryAdminKeyRequest QueryAdminKeyRequest
+type fastReflection_QueryPermissionsByAddressRequest QueryPermissionsByAddressRequest
 
-func (x *QueryAdminKeyRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeyRequest)(x)
+func (x *QueryPermissionsByAddressRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByAddressRequest)(x)
 }
 
-func (x *QueryAdminKeyRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[16]
+func (x *QueryPermissionsByAddressRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_licenses_v1_query_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7721,43 +6885,43 @@ func (x *QueryAdminKeyRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAdminKeyRequest_messageType fastReflection_QueryAdminKeyRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAdminKeyRequest_messageType{}
+var _fastReflection_QueryPermissionsByAddressRequest_messageType fastReflection_QueryPermissionsByAddressRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryPermissionsByAddressRequest_messageType{}
 
-type fastReflection_QueryAdminKeyRequest_messageType struct{}
+type fastReflection_QueryPermissionsByAddressRequest_messageType struct{}
 
-func (x fastReflection_QueryAdminKeyRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeyRequest)(nil)
+func (x fastReflection_QueryPermissionsByAddressRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByAddressRequest)(nil)
 }
-func (x fastReflection_QueryAdminKeyRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeyRequest)
+func (x fastReflection_QueryPermissionsByAddressRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByAddressRequest)
 }
-func (x fastReflection_QueryAdminKeyRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeyRequest
+func (x fastReflection_QueryPermissionsByAddressRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByAddressRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAdminKeyRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeyRequest
+func (x *fastReflection_QueryPermissionsByAddressRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByAddressRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAdminKeyRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAdminKeyRequest_messageType
+func (x *fastReflection_QueryPermissionsByAddressRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryPermissionsByAddressRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAdminKeyRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeyRequest)
+func (x *fastReflection_QueryPermissionsByAddressRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByAddressRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAdminKeyRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryAdminKeyRequest)(x)
+func (x *fastReflection_QueryPermissionsByAddressRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryPermissionsByAddressRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -7765,10 +6929,10 @@ func (x *fastReflection_QueryAdminKeyRequest) Interface() protoreflect.ProtoMess
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAdminKeyRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryPermissionsByAddressRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Address != "" {
 		value := protoreflect.ValueOfString(x.Address)
-		if !f(fd_QueryAdminKeyRequest_address, value) {
+		if !f(fd_QueryPermissionsByAddressRequest_address, value) {
 			return
 		}
 	}
@@ -7785,15 +6949,15 @@ func (x *fastReflection_QueryAdminKeyRequest) Range(f func(protoreflect.FieldDes
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAdminKeyRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryPermissionsByAddressRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyRequest.address":
+	case "licenses.v1.QueryPermissionsByAddressRequest.address":
 		return x.Address != ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -7803,15 +6967,15 @@ func (x *fastReflection_QueryAdminKeyRequest) Has(fd protoreflect.FieldDescripto
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryPermissionsByAddressRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyRequest.address":
+	case "licenses.v1.QueryPermissionsByAddressRequest.address":
 		x.Address = ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -7821,16 +6985,16 @@ func (x *fastReflection_QueryAdminKeyRequest) Clear(fd protoreflect.FieldDescrip
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAdminKeyRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByAddressRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.QueryAdminKeyRequest.address":
+	case "licenses.v1.QueryPermissionsByAddressRequest.address":
 		value := x.Address
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -7844,15 +7008,15 @@ func (x *fastReflection_QueryAdminKeyRequest) Get(descriptor protoreflect.FieldD
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryPermissionsByAddressRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyRequest.address":
+	case "licenses.v1.QueryPermissionsByAddressRequest.address":
 		x.Address = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -7866,40 +7030,40 @@ func (x *fastReflection_QueryAdminKeyRequest) Set(fd protoreflect.FieldDescripto
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByAddressRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyRequest.address":
-		panic(fmt.Errorf("field address of message licenses.v1.QueryAdminKeyRequest is not mutable"))
+	case "licenses.v1.QueryPermissionsByAddressRequest.address":
+		panic(fmt.Errorf("field address of message licenses.v1.QueryPermissionsByAddressRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAdminKeyRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByAddressRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyRequest.address":
+	case "licenses.v1.QueryPermissionsByAddressRequest.address":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAdminKeyRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryPermissionsByAddressRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryAdminKeyRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsByAddressRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -7907,7 +7071,7 @@ func (x *fastReflection_QueryAdminKeyRequest) WhichOneof(d protoreflect.OneofDes
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAdminKeyRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryPermissionsByAddressRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -7918,7 +7082,7 @@ func (x *fastReflection_QueryAdminKeyRequest) GetUnknown() protoreflect.RawField
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryPermissionsByAddressRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -7930,7 +7094,7 @@ func (x *fastReflection_QueryAdminKeyRequest) SetUnknown(fields protoreflect.Raw
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAdminKeyRequest) IsValid() bool {
+func (x *fastReflection_QueryPermissionsByAddressRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -7940,9 +7104,9 @@ func (x *fastReflection_QueryAdminKeyRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAdminKeyRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryPermissionsByAddressRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAdminKeyRequest)
+		x := input.Message.Interface().(*QueryPermissionsByAddressRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -7968,7 +7132,7 @@ func (x *fastReflection_QueryAdminKeyRequest) ProtoMethods() *protoiface.Methods
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeyRequest)
+		x := input.Message.Interface().(*QueryPermissionsByAddressRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8005,7 +7169,7 @@ func (x *fastReflection_QueryAdminKeyRequest) ProtoMethods() *protoiface.Methods
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeyRequest)
+		x := input.Message.Interface().(*QueryPermissionsByAddressRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8037,10 +7201,10 @@ func (x *fastReflection_QueryAdminKeyRequest) ProtoMethods() *protoiface.Methods
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeyRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeyRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -8111,26 +7275,26 @@ func (x *fastReflection_QueryAdminKeyRequest) ProtoMethods() *protoiface.Methods
 }
 
 var (
-	md_QueryAdminKeyResponse           protoreflect.MessageDescriptor
-	fd_QueryAdminKeyResponse_admin_key protoreflect.FieldDescriptor
+	md_QueryPermissionsByAddressResponse             protoreflect.MessageDescriptor
+	fd_QueryPermissionsByAddressResponse_permissions protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_query_proto_init()
-	md_QueryAdminKeyResponse = File_licenses_v1_query_proto.Messages().ByName("QueryAdminKeyResponse")
-	fd_QueryAdminKeyResponse_admin_key = md_QueryAdminKeyResponse.Fields().ByName("admin_key")
+	md_QueryPermissionsByAddressResponse = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsByAddressResponse")
+	fd_QueryPermissionsByAddressResponse_permissions = md_QueryPermissionsByAddressResponse.Fields().ByName("permissions")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAdminKeyResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryPermissionsByAddressResponse)(nil)
 
-type fastReflection_QueryAdminKeyResponse QueryAdminKeyResponse
+type fastReflection_QueryPermissionsByAddressResponse QueryPermissionsByAddressResponse
 
-func (x *QueryAdminKeyResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeyResponse)(x)
+func (x *QueryPermissionsByAddressResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByAddressResponse)(x)
 }
 
-func (x *QueryAdminKeyResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[17]
+func (x *QueryPermissionsByAddressResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_licenses_v1_query_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8141,43 +7305,43 @@ func (x *QueryAdminKeyResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAdminKeyResponse_messageType fastReflection_QueryAdminKeyResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAdminKeyResponse_messageType{}
+var _fastReflection_QueryPermissionsByAddressResponse_messageType fastReflection_QueryPermissionsByAddressResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryPermissionsByAddressResponse_messageType{}
 
-type fastReflection_QueryAdminKeyResponse_messageType struct{}
+type fastReflection_QueryPermissionsByAddressResponse_messageType struct{}
 
-func (x fastReflection_QueryAdminKeyResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeyResponse)(nil)
+func (x fastReflection_QueryPermissionsByAddressResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByAddressResponse)(nil)
 }
-func (x fastReflection_QueryAdminKeyResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeyResponse)
+func (x fastReflection_QueryPermissionsByAddressResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByAddressResponse)
 }
-func (x fastReflection_QueryAdminKeyResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeyResponse
+func (x fastReflection_QueryPermissionsByAddressResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByAddressResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAdminKeyResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeyResponse
+func (x *fastReflection_QueryPermissionsByAddressResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByAddressResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAdminKeyResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAdminKeyResponse_messageType
+func (x *fastReflection_QueryPermissionsByAddressResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryPermissionsByAddressResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAdminKeyResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeyResponse)
+func (x *fastReflection_QueryPermissionsByAddressResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByAddressResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAdminKeyResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryAdminKeyResponse)(x)
+func (x *fastReflection_QueryPermissionsByAddressResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryPermissionsByAddressResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -8185,10 +7349,10 @@ func (x *fastReflection_QueryAdminKeyResponse) Interface() protoreflect.ProtoMes
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAdminKeyResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.AdminKey != nil {
-		value := protoreflect.ValueOfMessage(x.AdminKey.ProtoReflect())
-		if !f(fd_QueryAdminKeyResponse_admin_key, value) {
+func (x *fastReflection_QueryPermissionsByAddressResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Permissions != nil {
+		value := protoreflect.ValueOfMessage(x.Permissions.ProtoReflect())
+		if !f(fd_QueryPermissionsByAddressResponse_permissions, value) {
 			return
 		}
 	}
@@ -8205,15 +7369,15 @@ func (x *fastReflection_QueryAdminKeyResponse) Range(f func(protoreflect.FieldDe
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAdminKeyResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryPermissionsByAddressResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyResponse.admin_key":
-		return x.AdminKey != nil
+	case "licenses.v1.QueryPermissionsByAddressResponse.permissions":
+		return x.Permissions != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -8223,15 +7387,15 @@ func (x *fastReflection_QueryAdminKeyResponse) Has(fd protoreflect.FieldDescript
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryPermissionsByAddressResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyResponse.admin_key":
-		x.AdminKey = nil
+	case "licenses.v1.QueryPermissionsByAddressResponse.permissions":
+		x.Permissions = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -8241,16 +7405,16 @@ func (x *fastReflection_QueryAdminKeyResponse) Clear(fd protoreflect.FieldDescri
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAdminKeyResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByAddressResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.QueryAdminKeyResponse.admin_key":
-		value := x.AdminKey
+	case "licenses.v1.QueryPermissionsByAddressResponse.permissions":
+		value := x.Permissions
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -8264,15 +7428,15 @@ func (x *fastReflection_QueryAdminKeyResponse) Get(descriptor protoreflect.Field
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryPermissionsByAddressResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyResponse.admin_key":
-		x.AdminKey = value.Message().Interface().(*AdminKey)
+	case "licenses.v1.QueryPermissionsByAddressResponse.permissions":
+		x.Permissions = value.Message().Interface().(*AddressPermissions)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -8286,44 +7450,44 @@ func (x *fastReflection_QueryAdminKeyResponse) Set(fd protoreflect.FieldDescript
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByAddressResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyResponse.admin_key":
-		if x.AdminKey == nil {
-			x.AdminKey = new(AdminKey)
+	case "licenses.v1.QueryPermissionsByAddressResponse.permissions":
+		if x.Permissions == nil {
+			x.Permissions = new(AddressPermissions)
 		}
-		return protoreflect.ValueOfMessage(x.AdminKey.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.Permissions.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAdminKeyResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByAddressResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeyResponse.admin_key":
-		m := new(AdminKey)
+	case "licenses.v1.QueryPermissionsByAddressResponse.permissions":
+		m := new(AddressPermissions)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeyResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByAddressResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeyResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAdminKeyResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryPermissionsByAddressResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryAdminKeyResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsByAddressResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -8331,7 +7495,7 @@ func (x *fastReflection_QueryAdminKeyResponse) WhichOneof(d protoreflect.OneofDe
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAdminKeyResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryPermissionsByAddressResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -8342,7 +7506,7 @@ func (x *fastReflection_QueryAdminKeyResponse) GetUnknown() protoreflect.RawFiel
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeyResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryPermissionsByAddressResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -8354,7 +7518,7 @@ func (x *fastReflection_QueryAdminKeyResponse) SetUnknown(fields protoreflect.Ra
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAdminKeyResponse) IsValid() bool {
+func (x *fastReflection_QueryPermissionsByAddressResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -8364,9 +7528,9 @@ func (x *fastReflection_QueryAdminKeyResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryPermissionsByAddressResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAdminKeyResponse)
+		x := input.Message.Interface().(*QueryPermissionsByAddressResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8378,8 +7542,8 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 		var n int
 		var l int
 		_ = l
-		if x.AdminKey != nil {
-			l = options.Size(x.AdminKey)
+		if x.Permissions != nil {
+			l = options.Size(x.Permissions)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -8392,7 +7556,7 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeyResponse)
+		x := input.Message.Interface().(*QueryPermissionsByAddressResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8411,8 +7575,8 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.AdminKey != nil {
-			encoded, err := options.Marshal(x.AdminKey)
+		if x.Permissions != nil {
+			encoded, err := options.Marshal(x.Permissions)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8436,7 +7600,7 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeyResponse)
+		x := input.Message.Interface().(*QueryPermissionsByAddressResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8468,15 +7632,15 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeyResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeyResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AdminKey", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -8503,10 +7667,10 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.AdminKey == nil {
-					x.AdminKey = &AdminKey{}
+				if x.Permissions == nil {
+					x.Permissions = &AddressPermissions{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.AdminKey); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -8546,26 +7710,26 @@ func (x *fastReflection_QueryAdminKeyResponse) ProtoMethods() *protoiface.Method
 }
 
 var (
-	md_QueryAdminKeysRequest            protoreflect.MessageDescriptor
-	fd_QueryAdminKeysRequest_pagination protoreflect.FieldDescriptor
+	md_QueryPermissionsRequest            protoreflect.MessageDescriptor
+	fd_QueryPermissionsRequest_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_query_proto_init()
-	md_QueryAdminKeysRequest = File_licenses_v1_query_proto.Messages().ByName("QueryAdminKeysRequest")
-	fd_QueryAdminKeysRequest_pagination = md_QueryAdminKeysRequest.Fields().ByName("pagination")
+	md_QueryPermissionsRequest = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsRequest")
+	fd_QueryPermissionsRequest_pagination = md_QueryPermissionsRequest.Fields().ByName("pagination")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAdminKeysRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryPermissionsRequest)(nil)
 
-type fastReflection_QueryAdminKeysRequest QueryAdminKeysRequest
+type fastReflection_QueryPermissionsRequest QueryPermissionsRequest
 
-func (x *QueryAdminKeysRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysRequest)(x)
+func (x *QueryPermissionsRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsRequest)(x)
 }
 
-func (x *QueryAdminKeysRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[18]
+func (x *QueryPermissionsRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_licenses_v1_query_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8576,43 +7740,43 @@ func (x *QueryAdminKeysRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAdminKeysRequest_messageType fastReflection_QueryAdminKeysRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAdminKeysRequest_messageType{}
+var _fastReflection_QueryPermissionsRequest_messageType fastReflection_QueryPermissionsRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryPermissionsRequest_messageType{}
 
-type fastReflection_QueryAdminKeysRequest_messageType struct{}
+type fastReflection_QueryPermissionsRequest_messageType struct{}
 
-func (x fastReflection_QueryAdminKeysRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysRequest)(nil)
+func (x fastReflection_QueryPermissionsRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsRequest)(nil)
 }
-func (x fastReflection_QueryAdminKeysRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysRequest)
+func (x fastReflection_QueryPermissionsRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsRequest)
 }
-func (x fastReflection_QueryAdminKeysRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysRequest
+func (x fastReflection_QueryPermissionsRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAdminKeysRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysRequest
+func (x *fastReflection_QueryPermissionsRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAdminKeysRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAdminKeysRequest_messageType
+func (x *fastReflection_QueryPermissionsRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryPermissionsRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAdminKeysRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysRequest)
+func (x *fastReflection_QueryPermissionsRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAdminKeysRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryAdminKeysRequest)(x)
+func (x *fastReflection_QueryPermissionsRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryPermissionsRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -8620,10 +7784,10 @@ func (x *fastReflection_QueryAdminKeysRequest) Interface() protoreflect.ProtoMes
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAdminKeysRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryPermissionsRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Pagination != nil {
 		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryAdminKeysRequest_pagination, value) {
+		if !f(fd_QueryPermissionsRequest_pagination, value) {
 			return
 		}
 	}
@@ -8640,15 +7804,15 @@ func (x *fastReflection_QueryAdminKeysRequest) Range(f func(protoreflect.FieldDe
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAdminKeysRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryPermissionsRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysRequest.pagination":
+	case "licenses.v1.QueryPermissionsRequest.pagination":
 		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -8658,15 +7822,15 @@ func (x *fastReflection_QueryAdminKeysRequest) Has(fd protoreflect.FieldDescript
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryPermissionsRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysRequest.pagination":
+	case "licenses.v1.QueryPermissionsRequest.pagination":
 		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -8676,16 +7840,16 @@ func (x *fastReflection_QueryAdminKeysRequest) Clear(fd protoreflect.FieldDescri
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAdminKeysRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.QueryAdminKeysRequest.pagination":
+	case "licenses.v1.QueryPermissionsRequest.pagination":
 		value := x.Pagination
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -8699,15 +7863,15 @@ func (x *fastReflection_QueryAdminKeysRequest) Get(descriptor protoreflect.Field
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryPermissionsRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysRequest.pagination":
+	case "licenses.v1.QueryPermissionsRequest.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -8721,44 +7885,44 @@ func (x *fastReflection_QueryAdminKeysRequest) Set(fd protoreflect.FieldDescript
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysRequest.pagination":
+	case "licenses.v1.QueryPermissionsRequest.pagination":
 		if x.Pagination == nil {
 			x.Pagination = new(v1beta1.PageRequest)
 		}
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAdminKeysRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysRequest.pagination":
+	case "licenses.v1.QueryPermissionsRequest.pagination":
 		m := new(v1beta1.PageRequest)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAdminKeysRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryPermissionsRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryAdminKeysRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -8766,7 +7930,7 @@ func (x *fastReflection_QueryAdminKeysRequest) WhichOneof(d protoreflect.OneofDe
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAdminKeysRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryPermissionsRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -8777,7 +7941,7 @@ func (x *fastReflection_QueryAdminKeysRequest) GetUnknown() protoreflect.RawFiel
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryPermissionsRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -8789,7 +7953,7 @@ func (x *fastReflection_QueryAdminKeysRequest) SetUnknown(fields protoreflect.Ra
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAdminKeysRequest) IsValid() bool {
+func (x *fastReflection_QueryPermissionsRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -8799,9 +7963,9 @@ func (x *fastReflection_QueryAdminKeysRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAdminKeysRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryPermissionsRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAdminKeysRequest)
+		x := input.Message.Interface().(*QueryPermissionsRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8827,7 +7991,7 @@ func (x *fastReflection_QueryAdminKeysRequest) ProtoMethods() *protoiface.Method
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysRequest)
+		x := input.Message.Interface().(*QueryPermissionsRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8871,7 +8035,7 @@ func (x *fastReflection_QueryAdminKeysRequest) ProtoMethods() *protoiface.Method
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysRequest)
+		x := input.Message.Interface().(*QueryPermissionsRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -8903,10 +8067,10 @@ func (x *fastReflection_QueryAdminKeysRequest) ProtoMethods() *protoiface.Method
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -8980,80 +8144,80 @@ func (x *fastReflection_QueryAdminKeysRequest) ProtoMethods() *protoiface.Method
 	}
 }
 
-var _ protoreflect.List = (*_QueryAdminKeysResponse_1_list)(nil)
+var _ protoreflect.List = (*_QueryPermissionsResponse_1_list)(nil)
 
-type _QueryAdminKeysResponse_1_list struct {
-	list *[]*AdminKey
+type _QueryPermissionsResponse_1_list struct {
+	list *[]*AddressPermissions
 }
 
-func (x *_QueryAdminKeysResponse_1_list) Len() int {
+func (x *_QueryPermissionsResponse_1_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_QueryAdminKeysResponse_1_list) Get(i int) protoreflect.Value {
+func (x *_QueryPermissionsResponse_1_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_QueryAdminKeysResponse_1_list) Set(i int, value protoreflect.Value) {
+func (x *_QueryPermissionsResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKey)
+	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_QueryAdminKeysResponse_1_list) Append(value protoreflect.Value) {
+func (x *_QueryPermissionsResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKey)
+	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_QueryAdminKeysResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(AdminKey)
+func (x *_QueryPermissionsResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(AddressPermissions)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryAdminKeysResponse_1_list) Truncate(n int) {
+func (x *_QueryPermissionsResponse_1_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_QueryAdminKeysResponse_1_list) NewElement() protoreflect.Value {
-	v := new(AdminKey)
+func (x *_QueryPermissionsResponse_1_list) NewElement() protoreflect.Value {
+	v := new(AddressPermissions)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryAdminKeysResponse_1_list) IsValid() bool {
+func (x *_QueryPermissionsResponse_1_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_QueryAdminKeysResponse            protoreflect.MessageDescriptor
-	fd_QueryAdminKeysResponse_admin_keys protoreflect.FieldDescriptor
-	fd_QueryAdminKeysResponse_pagination protoreflect.FieldDescriptor
+	md_QueryPermissionsResponse             protoreflect.MessageDescriptor
+	fd_QueryPermissionsResponse_permissions protoreflect.FieldDescriptor
+	fd_QueryPermissionsResponse_pagination  protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_query_proto_init()
-	md_QueryAdminKeysResponse = File_licenses_v1_query_proto.Messages().ByName("QueryAdminKeysResponse")
-	fd_QueryAdminKeysResponse_admin_keys = md_QueryAdminKeysResponse.Fields().ByName("admin_keys")
-	fd_QueryAdminKeysResponse_pagination = md_QueryAdminKeysResponse.Fields().ByName("pagination")
+	md_QueryPermissionsResponse = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsResponse")
+	fd_QueryPermissionsResponse_permissions = md_QueryPermissionsResponse.Fields().ByName("permissions")
+	fd_QueryPermissionsResponse_pagination = md_QueryPermissionsResponse.Fields().ByName("pagination")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAdminKeysResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryPermissionsResponse)(nil)
 
-type fastReflection_QueryAdminKeysResponse QueryAdminKeysResponse
+type fastReflection_QueryPermissionsResponse QueryPermissionsResponse
 
-func (x *QueryAdminKeysResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysResponse)(x)
+func (x *QueryPermissionsResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsResponse)(x)
 }
 
-func (x *QueryAdminKeysResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[19]
+func (x *QueryPermissionsResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_licenses_v1_query_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9064,43 +8228,43 @@ func (x *QueryAdminKeysResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAdminKeysResponse_messageType fastReflection_QueryAdminKeysResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAdminKeysResponse_messageType{}
+var _fastReflection_QueryPermissionsResponse_messageType fastReflection_QueryPermissionsResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryPermissionsResponse_messageType{}
 
-type fastReflection_QueryAdminKeysResponse_messageType struct{}
+type fastReflection_QueryPermissionsResponse_messageType struct{}
 
-func (x fastReflection_QueryAdminKeysResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysResponse)(nil)
+func (x fastReflection_QueryPermissionsResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsResponse)(nil)
 }
-func (x fastReflection_QueryAdminKeysResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysResponse)
+func (x fastReflection_QueryPermissionsResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsResponse)
 }
-func (x fastReflection_QueryAdminKeysResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysResponse
+func (x fastReflection_QueryPermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAdminKeysResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysResponse
+func (x *fastReflection_QueryPermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAdminKeysResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAdminKeysResponse_messageType
+func (x *fastReflection_QueryPermissionsResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryPermissionsResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAdminKeysResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysResponse)
+func (x *fastReflection_QueryPermissionsResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAdminKeysResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryAdminKeysResponse)(x)
+func (x *fastReflection_QueryPermissionsResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryPermissionsResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -9108,16 +8272,16 @@ func (x *fastReflection_QueryAdminKeysResponse) Interface() protoreflect.ProtoMe
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAdminKeysResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.AdminKeys) != 0 {
-		value := protoreflect.ValueOfList(&_QueryAdminKeysResponse_1_list{list: &x.AdminKeys})
-		if !f(fd_QueryAdminKeysResponse_admin_keys, value) {
+func (x *fastReflection_QueryPermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Permissions) != 0 {
+		value := protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{list: &x.Permissions})
+		if !f(fd_QueryPermissionsResponse_permissions, value) {
 			return
 		}
 	}
 	if x.Pagination != nil {
 		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryAdminKeysResponse_pagination, value) {
+		if !f(fd_QueryPermissionsResponse_pagination, value) {
 			return
 		}
 	}
@@ -9134,17 +8298,17 @@ func (x *fastReflection_QueryAdminKeysResponse) Range(f func(protoreflect.FieldD
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAdminKeysResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryPermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysResponse.admin_keys":
-		return len(x.AdminKeys) != 0
-	case "licenses.v1.QueryAdminKeysResponse.pagination":
+	case "licenses.v1.QueryPermissionsResponse.permissions":
+		return len(x.Permissions) != 0
+	case "licenses.v1.QueryPermissionsResponse.pagination":
 		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -9154,17 +8318,17 @@ func (x *fastReflection_QueryAdminKeysResponse) Has(fd protoreflect.FieldDescrip
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryPermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysResponse.admin_keys":
-		x.AdminKeys = nil
-	case "licenses.v1.QueryAdminKeysResponse.pagination":
+	case "licenses.v1.QueryPermissionsResponse.permissions":
+		x.Permissions = nil
+	case "licenses.v1.QueryPermissionsResponse.pagination":
 		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -9174,22 +8338,22 @@ func (x *fastReflection_QueryAdminKeysResponse) Clear(fd protoreflect.FieldDescr
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAdminKeysResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.QueryAdminKeysResponse.admin_keys":
-		if len(x.AdminKeys) == 0 {
-			return protoreflect.ValueOfList(&_QueryAdminKeysResponse_1_list{})
+	case "licenses.v1.QueryPermissionsResponse.permissions":
+		if len(x.Permissions) == 0 {
+			return protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{})
 		}
-		listValue := &_QueryAdminKeysResponse_1_list{list: &x.AdminKeys}
+		listValue := &_QueryPermissionsResponse_1_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(listValue)
-	case "licenses.v1.QueryAdminKeysResponse.pagination":
+	case "licenses.v1.QueryPermissionsResponse.pagination":
 		value := x.Pagination
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -9203,19 +8367,19 @@ func (x *fastReflection_QueryAdminKeysResponse) Get(descriptor protoreflect.Fiel
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryPermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysResponse.admin_keys":
+	case "licenses.v1.QueryPermissionsResponse.permissions":
 		lv := value.List()
-		clv := lv.(*_QueryAdminKeysResponse_1_list)
-		x.AdminKeys = *clv.list
-	case "licenses.v1.QueryAdminKeysResponse.pagination":
+		clv := lv.(*_QueryPermissionsResponse_1_list)
+		x.Permissions = *clv.list
+	case "licenses.v1.QueryPermissionsResponse.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -9229,53 +8393,53 @@ func (x *fastReflection_QueryAdminKeysResponse) Set(fd protoreflect.FieldDescrip
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysResponse.admin_keys":
-		if x.AdminKeys == nil {
-			x.AdminKeys = []*AdminKey{}
+	case "licenses.v1.QueryPermissionsResponse.permissions":
+		if x.Permissions == nil {
+			x.Permissions = []*AddressPermissions{}
 		}
-		value := &_QueryAdminKeysResponse_1_list{list: &x.AdminKeys}
+		value := &_QueryPermissionsResponse_1_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(value)
-	case "licenses.v1.QueryAdminKeysResponse.pagination":
+	case "licenses.v1.QueryPermissionsResponse.pagination":
 		if x.Pagination == nil {
 			x.Pagination = new(v1beta1.PageResponse)
 		}
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAdminKeysResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysResponse.admin_keys":
-		list := []*AdminKey{}
-		return protoreflect.ValueOfList(&_QueryAdminKeysResponse_1_list{list: &list})
-	case "licenses.v1.QueryAdminKeysResponse.pagination":
+	case "licenses.v1.QueryPermissionsResponse.permissions":
+		list := []*AddressPermissions{}
+		return protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{list: &list})
+	case "licenses.v1.QueryPermissionsResponse.pagination":
 		m := new(v1beta1.PageResponse)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAdminKeysResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryPermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryAdminKeysResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -9283,7 +8447,7 @@ func (x *fastReflection_QueryAdminKeysResponse) WhichOneof(d protoreflect.OneofD
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAdminKeysResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryPermissionsResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -9294,7 +8458,7 @@ func (x *fastReflection_QueryAdminKeysResponse) GetUnknown() protoreflect.RawFie
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryPermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -9306,7 +8470,7 @@ func (x *fastReflection_QueryAdminKeysResponse) SetUnknown(fields protoreflect.R
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAdminKeysResponse) IsValid() bool {
+func (x *fastReflection_QueryPermissionsResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -9316,9 +8480,9 @@ func (x *fastReflection_QueryAdminKeysResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryPermissionsResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAdminKeysResponse)
+		x := input.Message.Interface().(*QueryPermissionsResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9330,8 +8494,8 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 		var n int
 		var l int
 		_ = l
-		if len(x.AdminKeys) > 0 {
-			for _, e := range x.AdminKeys {
+		if len(x.Permissions) > 0 {
+			for _, e := range x.Permissions {
 				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
@@ -9350,7 +8514,7 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysResponse)
+		x := input.Message.Interface().(*QueryPermissionsResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9383,9 +8547,9 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 			i--
 			dAtA[i] = 0x12
 		}
-		if len(x.AdminKeys) > 0 {
-			for iNdEx := len(x.AdminKeys) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.AdminKeys[iNdEx])
+		if len(x.Permissions) > 0 {
+			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Permissions[iNdEx])
 				if err != nil {
 					return protoiface.MarshalOutput{
 						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9410,7 +8574,7 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysResponse)
+		x := input.Message.Interface().(*QueryPermissionsResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9442,15 +8606,15 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AdminKeys", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -9477,8 +8641,8 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.AdminKeys = append(x.AdminKeys, &AdminKey{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.AdminKeys[len(x.AdminKeys)-1]); err != nil {
+				x.Permissions = append(x.Permissions, &AddressPermissions{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -9554,30 +8718,30 @@ func (x *fastReflection_QueryAdminKeysResponse) ProtoMethods() *protoiface.Metho
 }
 
 var (
-	md_QueryAdminKeysByLicenseTypeRequest                 protoreflect.MessageDescriptor
-	fd_QueryAdminKeysByLicenseTypeRequest_license_type_id protoreflect.FieldDescriptor
-	fd_QueryAdminKeysByLicenseTypeRequest_permission      protoreflect.FieldDescriptor
-	fd_QueryAdminKeysByLicenseTypeRequest_pagination      protoreflect.FieldDescriptor
+	md_QueryPermissionsByLicenseTypeRequest                 protoreflect.MessageDescriptor
+	fd_QueryPermissionsByLicenseTypeRequest_license_type_id protoreflect.FieldDescriptor
+	fd_QueryPermissionsByLicenseTypeRequest_permission      protoreflect.FieldDescriptor
+	fd_QueryPermissionsByLicenseTypeRequest_pagination      protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_query_proto_init()
-	md_QueryAdminKeysByLicenseTypeRequest = File_licenses_v1_query_proto.Messages().ByName("QueryAdminKeysByLicenseTypeRequest")
-	fd_QueryAdminKeysByLicenseTypeRequest_license_type_id = md_QueryAdminKeysByLicenseTypeRequest.Fields().ByName("license_type_id")
-	fd_QueryAdminKeysByLicenseTypeRequest_permission = md_QueryAdminKeysByLicenseTypeRequest.Fields().ByName("permission")
-	fd_QueryAdminKeysByLicenseTypeRequest_pagination = md_QueryAdminKeysByLicenseTypeRequest.Fields().ByName("pagination")
+	md_QueryPermissionsByLicenseTypeRequest = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsByLicenseTypeRequest")
+	fd_QueryPermissionsByLicenseTypeRequest_license_type_id = md_QueryPermissionsByLicenseTypeRequest.Fields().ByName("license_type_id")
+	fd_QueryPermissionsByLicenseTypeRequest_permission = md_QueryPermissionsByLicenseTypeRequest.Fields().ByName("permission")
+	fd_QueryPermissionsByLicenseTypeRequest_pagination = md_QueryPermissionsByLicenseTypeRequest.Fields().ByName("pagination")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAdminKeysByLicenseTypeRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryPermissionsByLicenseTypeRequest)(nil)
 
-type fastReflection_QueryAdminKeysByLicenseTypeRequest QueryAdminKeysByLicenseTypeRequest
+type fastReflection_QueryPermissionsByLicenseTypeRequest QueryPermissionsByLicenseTypeRequest
 
-func (x *QueryAdminKeysByLicenseTypeRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysByLicenseTypeRequest)(x)
+func (x *QueryPermissionsByLicenseTypeRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByLicenseTypeRequest)(x)
 }
 
-func (x *QueryAdminKeysByLicenseTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[20]
+func (x *QueryPermissionsByLicenseTypeRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_licenses_v1_query_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9588,43 +8752,43 @@ func (x *QueryAdminKeysByLicenseTypeRequest) slowProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType{}
+var _fastReflection_QueryPermissionsByLicenseTypeRequest_messageType fastReflection_QueryPermissionsByLicenseTypeRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryPermissionsByLicenseTypeRequest_messageType{}
 
-type fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType struct{}
+type fastReflection_QueryPermissionsByLicenseTypeRequest_messageType struct{}
 
-func (x fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysByLicenseTypeRequest)(nil)
+func (x fastReflection_QueryPermissionsByLicenseTypeRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByLicenseTypeRequest)(nil)
 }
-func (x fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysByLicenseTypeRequest)
+func (x fastReflection_QueryPermissionsByLicenseTypeRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByLicenseTypeRequest)
 }
-func (x fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysByLicenseTypeRequest
+func (x fastReflection_QueryPermissionsByLicenseTypeRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByLicenseTypeRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysByLicenseTypeRequest
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByLicenseTypeRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAdminKeysByLicenseTypeRequest_messageType
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryPermissionsByLicenseTypeRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysByLicenseTypeRequest)
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByLicenseTypeRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryAdminKeysByLicenseTypeRequest)(x)
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryPermissionsByLicenseTypeRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -9632,22 +8796,22 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Interface() protoref
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.LicenseTypeId != "" {
 		value := protoreflect.ValueOfString(x.LicenseTypeId)
-		if !f(fd_QueryAdminKeysByLicenseTypeRequest_license_type_id, value) {
+		if !f(fd_QueryPermissionsByLicenseTypeRequest_license_type_id, value) {
 			return
 		}
 	}
 	if x.Permission != "" {
 		value := protoreflect.ValueOfString(x.Permission)
-		if !f(fd_QueryAdminKeysByLicenseTypeRequest_permission, value) {
+		if !f(fd_QueryPermissionsByLicenseTypeRequest_permission, value) {
 			return
 		}
 	}
 	if x.Pagination != nil {
 		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryAdminKeysByLicenseTypeRequest_pagination, value) {
+		if !f(fd_QueryPermissionsByLicenseTypeRequest_pagination, value) {
 			return
 		}
 	}
@@ -9664,19 +8828,19 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Range(f func(protore
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.license_type_id":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
 		return x.LicenseTypeId != ""
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.permission":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.permission":
 		return x.Permission != ""
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination":
 		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -9686,19 +8850,19 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Has(fd protoreflect.
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.license_type_id":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
 		x.LicenseTypeId = ""
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.permission":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.permission":
 		x.Permission = ""
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination":
 		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -9708,22 +8872,22 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Clear(fd protoreflec
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.license_type_id":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
 		value := x.LicenseTypeId
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.permission":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.permission":
 		value := x.Permission
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination":
 		value := x.Pagination
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -9737,19 +8901,19 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Get(descriptor proto
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.license_type_id":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
 		x.LicenseTypeId = value.Interface().(string)
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.permission":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.permission":
 		x.Permission = value.Interface().(string)
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -9763,52 +8927,52 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Set(fd protoreflect.
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination":
 		if x.Pagination == nil {
 			x.Pagination = new(v1beta1.PageRequest)
 		}
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.license_type_id":
-		panic(fmt.Errorf("field license_type_id of message licenses.v1.QueryAdminKeysByLicenseTypeRequest is not mutable"))
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.permission":
-		panic(fmt.Errorf("field permission of message licenses.v1.QueryAdminKeysByLicenseTypeRequest is not mutable"))
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
+		panic(fmt.Errorf("field license_type_id of message licenses.v1.QueryPermissionsByLicenseTypeRequest is not mutable"))
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.permission":
+		panic(fmt.Errorf("field permission of message licenses.v1.QueryPermissionsByLicenseTypeRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.license_type_id":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.permission":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.permission":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination":
 		m := new(v1beta1.PageRequest)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeRequest"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryAdminKeysByLicenseTypeRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsByLicenseTypeRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -9816,7 +8980,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) WhichOneof(d protore
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -9827,7 +8991,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) GetUnknown() protore
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -9839,7 +9003,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) SetUnknown(fields pr
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) IsValid() bool {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -9849,9 +9013,9 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAdminKeysByLicenseTypeRequest)
+		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9885,7 +9049,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) ProtoMethods() *prot
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysByLicenseTypeRequest)
+		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9943,7 +9107,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) ProtoMethods() *prot
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysByLicenseTypeRequest)
+		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -9975,10 +9139,10 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) ProtoMethods() *prot
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysByLicenseTypeRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysByLicenseTypeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -10116,80 +9280,80 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeRequest) ProtoMethods() *prot
 	}
 }
 
-var _ protoreflect.List = (*_QueryAdminKeysByLicenseTypeResponse_1_list)(nil)
+var _ protoreflect.List = (*_QueryPermissionsByLicenseTypeResponse_1_list)(nil)
 
-type _QueryAdminKeysByLicenseTypeResponse_1_list struct {
-	list *[]*AdminKey
+type _QueryPermissionsByLicenseTypeResponse_1_list struct {
+	list *[]*AddressPermissions
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) Len() int {
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) Get(i int) protoreflect.Value {
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) Set(i int, value protoreflect.Value) {
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKey)
+	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) Append(value protoreflect.Value) {
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKey)
+	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(AdminKey)
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(AddressPermissions)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) Truncate(n int) {
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) NewElement() protoreflect.Value {
-	v := new(AdminKey)
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) NewElement() protoreflect.Value {
+	v := new(AddressPermissions)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryAdminKeysByLicenseTypeResponse_1_list) IsValid() bool {
+func (x *_QueryPermissionsByLicenseTypeResponse_1_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_QueryAdminKeysByLicenseTypeResponse            protoreflect.MessageDescriptor
-	fd_QueryAdminKeysByLicenseTypeResponse_admin_keys protoreflect.FieldDescriptor
-	fd_QueryAdminKeysByLicenseTypeResponse_pagination protoreflect.FieldDescriptor
+	md_QueryPermissionsByLicenseTypeResponse             protoreflect.MessageDescriptor
+	fd_QueryPermissionsByLicenseTypeResponse_permissions protoreflect.FieldDescriptor
+	fd_QueryPermissionsByLicenseTypeResponse_pagination  protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_query_proto_init()
-	md_QueryAdminKeysByLicenseTypeResponse = File_licenses_v1_query_proto.Messages().ByName("QueryAdminKeysByLicenseTypeResponse")
-	fd_QueryAdminKeysByLicenseTypeResponse_admin_keys = md_QueryAdminKeysByLicenseTypeResponse.Fields().ByName("admin_keys")
-	fd_QueryAdminKeysByLicenseTypeResponse_pagination = md_QueryAdminKeysByLicenseTypeResponse.Fields().ByName("pagination")
+	md_QueryPermissionsByLicenseTypeResponse = File_licenses_v1_query_proto.Messages().ByName("QueryPermissionsByLicenseTypeResponse")
+	fd_QueryPermissionsByLicenseTypeResponse_permissions = md_QueryPermissionsByLicenseTypeResponse.Fields().ByName("permissions")
+	fd_QueryPermissionsByLicenseTypeResponse_pagination = md_QueryPermissionsByLicenseTypeResponse.Fields().ByName("pagination")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAdminKeysByLicenseTypeResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryPermissionsByLicenseTypeResponse)(nil)
 
-type fastReflection_QueryAdminKeysByLicenseTypeResponse QueryAdminKeysByLicenseTypeResponse
+type fastReflection_QueryPermissionsByLicenseTypeResponse QueryPermissionsByLicenseTypeResponse
 
-func (x *QueryAdminKeysByLicenseTypeResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysByLicenseTypeResponse)(x)
+func (x *QueryPermissionsByLicenseTypeResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByLicenseTypeResponse)(x)
 }
 
-func (x *QueryAdminKeysByLicenseTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_licenses_v1_query_proto_msgTypes[21]
+func (x *QueryPermissionsByLicenseTypeResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_licenses_v1_query_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10200,43 +9364,43 @@ func (x *QueryAdminKeysByLicenseTypeResponse) slowProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType{}
+var _fastReflection_QueryPermissionsByLicenseTypeResponse_messageType fastReflection_QueryPermissionsByLicenseTypeResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryPermissionsByLicenseTypeResponse_messageType{}
 
-type fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType struct{}
+type fastReflection_QueryPermissionsByLicenseTypeResponse_messageType struct{}
 
-func (x fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAdminKeysByLicenseTypeResponse)(nil)
+func (x fastReflection_QueryPermissionsByLicenseTypeResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryPermissionsByLicenseTypeResponse)(nil)
 }
-func (x fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysByLicenseTypeResponse)
+func (x fastReflection_QueryPermissionsByLicenseTypeResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByLicenseTypeResponse)
 }
-func (x fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysByLicenseTypeResponse
+func (x fastReflection_QueryPermissionsByLicenseTypeResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByLicenseTypeResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAdminKeysByLicenseTypeResponse
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryPermissionsByLicenseTypeResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAdminKeysByLicenseTypeResponse_messageType
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryPermissionsByLicenseTypeResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryAdminKeysByLicenseTypeResponse)
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryPermissionsByLicenseTypeResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryAdminKeysByLicenseTypeResponse)(x)
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryPermissionsByLicenseTypeResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -10244,16 +9408,16 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Interface() protore
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.AdminKeys) != 0 {
-		value := protoreflect.ValueOfList(&_QueryAdminKeysByLicenseTypeResponse_1_list{list: &x.AdminKeys})
-		if !f(fd_QueryAdminKeysByLicenseTypeResponse_admin_keys, value) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Permissions) != 0 {
+		value := protoreflect.ValueOfList(&_QueryPermissionsByLicenseTypeResponse_1_list{list: &x.Permissions})
+		if !f(fd_QueryPermissionsByLicenseTypeResponse_permissions, value) {
 			return
 		}
 	}
 	if x.Pagination != nil {
 		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryAdminKeysByLicenseTypeResponse_pagination, value) {
+		if !f(fd_QueryPermissionsByLicenseTypeResponse_pagination, value) {
 			return
 		}
 	}
@@ -10270,17 +9434,17 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Range(f func(protor
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys":
-		return len(x.AdminKeys) != 0
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions":
+		return len(x.Permissions) != 0
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination":
 		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -10290,17 +9454,17 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Has(fd protoreflect
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys":
-		x.AdminKeys = nil
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions":
+		x.Permissions = nil
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination":
 		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -10310,22 +9474,22 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Clear(fd protorefle
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys":
-		if len(x.AdminKeys) == 0 {
-			return protoreflect.ValueOfList(&_QueryAdminKeysByLicenseTypeResponse_1_list{})
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions":
+		if len(x.Permissions) == 0 {
+			return protoreflect.ValueOfList(&_QueryPermissionsByLicenseTypeResponse_1_list{})
 		}
-		listValue := &_QueryAdminKeysByLicenseTypeResponse_1_list{list: &x.AdminKeys}
+		listValue := &_QueryPermissionsByLicenseTypeResponse_1_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(listValue)
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination":
 		value := x.Pagination
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -10339,19 +9503,19 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Get(descriptor prot
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys":
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions":
 		lv := value.List()
-		clv := lv.(*_QueryAdminKeysByLicenseTypeResponse_1_list)
-		x.AdminKeys = *clv.list
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination":
+		clv := lv.(*_QueryPermissionsByLicenseTypeResponse_1_list)
+		x.Permissions = *clv.list
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -10365,53 +9529,53 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Set(fd protoreflect
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys":
-		if x.AdminKeys == nil {
-			x.AdminKeys = []*AdminKey{}
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions":
+		if x.Permissions == nil {
+			x.Permissions = []*AddressPermissions{}
 		}
-		value := &_QueryAdminKeysByLicenseTypeResponse_1_list{list: &x.AdminKeys}
+		value := &_QueryPermissionsByLicenseTypeResponse_1_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(value)
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination":
 		if x.Pagination == nil {
 			x.Pagination = new(v1beta1.PageResponse)
 		}
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys":
-		list := []*AdminKey{}
-		return protoreflect.ValueOfList(&_QueryAdminKeysByLicenseTypeResponse_1_list{list: &list})
-	case "licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination":
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions":
+		list := []*AddressPermissions{}
+		return protoreflect.ValueOfList(&_QueryPermissionsByLicenseTypeResponse_1_list{list: &list})
+	case "licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination":
 		m := new(v1beta1.PageResponse)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryAdminKeysByLicenseTypeResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.QueryPermissionsByLicenseTypeResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.QueryAdminKeysByLicenseTypeResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryAdminKeysByLicenseTypeResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.QueryPermissionsByLicenseTypeResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -10419,7 +9583,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) WhichOneof(d protor
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -10430,7 +9594,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) GetUnknown() protor
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -10442,7 +9606,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) SetUnknown(fields p
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) IsValid() bool {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -10452,9 +9616,9 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAdminKeysByLicenseTypeResponse)
+		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -10466,8 +9630,8 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *pro
 		var n int
 		var l int
 		_ = l
-		if len(x.AdminKeys) > 0 {
-			for _, e := range x.AdminKeys {
+		if len(x.Permissions) > 0 {
+			for _, e := range x.Permissions {
 				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
@@ -10486,7 +9650,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *pro
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysByLicenseTypeResponse)
+		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -10519,9 +9683,9 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *pro
 			i--
 			dAtA[i] = 0x12
 		}
-		if len(x.AdminKeys) > 0 {
-			for iNdEx := len(x.AdminKeys) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.AdminKeys[iNdEx])
+		if len(x.Permissions) > 0 {
+			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Permissions[iNdEx])
 				if err != nil {
 					return protoiface.MarshalOutput{
 						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -10546,7 +9710,7 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *pro
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAdminKeysByLicenseTypeResponse)
+		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -10578,15 +9742,15 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *pro
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysByLicenseTypeResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAdminKeysByLicenseTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AdminKeys", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -10613,8 +9777,8 @@ func (x *fastReflection_QueryAdminKeysByLicenseTypeResponse) ProtoMethods() *pro
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.AdminKeys = append(x.AdminKeys, &AdminKey{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.AdminKeys[len(x.AdminKeys)-1]); err != nil {
+				x.Permissions = append(x.Permissions, &AddressPermissions{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -10765,69 +9929,6 @@ func (x *QueryParamsResponse) GetParams() *Params {
 	return nil
 }
 
-// QueryPermissionsRequest is the request type for the Query/Permissions RPC method.
-type QueryPermissionsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *QueryPermissionsRequest) Reset() {
-	*x = QueryPermissionsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsRequest) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsRequest.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{2}
-}
-
-// QueryPermissionsResponse is the response type for the Query/Permissions RPC method.
-type QueryPermissionsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Permissions []string `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty"`
-}
-
-func (x *QueryPermissionsResponse) Reset() {
-	*x = QueryPermissionsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsResponse) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsResponse.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *QueryPermissionsResponse) GetPermissions() []string {
-	if x != nil {
-		return x.Permissions
-	}
-	return nil
-}
-
 // QueryLicenseTypeRequest is the request type for the Query/LicenseType RPC method.
 type QueryLicenseTypeRequest struct {
 	state         protoimpl.MessageState
@@ -10840,7 +9941,7 @@ type QueryLicenseTypeRequest struct {
 func (x *QueryLicenseTypeRequest) Reset() {
 	*x = QueryLicenseTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[4]
+		mi := &file_licenses_v1_query_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -10854,7 +9955,7 @@ func (*QueryLicenseTypeRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypeRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypeRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{4}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *QueryLicenseTypeRequest) GetId() string {
@@ -10876,7 +9977,7 @@ type QueryLicenseTypeResponse struct {
 func (x *QueryLicenseTypeResponse) Reset() {
 	*x = QueryLicenseTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[5]
+		mi := &file_licenses_v1_query_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -10890,7 +9991,7 @@ func (*QueryLicenseTypeResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypeResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{5}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *QueryLicenseTypeResponse) GetLicenseType() *LicenseType {
@@ -10912,7 +10013,7 @@ type QueryLicenseTypesRequest struct {
 func (x *QueryLicenseTypesRequest) Reset() {
 	*x = QueryLicenseTypesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[6]
+		mi := &file_licenses_v1_query_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -10926,7 +10027,7 @@ func (*QueryLicenseTypesRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypesRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypesRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{6}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *QueryLicenseTypesRequest) GetPagination() *v1beta1.PageRequest {
@@ -10949,7 +10050,7 @@ type QueryLicenseTypesResponse struct {
 func (x *QueryLicenseTypesResponse) Reset() {
 	*x = QueryLicenseTypesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[7]
+		mi := &file_licenses_v1_query_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -10963,7 +10064,7 @@ func (*QueryLicenseTypesResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypesResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypesResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{7}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *QueryLicenseTypesResponse) GetLicenseTypes() []*LicenseType {
@@ -10993,7 +10094,7 @@ type QueryLicenseRequest struct {
 func (x *QueryLicenseRequest) Reset() {
 	*x = QueryLicenseRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[8]
+		mi := &file_licenses_v1_query_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11007,7 +10108,7 @@ func (*QueryLicenseRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicenseRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{8}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *QueryLicenseRequest) GetTypeId() string {
@@ -11036,7 +10137,7 @@ type QueryLicenseResponse struct {
 func (x *QueryLicenseResponse) Reset() {
 	*x = QueryLicenseResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[9]
+		mi := &file_licenses_v1_query_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11050,7 +10151,7 @@ func (*QueryLicenseResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicenseResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{9}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *QueryLicenseResponse) GetLicense() *License {
@@ -11073,7 +10174,7 @@ type QueryLicensesByTypeRequest struct {
 func (x *QueryLicensesByTypeRequest) Reset() {
 	*x = QueryLicensesByTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[10]
+		mi := &file_licenses_v1_query_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11087,7 +10188,7 @@ func (*QueryLicensesByTypeRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByTypeRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByTypeRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{10}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *QueryLicensesByTypeRequest) GetTypeId() string {
@@ -11117,7 +10218,7 @@ type QueryLicensesByTypeResponse struct {
 func (x *QueryLicensesByTypeResponse) Reset() {
 	*x = QueryLicensesByTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[11]
+		mi := &file_licenses_v1_query_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11131,7 +10232,7 @@ func (*QueryLicensesByTypeResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByTypeResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByTypeResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{11}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *QueryLicensesByTypeResponse) GetLicenses() []*License {
@@ -11161,7 +10262,7 @@ type QueryLicensesByHolderRequest struct {
 func (x *QueryLicensesByHolderRequest) Reset() {
 	*x = QueryLicensesByHolderRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[12]
+		mi := &file_licenses_v1_query_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11175,7 +10276,7 @@ func (*QueryLicensesByHolderRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{12}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *QueryLicensesByHolderRequest) GetHolder() string {
@@ -11205,7 +10306,7 @@ type QueryLicensesByHolderResponse struct {
 func (x *QueryLicensesByHolderResponse) Reset() {
 	*x = QueryLicensesByHolderResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[13]
+		mi := &file_licenses_v1_query_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11219,7 +10320,7 @@ func (*QueryLicensesByHolderResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{13}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *QueryLicensesByHolderResponse) GetLicenses() []*License {
@@ -11250,7 +10351,7 @@ type QueryLicensesByHolderAndTypeRequest struct {
 func (x *QueryLicensesByHolderAndTypeRequest) Reset() {
 	*x = QueryLicensesByHolderAndTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[14]
+		mi := &file_licenses_v1_query_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11264,7 +10365,7 @@ func (*QueryLicensesByHolderAndTypeRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderAndTypeRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderAndTypeRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{14}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *QueryLicensesByHolderAndTypeRequest) GetHolder() string {
@@ -11301,7 +10402,7 @@ type QueryLicensesByHolderAndTypeResponse struct {
 func (x *QueryLicensesByHolderAndTypeResponse) Reset() {
 	*x = QueryLicensesByHolderAndTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[15]
+		mi := &file_licenses_v1_query_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11315,7 +10416,7 @@ func (*QueryLicensesByHolderAndTypeResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderAndTypeResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderAndTypeResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{15}
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *QueryLicensesByHolderAndTypeResponse) GetLicenses() []*License {
@@ -11332,8 +10433,8 @@ func (x *QueryLicensesByHolderAndTypeResponse) GetPagination() *v1beta1.PageResp
 	return nil
 }
 
-// QueryAdminKeyRequest is the request type for the Query/AdminKey RPC method.
-type QueryAdminKeyRequest struct {
+// QueryPermissionsByAddressRequest is the request type for the Query/PermissionsByAddress RPC method.
+type QueryPermissionsByAddressRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -11341,71 +10442,71 @@ type QueryAdminKeyRequest struct {
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 }
 
-func (x *QueryAdminKeyRequest) Reset() {
-	*x = QueryAdminKeyRequest{}
+func (x *QueryPermissionsByAddressRequest) Reset() {
+	*x = QueryPermissionsByAddressRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[16]
+		mi := &file_licenses_v1_query_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *QueryAdminKeyRequest) String() string {
+func (x *QueryPermissionsByAddressRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAdminKeyRequest) ProtoMessage() {}
+func (*QueryPermissionsByAddressRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryAdminKeyRequest.ProtoReflect.Descriptor instead.
-func (*QueryAdminKeyRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{16}
+// Deprecated: Use QueryPermissionsByAddressRequest.ProtoReflect.Descriptor instead.
+func (*QueryPermissionsByAddressRequest) Descriptor() ([]byte, []int) {
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *QueryAdminKeyRequest) GetAddress() string {
+func (x *QueryPermissionsByAddressRequest) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-// QueryAdminKeyResponse is the response type for the Query/AdminKey RPC method.
-type QueryAdminKeyResponse struct {
+// QueryPermissionsByAddressResponse is the response type for the Query/PermissionsByAddress RPC method.
+type QueryPermissionsByAddressResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AdminKey *AdminKey `protobuf:"bytes,1,opt,name=admin_key,json=adminKey,proto3" json:"admin_key,omitempty"`
+	Permissions *AddressPermissions `protobuf:"bytes,1,opt,name=permissions,proto3" json:"permissions,omitempty"`
 }
 
-func (x *QueryAdminKeyResponse) Reset() {
-	*x = QueryAdminKeyResponse{}
+func (x *QueryPermissionsByAddressResponse) Reset() {
+	*x = QueryPermissionsByAddressResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[17]
+		mi := &file_licenses_v1_query_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *QueryAdminKeyResponse) String() string {
+func (x *QueryPermissionsByAddressResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAdminKeyResponse) ProtoMessage() {}
+func (*QueryPermissionsByAddressResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryAdminKeyResponse.ProtoReflect.Descriptor instead.
-func (*QueryAdminKeyResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{17}
+// Deprecated: Use QueryPermissionsByAddressResponse.ProtoReflect.Descriptor instead.
+func (*QueryPermissionsByAddressResponse) Descriptor() ([]byte, []int) {
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *QueryAdminKeyResponse) GetAdminKey() *AdminKey {
+func (x *QueryPermissionsByAddressResponse) GetPermissions() *AddressPermissions {
 	if x != nil {
-		return x.AdminKey
+		return x.Permissions
 	}
 	return nil
 }
 
-// QueryAdminKeysRequest is the request type for the Query/AdminKeys RPC method.
-type QueryAdminKeysRequest struct {
+// QueryPermissionsRequest is the request type for the Query/Permissions RPC method.
+type QueryPermissionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -11413,79 +10514,79 @@ type QueryAdminKeysRequest struct {
 	Pagination *v1beta1.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryAdminKeysRequest) Reset() {
-	*x = QueryAdminKeysRequest{}
+func (x *QueryPermissionsRequest) Reset() {
+	*x = QueryPermissionsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[18]
+		mi := &file_licenses_v1_query_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *QueryAdminKeysRequest) String() string {
+func (x *QueryPermissionsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAdminKeysRequest) ProtoMessage() {}
+func (*QueryPermissionsRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryAdminKeysRequest.ProtoReflect.Descriptor instead.
-func (*QueryAdminKeysRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{18}
+// Deprecated: Use QueryPermissionsRequest.ProtoReflect.Descriptor instead.
+func (*QueryPermissionsRequest) Descriptor() ([]byte, []int) {
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *QueryAdminKeysRequest) GetPagination() *v1beta1.PageRequest {
+func (x *QueryPermissionsRequest) GetPagination() *v1beta1.PageRequest {
 	if x != nil {
 		return x.Pagination
 	}
 	return nil
 }
 
-// QueryAdminKeysResponse is the response type for the Query/AdminKeys RPC method.
-type QueryAdminKeysResponse struct {
+// QueryPermissionsResponse is the response type for the Query/Permissions RPC method.
+type QueryPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AdminKeys  []*AdminKey           `protobuf:"bytes,1,rep,name=admin_keys,json=adminKeys,proto3" json:"admin_keys,omitempty"`
-	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Permissions []*AddressPermissions `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty"`
+	Pagination  *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryAdminKeysResponse) Reset() {
-	*x = QueryAdminKeysResponse{}
+func (x *QueryPermissionsResponse) Reset() {
+	*x = QueryPermissionsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[19]
+		mi := &file_licenses_v1_query_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *QueryAdminKeysResponse) String() string {
+func (x *QueryPermissionsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAdminKeysResponse) ProtoMessage() {}
+func (*QueryPermissionsResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryAdminKeysResponse.ProtoReflect.Descriptor instead.
-func (*QueryAdminKeysResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{19}
+// Deprecated: Use QueryPermissionsResponse.ProtoReflect.Descriptor instead.
+func (*QueryPermissionsResponse) Descriptor() ([]byte, []int) {
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *QueryAdminKeysResponse) GetAdminKeys() []*AdminKey {
+func (x *QueryPermissionsResponse) GetPermissions() []*AddressPermissions {
 	if x != nil {
-		return x.AdminKeys
+		return x.Permissions
 	}
 	return nil
 }
 
-func (x *QueryAdminKeysResponse) GetPagination() *v1beta1.PageResponse {
+func (x *QueryPermissionsResponse) GetPagination() *v1beta1.PageResponse {
 	if x != nil {
 		return x.Pagination
 	}
 	return nil
 }
 
-// QueryAdminKeysByLicenseTypeRequest is the request type for the Query/AdminKeysByLicenseType RPC method.
-type QueryAdminKeysByLicenseTypeRequest struct {
+// QueryPermissionsByLicenseTypeRequest is the request type for the Query/PermissionsByLicenseType RPC method.
+type QueryPermissionsByLicenseTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -11495,85 +10596,85 @@ type QueryAdminKeysByLicenseTypeRequest struct {
 	Pagination    *v1beta1.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryAdminKeysByLicenseTypeRequest) Reset() {
-	*x = QueryAdminKeysByLicenseTypeRequest{}
+func (x *QueryPermissionsByLicenseTypeRequest) Reset() {
+	*x = QueryPermissionsByLicenseTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[20]
+		mi := &file_licenses_v1_query_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *QueryAdminKeysByLicenseTypeRequest) String() string {
+func (x *QueryPermissionsByLicenseTypeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAdminKeysByLicenseTypeRequest) ProtoMessage() {}
+func (*QueryPermissionsByLicenseTypeRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryAdminKeysByLicenseTypeRequest.ProtoReflect.Descriptor instead.
-func (*QueryAdminKeysByLicenseTypeRequest) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{20}
+// Deprecated: Use QueryPermissionsByLicenseTypeRequest.ProtoReflect.Descriptor instead.
+func (*QueryPermissionsByLicenseTypeRequest) Descriptor() ([]byte, []int) {
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *QueryAdminKeysByLicenseTypeRequest) GetLicenseTypeId() string {
+func (x *QueryPermissionsByLicenseTypeRequest) GetLicenseTypeId() string {
 	if x != nil {
 		return x.LicenseTypeId
 	}
 	return ""
 }
 
-func (x *QueryAdminKeysByLicenseTypeRequest) GetPermission() string {
+func (x *QueryPermissionsByLicenseTypeRequest) GetPermission() string {
 	if x != nil {
 		return x.Permission
 	}
 	return ""
 }
 
-func (x *QueryAdminKeysByLicenseTypeRequest) GetPagination() *v1beta1.PageRequest {
+func (x *QueryPermissionsByLicenseTypeRequest) GetPagination() *v1beta1.PageRequest {
 	if x != nil {
 		return x.Pagination
 	}
 	return nil
 }
 
-// QueryAdminKeysByLicenseTypeResponse is the response type for the Query/AdminKeysByLicenseType RPC method.
-type QueryAdminKeysByLicenseTypeResponse struct {
+// QueryPermissionsByLicenseTypeResponse is the response type for the Query/PermissionsByLicenseType RPC method.
+type QueryPermissionsByLicenseTypeResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AdminKeys  []*AdminKey           `protobuf:"bytes,1,rep,name=admin_keys,json=adminKeys,proto3" json:"admin_keys,omitempty"`
-	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Permissions []*AddressPermissions `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty"`
+	Pagination  *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryAdminKeysByLicenseTypeResponse) Reset() {
-	*x = QueryAdminKeysByLicenseTypeResponse{}
+func (x *QueryPermissionsByLicenseTypeResponse) Reset() {
+	*x = QueryPermissionsByLicenseTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_licenses_v1_query_proto_msgTypes[21]
+		mi := &file_licenses_v1_query_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *QueryAdminKeysByLicenseTypeResponse) String() string {
+func (x *QueryPermissionsByLicenseTypeResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAdminKeysByLicenseTypeResponse) ProtoMessage() {}
+func (*QueryPermissionsByLicenseTypeResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryAdminKeysByLicenseTypeResponse.ProtoReflect.Descriptor instead.
-func (*QueryAdminKeysByLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return file_licenses_v1_query_proto_rawDescGZIP(), []int{21}
+// Deprecated: Use QueryPermissionsByLicenseTypeResponse.ProtoReflect.Descriptor instead.
+func (*QueryPermissionsByLicenseTypeResponse) Descriptor() ([]byte, []int) {
+	return file_licenses_v1_query_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *QueryAdminKeysByLicenseTypeResponse) GetAdminKeys() []*AdminKey {
+func (x *QueryPermissionsByLicenseTypeResponse) GetPermissions() []*AddressPermissions {
 	if x != nil {
-		return x.AdminKeys
+		return x.Permissions
 	}
 	return nil
 }
 
-func (x *QueryAdminKeysByLicenseTypeResponse) GetPagination() *v1beta1.PageResponse {
+func (x *QueryPermissionsByLicenseTypeResponse) GetPagination() *v1beta1.PageResponse {
 	if x != nil {
 		return x.Pagination
 	}
@@ -11605,156 +10706,155 @@ var file_licenses_v1_query_proto_rawDesc = []byte{
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
 	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde, 0x1f,
-	0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x19,
-	0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x3c, 0x0a, 0x18, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x29, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x69, 0x64, 0x22, 0x5d, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41,
-	0x0a, 0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e,
-	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x42, 0x04,
-	0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70,
-	0x65, 0x22, 0x62, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x46, 0x0a,
-	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x29,
+	0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79,
+	0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x5d, 0x0a, 0x18, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x54, 0x79, 0x70, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x22, 0x62, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
+	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
+	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa9, 0x01, 0x0a,
+	0x19, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x0d, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x18, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12,
+	0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73,
+	0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
+	0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x3e, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x17, 0x0a, 0x07, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x74, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4c, 0x0a, 0x14, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x34, 0x0a, 0x07, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x07, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x22, 0x7d, 0x0a, 0x1a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x46, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
 	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
 	0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa9, 0x01, 0x0a, 0x19, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74,
-	0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x54, 0x79, 0x70, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0c, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63,
-	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79,
-	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x22, 0x3e, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x79, 0x70, 0x65,
-	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x79, 0x70, 0x65, 0x49,
-	0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69,
-	0x64, 0x22, 0x4c, 0x0a, 0x14, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x34, 0x0a, 0x07, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x07, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x22,
-	0x7d, 0x0a, 0x1a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a,
-	0x07, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
-	0x74, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76,
-	0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9e,
-	0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36,
-	0x0a, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76,
-	0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22,
-	0x98, 0x01, 0x0a, 0x1c, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x68, 0x6f, 0x6c, 0x64,
-	0x65, 0x72, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
-	0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
-	0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a,
-	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa0, 0x01, 0x0a, 0x1d, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f,
-	0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x08,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14,
-	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
-	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
-	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb8, 0x01,
-	0x0a, 0x23, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42,
-	0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
-	0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52,
-	0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x79, 0x70, 0x65, 0x5f,
-	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x79, 0x70, 0x65, 0x49, 0x64,
-	0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
-	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
-	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61,
-	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa7, 0x01, 0x0a, 0x24, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64,
-	0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x36, 0x0a, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76,
-	0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52,
-	0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e,
-	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72,
-	0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x22, 0x4a, 0x0a, 0x14, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e,
-	0x4b, 0x65, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x32, 0x0a, 0x07, 0x61, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d,
-	0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53,
-	0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x51,
-	0x0a, 0x15, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x38, 0x0a, 0x09, 0x61, 0x64, 0x6d, 0x69, 0x6e,
-	0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65,
-	0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65,
-	0x79, 0x22, 0x5f, 0x0a, 0x15, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b,
-	0x65, 0x79, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61,
-	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26,
-	0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65,
-	0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x22, 0x9d, 0x01, 0x0a, 0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69,
-	0x6e, 0x4b, 0x65, 0x79, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a,
-	0x0a, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x15, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x09,
-	0x61, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e,
-	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72,
-	0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x22, 0xb4, 0x01, 0x0a, 0x22, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69,
-	0x6e, 0x4b, 0x65, 0x79, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79,
-	0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49,
-	0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62,
-	0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61,
-	0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70,
-	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xaa, 0x01, 0x0a, 0x23, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x42, 0x79, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x3a, 0x0a, 0x0a, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x42, 0x04, 0xc8, 0xde,
-	0x1f, 0x00, 0x52, 0x09, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x47, 0x0a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9e, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x42, 0x04, 0xc8,
+	0xde, 0x1f, 0x00, 0x52, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x47, 0x0a,
 	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
 	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
 	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0xe1, 0x0c, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x98, 0x01, 0x0a, 0x1c, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65,
+	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
+	0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e,
+	0x67, 0x52, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e,
+	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72,
+	0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x22, 0xa0, 0x01, 0x0a, 0x1d, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75,
+	0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb8, 0x01, 0x0a, 0x23, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e,
+	0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x30, 0x0a, 0x06,
+	0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4,
+	0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x17,
+	0x0a, 0x07, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x74, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
+	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22,
+	0xa7, 0x01, 0x0a, 0x24, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x08, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
+	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
+	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x56, 0x0a, 0x20, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x32, 0x0a,
+	0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18,
+	0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x22, 0x6c, 0x0a, 0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x47, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x04, 0xc8, 0xde,
+	0x1f, 0x00, 0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22,
+	0x61, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26,
+	0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65,
+	0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x22, 0xac, 0x01, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x47, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x70, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63,
+	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79,
+	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x22, 0xb6, 0x01, 0x0a, 0x24, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54,
+	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x49, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
+	0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
+	0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb9, 0x01, 0x0a, 0x25, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42,
+	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x47, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x50,
+	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00,
+	0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x47, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
+	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
+	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x9c, 0x0c, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79,
 	0x12, 0x6e, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1f, 0x2e, 0x6c, 0x69, 0x63,
 	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61,
 	0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x6c, 0x69,
@@ -11762,112 +10862,108 @@ var file_licenses_v1_query_proto_rawDesc = []byte{
 	0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82,
 	0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x12, 0x19, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
 	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
-	0x12, 0x82, 0x01, 0x0a, 0x0b, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
+	0x12, 0x88, 0x01, 0x0a, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
 	0x12, 0x24, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52,
+	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12, 0x1e, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
-	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x88, 0x01, 0x0a, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x24, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12, 0x24, 0x2f, 0x77, 0x65, 0x62,
-	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x12, 0x87, 0x01, 0x0a, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x73, 0x12, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12, 0x20, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x12, 0x81, 0x01, 0x0a, 0x07, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
 	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x2b, 0x12, 0x29, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f,
-	0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x9a,
-	0x01, 0x0a, 0x0e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70,
-	0x65, 0x12, 0x27, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54,
-	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x77,
-	0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x74, 0x79, 0x70,
-	0x65, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xa1, 0x01, 0x0a, 0x10,
-	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72,
-	0x12, 0x29, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f,
-	0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2a, 0x2e, 0x6c, 0x69,
+	0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12, 0x24, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
+	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x87, 0x01, 0x0a, 0x0c,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x25, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79,
+	0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x22, 0x12, 0x20, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f,
+	0x74, 0x79, 0x70, 0x65, 0x73, 0x12, 0x81, 0x01, 0x0a, 0x07, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x12, 0x20, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2b, 0x12, 0x29,
+	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65,
+	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x9a, 0x01, 0x0a, 0x0e, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x27, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x35, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x74, 0x79,
+	0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xa1, 0x01, 0x0a, 0x10, 0x4c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x29, 0x2e, 0x6c, 0x69,
 	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
 	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x36, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12,
-	0x2e, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f,
-	0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d, 0x12,
-	0xc0, 0x01, 0x0a, 0x17, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f,
-	0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x30, 0x2e, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2a, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x36, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x77, 0x65, 0x62,
+	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x68, 0x6f, 0x6c, 0x64, 0x65,
+	0x72, 0x2f, 0x7b, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d, 0x12, 0xc0, 0x01, 0x0a, 0x17, 0x4c,
 	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41,
-	0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65,
-	0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x40, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x3a, 0x12, 0x38, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x2f,
-	0x7b, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69,
-	0x64, 0x7d, 0x12, 0x81, 0x01, 0x0a, 0x08, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x12,
-	0x21, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x22, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x28, 0x12, 0x26,
-	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x2f, 0x7b, 0x61, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x12, 0x7b, 0x0a, 0x09, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b,
-	0x65, 0x79, 0x73, 0x12, 0x22, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76,
-	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e,
-	0x4b, 0x65, 0x79, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x25, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x1f, 0x12, 0x1d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x6b,
-	0x65, 0x79, 0x73, 0x12, 0xc4, 0x01, 0x0a, 0x16, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79,
-	0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x2f,
-	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x30, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x42, 0x79, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x47, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x41, 0x12, 0x3f, 0x2f, 0x77, 0x65, 0x62, 0x73,
-	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x61, 0x64,
-	0x6d, 0x69, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0xa7, 0x01, 0x0a, 0x0f, 0x63,
-	0x6f, 0x6d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x0a,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3b, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63,
-	0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x76, 0x31, 0x3b, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa,
-	0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b,
-	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x30, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54,
+	0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x40, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x3a, 0x12, 0x38, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x5f, 0x62, 0x79, 0x5f, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x68, 0x6f, 0x6c, 0x64,
+	0x65, 0x72, 0x7d, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xb2, 0x01,
+	0x0a, 0x14, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x35, 0x12, 0x33, 0x2f,
+	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x62, 0x79,
+	0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x7d, 0x12, 0x82, 0x01, 0x0a, 0x0b, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x73, 0x12, 0x24, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12, 0x1e, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x70, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0xcb, 0x01, 0x0a, 0x18, 0x50, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x54, 0x79, 0x70, 0x65, 0x12, 0x31, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x32, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54,
+	0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x48, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x42, 0x12, 0x40, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74,
+	0x79, 0x70, 0x65, 0x2f, 0x7b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70,
+	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0xa7, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b,
+	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0b, 0x4c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x3a, 0x3a, 0x56, 0x31, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -11882,84 +10978,80 @@ func file_licenses_v1_query_proto_rawDescGZIP() []byte {
 	return file_licenses_v1_query_proto_rawDescData
 }
 
-var file_licenses_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_licenses_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_licenses_v1_query_proto_goTypes = []interface{}{
-	(*QueryParamsRequest)(nil),                   // 0: licenses.v1.QueryParamsRequest
-	(*QueryParamsResponse)(nil),                  // 1: licenses.v1.QueryParamsResponse
-	(*QueryPermissionsRequest)(nil),              // 2: licenses.v1.QueryPermissionsRequest
-	(*QueryPermissionsResponse)(nil),             // 3: licenses.v1.QueryPermissionsResponse
-	(*QueryLicenseTypeRequest)(nil),              // 4: licenses.v1.QueryLicenseTypeRequest
-	(*QueryLicenseTypeResponse)(nil),             // 5: licenses.v1.QueryLicenseTypeResponse
-	(*QueryLicenseTypesRequest)(nil),             // 6: licenses.v1.QueryLicenseTypesRequest
-	(*QueryLicenseTypesResponse)(nil),            // 7: licenses.v1.QueryLicenseTypesResponse
-	(*QueryLicenseRequest)(nil),                  // 8: licenses.v1.QueryLicenseRequest
-	(*QueryLicenseResponse)(nil),                 // 9: licenses.v1.QueryLicenseResponse
-	(*QueryLicensesByTypeRequest)(nil),           // 10: licenses.v1.QueryLicensesByTypeRequest
-	(*QueryLicensesByTypeResponse)(nil),          // 11: licenses.v1.QueryLicensesByTypeResponse
-	(*QueryLicensesByHolderRequest)(nil),         // 12: licenses.v1.QueryLicensesByHolderRequest
-	(*QueryLicensesByHolderResponse)(nil),        // 13: licenses.v1.QueryLicensesByHolderResponse
-	(*QueryLicensesByHolderAndTypeRequest)(nil),  // 14: licenses.v1.QueryLicensesByHolderAndTypeRequest
-	(*QueryLicensesByHolderAndTypeResponse)(nil), // 15: licenses.v1.QueryLicensesByHolderAndTypeResponse
-	(*QueryAdminKeyRequest)(nil),                 // 16: licenses.v1.QueryAdminKeyRequest
-	(*QueryAdminKeyResponse)(nil),                // 17: licenses.v1.QueryAdminKeyResponse
-	(*QueryAdminKeysRequest)(nil),                // 18: licenses.v1.QueryAdminKeysRequest
-	(*QueryAdminKeysResponse)(nil),               // 19: licenses.v1.QueryAdminKeysResponse
-	(*QueryAdminKeysByLicenseTypeRequest)(nil),   // 20: licenses.v1.QueryAdminKeysByLicenseTypeRequest
-	(*QueryAdminKeysByLicenseTypeResponse)(nil),  // 21: licenses.v1.QueryAdminKeysByLicenseTypeResponse
-	(*Params)(nil),                               // 22: licenses.v1.Params
-	(*LicenseType)(nil),                          // 23: licenses.v1.LicenseType
-	(*v1beta1.PageRequest)(nil),                  // 24: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),                 // 25: cosmos.base.query.v1beta1.PageResponse
-	(*License)(nil),                              // 26: licenses.v1.License
-	(*AdminKey)(nil),                             // 27: licenses.v1.AdminKey
+	(*QueryParamsRequest)(nil),                    // 0: licenses.v1.QueryParamsRequest
+	(*QueryParamsResponse)(nil),                   // 1: licenses.v1.QueryParamsResponse
+	(*QueryLicenseTypeRequest)(nil),               // 2: licenses.v1.QueryLicenseTypeRequest
+	(*QueryLicenseTypeResponse)(nil),              // 3: licenses.v1.QueryLicenseTypeResponse
+	(*QueryLicenseTypesRequest)(nil),              // 4: licenses.v1.QueryLicenseTypesRequest
+	(*QueryLicenseTypesResponse)(nil),             // 5: licenses.v1.QueryLicenseTypesResponse
+	(*QueryLicenseRequest)(nil),                   // 6: licenses.v1.QueryLicenseRequest
+	(*QueryLicenseResponse)(nil),                  // 7: licenses.v1.QueryLicenseResponse
+	(*QueryLicensesByTypeRequest)(nil),            // 8: licenses.v1.QueryLicensesByTypeRequest
+	(*QueryLicensesByTypeResponse)(nil),           // 9: licenses.v1.QueryLicensesByTypeResponse
+	(*QueryLicensesByHolderRequest)(nil),          // 10: licenses.v1.QueryLicensesByHolderRequest
+	(*QueryLicensesByHolderResponse)(nil),         // 11: licenses.v1.QueryLicensesByHolderResponse
+	(*QueryLicensesByHolderAndTypeRequest)(nil),   // 12: licenses.v1.QueryLicensesByHolderAndTypeRequest
+	(*QueryLicensesByHolderAndTypeResponse)(nil),  // 13: licenses.v1.QueryLicensesByHolderAndTypeResponse
+	(*QueryPermissionsByAddressRequest)(nil),      // 14: licenses.v1.QueryPermissionsByAddressRequest
+	(*QueryPermissionsByAddressResponse)(nil),     // 15: licenses.v1.QueryPermissionsByAddressResponse
+	(*QueryPermissionsRequest)(nil),               // 16: licenses.v1.QueryPermissionsRequest
+	(*QueryPermissionsResponse)(nil),              // 17: licenses.v1.QueryPermissionsResponse
+	(*QueryPermissionsByLicenseTypeRequest)(nil),  // 18: licenses.v1.QueryPermissionsByLicenseTypeRequest
+	(*QueryPermissionsByLicenseTypeResponse)(nil), // 19: licenses.v1.QueryPermissionsByLicenseTypeResponse
+	(*Params)(nil),                                // 20: licenses.v1.Params
+	(*LicenseType)(nil),                           // 21: licenses.v1.LicenseType
+	(*v1beta1.PageRequest)(nil),                   // 22: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),                  // 23: cosmos.base.query.v1beta1.PageResponse
+	(*License)(nil),                               // 24: licenses.v1.License
+	(*AddressPermissions)(nil),                    // 25: licenses.v1.AddressPermissions
 }
 var file_licenses_v1_query_proto_depIdxs = []int32{
-	22, // 0: licenses.v1.QueryParamsResponse.params:type_name -> licenses.v1.Params
-	23, // 1: licenses.v1.QueryLicenseTypeResponse.license_type:type_name -> licenses.v1.LicenseType
-	24, // 2: licenses.v1.QueryLicenseTypesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	23, // 3: licenses.v1.QueryLicenseTypesResponse.license_types:type_name -> licenses.v1.LicenseType
-	25, // 4: licenses.v1.QueryLicenseTypesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	26, // 5: licenses.v1.QueryLicenseResponse.license:type_name -> licenses.v1.License
-	24, // 6: licenses.v1.QueryLicensesByTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 7: licenses.v1.QueryLicensesByTypeResponse.licenses:type_name -> licenses.v1.License
-	25, // 8: licenses.v1.QueryLicensesByTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 9: licenses.v1.QueryLicensesByHolderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 10: licenses.v1.QueryLicensesByHolderResponse.licenses:type_name -> licenses.v1.License
-	25, // 11: licenses.v1.QueryLicensesByHolderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 12: licenses.v1.QueryLicensesByHolderAndTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 13: licenses.v1.QueryLicensesByHolderAndTypeResponse.licenses:type_name -> licenses.v1.License
-	25, // 14: licenses.v1.QueryLicensesByHolderAndTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	27, // 15: licenses.v1.QueryAdminKeyResponse.admin_key:type_name -> licenses.v1.AdminKey
-	24, // 16: licenses.v1.QueryAdminKeysRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	27, // 17: licenses.v1.QueryAdminKeysResponse.admin_keys:type_name -> licenses.v1.AdminKey
-	25, // 18: licenses.v1.QueryAdminKeysResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 19: licenses.v1.QueryAdminKeysByLicenseTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	27, // 20: licenses.v1.QueryAdminKeysByLicenseTypeResponse.admin_keys:type_name -> licenses.v1.AdminKey
-	25, // 21: licenses.v1.QueryAdminKeysByLicenseTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 0: licenses.v1.QueryParamsResponse.params:type_name -> licenses.v1.Params
+	21, // 1: licenses.v1.QueryLicenseTypeResponse.license_type:type_name -> licenses.v1.LicenseType
+	22, // 2: licenses.v1.QueryLicenseTypesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	21, // 3: licenses.v1.QueryLicenseTypesResponse.license_types:type_name -> licenses.v1.LicenseType
+	23, // 4: licenses.v1.QueryLicenseTypesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 5: licenses.v1.QueryLicenseResponse.license:type_name -> licenses.v1.License
+	22, // 6: licenses.v1.QueryLicensesByTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	24, // 7: licenses.v1.QueryLicensesByTypeResponse.licenses:type_name -> licenses.v1.License
+	23, // 8: licenses.v1.QueryLicensesByTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	22, // 9: licenses.v1.QueryLicensesByHolderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	24, // 10: licenses.v1.QueryLicensesByHolderResponse.licenses:type_name -> licenses.v1.License
+	23, // 11: licenses.v1.QueryLicensesByHolderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	22, // 12: licenses.v1.QueryLicensesByHolderAndTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	24, // 13: licenses.v1.QueryLicensesByHolderAndTypeResponse.licenses:type_name -> licenses.v1.License
+	23, // 14: licenses.v1.QueryLicensesByHolderAndTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	25, // 15: licenses.v1.QueryPermissionsByAddressResponse.permissions:type_name -> licenses.v1.AddressPermissions
+	22, // 16: licenses.v1.QueryPermissionsRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	25, // 17: licenses.v1.QueryPermissionsResponse.permissions:type_name -> licenses.v1.AddressPermissions
+	23, // 18: licenses.v1.QueryPermissionsResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	22, // 19: licenses.v1.QueryPermissionsByLicenseTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	25, // 20: licenses.v1.QueryPermissionsByLicenseTypeResponse.permissions:type_name -> licenses.v1.AddressPermissions
+	23, // 21: licenses.v1.QueryPermissionsByLicenseTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
 	0,  // 22: licenses.v1.Query.Params:input_type -> licenses.v1.QueryParamsRequest
-	2,  // 23: licenses.v1.Query.Permissions:input_type -> licenses.v1.QueryPermissionsRequest
-	4,  // 24: licenses.v1.Query.LicenseType:input_type -> licenses.v1.QueryLicenseTypeRequest
-	6,  // 25: licenses.v1.Query.LicenseTypes:input_type -> licenses.v1.QueryLicenseTypesRequest
-	8,  // 26: licenses.v1.Query.License:input_type -> licenses.v1.QueryLicenseRequest
-	10, // 27: licenses.v1.Query.LicensesByType:input_type -> licenses.v1.QueryLicensesByTypeRequest
-	12, // 28: licenses.v1.Query.LicensesByHolder:input_type -> licenses.v1.QueryLicensesByHolderRequest
-	14, // 29: licenses.v1.Query.LicensesByHolderAndType:input_type -> licenses.v1.QueryLicensesByHolderAndTypeRequest
-	16, // 30: licenses.v1.Query.AdminKey:input_type -> licenses.v1.QueryAdminKeyRequest
-	18, // 31: licenses.v1.Query.AdminKeys:input_type -> licenses.v1.QueryAdminKeysRequest
-	20, // 32: licenses.v1.Query.AdminKeysByLicenseType:input_type -> licenses.v1.QueryAdminKeysByLicenseTypeRequest
-	1,  // 33: licenses.v1.Query.Params:output_type -> licenses.v1.QueryParamsResponse
-	3,  // 34: licenses.v1.Query.Permissions:output_type -> licenses.v1.QueryPermissionsResponse
-	5,  // 35: licenses.v1.Query.LicenseType:output_type -> licenses.v1.QueryLicenseTypeResponse
-	7,  // 36: licenses.v1.Query.LicenseTypes:output_type -> licenses.v1.QueryLicenseTypesResponse
-	9,  // 37: licenses.v1.Query.License:output_type -> licenses.v1.QueryLicenseResponse
-	11, // 38: licenses.v1.Query.LicensesByType:output_type -> licenses.v1.QueryLicensesByTypeResponse
-	13, // 39: licenses.v1.Query.LicensesByHolder:output_type -> licenses.v1.QueryLicensesByHolderResponse
-	15, // 40: licenses.v1.Query.LicensesByHolderAndType:output_type -> licenses.v1.QueryLicensesByHolderAndTypeResponse
-	17, // 41: licenses.v1.Query.AdminKey:output_type -> licenses.v1.QueryAdminKeyResponse
-	19, // 42: licenses.v1.Query.AdminKeys:output_type -> licenses.v1.QueryAdminKeysResponse
-	21, // 43: licenses.v1.Query.AdminKeysByLicenseType:output_type -> licenses.v1.QueryAdminKeysByLicenseTypeResponse
-	33, // [33:44] is the sub-list for method output_type
-	22, // [22:33] is the sub-list for method input_type
+	2,  // 23: licenses.v1.Query.LicenseType:input_type -> licenses.v1.QueryLicenseTypeRequest
+	4,  // 24: licenses.v1.Query.LicenseTypes:input_type -> licenses.v1.QueryLicenseTypesRequest
+	6,  // 25: licenses.v1.Query.License:input_type -> licenses.v1.QueryLicenseRequest
+	8,  // 26: licenses.v1.Query.LicensesByType:input_type -> licenses.v1.QueryLicensesByTypeRequest
+	10, // 27: licenses.v1.Query.LicensesByHolder:input_type -> licenses.v1.QueryLicensesByHolderRequest
+	12, // 28: licenses.v1.Query.LicensesByHolderAndType:input_type -> licenses.v1.QueryLicensesByHolderAndTypeRequest
+	14, // 29: licenses.v1.Query.PermissionsByAddress:input_type -> licenses.v1.QueryPermissionsByAddressRequest
+	16, // 30: licenses.v1.Query.Permissions:input_type -> licenses.v1.QueryPermissionsRequest
+	18, // 31: licenses.v1.Query.PermissionsByLicenseType:input_type -> licenses.v1.QueryPermissionsByLicenseTypeRequest
+	1,  // 32: licenses.v1.Query.Params:output_type -> licenses.v1.QueryParamsResponse
+	3,  // 33: licenses.v1.Query.LicenseType:output_type -> licenses.v1.QueryLicenseTypeResponse
+	5,  // 34: licenses.v1.Query.LicenseTypes:output_type -> licenses.v1.QueryLicenseTypesResponse
+	7,  // 35: licenses.v1.Query.License:output_type -> licenses.v1.QueryLicenseResponse
+	9,  // 36: licenses.v1.Query.LicensesByType:output_type -> licenses.v1.QueryLicensesByTypeResponse
+	11, // 37: licenses.v1.Query.LicensesByHolder:output_type -> licenses.v1.QueryLicensesByHolderResponse
+	13, // 38: licenses.v1.Query.LicensesByHolderAndType:output_type -> licenses.v1.QueryLicensesByHolderAndTypeResponse
+	15, // 39: licenses.v1.Query.PermissionsByAddress:output_type -> licenses.v1.QueryPermissionsByAddressResponse
+	17, // 40: licenses.v1.Query.Permissions:output_type -> licenses.v1.QueryPermissionsResponse
+	19, // 41: licenses.v1.Query.PermissionsByLicenseType:output_type -> licenses.v1.QueryPermissionsByLicenseTypeResponse
+	32, // [32:42] is the sub-list for method output_type
+	22, // [22:32] is the sub-list for method input_type
 	22, // [22:22] is the sub-list for extension type_name
 	22, // [22:22] is the sub-list for extension extendee
 	0,  // [0:22] is the sub-list for field type_name
@@ -11999,30 +11091,6 @@ func file_licenses_v1_query_proto_init() {
 			}
 		}
 		file_licenses_v1_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_licenses_v1_query_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_licenses_v1_query_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypeRequest); i {
 			case 0:
 				return &v.state
@@ -12034,7 +11102,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypeResponse); i {
 			case 0:
 				return &v.state
@@ -12046,7 +11114,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypesRequest); i {
 			case 0:
 				return &v.state
@@ -12058,7 +11126,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypesResponse); i {
 			case 0:
 				return &v.state
@@ -12070,7 +11138,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseRequest); i {
 			case 0:
 				return &v.state
@@ -12082,7 +11150,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseResponse); i {
 			case 0:
 				return &v.state
@@ -12094,7 +11162,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByTypeRequest); i {
 			case 0:
 				return &v.state
@@ -12106,7 +11174,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByTypeResponse); i {
 			case 0:
 				return &v.state
@@ -12118,7 +11186,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderRequest); i {
 			case 0:
 				return &v.state
@@ -12130,7 +11198,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderResponse); i {
 			case 0:
 				return &v.state
@@ -12142,7 +11210,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderAndTypeRequest); i {
 			case 0:
 				return &v.state
@@ -12154,7 +11222,7 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_licenses_v1_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_licenses_v1_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderAndTypeResponse); i {
 			case 0:
 				return &v.state
@@ -12166,8 +11234,32 @@ func file_licenses_v1_query_proto_init() {
 				return nil
 			}
 		}
+		file_licenses_v1_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryPermissionsByAddressRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_licenses_v1_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryPermissionsByAddressResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_licenses_v1_query_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAdminKeyRequest); i {
+			switch v := v.(*QueryPermissionsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12179,7 +11271,7 @@ func file_licenses_v1_query_proto_init() {
 			}
 		}
 		file_licenses_v1_query_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAdminKeyResponse); i {
+			switch v := v.(*QueryPermissionsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12191,7 +11283,7 @@ func file_licenses_v1_query_proto_init() {
 			}
 		}
 		file_licenses_v1_query_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAdminKeysRequest); i {
+			switch v := v.(*QueryPermissionsByLicenseTypeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12203,31 +11295,7 @@ func file_licenses_v1_query_proto_init() {
 			}
 		}
 		file_licenses_v1_query_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAdminKeysResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_licenses_v1_query_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAdminKeysByLicenseTypeRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_licenses_v1_query_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAdminKeysByLicenseTypeResponse); i {
+			switch v := v.(*QueryPermissionsByLicenseTypeResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12245,7 +11313,7 @@ func file_licenses_v1_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_licenses_v1_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   22,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -10,8 +10,8 @@ import (
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUpdateParams{}, "webstack/x/licenses/MsgUpdateParams", nil)
 	cdc.RegisterConcrete(&MsgCreateLicenseType{}, "webstack/x/licenses/MsgCreateLicenseType", nil)
-	cdc.RegisterConcrete(&MsgGrantAdminPermissions{}, "webstack/x/licenses/MsgGrantAdminPermissions", nil)
-	cdc.RegisterConcrete(&MsgRevokeAdminKeyPermissions{}, "webstack/x/licenses/MsgRevokeAdminKeyPermissions", nil)
+	cdc.RegisterConcrete(&MsgGrantPermissions{}, "webstack/x/licenses/MsgGrantPermissions", nil)
+	cdc.RegisterConcrete(&MsgRevokePermissions{}, "webstack/x/licenses/MsgRevokePermissions", nil)
 	cdc.RegisterConcrete(&MsgIssueLicenses{}, "webstack/x/licenses/MsgIssueLicenses", nil)
 	cdc.RegisterConcrete(&MsgRevokeLicenses{}, "webstack/x/licenses/MsgRevokeLicenses", nil)
 	cdc.RegisterConcrete(&MsgTransferLicense{}, "webstack/x/licenses/MsgTransferLicense", nil)
@@ -22,8 +22,8 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgUpdateParams{},
 		&MsgCreateLicenseType{},
-		&MsgGrantAdminPermissions{},
-		&MsgRevokeAdminKeyPermissions{},
+		&MsgGrantPermissions{},
+		&MsgRevokePermissions{},
 		&MsgIssueLicenses{},
 		&MsgRevokeLicenses{},
 		&MsgTransferLicense{},

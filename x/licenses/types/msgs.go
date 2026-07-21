@@ -35,8 +35,8 @@ func ValidateDates(startDate, endDate string) error {
 var (
 	_ sdk.Msg = &MsgUpdateParams{}
 	_ sdk.Msg = &MsgCreateLicenseType{}
-	_ sdk.Msg = &MsgGrantAdminPermissions{}
-	_ sdk.Msg = &MsgRevokeAdminKeyPermissions{}
+	_ sdk.Msg = &MsgGrantPermissions{}
+	_ sdk.Msg = &MsgRevokePermissions{}
 	_ sdk.Msg = &MsgIssueLicenses{}
 	_ sdk.Msg = &MsgRevokeLicenses{}
 	_ sdk.Msg = &MsgTransferLicense{}
@@ -81,36 +81,36 @@ func ValidateMaxSupply(v math.Int) error {
 	return nil
 }
 
-func (msg *MsgGrantAdminPermissions) ValidateBasic() error {
+func (msg *MsgGrantPermissions) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
 	}
-	if len(msg.Grants) > MaxAdminGrants {
-		return fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), MaxAdminGrants)
+	if len(msg.Grants) > MaxPermissions {
+		return fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), MaxPermissions)
 	}
 	for i, g := range msg.Grants {
 		if !g.Permission.IsValid() {
 			return fmt.Errorf("grant %d: invalid permission %q", i, g.Permission.String())
 		}
-		if len(g.LicenseTypes) > MaxAdminGrants {
-			return fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(g.LicenseTypes), MaxAdminGrants)
+		if len(g.LicenseTypes) > MaxPermissions {
+			return fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(g.LicenseTypes), MaxPermissions)
 		}
 	}
 	return nil
 }
 
-func (msg *MsgRevokeAdminKeyPermissions) ValidateBasic() error {
+func (msg *MsgRevokePermissions) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
 		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
 	}
-	if len(msg.Permissions) > MaxAdminGrants {
-		return fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), MaxAdminGrants)
+	if len(msg.Permissions) > MaxPermissions {
+		return fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), MaxPermissions)
 	}
 	for i, p := range msg.Permissions {
 		if !p.Permission.IsValid() {

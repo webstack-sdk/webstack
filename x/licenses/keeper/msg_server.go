@@ -133,11 +133,11 @@ func (ms msgServer) UpdateLicenseType(ctx context.Context, msg *types.MsgUpdateL
 	return &types.MsgUpdateLicenseTypeResponse{}, nil
 }
 
-// GrantAdminPermissions merges the incoming grants with any existing grants for the
+// GrantPermissions merges the incoming grants with any existing grants for the
 // given address. (permission, license type) pairs that already exist are deduped;
-// nothing is ever removed by this message. Use MsgRevokeAdminKeyPermissions to remove
+// nothing is ever removed by this message. Use MsgRevokePermissions to remove
 // specific pairs.
-func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGrantAdminPermissions) (*types.MsgGrantAdminPermissionsResponse, error) {
+func (ms msgServer) GrantPermissions(ctx context.Context, msg *types.MsgGrantPermissions) (*types.MsgGrantPermissionsResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
@@ -153,13 +153,13 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 		return nil, fmt.Errorf("invalid address %q: %w", msg.Address, err)
 	}
 
-	if len(msg.Grants) > types.MaxAdminGrants {
-		return nil, fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), types.MaxAdminGrants)
+	if len(msg.Grants) > types.MaxPermissions {
+		return nil, fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), types.MaxPermissions)
 	}
 
 	for i, grant := range msg.Grants {
-		if len(grant.LicenseTypes) > types.MaxAdminGrants {
-			return nil, fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(grant.LicenseTypes), types.MaxAdminGrants)
+		if len(grant.LicenseTypes) > types.MaxPermissions {
+			return nil, fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(grant.LicenseTypes), types.MaxPermissions)
 		}
 		if !grant.Permission.IsValid() {
 			return nil, fmt.Errorf("invalid permission %q: must be one of %s", grant.Permission.String(), strings.Join(types.ValidPermissionStrings(), ", "))
@@ -180,7 +180,7 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 	// re-granted pairs are idempotent overwrites.
 	for _, grant := range msg.Grants {
 		for _, lt := range grant.LicenseTypes {
-			if err := ms.k.AdminGrants.Set(ctx, collections.Join3(msg.Address, int32(grant.Permission), lt)); err != nil {
+			if err := ms.k.Permissions.Set(ctx, collections.Join3(msg.Address, int32(grant.Permission), lt)); err != nil {
 				return nil, err
 			}
 		}
@@ -194,19 +194,19 @@ func (ms msgServer) GrantAdminPermissions(ctx context.Context, msg *types.MsgGra
 	}
 
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeGrantAdminPermissions,
+		types.EventTypeGrantPermissions,
 		sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
 		sdk.NewAttribute(types.AttributeKeyPermissions, strings.Join(perms, ",")),
 		sdk.NewAttribute(types.AttributeKeyGrantTypes, strings.Join(grantTypes, ";")),
 	))
 
-	return &types.MsgGrantAdminPermissionsResponse{}, nil
+	return &types.MsgGrantPermissionsResponse{}, nil
 }
 
-// RevokeAdminKeyPermissions removes specific (license type, permission) pairs
-// from an admin key. Pairs that are not currently present are silently ignored
+// RevokePermissions removes specific (license type, permission) pairs
+// from an address's permissions. Pairs that are not currently present are silently ignored
 // (Remove is idempotent) — the caller can safely re-send the same revoke.
-func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.MsgRevokeAdminKeyPermissions) (*types.MsgRevokeAdminKeyPermissionsResponse, error) {
+func (ms msgServer) RevokePermissions(ctx context.Context, msg *types.MsgRevokePermissions) (*types.MsgRevokePermissionsResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
@@ -218,12 +218,12 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
 	}
 
-	if len(msg.Permissions) > types.MaxAdminGrants {
-		return nil, fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), types.MaxAdminGrants)
+	if len(msg.Permissions) > types.MaxPermissions {
+		return nil, fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), types.MaxPermissions)
 	}
 
 	for _, p := range msg.Permissions {
-		if err := ms.k.AdminGrants.Remove(ctx, collections.Join3(msg.Address, int32(p.Permission), p.LicenseTypeId)); err != nil {
+		if err := ms.k.Permissions.Remove(ctx, collections.Join3(msg.Address, int32(p.Permission), p.LicenseTypeId)); err != nil {
 			return nil, err
 		}
 	}
@@ -236,13 +236,13 @@ func (ms msgServer) RevokeAdminKeyPermissions(ctx context.Context, msg *types.Ms
 	}
 
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeRevokeAdminKeyPermissions,
+		types.EventTypeRevokePermissions,
 		sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
 		sdk.NewAttribute(types.AttributeKeyPermissions, strings.Join(revokedPerms, ",")),
 		sdk.NewAttribute(types.AttributeKeyGrantTypes, strings.Join(revokedTypes, ",")),
 	))
 
-	return &types.MsgRevokeAdminKeyPermissionsResponse{}, nil
+	return &types.MsgRevokePermissionsResponse{}, nil
 }
 
 // IssueLicenses issues licenses for each entry in the message. Each entry

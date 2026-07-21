@@ -14,7 +14,7 @@ func DefaultGenesis() *GenesisState {
 		Params:        DefaultParams(),
 		LicenseTypes:  []LicenseType{},
 		Licenses:      []License{},
-		AdminKeys:     []AdminKey{},
+		Permissions:   []AddressPermissions{},
 		LicenseCounts: []LicenseCount{},
 	}
 }
@@ -139,26 +139,26 @@ func (gs GenesisState) Validate() error {
 	}
 
 	adminAddrs := make(map[string]struct{})
-	for _, ak := range gs.AdminKeys {
+	for _, ak := range gs.Permissions {
 		if _, exists := adminAddrs[ak.Address]; exists {
-			return fmt.Errorf("duplicate admin key address: %s", ak.Address)
+			return fmt.Errorf("duplicate permissions address: %s", ak.Address)
 		}
 		adminAddrs[ak.Address] = struct{}{}
 
 		if _, err := sdk.AccAddressFromBech32(ak.Address); err != nil {
-			return fmt.Errorf("admin key has invalid address %q: %w", ak.Address, err)
+			return fmt.Errorf("permissions entry has invalid address %q: %w", ak.Address, err)
 		}
 
 		for i, g := range ak.Grants {
 			if !g.Permission.IsValid() {
-				return fmt.Errorf("admin key %s grant %d: invalid permission %q", ak.Address, i, g.Permission.String())
+				return fmt.Errorf("permissions entry %s grant %d: invalid permission %q", ak.Address, i, g.Permission.String())
 			}
 			if len(g.LicenseTypes) == 0 {
-				return fmt.Errorf("admin key %s grant %d (permission %q): must include at least one license type", ak.Address, i, g.Permission.Short())
+				return fmt.Errorf("permissions entry %s grant %d (permission %q): must include at least one license type", ak.Address, i, g.Permission.Short())
 			}
 			for _, ltID := range g.LicenseTypes {
 				if _, exists := typeIDs[ltID]; !exists {
-					return fmt.Errorf("admin key %s grant %d (permission %q): unknown license type %q", ak.Address, i, g.Permission.Short(), ltID)
+					return fmt.Errorf("permissions entry %s grant %d (permission %q): unknown license type %q", ak.Address, i, g.Permission.Short(), ltID)
 				}
 			}
 		}

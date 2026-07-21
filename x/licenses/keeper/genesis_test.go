@@ -40,10 +40,10 @@ func TestInitGenesisRunsFullValidation(t *testing.T) {
 	require.Contains(t, err.Error(), "max_supply must not be negative")
 }
 
-// TestGenesisRoundTripAdminGrantsAndActiveIndex verifies that admin grants
-// survive a genesis export/import through the flat AdminGrants keyset, and
+// TestGenesisRoundTripPermissionsAndActiveIndex verifies that admin grants
+// survive a genesis export/import through the flat Permissions keyset, and
 // that the holder index is rebuilt for active licenses only.
-func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
+func TestGenesisRoundTripPermissionsAndActiveIndex(t *testing.T) {
 	src, srcGoCtx := keepertest.LicensesKeeper(t)
 	// Revocation stamps revoked_date with the block date; use a realistic
 	// block time so the exported dates are meaningful.
@@ -56,9 +56,9 @@ func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
 		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(srcCtx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(srcCtx, &types.MsgGrantPermissions{
 		Owner: owner, Address: owner,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
 			{Permission: types.PermissionRevoke, LicenseTypes: []string{"node"}},
 		},
@@ -87,7 +87,7 @@ func TestGenesisRoundTripAdminGrantsAndActiveIndex(t *testing.T) {
 	// Admin grants survive the flat round-trip.
 	require.True(t, dst.HasPermission(dstCtx, owner, types.PermissionIssue, "node"))
 	require.True(t, dst.HasPermission(dstCtx, owner, types.PermissionRevoke, "node"))
-	ak, found, err := dst.GetAdminKey(dstCtx, owner)
+	ak, found, err := dst.GetPermissionsByAddress(dstCtx, owner)
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Len(t, ak.Grants, 2)
@@ -122,9 +122,9 @@ func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
 		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(srcCtx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(srcCtx, &types.MsgGrantPermissions{
 		Owner: owner, Address: owner,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
 		},
 	})
@@ -178,10 +178,10 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	_, err = ms.GrantAdminPermissions(srcCtx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(srcCtx, &types.MsgGrantPermissions{
 		Owner:   owner,
 		Address: owner,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
 		},
 	})

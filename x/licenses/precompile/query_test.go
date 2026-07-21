@@ -45,19 +45,6 @@ func TestQueryParams(t *testing.T) {
 	require.Equal(t, f.OwnerHex, got.Owner)
 }
 
-func TestQueryPermissions(t *testing.T) {
-	f := newTestFixture(t)
-	method := ABI.Methods[PermissionsMethod]
-
-	bz, err := f.precompile.Permissions(f.ctx, &method, nil)
-	require.NoError(t, err)
-
-	out, err := method.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	require.Len(t, out, 1)
-	require.Equal(t, licensestypes.ValidPermissionStrings(), out[0].([]string))
-}
-
 func TestQueryLicenseType(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 100)
@@ -202,8 +189,8 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	require.Len(t, typeList, 1)
 }
 
-// TestQueryAdminKeys covers all three admin-key queries.
-func TestQueryAdminKeys(t *testing.T) {
+// TestQueryPermissions covers all three permissions-by-address queries.
+func TestQueryPermissions(t *testing.T) {
 	f := newTestFixture(t)
 	seedLicenseType(t, f, "type.a", true, 0)
 	seedLicenseType(t, f, "type.b", true, 0)
@@ -212,65 +199,65 @@ func TestQueryAdminKeys(t *testing.T) {
 	adminBech, err := f.addrCdc.BytesToString(adminHex.Bytes())
 	require.NoError(t, err)
 
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, int32(licensestypes.PermissionIssue), "type.a")))
-	require.NoError(t, f.keeper.AdminGrants.Set(f.ctx, collections.Join3(adminBech, int32(licensestypes.PermissionRevoke), "type.b")))
+	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(adminBech, int32(licensestypes.PermissionIssue), "type.a")))
+	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(adminBech, int32(licensestypes.PermissionRevoke), "type.b")))
 
-	// AdminKey ---------------------------------------------------------
-	akM := ABI.Methods[AdminKeyMethod]
-	bz, err := f.precompile.AdminKey(f.ctx, &akM, []interface{}{adminHex})
+	// AddressPermissions ---------------------------------------------------------
+	akM := ABI.Methods[PermissionsByAddressMethod]
+	bz, err := f.precompile.PermissionsByAddress(f.ctx, &akM, []interface{}{adminHex})
 	require.NoError(t, err)
 	akOut, err := akM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	ak := akOut[0].(struct {
-		AdminAddress common.Address `json:"adminAddress"`
-		Grants       []struct {
+		Grantee common.Address `json:"grantee"`
+		Grants  []struct {
 			Permission   string   `json:"permission"`
 			LicenseTypes []string `json:"licenseTypes"`
 		} `json:"grants"`
 	})
-	require.Equal(t, adminHex, ak.AdminAddress)
+	require.Equal(t, adminHex, ak.Grantee)
 	require.Len(t, ak.Grants, 2)
 
-	// AdminKeys --------------------------------------------------------
-	allM := ABI.Methods[AdminKeysMethod]
-	bz, err = f.precompile.AdminKeys(f.ctx, &allM, nil)
+	// Permissions --------------------------------------------------------
+	allM := ABI.Methods[PermissionsMethod]
+	bz, err = f.precompile.Permissions(f.ctx, &allM, nil)
 	require.NoError(t, err)
 	allOut, err := allM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	all := allOut[0].([]struct {
-		AdminAddress common.Address `json:"adminAddress"`
-		Grants       []struct {
+		Grantee common.Address `json:"grantee"`
+		Grants  []struct {
 			Permission   string   `json:"permission"`
 			LicenseTypes []string `json:"licenseTypes"`
 		} `json:"grants"`
 	})
 	require.Len(t, all, 1)
-	require.Equal(t, adminHex, all[0].AdminAddress)
+	require.Equal(t, adminHex, all[0].Grantee)
 
-	// AdminKeysByLicenseType -----------------------------------------
-	byM := ABI.Methods[AdminKeysByLicenseTypeMethod]
-	bz, err = f.precompile.AdminKeysByLicenseType(f.ctx, &byM, []interface{}{"type.a", "issue"})
+	// PermissionsByLicenseType -----------------------------------------
+	byM := ABI.Methods[PermissionsByLicenseTypeMethod]
+	bz, err = f.precompile.PermissionsByLicenseType(f.ctx, &byM, []interface{}{"type.a", "issue"})
 	require.NoError(t, err)
 	byOut, err := byM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	by := byOut[0].([]struct {
-		AdminAddress common.Address `json:"adminAddress"`
-		Grants       []struct {
+		Grantee common.Address `json:"grantee"`
+		Grants  []struct {
 			Permission   string   `json:"permission"`
 			LicenseTypes []string `json:"licenseTypes"`
 		} `json:"grants"`
 	})
 	require.Len(t, by, 1)
-	require.Equal(t, adminHex, by[0].AdminAddress)
+	require.Equal(t, adminHex, by[0].Grantee)
 
 	// negative match: permission that the admin does not hold for type.a
-	bz, err = f.precompile.AdminKeysByLicenseType(f.ctx, &byM, []interface{}{"type.a", "revoke"})
+	bz, err = f.precompile.PermissionsByLicenseType(f.ctx, &byM, []interface{}{"type.a", "revoke"})
 	require.NoError(t, err)
 	byOut, err = byM.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	emptyList := byOut[0].([]struct {
-		AdminAddress common.Address `json:"adminAddress"`
-		Grants       []struct {
+		Grantee common.Address `json:"grantee"`
+		Grants  []struct {
 			Permission   string   `json:"permission"`
 			LicenseTypes []string `json:"licenseTypes"`
 		} `json:"grants"`

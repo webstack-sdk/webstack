@@ -1,13 +1,13 @@
 # Licenses Module
 
-The `x/licenses` module provides on-chain license management for Cosmos SDK chains. It allows a module owner to define license types, delegate admin permissions, and issue/revoke/transfer licenses to addresses.
+The `x/licenses` module provides on-chain license management for Cosmos SDK chains. It allows a module owner to define license types, delegate permissions, and issue/revoke/transfer licenses to addresses.
 
 ## Overview
 
 - **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and transferrability
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
 - **Admin Keys** grant granular permissions (issue, revoke) per license type to delegated addresses
-- **Module Owner** (set via params) controls license type creation and admin key management
+- **Module Owner** (set via params) controls license type creation and permission management
 
 ## Installation
 
@@ -81,7 +81,7 @@ The `init()` function in `depinject.go` automatically registers the module. The 
 
 The module has a single `owner` address set in params. Only the owner can:
 - Create and update license types
-- Set and remove admin keys
+- Grant and revoke permissions
 
 The owner is initially set via genesis or governance (`MsgUpdateParams`).
 
@@ -120,15 +120,15 @@ The per-type next-id sequence is its own piece of state (exported in genesis
 as `license_counts`), independent of the `issued_count` stats counter on the
 license type.
 
-### Admin Keys
+### Permissions
 
-Admin keys delegate permissions to addresses. Each admin key has grants:
+The owner delegates permissions to addresses. Each address's permissions are a set of grants:
 
 ```json
 {
   "address": "webstack1abc...",
   "grants": [
-    { "permission": "issue", "license_types": ["node.license", "validator.license"] },
+    { "permission": "PERMISSION_ISSUE", "license_types": ["node.license", "validator.license"] },
     { "permission": "revoke", "license_types": ["node.license"] }
   ]
 }
@@ -164,27 +164,27 @@ Update an existing license type. Cannot set `max_supply` below `issued_count`.
 webstackd tx licenses update-license-type node.license true 2000 --from owner
 ```
 
-### MsgGrantAdminPermissions
+### MsgGrantPermissions
 Grant permissions to an address. Signer must be the module owner. Grants are
 **merged** with any existing grants for the address: the (permission, license
 type) pairs in the message are added to whatever is already stored, with
-duplicates deduped. Existing grants are never removed by `MsgGrantAdminPermissions`;
-use `MsgRevokeAdminKeyPermissions` to remove specific pairs.
+duplicates deduped. Existing grants are never removed by `MsgGrantPermissions`;
+use `MsgRevokePermissions` to remove specific pairs.
 
 ```bash
-webstackd tx licenses grant-admin-permissions webstack1admin... issue,revoke node.license,validator.license --from owner
+webstackd tx licenses grant-permissions webstack1admin... issue,revoke node.license,validator.license --from owner
 ```
 
-### MsgRevokeAdminKeyPermissions
-Remove specific `(license_type_id, permission)` pairs from an admin key.
+### MsgRevokePermissions
+Remove specific `(license_type_id, permission)` pairs from an address's permissions.
 Signer must be the module owner.
 
 Pairs that aren't currently granted are silently ignored. A grant whose
 license-type list becomes empty is dropped, and if no grants remain the
-admin key entry itself is deleted.
+address's permissions entry disappears.
 
 ```bash
-webstackd tx licenses revoke-admin-key-permissions webstack1admin... \
+webstackd tx licenses revoke-permissions webstack1admin... \
   node.license:issue validator.license:revoke --from owner
 ```
 
@@ -230,9 +230,9 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 | `LicensesByType` | All licenses for a type | `webstackd q licenses licenses-by-type node.license` |
 | `LicensesByHolder` | Active licenses for a holder | `webstackd q licenses licenses-by-holder webstack1...` |
 | `LicensesByHolderAndType` | Active licenses by holder + type | `webstackd q licenses licenses-by-holder-and-type webstack1... node.license` |
-| `AdminKey` | Grants for an address | `webstackd q licenses admin-key webstack1...` |
-| `AdminKeys` | All admin keys (paginated) | `webstackd q licenses admin-keys` |
-| `AdminKeysByLicenseType` | Admins for a license type | `webstackd q licenses admin-keys-by-license-type node.license` |
+| `PermissionsByAddress` | Grants for an address | `webstackd q licenses permissions-by-address webstack1...` |
+| `Permissions` | Grants of every address (paginated) | `webstackd q licenses permissions` |
+| `PermissionsByLicenseType` | Addresses with grants for a license type | `webstackd q licenses permissions-by-license-type node.license` |
 
 ### REST endpoints
 
@@ -246,9 +246,9 @@ GET /licenses/license/{type_id}/{id}
 GET /licenses/licenses_by_type/{type_id}
 GET /licenses/licenses_by_holder/{holder}
 GET /licenses/licenses_by_holder/{holder}/{type_id}
-GET /licenses/admin_key/{address}
-GET /licenses/admin_keys
-GET /licenses/admin_keys_by_license_type/{license_type_id}
+GET /licenses/permissions_by_address/{address}
+GET /licenses/permissions
+GET /licenses/permissions_by_license_type/{license_type_id}
 ```
 
 ## Genesis
@@ -270,12 +270,13 @@ Example genesis configuration:
       }
     ],
     "licenses": [],
-    "admin_keys": [
+    "license_counts": [],
+    "permissions": [
       {
         "address": "webstack1adminaddress...",
         "grants": [
           {
-            "permission": "issue",
+            "permission": "PERMISSION_ISSUE",
             "license_types": ["node.license"]
           }
         ]
@@ -293,12 +294,10 @@ All state-changing operations emit events:
 |-------|------------|
 | `create_license_type` | `license_type_id` |
 | `update_license_type` | `license_type_id` |
-| `grant_admin_permissions` | `address`, `permissions`, `grant_license_types` |
-| `revoke_admin_key_permissions` | `address`, `permissions`, `grant_license_types` |
-| `issue_license` | `license_type_id`, `holder`, `count` |
-| `batch_issue_license` | `license_type_id`, `count` |
-| `revoke_license` | `license_type_id`, `license_id` |
-| `update_license` | `license_type_id`, `license_id`, `status` |
+| `grant_permissions` | `address`, `permissions`, `grant_license_types` |
+| `revoke_permissions` | `address`, `permissions`, `grant_license_types` |
+| `issue_licenses` | `license_type_id`, `holder`, `count` (one event per entry) |
+| `revoke_licenses` | `license_type_id`, `holder`, `count` |
 | `transfer_license` | `license_type_id`, `license_id`, `holder`, `recipient` |
 | `update_params` | `owner` |
 
@@ -311,9 +310,9 @@ The module uses the `cosmossdk.io/collections` framework for type-safe state man
 | `Params` | (singleton) | `Params` |
 | `LicenseTypes` | `string` (type ID) | `LicenseType` |
 | `Licenses` | `(string, uint64)` (type ID, license ID) | `License` |
-| `LicenseCounts` | `string` (type ID) | `uint64` |
-| `AdminKeys` | `string` (address) | `AdminKey` |
-| `LicenseByHolder` | `(string, string, uint64)` (holder, type ID, license ID) | `uint64` |
+| `LicenseCounts` | `string` (type ID) | `uint64` (next-id sequence, exported in genesis as `license_counts`) |
+| `Permissions` | `(string, int32, string)` (address, permission, type ID) | (keyset, no value) |
+| `ActiveLicensesByHolder` | `(string, string, uint64)` (holder, type ID, license ID) | (keyset, no value; active licenses only) |
 
 ## Module Versioning
 

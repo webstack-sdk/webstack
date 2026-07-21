@@ -1830,81 +1830,81 @@ func (x *fastReflection_MsgCreateLicenseTypeResponse) ProtoMethods() *protoiface
 	}
 }
 
-var _ protoreflect.List = (*_MsgGrantAdminPermissions_3_list)(nil)
+var _ protoreflect.List = (*_MsgGrantPermissions_3_list)(nil)
 
-type _MsgGrantAdminPermissions_3_list struct {
-	list *[]*AdminKeyGrant
+type _MsgGrantPermissions_3_list struct {
+	list *[]*PermissionGrant
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) Len() int {
+func (x *_MsgGrantPermissions_3_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) Get(i int) protoreflect.Value {
+func (x *_MsgGrantPermissions_3_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) Set(i int, value protoreflect.Value) {
+func (x *_MsgGrantPermissions_3_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKeyGrant)
+	concreteValue := valueUnwrapped.Interface().(*PermissionGrant)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) Append(value protoreflect.Value) {
+func (x *_MsgGrantPermissions_3_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKeyGrant)
+	concreteValue := valueUnwrapped.Interface().(*PermissionGrant)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) AppendMutable() protoreflect.Value {
-	v := new(AdminKeyGrant)
+func (x *_MsgGrantPermissions_3_list) AppendMutable() protoreflect.Value {
+	v := new(PermissionGrant)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) Truncate(n int) {
+func (x *_MsgGrantPermissions_3_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) NewElement() protoreflect.Value {
-	v := new(AdminKeyGrant)
+func (x *_MsgGrantPermissions_3_list) NewElement() protoreflect.Value {
+	v := new(PermissionGrant)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgGrantAdminPermissions_3_list) IsValid() bool {
+func (x *_MsgGrantPermissions_3_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_MsgGrantAdminPermissions         protoreflect.MessageDescriptor
-	fd_MsgGrantAdminPermissions_owner   protoreflect.FieldDescriptor
-	fd_MsgGrantAdminPermissions_address protoreflect.FieldDescriptor
-	fd_MsgGrantAdminPermissions_grants  protoreflect.FieldDescriptor
+	md_MsgGrantPermissions         protoreflect.MessageDescriptor
+	fd_MsgGrantPermissions_owner   protoreflect.FieldDescriptor
+	fd_MsgGrantPermissions_address protoreflect.FieldDescriptor
+	fd_MsgGrantPermissions_grants  protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_tx_proto_init()
-	md_MsgGrantAdminPermissions = File_licenses_v1_tx_proto.Messages().ByName("MsgGrantAdminPermissions")
-	fd_MsgGrantAdminPermissions_owner = md_MsgGrantAdminPermissions.Fields().ByName("owner")
-	fd_MsgGrantAdminPermissions_address = md_MsgGrantAdminPermissions.Fields().ByName("address")
-	fd_MsgGrantAdminPermissions_grants = md_MsgGrantAdminPermissions.Fields().ByName("grants")
+	md_MsgGrantPermissions = File_licenses_v1_tx_proto.Messages().ByName("MsgGrantPermissions")
+	fd_MsgGrantPermissions_owner = md_MsgGrantPermissions.Fields().ByName("owner")
+	fd_MsgGrantPermissions_address = md_MsgGrantPermissions.Fields().ByName("address")
+	fd_MsgGrantPermissions_grants = md_MsgGrantPermissions.Fields().ByName("grants")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgGrantAdminPermissions)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgGrantPermissions)(nil)
 
-type fastReflection_MsgGrantAdminPermissions MsgGrantAdminPermissions
+type fastReflection_MsgGrantPermissions MsgGrantPermissions
 
-func (x *MsgGrantAdminPermissions) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgGrantAdminPermissions)(x)
+func (x *MsgGrantPermissions) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgGrantPermissions)(x)
 }
 
-func (x *MsgGrantAdminPermissions) slowProtoReflect() protoreflect.Message {
+func (x *MsgGrantPermissions) slowProtoReflect() protoreflect.Message {
 	mi := &file_licenses_v1_tx_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1916,43 +1916,43 @@ func (x *MsgGrantAdminPermissions) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgGrantAdminPermissions_messageType fastReflection_MsgGrantAdminPermissions_messageType
-var _ protoreflect.MessageType = fastReflection_MsgGrantAdminPermissions_messageType{}
+var _fastReflection_MsgGrantPermissions_messageType fastReflection_MsgGrantPermissions_messageType
+var _ protoreflect.MessageType = fastReflection_MsgGrantPermissions_messageType{}
 
-type fastReflection_MsgGrantAdminPermissions_messageType struct{}
+type fastReflection_MsgGrantPermissions_messageType struct{}
 
-func (x fastReflection_MsgGrantAdminPermissions_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgGrantAdminPermissions)(nil)
+func (x fastReflection_MsgGrantPermissions_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgGrantPermissions)(nil)
 }
-func (x fastReflection_MsgGrantAdminPermissions_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgGrantAdminPermissions)
+func (x fastReflection_MsgGrantPermissions_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgGrantPermissions)
 }
-func (x fastReflection_MsgGrantAdminPermissions_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgGrantAdminPermissions
+func (x fastReflection_MsgGrantPermissions_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgGrantPermissions
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgGrantAdminPermissions) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgGrantAdminPermissions
+func (x *fastReflection_MsgGrantPermissions) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgGrantPermissions
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgGrantAdminPermissions) Type() protoreflect.MessageType {
-	return _fastReflection_MsgGrantAdminPermissions_messageType
+func (x *fastReflection_MsgGrantPermissions) Type() protoreflect.MessageType {
+	return _fastReflection_MsgGrantPermissions_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgGrantAdminPermissions) New() protoreflect.Message {
-	return new(fastReflection_MsgGrantAdminPermissions)
+func (x *fastReflection_MsgGrantPermissions) New() protoreflect.Message {
+	return new(fastReflection_MsgGrantPermissions)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgGrantAdminPermissions) Interface() protoreflect.ProtoMessage {
-	return (*MsgGrantAdminPermissions)(x)
+func (x *fastReflection_MsgGrantPermissions) Interface() protoreflect.ProtoMessage {
+	return (*MsgGrantPermissions)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1960,22 +1960,22 @@ func (x *fastReflection_MsgGrantAdminPermissions) Interface() protoreflect.Proto
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgGrantAdminPermissions) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgGrantPermissions) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Owner != "" {
 		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_MsgGrantAdminPermissions_owner, value) {
+		if !f(fd_MsgGrantPermissions_owner, value) {
 			return
 		}
 	}
 	if x.Address != "" {
 		value := protoreflect.ValueOfString(x.Address)
-		if !f(fd_MsgGrantAdminPermissions_address, value) {
+		if !f(fd_MsgGrantPermissions_address, value) {
 			return
 		}
 	}
 	if len(x.Grants) != 0 {
-		value := protoreflect.ValueOfList(&_MsgGrantAdminPermissions_3_list{list: &x.Grants})
-		if !f(fd_MsgGrantAdminPermissions_grants, value) {
+		value := protoreflect.ValueOfList(&_MsgGrantPermissions_3_list{list: &x.Grants})
+		if !f(fd_MsgGrantPermissions_grants, value) {
 			return
 		}
 	}
@@ -1992,19 +1992,19 @@ func (x *fastReflection_MsgGrantAdminPermissions) Range(f func(protoreflect.Fiel
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgGrantAdminPermissions) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgGrantPermissions) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.MsgGrantAdminPermissions.owner":
+	case "licenses.v1.MsgGrantPermissions.owner":
 		return x.Owner != ""
-	case "licenses.v1.MsgGrantAdminPermissions.address":
+	case "licenses.v1.MsgGrantPermissions.address":
 		return x.Address != ""
-	case "licenses.v1.MsgGrantAdminPermissions.grants":
+	case "licenses.v1.MsgGrantPermissions.grants":
 		return len(x.Grants) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissions does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2014,19 +2014,19 @@ func (x *fastReflection_MsgGrantAdminPermissions) Has(fd protoreflect.FieldDescr
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissions) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgGrantPermissions) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.MsgGrantAdminPermissions.owner":
+	case "licenses.v1.MsgGrantPermissions.owner":
 		x.Owner = ""
-	case "licenses.v1.MsgGrantAdminPermissions.address":
+	case "licenses.v1.MsgGrantPermissions.address":
 		x.Address = ""
-	case "licenses.v1.MsgGrantAdminPermissions.grants":
+	case "licenses.v1.MsgGrantPermissions.grants":
 		x.Grants = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissions does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2036,25 +2036,25 @@ func (x *fastReflection_MsgGrantAdminPermissions) Clear(fd protoreflect.FieldDes
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgGrantAdminPermissions) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgGrantPermissions) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.MsgGrantAdminPermissions.owner":
+	case "licenses.v1.MsgGrantPermissions.owner":
 		value := x.Owner
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.MsgGrantAdminPermissions.address":
+	case "licenses.v1.MsgGrantPermissions.address":
 		value := x.Address
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.MsgGrantAdminPermissions.grants":
+	case "licenses.v1.MsgGrantPermissions.grants":
 		if len(x.Grants) == 0 {
-			return protoreflect.ValueOfList(&_MsgGrantAdminPermissions_3_list{})
+			return protoreflect.ValueOfList(&_MsgGrantPermissions_3_list{})
 		}
-		listValue := &_MsgGrantAdminPermissions_3_list{list: &x.Grants}
+		listValue := &_MsgGrantPermissions_3_list{list: &x.Grants}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissions does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissions does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -2068,21 +2068,21 @@ func (x *fastReflection_MsgGrantAdminPermissions) Get(descriptor protoreflect.Fi
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissions) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgGrantPermissions) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.MsgGrantAdminPermissions.owner":
+	case "licenses.v1.MsgGrantPermissions.owner":
 		x.Owner = value.Interface().(string)
-	case "licenses.v1.MsgGrantAdminPermissions.address":
+	case "licenses.v1.MsgGrantPermissions.address":
 		x.Address = value.Interface().(string)
-	case "licenses.v1.MsgGrantAdminPermissions.grants":
+	case "licenses.v1.MsgGrantPermissions.grants":
 		lv := value.List()
-		clv := lv.(*_MsgGrantAdminPermissions_3_list)
+		clv := lv.(*_MsgGrantPermissions_3_list)
 		x.Grants = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissions does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2096,53 +2096,53 @@ func (x *fastReflection_MsgGrantAdminPermissions) Set(fd protoreflect.FieldDescr
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissions) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgGrantPermissions) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.MsgGrantAdminPermissions.grants":
+	case "licenses.v1.MsgGrantPermissions.grants":
 		if x.Grants == nil {
-			x.Grants = []*AdminKeyGrant{}
+			x.Grants = []*PermissionGrant{}
 		}
-		value := &_MsgGrantAdminPermissions_3_list{list: &x.Grants}
+		value := &_MsgGrantPermissions_3_list{list: &x.Grants}
 		return protoreflect.ValueOfList(value)
-	case "licenses.v1.MsgGrantAdminPermissions.owner":
-		panic(fmt.Errorf("field owner of message licenses.v1.MsgGrantAdminPermissions is not mutable"))
-	case "licenses.v1.MsgGrantAdminPermissions.address":
-		panic(fmt.Errorf("field address of message licenses.v1.MsgGrantAdminPermissions is not mutable"))
+	case "licenses.v1.MsgGrantPermissions.owner":
+		panic(fmt.Errorf("field owner of message licenses.v1.MsgGrantPermissions is not mutable"))
+	case "licenses.v1.MsgGrantPermissions.address":
+		panic(fmt.Errorf("field address of message licenses.v1.MsgGrantPermissions is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissions does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgGrantAdminPermissions) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgGrantPermissions) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.MsgGrantAdminPermissions.owner":
+	case "licenses.v1.MsgGrantPermissions.owner":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.MsgGrantAdminPermissions.address":
+	case "licenses.v1.MsgGrantPermissions.address":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.MsgGrantAdminPermissions.grants":
-		list := []*AdminKeyGrant{}
-		return protoreflect.ValueOfList(&_MsgGrantAdminPermissions_3_list{list: &list})
+	case "licenses.v1.MsgGrantPermissions.grants":
+		list := []*PermissionGrant{}
+		return protoreflect.ValueOfList(&_MsgGrantPermissions_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissions does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgGrantAdminPermissions) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgGrantPermissions) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgGrantAdminPermissions", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgGrantPermissions", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -2150,7 +2150,7 @@ func (x *fastReflection_MsgGrantAdminPermissions) WhichOneof(d protoreflect.Oneo
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgGrantAdminPermissions) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgGrantPermissions) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -2161,7 +2161,7 @@ func (x *fastReflection_MsgGrantAdminPermissions) GetUnknown() protoreflect.RawF
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissions) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgGrantPermissions) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -2173,7 +2173,7 @@ func (x *fastReflection_MsgGrantAdminPermissions) SetUnknown(fields protoreflect
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgGrantAdminPermissions) IsValid() bool {
+func (x *fastReflection_MsgGrantPermissions) IsValid() bool {
 	return x != nil
 }
 
@@ -2183,9 +2183,9 @@ func (x *fastReflection_MsgGrantAdminPermissions) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgGrantAdminPermissions) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgGrantPermissions) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgGrantAdminPermissions)
+		x := input.Message.Interface().(*MsgGrantPermissions)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2221,7 +2221,7 @@ func (x *fastReflection_MsgGrantAdminPermissions) ProtoMethods() *protoiface.Met
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgGrantAdminPermissions)
+		x := input.Message.Interface().(*MsgGrantPermissions)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2281,7 +2281,7 @@ func (x *fastReflection_MsgGrantAdminPermissions) ProtoMethods() *protoiface.Met
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgGrantAdminPermissions)
+		x := input.Message.Interface().(*MsgGrantPermissions)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2313,10 +2313,10 @@ func (x *fastReflection_MsgGrantAdminPermissions) ProtoMethods() *protoiface.Met
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantAdminPermissions: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantPermissions: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantAdminPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -2412,7 +2412,7 @@ func (x *fastReflection_MsgGrantAdminPermissions) ProtoMethods() *protoiface.Met
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Grants = append(x.Grants, &AdminKeyGrant{})
+				x.Grants = append(x.Grants, &PermissionGrant{})
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Grants[len(x.Grants)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
@@ -2453,23 +2453,23 @@ func (x *fastReflection_MsgGrantAdminPermissions) ProtoMethods() *protoiface.Met
 }
 
 var (
-	md_MsgGrantAdminPermissionsResponse protoreflect.MessageDescriptor
+	md_MsgGrantPermissionsResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_licenses_v1_tx_proto_init()
-	md_MsgGrantAdminPermissionsResponse = File_licenses_v1_tx_proto.Messages().ByName("MsgGrantAdminPermissionsResponse")
+	md_MsgGrantPermissionsResponse = File_licenses_v1_tx_proto.Messages().ByName("MsgGrantPermissionsResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgGrantAdminPermissionsResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgGrantPermissionsResponse)(nil)
 
-type fastReflection_MsgGrantAdminPermissionsResponse MsgGrantAdminPermissionsResponse
+type fastReflection_MsgGrantPermissionsResponse MsgGrantPermissionsResponse
 
-func (x *MsgGrantAdminPermissionsResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgGrantAdminPermissionsResponse)(x)
+func (x *MsgGrantPermissionsResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgGrantPermissionsResponse)(x)
 }
 
-func (x *MsgGrantAdminPermissionsResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgGrantPermissionsResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_licenses_v1_tx_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2481,43 +2481,43 @@ func (x *MsgGrantAdminPermissionsResponse) slowProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgGrantAdminPermissionsResponse_messageType fastReflection_MsgGrantAdminPermissionsResponse_messageType
-var _ protoreflect.MessageType = fastReflection_MsgGrantAdminPermissionsResponse_messageType{}
+var _fastReflection_MsgGrantPermissionsResponse_messageType fastReflection_MsgGrantPermissionsResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgGrantPermissionsResponse_messageType{}
 
-type fastReflection_MsgGrantAdminPermissionsResponse_messageType struct{}
+type fastReflection_MsgGrantPermissionsResponse_messageType struct{}
 
-func (x fastReflection_MsgGrantAdminPermissionsResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgGrantAdminPermissionsResponse)(nil)
+func (x fastReflection_MsgGrantPermissionsResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgGrantPermissionsResponse)(nil)
 }
-func (x fastReflection_MsgGrantAdminPermissionsResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgGrantAdminPermissionsResponse)
+func (x fastReflection_MsgGrantPermissionsResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgGrantPermissionsResponse)
 }
-func (x fastReflection_MsgGrantAdminPermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgGrantAdminPermissionsResponse
+func (x fastReflection_MsgGrantPermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgGrantPermissionsResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgGrantAdminPermissionsResponse
+func (x *fastReflection_MsgGrantPermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgGrantPermissionsResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Type() protoreflect.MessageType {
-	return _fastReflection_MsgGrantAdminPermissionsResponse_messageType
+func (x *fastReflection_MsgGrantPermissionsResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgGrantPermissionsResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) New() protoreflect.Message {
-	return new(fastReflection_MsgGrantAdminPermissionsResponse)
+func (x *fastReflection_MsgGrantPermissionsResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgGrantPermissionsResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Interface() protoreflect.ProtoMessage {
-	return (*MsgGrantAdminPermissionsResponse)(x)
+func (x *fastReflection_MsgGrantPermissionsResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgGrantPermissionsResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -2525,7 +2525,7 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) Interface() protorefle
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgGrantPermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -2539,13 +2539,13 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) Range(f func(protorefl
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgGrantPermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2555,13 +2555,13 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) Has(fd protoreflect.Fi
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgGrantPermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2571,13 +2571,13 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) Clear(fd protoreflect.
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgGrantPermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissionsResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissionsResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -2591,13 +2591,13 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) Get(descriptor protore
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgGrantPermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2611,36 +2611,36 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) Set(fd protoreflect.Fi
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgGrantPermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgGrantPermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantAdminPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgGrantPermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgGrantAdminPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgGrantPermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgGrantPermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgGrantAdminPermissionsResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgGrantPermissionsResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -2648,7 +2648,7 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) WhichOneof(d protorefl
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgGrantPermissionsResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -2659,7 +2659,7 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) GetUnknown() protorefl
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgGrantPermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -2671,7 +2671,7 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) SetUnknown(fields prot
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) IsValid() bool {
+func (x *fastReflection_MsgGrantPermissionsResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -2681,9 +2681,9 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgGrantAdminPermissionsResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgGrantPermissionsResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgGrantAdminPermissionsResponse)
+		x := input.Message.Interface().(*MsgGrantPermissionsResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2705,7 +2705,7 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) ProtoMethods() *protoi
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgGrantAdminPermissionsResponse)
+		x := input.Message.Interface().(*MsgGrantPermissionsResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2735,7 +2735,7 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) ProtoMethods() *protoi
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgGrantAdminPermissionsResponse)
+		x := input.Message.Interface().(*MsgGrantPermissionsResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2767,10 +2767,10 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) ProtoMethods() *protoi
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantAdminPermissionsResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantPermissionsResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantAdminPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgGrantPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -2809,27 +2809,27 @@ func (x *fastReflection_MsgGrantAdminPermissionsResponse) ProtoMethods() *protoi
 }
 
 var (
-	md_AdminKeyPermission                 protoreflect.MessageDescriptor
-	fd_AdminKeyPermission_license_type_id protoreflect.FieldDescriptor
-	fd_AdminKeyPermission_permission      protoreflect.FieldDescriptor
+	md_PermissionPair                 protoreflect.MessageDescriptor
+	fd_PermissionPair_license_type_id protoreflect.FieldDescriptor
+	fd_PermissionPair_permission      protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_tx_proto_init()
-	md_AdminKeyPermission = File_licenses_v1_tx_proto.Messages().ByName("AdminKeyPermission")
-	fd_AdminKeyPermission_license_type_id = md_AdminKeyPermission.Fields().ByName("license_type_id")
-	fd_AdminKeyPermission_permission = md_AdminKeyPermission.Fields().ByName("permission")
+	md_PermissionPair = File_licenses_v1_tx_proto.Messages().ByName("PermissionPair")
+	fd_PermissionPair_license_type_id = md_PermissionPair.Fields().ByName("license_type_id")
+	fd_PermissionPair_permission = md_PermissionPair.Fields().ByName("permission")
 }
 
-var _ protoreflect.Message = (*fastReflection_AdminKeyPermission)(nil)
+var _ protoreflect.Message = (*fastReflection_PermissionPair)(nil)
 
-type fastReflection_AdminKeyPermission AdminKeyPermission
+type fastReflection_PermissionPair PermissionPair
 
-func (x *AdminKeyPermission) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_AdminKeyPermission)(x)
+func (x *PermissionPair) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_PermissionPair)(x)
 }
 
-func (x *AdminKeyPermission) slowProtoReflect() protoreflect.Message {
+func (x *PermissionPair) slowProtoReflect() protoreflect.Message {
 	mi := &file_licenses_v1_tx_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2841,43 +2841,43 @@ func (x *AdminKeyPermission) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_AdminKeyPermission_messageType fastReflection_AdminKeyPermission_messageType
-var _ protoreflect.MessageType = fastReflection_AdminKeyPermission_messageType{}
+var _fastReflection_PermissionPair_messageType fastReflection_PermissionPair_messageType
+var _ protoreflect.MessageType = fastReflection_PermissionPair_messageType{}
 
-type fastReflection_AdminKeyPermission_messageType struct{}
+type fastReflection_PermissionPair_messageType struct{}
 
-func (x fastReflection_AdminKeyPermission_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_AdminKeyPermission)(nil)
+func (x fastReflection_PermissionPair_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_PermissionPair)(nil)
 }
-func (x fastReflection_AdminKeyPermission_messageType) New() protoreflect.Message {
-	return new(fastReflection_AdminKeyPermission)
+func (x fastReflection_PermissionPair_messageType) New() protoreflect.Message {
+	return new(fastReflection_PermissionPair)
 }
-func (x fastReflection_AdminKeyPermission_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_AdminKeyPermission
+func (x fastReflection_PermissionPair_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_PermissionPair
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_AdminKeyPermission) Descriptor() protoreflect.MessageDescriptor {
-	return md_AdminKeyPermission
+func (x *fastReflection_PermissionPair) Descriptor() protoreflect.MessageDescriptor {
+	return md_PermissionPair
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_AdminKeyPermission) Type() protoreflect.MessageType {
-	return _fastReflection_AdminKeyPermission_messageType
+func (x *fastReflection_PermissionPair) Type() protoreflect.MessageType {
+	return _fastReflection_PermissionPair_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_AdminKeyPermission) New() protoreflect.Message {
-	return new(fastReflection_AdminKeyPermission)
+func (x *fastReflection_PermissionPair) New() protoreflect.Message {
+	return new(fastReflection_PermissionPair)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_AdminKeyPermission) Interface() protoreflect.ProtoMessage {
-	return (*AdminKeyPermission)(x)
+func (x *fastReflection_PermissionPair) Interface() protoreflect.ProtoMessage {
+	return (*PermissionPair)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -2885,16 +2885,16 @@ func (x *fastReflection_AdminKeyPermission) Interface() protoreflect.ProtoMessag
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_AdminKeyPermission) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_PermissionPair) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.LicenseTypeId != "" {
 		value := protoreflect.ValueOfString(x.LicenseTypeId)
-		if !f(fd_AdminKeyPermission_license_type_id, value) {
+		if !f(fd_PermissionPair_license_type_id, value) {
 			return
 		}
 	}
 	if x.Permission != 0 {
 		value := protoreflect.ValueOfEnum((protoreflect.EnumNumber)(x.Permission))
-		if !f(fd_AdminKeyPermission_permission, value) {
+		if !f(fd_PermissionPair_permission, value) {
 			return
 		}
 	}
@@ -2911,17 +2911,17 @@ func (x *fastReflection_AdminKeyPermission) Range(f func(protoreflect.FieldDescr
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_AdminKeyPermission) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_PermissionPair) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.AdminKeyPermission.license_type_id":
+	case "licenses.v1.PermissionPair.license_type_id":
 		return x.LicenseTypeId != ""
-	case "licenses.v1.AdminKeyPermission.permission":
+	case "licenses.v1.PermissionPair.permission":
 		return x.Permission != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.AdminKeyPermission"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.PermissionPair"))
 		}
-		panic(fmt.Errorf("message licenses.v1.AdminKeyPermission does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.PermissionPair does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2931,17 +2931,17 @@ func (x *fastReflection_AdminKeyPermission) Has(fd protoreflect.FieldDescriptor)
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AdminKeyPermission) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_PermissionPair) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.AdminKeyPermission.license_type_id":
+	case "licenses.v1.PermissionPair.license_type_id":
 		x.LicenseTypeId = ""
-	case "licenses.v1.AdminKeyPermission.permission":
+	case "licenses.v1.PermissionPair.permission":
 		x.Permission = 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.AdminKeyPermission"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.PermissionPair"))
 		}
-		panic(fmt.Errorf("message licenses.v1.AdminKeyPermission does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.PermissionPair does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2951,19 +2951,19 @@ func (x *fastReflection_AdminKeyPermission) Clear(fd protoreflect.FieldDescripto
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_AdminKeyPermission) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_PermissionPair) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.AdminKeyPermission.license_type_id":
+	case "licenses.v1.PermissionPair.license_type_id":
 		value := x.LicenseTypeId
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.AdminKeyPermission.permission":
+	case "licenses.v1.PermissionPair.permission":
 		value := x.Permission
 		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.AdminKeyPermission"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.PermissionPair"))
 		}
-		panic(fmt.Errorf("message licenses.v1.AdminKeyPermission does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.PermissionPair does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -2977,17 +2977,17 @@ func (x *fastReflection_AdminKeyPermission) Get(descriptor protoreflect.FieldDes
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AdminKeyPermission) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_PermissionPair) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.AdminKeyPermission.license_type_id":
+	case "licenses.v1.PermissionPair.license_type_id":
 		x.LicenseTypeId = value.Interface().(string)
-	case "licenses.v1.AdminKeyPermission.permission":
+	case "licenses.v1.PermissionPair.permission":
 		x.Permission = (Permission)(value.Enum())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.AdminKeyPermission"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.PermissionPair"))
 		}
-		panic(fmt.Errorf("message licenses.v1.AdminKeyPermission does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.PermissionPair does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3001,44 +3001,44 @@ func (x *fastReflection_AdminKeyPermission) Set(fd protoreflect.FieldDescriptor,
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AdminKeyPermission) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_PermissionPair) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.AdminKeyPermission.license_type_id":
-		panic(fmt.Errorf("field license_type_id of message licenses.v1.AdminKeyPermission is not mutable"))
-	case "licenses.v1.AdminKeyPermission.permission":
-		panic(fmt.Errorf("field permission of message licenses.v1.AdminKeyPermission is not mutable"))
+	case "licenses.v1.PermissionPair.license_type_id":
+		panic(fmt.Errorf("field license_type_id of message licenses.v1.PermissionPair is not mutable"))
+	case "licenses.v1.PermissionPair.permission":
+		panic(fmt.Errorf("field permission of message licenses.v1.PermissionPair is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.AdminKeyPermission"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.PermissionPair"))
 		}
-		panic(fmt.Errorf("message licenses.v1.AdminKeyPermission does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.PermissionPair does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_AdminKeyPermission) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_PermissionPair) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.AdminKeyPermission.license_type_id":
+	case "licenses.v1.PermissionPair.license_type_id":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.AdminKeyPermission.permission":
+	case "licenses.v1.PermissionPair.permission":
 		return protoreflect.ValueOfEnum(0)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.AdminKeyPermission"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.PermissionPair"))
 		}
-		panic(fmt.Errorf("message licenses.v1.AdminKeyPermission does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.PermissionPair does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_AdminKeyPermission) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_PermissionPair) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.AdminKeyPermission", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.PermissionPair", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3046,7 +3046,7 @@ func (x *fastReflection_AdminKeyPermission) WhichOneof(d protoreflect.OneofDescr
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_AdminKeyPermission) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_PermissionPair) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3057,7 +3057,7 @@ func (x *fastReflection_AdminKeyPermission) GetUnknown() protoreflect.RawFields 
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AdminKeyPermission) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_PermissionPair) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3069,7 +3069,7 @@ func (x *fastReflection_AdminKeyPermission) SetUnknown(fields protoreflect.RawFi
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_AdminKeyPermission) IsValid() bool {
+func (x *fastReflection_PermissionPair) IsValid() bool {
 	return x != nil
 }
 
@@ -3079,9 +3079,9 @@ func (x *fastReflection_AdminKeyPermission) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_AdminKeyPermission) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_PermissionPair) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*AdminKeyPermission)
+		x := input.Message.Interface().(*PermissionPair)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3110,7 +3110,7 @@ func (x *fastReflection_AdminKeyPermission) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*AdminKeyPermission)
+		x := input.Message.Interface().(*PermissionPair)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3152,7 +3152,7 @@ func (x *fastReflection_AdminKeyPermission) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*AdminKeyPermission)
+		x := input.Message.Interface().(*PermissionPair)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3184,10 +3184,10 @@ func (x *fastReflection_AdminKeyPermission) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AdminKeyPermission: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: PermissionPair: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AdminKeyPermission: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: PermissionPair: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -3276,81 +3276,81 @@ func (x *fastReflection_AdminKeyPermission) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_MsgRevokeAdminKeyPermissions_3_list)(nil)
+var _ protoreflect.List = (*_MsgRevokePermissions_3_list)(nil)
 
-type _MsgRevokeAdminKeyPermissions_3_list struct {
-	list *[]*AdminKeyPermission
+type _MsgRevokePermissions_3_list struct {
+	list *[]*PermissionPair
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) Len() int {
+func (x *_MsgRevokePermissions_3_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) Get(i int) protoreflect.Value {
+func (x *_MsgRevokePermissions_3_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) Set(i int, value protoreflect.Value) {
+func (x *_MsgRevokePermissions_3_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKeyPermission)
+	concreteValue := valueUnwrapped.Interface().(*PermissionPair)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) Append(value protoreflect.Value) {
+func (x *_MsgRevokePermissions_3_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AdminKeyPermission)
+	concreteValue := valueUnwrapped.Interface().(*PermissionPair)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) AppendMutable() protoreflect.Value {
-	v := new(AdminKeyPermission)
+func (x *_MsgRevokePermissions_3_list) AppendMutable() protoreflect.Value {
+	v := new(PermissionPair)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) Truncate(n int) {
+func (x *_MsgRevokePermissions_3_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) NewElement() protoreflect.Value {
-	v := new(AdminKeyPermission)
+func (x *_MsgRevokePermissions_3_list) NewElement() protoreflect.Value {
+	v := new(PermissionPair)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgRevokeAdminKeyPermissions_3_list) IsValid() bool {
+func (x *_MsgRevokePermissions_3_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_MsgRevokeAdminKeyPermissions             protoreflect.MessageDescriptor
-	fd_MsgRevokeAdminKeyPermissions_owner       protoreflect.FieldDescriptor
-	fd_MsgRevokeAdminKeyPermissions_address     protoreflect.FieldDescriptor
-	fd_MsgRevokeAdminKeyPermissions_permissions protoreflect.FieldDescriptor
+	md_MsgRevokePermissions             protoreflect.MessageDescriptor
+	fd_MsgRevokePermissions_owner       protoreflect.FieldDescriptor
+	fd_MsgRevokePermissions_address     protoreflect.FieldDescriptor
+	fd_MsgRevokePermissions_permissions protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_licenses_v1_tx_proto_init()
-	md_MsgRevokeAdminKeyPermissions = File_licenses_v1_tx_proto.Messages().ByName("MsgRevokeAdminKeyPermissions")
-	fd_MsgRevokeAdminKeyPermissions_owner = md_MsgRevokeAdminKeyPermissions.Fields().ByName("owner")
-	fd_MsgRevokeAdminKeyPermissions_address = md_MsgRevokeAdminKeyPermissions.Fields().ByName("address")
-	fd_MsgRevokeAdminKeyPermissions_permissions = md_MsgRevokeAdminKeyPermissions.Fields().ByName("permissions")
+	md_MsgRevokePermissions = File_licenses_v1_tx_proto.Messages().ByName("MsgRevokePermissions")
+	fd_MsgRevokePermissions_owner = md_MsgRevokePermissions.Fields().ByName("owner")
+	fd_MsgRevokePermissions_address = md_MsgRevokePermissions.Fields().ByName("address")
+	fd_MsgRevokePermissions_permissions = md_MsgRevokePermissions.Fields().ByName("permissions")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgRevokeAdminKeyPermissions)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgRevokePermissions)(nil)
 
-type fastReflection_MsgRevokeAdminKeyPermissions MsgRevokeAdminKeyPermissions
+type fastReflection_MsgRevokePermissions MsgRevokePermissions
 
-func (x *MsgRevokeAdminKeyPermissions) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgRevokeAdminKeyPermissions)(x)
+func (x *MsgRevokePermissions) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgRevokePermissions)(x)
 }
 
-func (x *MsgRevokeAdminKeyPermissions) slowProtoReflect() protoreflect.Message {
+func (x *MsgRevokePermissions) slowProtoReflect() protoreflect.Message {
 	mi := &file_licenses_v1_tx_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3362,43 +3362,43 @@ func (x *MsgRevokeAdminKeyPermissions) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgRevokeAdminKeyPermissions_messageType fastReflection_MsgRevokeAdminKeyPermissions_messageType
-var _ protoreflect.MessageType = fastReflection_MsgRevokeAdminKeyPermissions_messageType{}
+var _fastReflection_MsgRevokePermissions_messageType fastReflection_MsgRevokePermissions_messageType
+var _ protoreflect.MessageType = fastReflection_MsgRevokePermissions_messageType{}
 
-type fastReflection_MsgRevokeAdminKeyPermissions_messageType struct{}
+type fastReflection_MsgRevokePermissions_messageType struct{}
 
-func (x fastReflection_MsgRevokeAdminKeyPermissions_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgRevokeAdminKeyPermissions)(nil)
+func (x fastReflection_MsgRevokePermissions_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgRevokePermissions)(nil)
 }
-func (x fastReflection_MsgRevokeAdminKeyPermissions_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgRevokeAdminKeyPermissions)
+func (x fastReflection_MsgRevokePermissions_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgRevokePermissions)
 }
-func (x fastReflection_MsgRevokeAdminKeyPermissions_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgRevokeAdminKeyPermissions
+func (x fastReflection_MsgRevokePermissions_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRevokePermissions
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgRevokeAdminKeyPermissions
+func (x *fastReflection_MsgRevokePermissions) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRevokePermissions
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Type() protoreflect.MessageType {
-	return _fastReflection_MsgRevokeAdminKeyPermissions_messageType
+func (x *fastReflection_MsgRevokePermissions) Type() protoreflect.MessageType {
+	return _fastReflection_MsgRevokePermissions_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) New() protoreflect.Message {
-	return new(fastReflection_MsgRevokeAdminKeyPermissions)
+func (x *fastReflection_MsgRevokePermissions) New() protoreflect.Message {
+	return new(fastReflection_MsgRevokePermissions)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Interface() protoreflect.ProtoMessage {
-	return (*MsgRevokeAdminKeyPermissions)(x)
+func (x *fastReflection_MsgRevokePermissions) Interface() protoreflect.ProtoMessage {
+	return (*MsgRevokePermissions)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -3406,22 +3406,22 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) Interface() protoreflect.P
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgRevokePermissions) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Owner != "" {
 		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_MsgRevokeAdminKeyPermissions_owner, value) {
+		if !f(fd_MsgRevokePermissions_owner, value) {
 			return
 		}
 	}
 	if x.Address != "" {
 		value := protoreflect.ValueOfString(x.Address)
-		if !f(fd_MsgRevokeAdminKeyPermissions_address, value) {
+		if !f(fd_MsgRevokePermissions_address, value) {
 			return
 		}
 	}
 	if len(x.Permissions) != 0 {
-		value := protoreflect.ValueOfList(&_MsgRevokeAdminKeyPermissions_3_list{list: &x.Permissions})
-		if !f(fd_MsgRevokeAdminKeyPermissions_permissions, value) {
+		value := protoreflect.ValueOfList(&_MsgRevokePermissions_3_list{list: &x.Permissions})
+		if !f(fd_MsgRevokePermissions_permissions, value) {
 			return
 		}
 	}
@@ -3438,19 +3438,19 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) Range(f func(protoreflect.
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgRevokePermissions) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.owner":
+	case "licenses.v1.MsgRevokePermissions.owner":
 		return x.Owner != ""
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.address":
+	case "licenses.v1.MsgRevokePermissions.address":
 		return x.Address != ""
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.permissions":
+	case "licenses.v1.MsgRevokePermissions.permissions":
 		return len(x.Permissions) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissions does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3460,19 +3460,19 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) Has(fd protoreflect.FieldD
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgRevokePermissions) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.owner":
+	case "licenses.v1.MsgRevokePermissions.owner":
 		x.Owner = ""
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.address":
+	case "licenses.v1.MsgRevokePermissions.address":
 		x.Address = ""
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.permissions":
+	case "licenses.v1.MsgRevokePermissions.permissions":
 		x.Permissions = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissions does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3482,25 +3482,25 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) Clear(fd protoreflect.Fiel
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRevokePermissions) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.owner":
+	case "licenses.v1.MsgRevokePermissions.owner":
 		value := x.Owner
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.address":
+	case "licenses.v1.MsgRevokePermissions.address":
 		value := x.Address
 		return protoreflect.ValueOfString(value)
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.permissions":
+	case "licenses.v1.MsgRevokePermissions.permissions":
 		if len(x.Permissions) == 0 {
-			return protoreflect.ValueOfList(&_MsgRevokeAdminKeyPermissions_3_list{})
+			return protoreflect.ValueOfList(&_MsgRevokePermissions_3_list{})
 		}
-		listValue := &_MsgRevokeAdminKeyPermissions_3_list{list: &x.Permissions}
+		listValue := &_MsgRevokePermissions_3_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissions does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissions does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -3514,21 +3514,21 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) Get(descriptor protoreflec
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgRevokePermissions) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.owner":
+	case "licenses.v1.MsgRevokePermissions.owner":
 		x.Owner = value.Interface().(string)
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.address":
+	case "licenses.v1.MsgRevokePermissions.address":
 		x.Address = value.Interface().(string)
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.permissions":
+	case "licenses.v1.MsgRevokePermissions.permissions":
 		lv := value.List()
-		clv := lv.(*_MsgRevokeAdminKeyPermissions_3_list)
+		clv := lv.(*_MsgRevokePermissions_3_list)
 		x.Permissions = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissions does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3542,53 +3542,53 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) Set(fd protoreflect.FieldD
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRevokePermissions) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.permissions":
+	case "licenses.v1.MsgRevokePermissions.permissions":
 		if x.Permissions == nil {
-			x.Permissions = []*AdminKeyPermission{}
+			x.Permissions = []*PermissionPair{}
 		}
-		value := &_MsgRevokeAdminKeyPermissions_3_list{list: &x.Permissions}
+		value := &_MsgRevokePermissions_3_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(value)
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.owner":
-		panic(fmt.Errorf("field owner of message licenses.v1.MsgRevokeAdminKeyPermissions is not mutable"))
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.address":
-		panic(fmt.Errorf("field address of message licenses.v1.MsgRevokeAdminKeyPermissions is not mutable"))
+	case "licenses.v1.MsgRevokePermissions.owner":
+		panic(fmt.Errorf("field owner of message licenses.v1.MsgRevokePermissions is not mutable"))
+	case "licenses.v1.MsgRevokePermissions.address":
+		panic(fmt.Errorf("field address of message licenses.v1.MsgRevokePermissions is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissions does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRevokePermissions) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.owner":
+	case "licenses.v1.MsgRevokePermissions.owner":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.address":
+	case "licenses.v1.MsgRevokePermissions.address":
 		return protoreflect.ValueOfString("")
-	case "licenses.v1.MsgRevokeAdminKeyPermissions.permissions":
-		list := []*AdminKeyPermission{}
-		return protoreflect.ValueOfList(&_MsgRevokeAdminKeyPermissions_3_list{list: &list})
+	case "licenses.v1.MsgRevokePermissions.permissions":
+		list := []*PermissionPair{}
+		return protoreflect.ValueOfList(&_MsgRevokePermissions_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissions"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissions"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissions does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissions does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgRevokePermissions) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgRevokeAdminKeyPermissions", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgRevokePermissions", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3596,7 +3596,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) WhichOneof(d protoreflect.
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgRevokePermissions) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3607,7 +3607,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) GetUnknown() protoreflect.
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgRevokePermissions) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3619,7 +3619,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) SetUnknown(fields protoref
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) IsValid() bool {
+func (x *fastReflection_MsgRevokePermissions) IsValid() bool {
 	return x != nil
 }
 
@@ -3629,9 +3629,9 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgRevokeAdminKeyPermissions) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgRevokePermissions) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgRevokeAdminKeyPermissions)
+		x := input.Message.Interface().(*MsgRevokePermissions)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3667,7 +3667,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) ProtoMethods() *protoiface
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgRevokeAdminKeyPermissions)
+		x := input.Message.Interface().(*MsgRevokePermissions)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3727,7 +3727,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) ProtoMethods() *protoiface
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgRevokeAdminKeyPermissions)
+		x := input.Message.Interface().(*MsgRevokePermissions)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3759,10 +3759,10 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) ProtoMethods() *protoiface
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokeAdminKeyPermissions: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokePermissions: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokeAdminKeyPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokePermissions: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -3858,7 +3858,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) ProtoMethods() *protoiface
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Permissions = append(x.Permissions, &AdminKeyPermission{})
+				x.Permissions = append(x.Permissions, &PermissionPair{})
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
@@ -3899,23 +3899,23 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissions) ProtoMethods() *protoiface
 }
 
 var (
-	md_MsgRevokeAdminKeyPermissionsResponse protoreflect.MessageDescriptor
+	md_MsgRevokePermissionsResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_licenses_v1_tx_proto_init()
-	md_MsgRevokeAdminKeyPermissionsResponse = File_licenses_v1_tx_proto.Messages().ByName("MsgRevokeAdminKeyPermissionsResponse")
+	md_MsgRevokePermissionsResponse = File_licenses_v1_tx_proto.Messages().ByName("MsgRevokePermissionsResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgRevokeAdminKeyPermissionsResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgRevokePermissionsResponse)(nil)
 
-type fastReflection_MsgRevokeAdminKeyPermissionsResponse MsgRevokeAdminKeyPermissionsResponse
+type fastReflection_MsgRevokePermissionsResponse MsgRevokePermissionsResponse
 
-func (x *MsgRevokeAdminKeyPermissionsResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgRevokeAdminKeyPermissionsResponse)(x)
+func (x *MsgRevokePermissionsResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgRevokePermissionsResponse)(x)
 }
 
-func (x *MsgRevokeAdminKeyPermissionsResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgRevokePermissionsResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_licenses_v1_tx_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3927,43 +3927,43 @@ func (x *MsgRevokeAdminKeyPermissionsResponse) slowProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType
-var _ protoreflect.MessageType = fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType{}
+var _fastReflection_MsgRevokePermissionsResponse_messageType fastReflection_MsgRevokePermissionsResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgRevokePermissionsResponse_messageType{}
 
-type fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType struct{}
+type fastReflection_MsgRevokePermissionsResponse_messageType struct{}
 
-func (x fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgRevokeAdminKeyPermissionsResponse)(nil)
+func (x fastReflection_MsgRevokePermissionsResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgRevokePermissionsResponse)(nil)
 }
-func (x fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgRevokeAdminKeyPermissionsResponse)
+func (x fastReflection_MsgRevokePermissionsResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgRevokePermissionsResponse)
 }
-func (x fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgRevokeAdminKeyPermissionsResponse
+func (x fastReflection_MsgRevokePermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRevokePermissionsResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgRevokeAdminKeyPermissionsResponse
+func (x *fastReflection_MsgRevokePermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRevokePermissionsResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Type() protoreflect.MessageType {
-	return _fastReflection_MsgRevokeAdminKeyPermissionsResponse_messageType
+func (x *fastReflection_MsgRevokePermissionsResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgRevokePermissionsResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) New() protoreflect.Message {
-	return new(fastReflection_MsgRevokeAdminKeyPermissionsResponse)
+func (x *fastReflection_MsgRevokePermissionsResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgRevokePermissionsResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Interface() protoreflect.ProtoMessage {
-	return (*MsgRevokeAdminKeyPermissionsResponse)(x)
+func (x *fastReflection_MsgRevokePermissionsResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgRevokePermissionsResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -3971,7 +3971,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Interface() protor
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgRevokePermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -3985,13 +3985,13 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Range(f func(proto
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgRevokePermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4001,13 +4001,13 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Has(fd protoreflec
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgRevokePermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4017,13 +4017,13 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Clear(fd protorefl
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRevokePermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissionsResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissionsResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -4037,13 +4037,13 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Get(descriptor pro
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgRevokePermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4057,36 +4057,36 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Set(fd protoreflec
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRevokePermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRevokePermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokeAdminKeyPermissionsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: licenses.v1.MsgRevokePermissionsResponse"))
 		}
-		panic(fmt.Errorf("message licenses.v1.MsgRevokeAdminKeyPermissionsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message licenses.v1.MsgRevokePermissionsResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgRevokePermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgRevokeAdminKeyPermissionsResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in licenses.v1.MsgRevokePermissionsResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -4094,7 +4094,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) WhichOneof(d proto
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgRevokePermissionsResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -4105,7 +4105,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) GetUnknown() proto
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgRevokePermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -4117,7 +4117,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) SetUnknown(fields 
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) IsValid() bool {
+func (x *fastReflection_MsgRevokePermissionsResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -4127,9 +4127,9 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgRevokePermissionsResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgRevokeAdminKeyPermissionsResponse)
+		x := input.Message.Interface().(*MsgRevokePermissionsResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4151,7 +4151,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) ProtoMethods() *pr
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgRevokeAdminKeyPermissionsResponse)
+		x := input.Message.Interface().(*MsgRevokePermissionsResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4181,7 +4181,7 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) ProtoMethods() *pr
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgRevokeAdminKeyPermissionsResponse)
+		x := input.Message.Interface().(*MsgRevokePermissionsResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4213,10 +4213,10 @@ func (x *fastReflection_MsgRevokeAdminKeyPermissionsResponse) ProtoMethods() *pr
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokeAdminKeyPermissionsResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokePermissionsResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokeAdminKeyPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRevokePermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -9221,19 +9221,19 @@ func (*MsgCreateLicenseTypeResponse) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_tx_proto_rawDescGZIP(), []int{3}
 }
 
-// MsgGrantAdminPermissions is the Msg/GrantAdminPermissions request type.
-type MsgGrantAdminPermissions struct {
+// MsgGrantPermissions is the Msg/GrantPermissions request type.
+type MsgGrantPermissions struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Owner   string           `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	Address string           `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Grants  []*AdminKeyGrant `protobuf:"bytes,3,rep,name=grants,proto3" json:"grants,omitempty"`
+	Owner   string             `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	Address string             `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Grants  []*PermissionGrant `protobuf:"bytes,3,rep,name=grants,proto3" json:"grants,omitempty"`
 }
 
-func (x *MsgGrantAdminPermissions) Reset() {
-	*x = MsgGrantAdminPermissions{}
+func (x *MsgGrantPermissions) Reset() {
+	*x = MsgGrantPermissions{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_licenses_v1_tx_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -9241,47 +9241,47 @@ func (x *MsgGrantAdminPermissions) Reset() {
 	}
 }
 
-func (x *MsgGrantAdminPermissions) String() string {
+func (x *MsgGrantPermissions) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgGrantAdminPermissions) ProtoMessage() {}
+func (*MsgGrantPermissions) ProtoMessage() {}
 
-// Deprecated: Use MsgGrantAdminPermissions.ProtoReflect.Descriptor instead.
-func (*MsgGrantAdminPermissions) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgGrantPermissions.ProtoReflect.Descriptor instead.
+func (*MsgGrantPermissions) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_tx_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *MsgGrantAdminPermissions) GetOwner() string {
+func (x *MsgGrantPermissions) GetOwner() string {
 	if x != nil {
 		return x.Owner
 	}
 	return ""
 }
 
-func (x *MsgGrantAdminPermissions) GetAddress() string {
+func (x *MsgGrantPermissions) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-func (x *MsgGrantAdminPermissions) GetGrants() []*AdminKeyGrant {
+func (x *MsgGrantPermissions) GetGrants() []*PermissionGrant {
 	if x != nil {
 		return x.Grants
 	}
 	return nil
 }
 
-// MsgGrantAdminPermissionsResponse is the Msg/GrantAdminPermissions response type.
-type MsgGrantAdminPermissionsResponse struct {
+// MsgGrantPermissionsResponse is the Msg/GrantPermissions response type.
+type MsgGrantPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *MsgGrantAdminPermissionsResponse) Reset() {
-	*x = MsgGrantAdminPermissionsResponse{}
+func (x *MsgGrantPermissionsResponse) Reset() {
+	*x = MsgGrantPermissionsResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_licenses_v1_tx_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -9289,19 +9289,19 @@ func (x *MsgGrantAdminPermissionsResponse) Reset() {
 	}
 }
 
-func (x *MsgGrantAdminPermissionsResponse) String() string {
+func (x *MsgGrantPermissionsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgGrantAdminPermissionsResponse) ProtoMessage() {}
+func (*MsgGrantPermissionsResponse) ProtoMessage() {}
 
-// Deprecated: Use MsgGrantAdminPermissionsResponse.ProtoReflect.Descriptor instead.
-func (*MsgGrantAdminPermissionsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgGrantPermissionsResponse.ProtoReflect.Descriptor instead.
+func (*MsgGrantPermissionsResponse) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_tx_proto_rawDescGZIP(), []int{5}
 }
 
-// AdminKeyPermission identifies a single (license_type, permission) pair to revoke.
-type AdminKeyPermission struct {
+// PermissionPair identifies a single (license_type, permission) pair to revoke.
+type PermissionPair struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -9310,8 +9310,8 @@ type AdminKeyPermission struct {
 	Permission    Permission `protobuf:"varint,2,opt,name=permission,proto3,enum=licenses.v1.Permission" json:"permission,omitempty"`
 }
 
-func (x *AdminKeyPermission) Reset() {
-	*x = AdminKeyPermission{}
+func (x *PermissionPair) Reset() {
+	*x = PermissionPair{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_licenses_v1_tx_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -9319,44 +9319,44 @@ func (x *AdminKeyPermission) Reset() {
 	}
 }
 
-func (x *AdminKeyPermission) String() string {
+func (x *PermissionPair) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AdminKeyPermission) ProtoMessage() {}
+func (*PermissionPair) ProtoMessage() {}
 
-// Deprecated: Use AdminKeyPermission.ProtoReflect.Descriptor instead.
-func (*AdminKeyPermission) Descriptor() ([]byte, []int) {
+// Deprecated: Use PermissionPair.ProtoReflect.Descriptor instead.
+func (*PermissionPair) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_tx_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *AdminKeyPermission) GetLicenseTypeId() string {
+func (x *PermissionPair) GetLicenseTypeId() string {
 	if x != nil {
 		return x.LicenseTypeId
 	}
 	return ""
 }
 
-func (x *AdminKeyPermission) GetPermission() Permission {
+func (x *PermissionPair) GetPermission() Permission {
 	if x != nil {
 		return x.Permission
 	}
 	return Permission_PERMISSION_UNSPECIFIED
 }
 
-// MsgRevokeAdminKeyPermissions is the Msg/RevokeAdminKeyPermissions request type.
-type MsgRevokeAdminKeyPermissions struct {
+// MsgRevokePermissions is the Msg/RevokePermissions request type.
+type MsgRevokePermissions struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Owner       string                `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	Address     string                `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Permissions []*AdminKeyPermission `protobuf:"bytes,3,rep,name=permissions,proto3" json:"permissions,omitempty"`
+	Owner       string            `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	Address     string            `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Permissions []*PermissionPair `protobuf:"bytes,3,rep,name=permissions,proto3" json:"permissions,omitempty"`
 }
 
-func (x *MsgRevokeAdminKeyPermissions) Reset() {
-	*x = MsgRevokeAdminKeyPermissions{}
+func (x *MsgRevokePermissions) Reset() {
+	*x = MsgRevokePermissions{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_licenses_v1_tx_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -9364,47 +9364,47 @@ func (x *MsgRevokeAdminKeyPermissions) Reset() {
 	}
 }
 
-func (x *MsgRevokeAdminKeyPermissions) String() string {
+func (x *MsgRevokePermissions) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgRevokeAdminKeyPermissions) ProtoMessage() {}
+func (*MsgRevokePermissions) ProtoMessage() {}
 
-// Deprecated: Use MsgRevokeAdminKeyPermissions.ProtoReflect.Descriptor instead.
-func (*MsgRevokeAdminKeyPermissions) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgRevokePermissions.ProtoReflect.Descriptor instead.
+func (*MsgRevokePermissions) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_tx_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *MsgRevokeAdminKeyPermissions) GetOwner() string {
+func (x *MsgRevokePermissions) GetOwner() string {
 	if x != nil {
 		return x.Owner
 	}
 	return ""
 }
 
-func (x *MsgRevokeAdminKeyPermissions) GetAddress() string {
+func (x *MsgRevokePermissions) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-func (x *MsgRevokeAdminKeyPermissions) GetPermissions() []*AdminKeyPermission {
+func (x *MsgRevokePermissions) GetPermissions() []*PermissionPair {
 	if x != nil {
 		return x.Permissions
 	}
 	return nil
 }
 
-// MsgRevokeAdminKeyPermissionsResponse is the Msg/RevokeAdminKeyPermissions response type.
-type MsgRevokeAdminKeyPermissionsResponse struct {
+// MsgRevokePermissionsResponse is the Msg/RevokePermissions response type.
+type MsgRevokePermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *MsgRevokeAdminKeyPermissionsResponse) Reset() {
-	*x = MsgRevokeAdminKeyPermissionsResponse{}
+func (x *MsgRevokePermissionsResponse) Reset() {
+	*x = MsgRevokePermissionsResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_licenses_v1_tx_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -9412,14 +9412,14 @@ func (x *MsgRevokeAdminKeyPermissionsResponse) Reset() {
 	}
 }
 
-func (x *MsgRevokeAdminKeyPermissionsResponse) String() string {
+func (x *MsgRevokePermissionsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgRevokeAdminKeyPermissionsResponse) ProtoMessage() {}
+func (*MsgRevokePermissionsResponse) ProtoMessage() {}
 
-// Deprecated: Use MsgRevokeAdminKeyPermissionsResponse.ProtoReflect.Descriptor instead.
-func (*MsgRevokeAdminKeyPermissionsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgRevokePermissionsResponse.ProtoReflect.Descriptor instead.
+func (*MsgRevokePermissionsResponse) Descriptor() ([]byte, []int) {
 	return file_licenses_v1_tx_proto_rawDescGZIP(), []int{8}
 }
 
@@ -9888,220 +9888,214 @@ var file_licenses_v1_tx_proto_rawDesc = []byte{
 	0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63,
 	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x22, 0x1e, 0x0a, 0x1c, 0x4d, 0x73, 0x67, 0x43,
 	0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xf5, 0x01, 0x0a, 0x18, 0x4d, 0x73, 0x67,
-	0x47, 0x72, 0x61, 0x6e, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05,
-	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x32, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d,
-	0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
-	0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x38, 0x0a, 0x06, 0x67, 0x72, 0x61,
-	0x6e, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79,
-	0x47, 0x72, 0x61, 0x6e, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61,
-	0x6e, 0x74, 0x73, 0x3a, 0x3b, 0x82, 0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x8a,
-	0xe7, 0xb0, 0x2a, 0x2c, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73, 0x67, 0x47, 0x72, 0x61, 0x6e, 0x74,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
-	0x22, 0x22, 0x0a, 0x20, 0x4d, 0x73, 0x67, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x41, 0x64, 0x6d, 0x69,
-	0x6e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x75, 0x0a, 0x12, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79,
-	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x49, 0x64, 0x12, 0x37, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x17, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52,
-	0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x8c, 0x02, 0x0a, 0x1c,
-	0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65,
-	0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x2e, 0x0a, 0x05,
-	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d,
-	0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53,
-	0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x32, 0x0a, 0x07,
-	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
-	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x12, 0x47, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18,
-	0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x50, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x70, 0x65,
-	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x3a, 0x3f, 0x82, 0xe7, 0xb0, 0x2a, 0x05,
-	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x30, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
-	0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73,
-	0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x50,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x26, 0x0a, 0x24, 0x4d, 0x73,
-	0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x50,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0xbd, 0x01, 0x0a, 0x11, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64,
-	0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x68, 0x6f, 0x6c, 0x64,
-	0x65, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x64, 0x61, 0x74, 0x65,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72, 0x74, 0x44, 0x61, 0x74,
-	0x65, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x5f, 0x64, 0x61, 0x74, 0x65, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x65, 0x6e, 0x64, 0x44, 0x61, 0x74, 0x65, 0x12, 0x14, 0x0a, 0x05,
-	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x63, 0x6f, 0x75,
-	0x6e, 0x74, 0x22, 0xba, 0x01, 0x0a, 0x10, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x30, 0x0a, 0x06, 0x69, 0x73, 0x73, 0x75, 0x65,
-	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e,
-	0x67, 0x52, 0x06, 0x69, 0x73, 0x73, 0x75, 0x65, 0x72, 0x12, 0x3e, 0x0a, 0x07, 0x65, 0x6e, 0x74,
-	0x72, 0x69, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00,
-	0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x3a, 0x34, 0x82, 0xe7, 0xb0, 0x2a, 0x06,
-	0x69, 0x73, 0x73, 0x75, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x24, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d,
-	0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x22,
-	0x2c, 0x0a, 0x18, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x69,
-	0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x04, 0x52, 0x03, 0x69, 0x64, 0x73, 0x22, 0xef, 0x01,
-	0x0a, 0x11, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x12, 0x32, 0x0a, 0x07, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x72, 0x18, 0x01,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xed, 0x01, 0x0a, 0x13, 0x4d, 0x73, 0x67,
+	0x47, 0x72, 0x61, 0x6e, 0x74, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
+	0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
+	0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72,
+	0x12, 0x32, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x12, 0x3a, 0x0a, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x18, 0x03,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x47, 0x72, 0x61,
+	0x6e, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73,
+	0x3a, 0x36, 0x82, 0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a,
+	0x27, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73, 0x67, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x50, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x1d, 0x0a, 0x1b, 0x4d, 0x73, 0x67, 0x47,
+	0x72, 0x61, 0x6e, 0x74, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x71, 0x0a, 0x0e, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x50, 0x61, 0x69, 0x72, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49,
+	0x64, 0x12, 0x37, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x17, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x0a,
+	0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0xf8, 0x01, 0x0a, 0x14, 0x4d,
+	0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x73, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77,
+	0x6e, 0x65, 0x72, 0x12, 0x32, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
 	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07,
-	0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x72, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12,
-	0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42,
-	0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72,
-	0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65,
-	0x72, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x3a, 0x36, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x72, 0x65,
-	0x76, 0x6f, 0x6b, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x25, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
-	0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73,
-	0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x22,
-	0x2d, 0x0a, 0x19, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03,
-	0x69, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x04, 0x52, 0x03, 0x69, 0x64, 0x73, 0x22, 0xee,
-	0x01, 0x0a, 0x12, 0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
-	0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52,
-	0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12,
-	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12,
-	0x36, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01,
-	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x09, 0x72, 0x65,
-	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x3a, 0x36, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x68, 0x6f,
-	0x6c, 0x64, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x26, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63,
-	0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73, 0x67,
-	0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x22,
-	0x1c, 0x0a, 0x1a, 0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x86, 0x02,
-	0x0a, 0x14, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
-	0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52,
-	0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x24, 0x0a, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x66,
-	0x65, 0x72, 0x72, 0x61, 0x62, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x74,
-	0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x72, 0x61, 0x62, 0x6c, 0x65, 0x12, 0x4f, 0x0a, 0x0a,
-	0x6d, 0x61, 0x78, 0x5f, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
-	0x42, 0x30, 0xc8, 0xde, 0x1f, 0x00, 0xda, 0xde, 0x1f, 0x15, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x6d, 0x61, 0x74, 0x68, 0x2e, 0x49, 0x6e, 0x74, 0xd2,
-	0xb4, 0x2d, 0x0a, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x49, 0x6e, 0x74, 0xa8, 0xe7, 0xb0,
-	0x2a, 0x01, 0x52, 0x09, 0x6d, 0x61, 0x78, 0x53, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x3a, 0x37, 0x82,
-	0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x28, 0x77, 0x65,
+	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x43, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x50, 0x61, 0x69, 0x72, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52,
+	0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x3a, 0x37, 0x82, 0xe7,
+	0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x28, 0x77, 0x65, 0x62,
+	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2f, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x1e, 0x0a, 0x1c, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f,
+	0x6b, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xbd, 0x01, 0x0a, 0x11, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x26, 0x0a, 0x0f, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x49, 0x64, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x68,
+	0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x64,
+	0x61, 0x74, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72, 0x74,
+	0x44, 0x61, 0x74, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x5f, 0x64, 0x61, 0x74, 0x65,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x65, 0x6e, 0x64, 0x44, 0x61, 0x74, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05,
+	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0xba, 0x01, 0x0a, 0x10, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73,
+	0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x30, 0x0a, 0x06, 0x69, 0x73,
+	0x73, 0x75, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14,
+	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74,
+	0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x69, 0x73, 0x73, 0x75, 0x65, 0x72, 0x12, 0x3e, 0x0a, 0x07,
+	0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e, 0x2e,
+	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x73, 0x73, 0x75,
+	0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x42, 0x04, 0xc8,
+	0xde, 0x1f, 0x00, 0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x3a, 0x34, 0x82, 0xe7,
+	0xb0, 0x2a, 0x06, 0x69, 0x73, 0x73, 0x75, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x24, 0x77, 0x65,
 	0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x73, 0x2f, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x22, 0x1e, 0x0a, 0x1c, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xd1, 0x09, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x82,
-	0x01, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
-	0x1c, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73,
-	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x1a, 0x24, 0x2e,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x28, 0x3a, 0x01, 0x2a, 0x22, 0x23,
-	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x70, 0x61, 0x72,
-	0x61, 0x6d, 0x73, 0x12, 0x97, 0x01, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x21, 0x2e, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x1a, 0x29, 0x2e, 0x6c,
+	0x73, 0x2f, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x22, 0x2c, 0x0a, 0x18, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10,
+	0x0a, 0x03, 0x69, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x04, 0x52, 0x03, 0x69, 0x64, 0x73,
+	0x22, 0xef, 0x01, 0x0a, 0x11, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x32, 0x0a, 0x07, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65,
+	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
+	0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e,
+	0x67, 0x52, 0x07, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x72, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x49, 0x64, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x68, 0x6f,
+	0x6c, 0x64, 0x65, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x3a, 0x36, 0x82, 0xe7, 0xb0, 0x2a,
+	0x07, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x25, 0x77, 0x65, 0x62,
+	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2f, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x22, 0x2d, 0x0a, 0x19, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x10, 0x0a, 0x03, 0x69, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x04, 0x52, 0x03, 0x69, 0x64,
+	0x73, 0x22, 0xee, 0x01, 0x0a, 0x12, 0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65,
+	0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x30, 0x0a, 0x06, 0x68, 0x6f, 0x6c, 0x64,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69,
+	0x6e, 0x67, 0x52, 0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02,
+	0x69, 0x64, 0x12, 0x36, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
+	0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52,
+	0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x3a, 0x36, 0x82, 0xe7, 0xb0, 0x2a,
+	0x06, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a, 0x26, 0x77, 0x65, 0x62, 0x73,
+	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f,
+	0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x22, 0x1c, 0x0a, 0x1a, 0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65,
+	0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x86, 0x02, 0x0a, 0x14, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69,
+	0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x24, 0x0a, 0x0d, 0x74, 0x72, 0x61,
+	0x6e, 0x73, 0x66, 0x65, 0x72, 0x72, 0x61, 0x62, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x72, 0x61, 0x62, 0x6c, 0x65, 0x12,
+	0x4f, 0x0a, 0x0a, 0x6d, 0x61, 0x78, 0x5f, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x79, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x09, 0x42, 0x30, 0xc8, 0xde, 0x1f, 0x00, 0xda, 0xde, 0x1f, 0x15, 0x63, 0x6f, 0x73,
+	0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x6d, 0x61, 0x74, 0x68, 0x2e, 0x49,
+	0x6e, 0x74, 0xd2, 0xb4, 0x2d, 0x0a, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x49, 0x6e, 0x74,
+	0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x09, 0x6d, 0x61, 0x78, 0x53, 0x75, 0x70, 0x70, 0x6c, 0x79,
+	0x3a, 0x37, 0x82, 0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x8a, 0xe7, 0xb0, 0x2a,
+	0x28, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x78, 0x2f, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x2f, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x22, 0x1e, 0x0a, 0x1c, 0x4d, 0x73, 0x67,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x9a, 0x09, 0x0a, 0x03, 0x4d, 0x73,
+	0x67, 0x12, 0x82, 0x01, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61,
+	0x6d, 0x73, 0x12, 0x1c, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x1a, 0x24, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d,
+	0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x28, 0x3a, 0x01,
+	0x2a, 0x22, 0x23, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f,
+	0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x97, 0x01, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x21, 0x2e, 0x6c,
 	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2e, 0x3a,
-	0x01, 0x2a, 0x22, 0x29, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x12, 0xa7, 0x01,
-	0x0a, 0x15, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x41, 0x64,
-	0x6d, 0x69, 0x6e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x1a, 0x2d,
+	0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x1a,
+	0x29, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73,
+	0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79,
+	0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x2e, 0x3a, 0x01, 0x2a, 0x22, 0x29, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
+	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x63, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65,
+	0x12, 0x92, 0x01, 0x0a, 0x10, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x20, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x50, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x1a, 0x28, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x50, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x3a, 0x01, 0x2a, 0x22, 0x27, 0x2f, 0x77,
+	0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x2f, 0x74, 0x78, 0x2f, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x5f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x96, 0x01, 0x0a, 0x11, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65,
+	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x21, 0x2e, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76,
+	0x6f, 0x6b, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x1a, 0x29,
 	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67,
-	0x47, 0x72, 0x61, 0x6e, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x38, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x32, 0x3a, 0x01, 0x2a, 0x22, 0x2d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f,
-	0x67, 0x72, 0x61, 0x6e, 0x74, 0x5f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0xb8, 0x01, 0x0a, 0x19, 0x52, 0x65, 0x76, 0x6f,
-	0x6b, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x29, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x41, 0x64, 0x6d,
-	0x69, 0x6e, 0x4b, 0x65, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
-	0x1a, 0x31, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d,
-	0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4b, 0x65, 0x79,
-	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x3d, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x37, 0x3a, 0x01, 0x2a, 0x22, 0x32,
-	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x5f, 0x61, 0x64, 0x6d,
-	0x69, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x73, 0x12, 0x86, 0x01, 0x0a, 0x0d, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x12, 0x1d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e,
-	0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x1a, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76,
-	0x31, 0x2e, 0x4d, 0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2f, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x29, 0x3a, 0x01, 0x2a, 0x22, 0x24, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
-	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x69, 0x73, 0x73,
-	0x75, 0x65, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x8a, 0x01, 0x0a, 0x0e,
-	0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x1e,
+	0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x33, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2d, 0x3a, 0x01, 0x2a, 0x22, 0x28, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f,
+	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x72, 0x65, 0x76, 0x6f,
+	0x6b, 0x65, 0x5f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x86,
+	0x01, 0x0a, 0x0d, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x12, 0x1d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d,
+	0x73, 0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x1a,
+	0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73,
+	0x67, 0x49, 0x73, 0x73, 0x75, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x29, 0x3a, 0x01,
+	0x2a, 0x22, 0x24, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x69, 0x73, 0x73, 0x75, 0x65, 0x5f, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x8a, 0x01, 0x0a, 0x0e, 0x52, 0x65, 0x76, 0x6f,
+	0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x1e, 0x2e, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f,
+	0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x1a, 0x26, 0x2e, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f,
+	0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x3a, 0x01, 0x2a, 0x22, 0x25, 0x2f,
+	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2f, 0x74, 0x78, 0x2f, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x5f, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x12, 0x8e, 0x01, 0x0a, 0x0f, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65,
+	0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x1f, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66,
+	0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x1a, 0x27, 0x2e, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x66, 0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2b, 0x3a, 0x01, 0x2a, 0x22, 0x26, 0x2f,
+	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x2f, 0x74, 0x78, 0x2f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x5f, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x97, 0x01, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x21, 0x2e, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x1a, 0x29,
 	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67,
-	0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x1a, 0x26,
-	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67,
-	0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x3a, 0x01,
-	0x2a, 0x22, 0x25, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x72, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x5f,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x8e, 0x01, 0x0a, 0x0f, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x1f, 0x2e, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x54, 0x72,
-	0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x1a, 0x27, 0x2e,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x54,
-	0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2b, 0x3a, 0x01,
-	0x2a, 0x22, 0x26, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65,
-	0x72, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x97, 0x01, 0x0a, 0x11, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12,
-	0x21, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73,
-	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79,
-	0x70, 0x65, 0x1a, 0x29, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31,
-	0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x2e, 0x3a, 0x01, 0x2a, 0x22, 0x29, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f,
-	0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74,
-	0x79, 0x70, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42, 0xa4, 0x01, 0x0a, 0x0f, 0x63,
-	0x6f, 0x6d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x07,
-	0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73,
-	0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0b, 0x4c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x3a, 0x3a, 0x56,
-	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2e, 0x3a, 0x01, 0x2a, 0x22, 0x29, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f,
+	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2f, 0x74, 0x78, 0x2f, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x1a,
+	0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42, 0xa4, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72,
+	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77,
+	0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
+	0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x73, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5c,
+	0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -10118,46 +10112,46 @@ func file_licenses_v1_tx_proto_rawDescGZIP() []byte {
 
 var file_licenses_v1_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_licenses_v1_tx_proto_goTypes = []interface{}{
-	(*MsgUpdateParams)(nil),                      // 0: licenses.v1.MsgUpdateParams
-	(*MsgUpdateParamsResponse)(nil),              // 1: licenses.v1.MsgUpdateParamsResponse
-	(*MsgCreateLicenseType)(nil),                 // 2: licenses.v1.MsgCreateLicenseType
-	(*MsgCreateLicenseTypeResponse)(nil),         // 3: licenses.v1.MsgCreateLicenseTypeResponse
-	(*MsgGrantAdminPermissions)(nil),             // 4: licenses.v1.MsgGrantAdminPermissions
-	(*MsgGrantAdminPermissionsResponse)(nil),     // 5: licenses.v1.MsgGrantAdminPermissionsResponse
-	(*AdminKeyPermission)(nil),                   // 6: licenses.v1.AdminKeyPermission
-	(*MsgRevokeAdminKeyPermissions)(nil),         // 7: licenses.v1.MsgRevokeAdminKeyPermissions
-	(*MsgRevokeAdminKeyPermissionsResponse)(nil), // 8: licenses.v1.MsgRevokeAdminKeyPermissionsResponse
-	(*IssueLicenseEntry)(nil),                    // 9: licenses.v1.IssueLicenseEntry
-	(*MsgIssueLicenses)(nil),                     // 10: licenses.v1.MsgIssueLicenses
-	(*MsgIssueLicensesResponse)(nil),             // 11: licenses.v1.MsgIssueLicensesResponse
-	(*MsgRevokeLicenses)(nil),                    // 12: licenses.v1.MsgRevokeLicenses
-	(*MsgRevokeLicensesResponse)(nil),            // 13: licenses.v1.MsgRevokeLicensesResponse
-	(*MsgTransferLicense)(nil),                   // 14: licenses.v1.MsgTransferLicense
-	(*MsgTransferLicenseResponse)(nil),           // 15: licenses.v1.MsgTransferLicenseResponse
-	(*MsgUpdateLicenseType)(nil),                 // 16: licenses.v1.MsgUpdateLicenseType
-	(*MsgUpdateLicenseTypeResponse)(nil),         // 17: licenses.v1.MsgUpdateLicenseTypeResponse
-	(*Params)(nil),                               // 18: licenses.v1.Params
-	(*AdminKeyGrant)(nil),                        // 19: licenses.v1.AdminKeyGrant
-	(Permission)(0),                              // 20: licenses.v1.Permission
+	(*MsgUpdateParams)(nil),              // 0: licenses.v1.MsgUpdateParams
+	(*MsgUpdateParamsResponse)(nil),      // 1: licenses.v1.MsgUpdateParamsResponse
+	(*MsgCreateLicenseType)(nil),         // 2: licenses.v1.MsgCreateLicenseType
+	(*MsgCreateLicenseTypeResponse)(nil), // 3: licenses.v1.MsgCreateLicenseTypeResponse
+	(*MsgGrantPermissions)(nil),          // 4: licenses.v1.MsgGrantPermissions
+	(*MsgGrantPermissionsResponse)(nil),  // 5: licenses.v1.MsgGrantPermissionsResponse
+	(*PermissionPair)(nil),               // 6: licenses.v1.PermissionPair
+	(*MsgRevokePermissions)(nil),         // 7: licenses.v1.MsgRevokePermissions
+	(*MsgRevokePermissionsResponse)(nil), // 8: licenses.v1.MsgRevokePermissionsResponse
+	(*IssueLicenseEntry)(nil),            // 9: licenses.v1.IssueLicenseEntry
+	(*MsgIssueLicenses)(nil),             // 10: licenses.v1.MsgIssueLicenses
+	(*MsgIssueLicensesResponse)(nil),     // 11: licenses.v1.MsgIssueLicensesResponse
+	(*MsgRevokeLicenses)(nil),            // 12: licenses.v1.MsgRevokeLicenses
+	(*MsgRevokeLicensesResponse)(nil),    // 13: licenses.v1.MsgRevokeLicensesResponse
+	(*MsgTransferLicense)(nil),           // 14: licenses.v1.MsgTransferLicense
+	(*MsgTransferLicenseResponse)(nil),   // 15: licenses.v1.MsgTransferLicenseResponse
+	(*MsgUpdateLicenseType)(nil),         // 16: licenses.v1.MsgUpdateLicenseType
+	(*MsgUpdateLicenseTypeResponse)(nil), // 17: licenses.v1.MsgUpdateLicenseTypeResponse
+	(*Params)(nil),                       // 18: licenses.v1.Params
+	(*PermissionGrant)(nil),              // 19: licenses.v1.PermissionGrant
+	(Permission)(0),                      // 20: licenses.v1.Permission
 }
 var file_licenses_v1_tx_proto_depIdxs = []int32{
 	18, // 0: licenses.v1.MsgUpdateParams.params:type_name -> licenses.v1.Params
-	19, // 1: licenses.v1.MsgGrantAdminPermissions.grants:type_name -> licenses.v1.AdminKeyGrant
-	20, // 2: licenses.v1.AdminKeyPermission.permission:type_name -> licenses.v1.Permission
-	6,  // 3: licenses.v1.MsgRevokeAdminKeyPermissions.permissions:type_name -> licenses.v1.AdminKeyPermission
+	19, // 1: licenses.v1.MsgGrantPermissions.grants:type_name -> licenses.v1.PermissionGrant
+	20, // 2: licenses.v1.PermissionPair.permission:type_name -> licenses.v1.Permission
+	6,  // 3: licenses.v1.MsgRevokePermissions.permissions:type_name -> licenses.v1.PermissionPair
 	9,  // 4: licenses.v1.MsgIssueLicenses.entries:type_name -> licenses.v1.IssueLicenseEntry
 	0,  // 5: licenses.v1.Msg.UpdateParams:input_type -> licenses.v1.MsgUpdateParams
 	2,  // 6: licenses.v1.Msg.CreateLicenseType:input_type -> licenses.v1.MsgCreateLicenseType
-	4,  // 7: licenses.v1.Msg.GrantAdminPermissions:input_type -> licenses.v1.MsgGrantAdminPermissions
-	7,  // 8: licenses.v1.Msg.RevokeAdminKeyPermissions:input_type -> licenses.v1.MsgRevokeAdminKeyPermissions
+	4,  // 7: licenses.v1.Msg.GrantPermissions:input_type -> licenses.v1.MsgGrantPermissions
+	7,  // 8: licenses.v1.Msg.RevokePermissions:input_type -> licenses.v1.MsgRevokePermissions
 	10, // 9: licenses.v1.Msg.IssueLicenses:input_type -> licenses.v1.MsgIssueLicenses
 	12, // 10: licenses.v1.Msg.RevokeLicenses:input_type -> licenses.v1.MsgRevokeLicenses
 	14, // 11: licenses.v1.Msg.TransferLicense:input_type -> licenses.v1.MsgTransferLicense
 	16, // 12: licenses.v1.Msg.UpdateLicenseType:input_type -> licenses.v1.MsgUpdateLicenseType
 	1,  // 13: licenses.v1.Msg.UpdateParams:output_type -> licenses.v1.MsgUpdateParamsResponse
 	3,  // 14: licenses.v1.Msg.CreateLicenseType:output_type -> licenses.v1.MsgCreateLicenseTypeResponse
-	5,  // 15: licenses.v1.Msg.GrantAdminPermissions:output_type -> licenses.v1.MsgGrantAdminPermissionsResponse
-	8,  // 16: licenses.v1.Msg.RevokeAdminKeyPermissions:output_type -> licenses.v1.MsgRevokeAdminKeyPermissionsResponse
+	5,  // 15: licenses.v1.Msg.GrantPermissions:output_type -> licenses.v1.MsgGrantPermissionsResponse
+	8,  // 16: licenses.v1.Msg.RevokePermissions:output_type -> licenses.v1.MsgRevokePermissionsResponse
 	11, // 17: licenses.v1.Msg.IssueLicenses:output_type -> licenses.v1.MsgIssueLicensesResponse
 	13, // 18: licenses.v1.Msg.RevokeLicenses:output_type -> licenses.v1.MsgRevokeLicensesResponse
 	15, // 19: licenses.v1.Msg.TransferLicense:output_type -> licenses.v1.MsgTransferLicenseResponse
@@ -10225,7 +10219,7 @@ func file_licenses_v1_tx_proto_init() {
 			}
 		}
 		file_licenses_v1_tx_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgGrantAdminPermissions); i {
+			switch v := v.(*MsgGrantPermissions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -10237,7 +10231,7 @@ func file_licenses_v1_tx_proto_init() {
 			}
 		}
 		file_licenses_v1_tx_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgGrantAdminPermissionsResponse); i {
+			switch v := v.(*MsgGrantPermissionsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -10249,7 +10243,7 @@ func file_licenses_v1_tx_proto_init() {
 			}
 		}
 		file_licenses_v1_tx_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AdminKeyPermission); i {
+			switch v := v.(*PermissionPair); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -10261,7 +10255,7 @@ func file_licenses_v1_tx_proto_init() {
 			}
 		}
 		file_licenses_v1_tx_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgRevokeAdminKeyPermissions); i {
+			switch v := v.(*MsgRevokePermissions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -10273,7 +10267,7 @@ func file_licenses_v1_tx_proto_init() {
 			}
 		}
 		file_licenses_v1_tx_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgRevokeAdminKeyPermissionsResponse); i {
+			switch v := v.(*MsgRevokePermissionsResponse); i {
 			case 0:
 				return &v.state
 			case 1:

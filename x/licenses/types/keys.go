@@ -39,7 +39,7 @@ func (p Permission) Short() string {
 	return p.String()
 }
 
-// IsValid reports whether p is one of the known admin-key permissions.
+// IsValid reports whether p is one of the known permissions-by-address permissions.
 func (p Permission) IsValid() bool {
 	_, ok := permissionShort[p]
 	return ok
@@ -81,18 +81,18 @@ func (s LicenseStatus) Short() string {
 // starts iterating a pathologically large batch.
 const MaxIssueBatchSize = 100
 
-// MaxAdminGrants bounds the per-message slice length for admin-grant
+// MaxPermissions bounds the per-message slice length for admin-grant
 // operations: the top-level Grants/Permissions lists on
-// MsgGrantAdminPermissions / MsgRevokeAdminKeyPermissions, and the inner
+// MsgGrantPermissions / MsgRevokePermissions, and the inner
 // LicenseTypes slice within each grant.
-const MaxAdminGrants = 100
+const MaxPermissions = 100
 
 var (
 	ParamsKey          = collections.NewPrefix(0)
 	LicenseTypePrefix  = collections.NewPrefix(1)
 	LicensePrefix      = collections.NewPrefix(2)
 	LicenseCountPrefix = collections.NewPrefix(3)
-	AdminGrantPrefix   = collections.NewPrefix(4)
+	PermissionPrefix   = collections.NewPrefix(4)
 
 	// Index prefixes
 	ActiveLicensesByHolderPrefix = collections.NewPrefix(10)

@@ -16,7 +16,7 @@ func TestDefaultGenesis(t *testing.T) {
 	require.Error(t, gs.Validate())
 	require.Empty(t, gs.LicenseTypes)
 	require.Empty(t, gs.Licenses)
-	require.Empty(t, gs.AdminKeys)
+	require.Empty(t, gs.Permissions)
 	require.Empty(t, gs.LicenseCounts)
 }
 
@@ -46,8 +46,8 @@ func TestGenesisValidation(t *testing.T) {
 				Licenses: []types.License{
 					{Id: 1, Type: "node", Holder: holder, StartDate: "2026-01-01", Status: types.StatusActive},
 				},
-				AdminKeys: []types.AdminKey{
-					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}}}},
+				Permissions: []types.AddressPermissions{
+					{Address: owner, Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}}}},
 				},
 				LicenseCounts: []types.LicenseCount{
 					{LicenseTypeId: "node", Count: 1},
@@ -130,22 +130,22 @@ func TestGenesisValidation(t *testing.T) {
 			expErrMsg: "invalid holder address",
 		},
 		{
-			name: "duplicate admin key",
+			name: "duplicate permissions entry",
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
-				AdminKeys: []types.AdminKey{
+				Permissions: []types.AddressPermissions{
 					{Address: holder},
 					{Address: holder},
 				},
 			},
 			expErr:    true,
-			expErrMsg: "duplicate admin key",
+			expErrMsg: "duplicate permissions address",
 		},
 		{
-			name: "admin key invalid address",
+			name: "permissions entry invalid address",
 			genesis: types.GenesisState{
 				Params: types.Params{Owner: owner},
-				AdminKeys: []types.AdminKey{
+				Permissions: []types.AddressPermissions{
 					{Address: "bad"},
 				},
 			},
@@ -338,8 +338,8 @@ func TestGenesisValidation(t *testing.T) {
 				LicenseTypes: []types.LicenseType{
 					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
-				AdminKeys: []types.AdminKey{
-					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: types.Permission(99), LicenseTypes: []string{"t1"}}}},
+				Permissions: []types.AddressPermissions{
+					{Address: owner, Grants: []types.PermissionGrant{{Permission: types.Permission(99), LicenseTypes: []string{"t1"}}}},
 				},
 			},
 			expErr:    true,
@@ -352,8 +352,8 @@ func TestGenesisValidation(t *testing.T) {
 				LicenseTypes: []types.LicenseType{
 					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
-				AdminKeys: []types.AdminKey{
-					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{}}}},
+				Permissions: []types.AddressPermissions{
+					{Address: owner, Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{}}}},
 				},
 			},
 			expErr:    true,
@@ -366,8 +366,8 @@ func TestGenesisValidation(t *testing.T) {
 				LicenseTypes: []types.LicenseType{
 					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
 				},
-				AdminKeys: []types.AdminKey{
-					{Address: owner, Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"missing"}}}},
+				Permissions: []types.AddressPermissions{
+					{Address: owner, Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"missing"}}}},
 				},
 			},
 			expErr:    true,

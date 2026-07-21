@@ -25,6 +25,6 @@ message GenesisState {
   ];
   repeated LicenseType license_types = 2 [(gogoproto.nullable) = false];
   repeated License licenses = 3 [(gogoproto.nullable) = false];
-  repeated AdminKey admin_keys = 4 [(gogoproto.nullable) = false];
+  repeated AddressPermissions permissions = 4 [(gogoproto.nullable) = false];
   repeated LicenseCount license_counts = 5 [(gogoproto.nullable) = false];
 }

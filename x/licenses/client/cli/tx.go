@@ -23,29 +23,29 @@ func GetTxCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	cmd.AddCommand(CmdGrantAdminPermissions())
-	cmd.AddCommand(CmdRevokeAdminKeyPermissions())
+	cmd.AddCommand(CmdGrantPermissions())
+	cmd.AddCommand(CmdRevokePermissions())
 	cmd.AddCommand(CmdIssueLicenses())
 	cmd.AddCommand(CmdRevokeLicenses())
 
 	return cmd
 }
 
-// CmdGrantAdminPermissions returns a command to grant admin key permissions for an address.
+// CmdGrantPermissions returns a command to grant permissions for an address.
 //
 // Usage:
 //
-//	grant-admin-permissions [address] [permissions] [license-types]
+//	grant-permissions [address] [permissions] [license-types]
 //
 // Where [permissions] is a comma-delimited list (e.g. "issue,revoke") and
 // [license-types] is a comma-delimited list of license type IDs.
-// One AdminKeyGrant is created per permission, each sharing the same list of license types.
+// One PermissionGrant is created per permission, each sharing the same list of license types.
 // The owner is taken from --from.
-func CmdGrantAdminPermissions() *cobra.Command {
+func CmdGrantPermissions() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "grant-admin-permissions [address] [permissions] [license-types]",
-		Short: "Grant admin key permissions for an address",
-		Long: `Grant admin key permissions for a given address. The module owner (--from) must sign.
+		Use:   "grant-permissions [address] [permissions] [license-types]",
+		Short: "Grant permissions for an address",
+		Long: `Grant permissions for a given address. The module owner (--from) must sign.
 
 [permissions]    Comma-delimited list of permissions to grant. Valid values: issue, revoke.
 [license-types]  Comma-delimited list of license type IDs these permissions apply to.
@@ -54,10 +54,10 @@ One grant is created per permission, each covering all specified license types.
 
 Grants are MERGED with any existing grants for the address — previously
 granted permissions and license types are preserved. To remove specific
-(license-type, permission) pairs, use revoke-admin-key-permissions.
+(license-type, permission) pairs, use revoke-permissions.
 
 Example:
-  webstackd tx licenses grant-admin-permissions webstack1abc... issue,revoke node.license,validator.license \
+  webstackd tx licenses grant-permissions webstack1abc... issue,revoke node.license,validator.license \
     --from owner --gas auto --gas-adjustment 1.5 --fees 100000aatom -y`,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -81,7 +81,7 @@ Example:
 				licenseTypes[i] = strings.TrimSpace(lt)
 			}
 
-			grants := make([]types.AdminKeyGrant, 0, len(permissions))
+			grants := make([]types.PermissionGrant, 0, len(permissions))
 			for _, perm := range permissions {
 				if perm == "" {
 					continue
@@ -90,7 +90,7 @@ Example:
 				if err != nil {
 					return err
 				}
-				grants = append(grants, types.AdminKeyGrant{
+				grants = append(grants, types.PermissionGrant{
 					Permission:   p,
 					LicenseTypes: licenseTypes,
 				})
@@ -100,7 +100,7 @@ Example:
 				return fmt.Errorf("at least one permission must be specified")
 			}
 
-			msg := &types.MsgGrantAdminPermissions{
+			msg := &types.MsgGrantPermissions{
 				Owner:   clientCtx.GetFromAddress().String(),
 				Address: address,
 				Grants:  grants,
@@ -114,22 +114,22 @@ Example:
 	return cmd
 }
 
-// CmdRevokeAdminKeyPermissions returns a command to remove specific
-// (license-type, permission) pairs from an admin key.
+// CmdRevokePermissions returns a command to remove specific
+// (license-type, permission) pairs from an address's permissions.
 //
 // Usage:
 //
-//	revoke-admin-key-permissions [address] [pair1] [pair2] ...
+//	revoke-permissions [address] [pair1] [pair2] ...
 //
 // Each pair is colon-delimited: license-type-id:permission-name.
 // Pairs that aren't currently granted are silently ignored. If the resulting
-// admin key has no remaining grants, the entry is deleted entirely.
+// permissions entry has no remaining grants, the entry is deleted entirely.
 // The owner is taken from --from.
-func CmdRevokeAdminKeyPermissions() *cobra.Command {
+func CmdRevokePermissions() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "revoke-admin-key-permissions [address] [license-type:permission ...]",
-		Short: "Revoke specific (license-type, permission) pairs from an admin key",
-		Long: `Revoke specific (license-type, permission) pairs from an admin key.
+		Use:   "revoke-permissions [address] [license-type:permission ...]",
+		Short: "Revoke specific (license-type, permission) pairs from an permissions entry",
+		Long: `Revoke specific (license-type, permission) pairs from an address's permissions.
 The module owner (--from) must sign.
 
 Each pair after the address is colon-delimited:
@@ -139,10 +139,10 @@ Valid permissions: issue, revoke.
 
 Pairs that aren't currently granted are silently ignored. A grant whose
 license types become empty is dropped; if no grants remain, the entire
-admin key entry is deleted.
+permissions entry is deleted.
 
 Example:
-  webstackd tx licenses revoke-admin-key-permissions webstack1abc... \
+  webstackd tx licenses revoke-permissions webstack1abc... \
     node.license:issue validator.license:revoke \
     --from owner --gas auto --fees 100000aatom -y`,
 		Args: cobra.MinimumNArgs(2),
@@ -157,7 +157,7 @@ Example:
 				return fmt.Errorf("invalid address %q: %w", address, err)
 			}
 
-			permissions := make([]types.AdminKeyPermission, 0, len(args)-1)
+			permissions := make([]types.PermissionPair, 0, len(args)-1)
 			for i, arg := range args[1:] {
 				parts := strings.SplitN(arg, ":", 2)
 				if len(parts) != 2 {
@@ -172,13 +172,13 @@ Example:
 				if err != nil {
 					return fmt.Errorf("pair %d: %w", i, err)
 				}
-				permissions = append(permissions, types.AdminKeyPermission{
+				permissions = append(permissions, types.PermissionPair{
 					LicenseTypeId: lt,
 					Permission:    p,
 				})
 			}
 
-			msg := &types.MsgRevokeAdminKeyPermissions{
+			msg := &types.MsgRevokePermissions{
 				Owner:       clientCtx.GetFromAddress().String(),
 				Address:     address,
 				Permissions: permissions,

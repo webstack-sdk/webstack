@@ -16,7 +16,7 @@ message Params {
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }
 
-// Permission enumerates the admin-key permissions that can be granted.
+// Permission enumerates the permissions that can be granted to an address.
 enum Permission {
   // PERMISSION_UNSPECIFIED is the zero value and never valid in state.
   PERMISSION_UNSPECIFIED = 0;
@@ -26,14 +26,14 @@ enum Permission {
   PERMISSION_REVOKE = 2;
 }
 
-// AdminKeyGrant defines a permission grant for a specific set of license types.
-message AdminKeyGrant {
+// PermissionGrant defines a permission grant for a specific set of license types.
+message PermissionGrant {
   Permission permission = 1;
   repeated string license_types = 2;
 }
 
-// AdminKey defines the set of grants for an address.
-message AdminKey {
+// AddressPermissions defines the set of permission grants for an address.
+message AddressPermissions {
   string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  repeated AdminKeyGrant grants = 2 [(gogoproto.nullable) = false];
+  repeated PermissionGrant grants = 2 [(gogoproto.nullable) = false];
 }

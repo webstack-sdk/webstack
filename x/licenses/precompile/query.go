@@ -10,17 +10,16 @@ import (
 
 // Query method names. Must match the function names in LicensesI.sol / abi.json.
 const (
-	ParamsMethod                  = "params"
-	PermissionsMethod             = "permissions"
-	LicenseTypeMethod             = "licenseType"
-	LicenseTypesMethod            = "licenseTypes"
-	LicenseMethod                 = "license"
-	LicensesByTypeMethod          = "licensesByType"
-	LicensesByHolderMethod        = "licensesByHolder"
-	LicensesByHolderAndTypeMethod = "licensesByHolderAndType"
-	AdminKeyMethod                = "adminKey"
-	AdminKeysMethod               = "adminKeys"
-	AdminKeysByLicenseTypeMethod  = "adminKeysByLicenseType"
+	ParamsMethod                   = "params"
+	LicenseTypeMethod              = "licenseType"
+	LicenseTypesMethod             = "licenseTypes"
+	LicenseMethod                  = "license"
+	LicensesByTypeMethod           = "licensesByType"
+	LicensesByHolderMethod         = "licensesByHolder"
+	LicensesByHolderAndTypeMethod  = "licensesByHolderAndType"
+	PermissionsByAddressMethod     = "permissionsByAddress"
+	PermissionsMethod              = "permissions"
+	PermissionsByLicenseTypeMethod = "permissionsByLicenseType"
 )
 
 // Params returns module params as a LicensesParams tuple.
@@ -39,20 +38,6 @@ func (p Precompile) Params(ctx sdk.Context, method *abi.Method, args []interface
 		return nil, err
 	}
 	return method.Outputs.Pack(LicensesParamsOutput{Owner: owner})
-}
-
-// Permissions returns the list of valid grant permission strings.
-func (p Precompile) Permissions(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
-	if err := argCount(args, 0); err != nil {
-		return nil, err
-	}
-
-	res, err := p.queryServer.Permissions(ctx, &licensestypes.QueryPermissionsRequest{})
-	if err != nil {
-		return nil, err
-	}
-
-	return method.Outputs.Pack(res.Permissions)
 }
 
 // LicenseType returns a single license type by id.
@@ -198,8 +183,8 @@ func (p Precompile) LicensesByHolderAndType(ctx sdk.Context, method *abi.Method,
 	return method.Outputs.Pack(out)
 }
 
-// AdminKey returns the admin key entry for an address.
-func (p Precompile) AdminKey(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
+// AddressPermissions returns the permissions entry for an address.
+func (p Precompile) PermissionsByAddress(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
 	if err := argCount(args, 1); err != nil {
 		return nil, err
 	}
@@ -212,38 +197,38 @@ func (p Precompile) AdminKey(ctx sdk.Context, method *abi.Method, args []interfa
 		return nil, err
 	}
 
-	res, err := p.queryServer.AdminKey(ctx, &licensestypes.QueryAdminKeyRequest{Address: admin})
+	res, err := p.queryServer.PermissionsByAddress(ctx, &licensestypes.QueryPermissionsByAddressRequest{Address: admin})
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := adminKeyToOutput(res.AdminKey)
+	out, err := addressPermissionsToOutput(res.Permissions)
 	if err != nil {
 		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
 
-// AdminKeys returns all admin key entries.
-func (p Precompile) AdminKeys(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
+// Permissions returns all permission entries.
+func (p Precompile) Permissions(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
 	if err := argCount(args, 0); err != nil {
 		return nil, err
 	}
 
-	res, err := p.queryServer.AdminKeys(ctx, &licensestypes.QueryAdminKeysRequest{})
+	res, err := p.queryServer.Permissions(ctx, &licensestypes.QueryPermissionsRequest{})
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := adminKeysToOutputs(res.AdminKeys)
+	out, err := addressPermissionsListToOutputs(res.Permissions)
 	if err != nil {
 		return nil, err
 	}
 	return method.Outputs.Pack(out)
 }
 
-// AdminKeysByLicenseType returns admin key entries that have `permission` over `licenseTypeId`.
-func (p Precompile) AdminKeysByLicenseType(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
+// PermissionsByLicenseType returns permission entries that have `permission` over `licenseTypeId`.
+func (p Precompile) PermissionsByLicenseType(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
 	if err := argCount(args, 2); err != nil {
 		return nil, err
 	}
@@ -256,7 +241,7 @@ func (p Precompile) AdminKeysByLicenseType(ctx sdk.Context, method *abi.Method, 
 		return nil, err
 	}
 
-	res, err := p.queryServer.AdminKeysByLicenseType(ctx, &licensestypes.QueryAdminKeysByLicenseTypeRequest{
+	res, err := p.queryServer.PermissionsByLicenseType(ctx, &licensestypes.QueryPermissionsByLicenseTypeRequest{
 		LicenseTypeId: licenseTypeID,
 		Permission:    permission,
 	})
@@ -264,7 +249,7 @@ func (p Precompile) AdminKeysByLicenseType(ctx sdk.Context, method *abi.Method, 
 		return nil, err
 	}
 
-	out, err := adminKeysToOutputs(res.AdminKeys)
+	out, err := addressPermissionsListToOutputs(res.Permissions)
 	if err != nil {
 		return nil, err
 	}

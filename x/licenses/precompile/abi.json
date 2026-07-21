@@ -28,7 +28,7 @@
       "inputs": [
         { "indexed": true, "internalType": "address", "name": "admin", "type": "address" }
       ],
-      "name": "AdminPermissionsGranted",
+      "name": "PermissionsGranted",
       "type": "event"
     },
     {
@@ -36,7 +36,7 @@
       "inputs": [
         { "indexed": true, "internalType": "address", "name": "admin", "type": "address" }
       ],
-      "name": "AdminKeyPermissionsRevoked",
+      "name": "PermissionsRevoked",
       "type": "event"
     },
     {
@@ -106,12 +106,12 @@
             { "internalType": "string", "name": "permission", "type": "string" },
             { "internalType": "string[]", "name": "licenseTypes", "type": "string[]" }
           ],
-          "internalType": "struct AdminKeyGrant[]",
+          "internalType": "struct PermissionGrant[]",
           "name": "grants",
           "type": "tuple[]"
         }
       ],
-      "name": "grantAdminPermissions",
+      "name": "grantPermissions",
       "outputs": [
         { "internalType": "bool", "name": "success", "type": "bool" }
       ],
@@ -126,12 +126,12 @@
             { "internalType": "string", "name": "licenseTypeId", "type": "string" },
             { "internalType": "string", "name": "permission", "type": "string" }
           ],
-          "internalType": "struct AdminKeyPermission[]",
+          "internalType": "struct PermissionPair[]",
           "name": "permissions",
           "type": "tuple[]"
         }
       ],
-      "name": "revokeAdminKeyPermissions",
+      "name": "revokePermissions",
       "outputs": [
         { "internalType": "bool", "name": "success", "type": "bool" }
       ],
@@ -198,15 +198,6 @@
           "name": "",
           "type": "tuple"
         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "permissions",
-      "outputs": [
-        { "internalType": "string[]", "name": "", "type": "string[]" }
       ],
       "stateMutability": "view",
       "type": "function"
@@ -357,22 +348,22 @@
       "inputs": [
         { "internalType": "address", "name": "admin", "type": "address" }
       ],
-      "name": "adminKey",
+      "name": "permissionsByAddress",
       "outputs": [
         {
           "components": [
-            { "internalType": "address", "name": "adminAddress", "type": "address" },
+            { "internalType": "address", "name": "grantee", "type": "address" },
             {
               "components": [
                 { "internalType": "string", "name": "permission", "type": "string" },
                 { "internalType": "string[]", "name": "licenseTypes", "type": "string[]" }
               ],
-              "internalType": "struct AdminKeyGrant[]",
+              "internalType": "struct PermissionGrant[]",
               "name": "grants",
               "type": "tuple[]"
             }
           ],
-          "internalType": "struct AdminKey",
+          "internalType": "struct AddressPermissions",
           "name": "",
           "type": "tuple"
         }
@@ -382,22 +373,22 @@
     },
     {
       "inputs": [],
-      "name": "adminKeys",
+      "name": "permissions",
       "outputs": [
         {
           "components": [
-            { "internalType": "address", "name": "adminAddress", "type": "address" },
+            { "internalType": "address", "name": "grantee", "type": "address" },
             {
               "components": [
                 { "internalType": "string", "name": "permission", "type": "string" },
                 { "internalType": "string[]", "name": "licenseTypes", "type": "string[]" }
               ],
-              "internalType": "struct AdminKeyGrant[]",
+              "internalType": "struct PermissionGrant[]",
               "name": "grants",
               "type": "tuple[]"
             }
           ],
-          "internalType": "struct AdminKey[]",
+          "internalType": "struct AddressPermissions[]",
           "name": "",
           "type": "tuple[]"
         }
@@ -410,22 +401,22 @@
         { "internalType": "string", "name": "licenseTypeId", "type": "string" },
         { "internalType": "string", "name": "permission", "type": "string" }
       ],
-      "name": "adminKeysByLicenseType",
+      "name": "permissionsByLicenseType",
       "outputs": [
         {
           "components": [
-            { "internalType": "address", "name": "adminAddress", "type": "address" },
+            { "internalType": "address", "name": "grantee", "type": "address" },
             {
               "components": [
                 { "internalType": "string", "name": "permission", "type": "string" },
                 { "internalType": "string[]", "name": "licenseTypes", "type": "string[]" }
               ],
-              "internalType": "struct AdminKeyGrant[]",
+              "internalType": "struct PermissionGrant[]",
               "name": "grants",
               "type": "tuple[]"
             }
           ],
-          "internalType": "struct AdminKey[]",
+          "internalType": "struct AddressPermissions[]",
           "name": "",
           "type": "tuple[]"
         }

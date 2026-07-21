@@ -10,8 +10,8 @@ import (
 	"cosmossdk.io/core/address"
 	"cosmossdk.io/math"
 
-	evmaddress "github.com/cosmos/evm/encoding/address"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	evmaddress "github.com/cosmos/evm/encoding/address"
 
 	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
 )
@@ -106,24 +106,24 @@ func TestLicenseToOutput(t *testing.T) {
 	require.Equal(t, "active", out.Status)
 }
 
-// TestAdminKeyToOutput copies grants and converts the admin bech32 to its EVM form.
-func TestAdminKeyToOutput(t *testing.T) {
+// TestAddressPermissionsToOutput copies grants and converts the admin bech32 to its EVM form.
+func TestAddressPermissionsToOutput(t *testing.T) {
 	cdc := addrCodec(t)
 	hex := common.HexToAddress("0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 	bech, err := hexToBech32(cdc, hex)
 	require.NoError(t, err)
 
-	ak := licensestypes.AdminKey{
+	ak := licensestypes.AddressPermissions{
 		Address: bech,
-		Grants: []licensestypes.AdminKeyGrant{
+		Grants: []licensestypes.PermissionGrant{
 			{Permission: licensestypes.PermissionIssue, LicenseTypes: []string{"a", "b"}},
 			{Permission: licensestypes.PermissionRevoke, LicenseTypes: []string{"a"}},
 		},
 	}
 
-	out, err := adminKeyToOutput(ak)
+	out, err := addressPermissionsToOutput(ak)
 	require.NoError(t, err)
-	require.Equal(t, hex, out.AdminAddress)
+	require.Equal(t, hex, out.Grantee)
 	require.Len(t, out.Grants, 2)
 	require.Equal(t, "issue", out.Grants[0].Permission)
 	require.Equal(t, []string{"a", "b"}, out.Grants[0].LicenseTypes)

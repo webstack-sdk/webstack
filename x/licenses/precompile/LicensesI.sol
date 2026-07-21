@@ -35,21 +35,21 @@ struct License {
     string revokedDate;
 }
 
-/// @dev AdminKeyGrant is one (permission, [licenseTypeId]) entry on an admin key.
-struct AdminKeyGrant {
+/// @dev PermissionGrant is one (permission, [licenseTypeId]) entry on an address's permissions.
+struct PermissionGrant {
     string permission;
     string[] licenseTypes;
 }
 
-/// @dev AdminKey describes an address that has been granted admin permissions.
-struct AdminKey {
-    address adminAddress;
-    AdminKeyGrant[] grants;
+/// @dev AddressPermissions describes an address that has been granted admin permissions.
+struct AddressPermissions {
+    address grantee;
+    PermissionGrant[] grants;
 }
 
-/// @dev AdminKeyPermission identifies a single (licenseTypeId, permission) pair
-///      to revoke from an admin key.
-struct AdminKeyPermission {
+/// @dev PermissionPair identifies a single (licenseTypeId, permission) pair
+///      to revoke from an address's permissions.
+struct PermissionPair {
     string licenseTypeId;
     string permission;
 }
@@ -77,12 +77,12 @@ interface LicensesI {
     /// @dev Emitted when a license type is updated.
     event LicenseTypeUpdated(string indexed id, bool transferrable, uint256 maxSupply);
 
-    /// @dev Emitted when admin key permissions are granted (or merged) for an address.
-    event AdminPermissionsGranted(address indexed admin);
+    /// @dev Emitted when permissions are granted (or merged) for an address.
+    event PermissionsGranted(address indexed admin);
 
-    /// @dev Emitted when specific admin key permissions are revoked for an address.
-    ///      The entire admin key entry is deleted if no grants remain.
-    event AdminKeyPermissionsRevoked(address indexed admin);
+    /// @dev Emitted when specific permissions are revoked for an address.
+    ///      The entire permissions entry is deleted if no grants remain.
+    event PermissionsRevoked(address indexed admin);
 
     /// @dev Emitted when one or more licenses of a single type are issued to a holder.
     event LicenseIssued(
@@ -126,21 +126,21 @@ interface LicensesI {
         uint256 maxSupply
     ) external returns (bool success);
 
-    /// @dev Grant admin key permissions for an address. The supplied grants are
+    /// @dev Grant permissions for an address. The supplied grants are
     ///      MERGED with any existing grants; (permission, licenseType) pairs that
     ///      already exist are deduped. Caller must be the module owner.
-    function grantAdminPermissions(
+    function grantPermissions(
         address admin,
-        AdminKeyGrant[] calldata grants
+        PermissionGrant[] calldata grants
     ) external returns (bool success);
 
-    /// @dev Revoke specific (licenseTypeId, permission) pairs from an admin key.
+    /// @dev Revoke specific (licenseTypeId, permission) pairs from an address's permissions.
     ///      Pairs that are not currently granted are silently ignored. A grant
     ///      whose license types become empty is dropped; if no grants remain
-    ///      the admin key entry itself is deleted. Caller must be the module owner.
-    function revokeAdminKeyPermissions(
+    ///      the permissions entry itself is deleted. Caller must be the module owner.
+    function revokePermissions(
         address admin,
-        AdminKeyPermission[] calldata permissions
+        PermissionPair[] calldata permissions
     ) external returns (bool success);
 
     /// @dev Issue licenses for each entry. Each entry names its own license
@@ -173,9 +173,6 @@ interface LicensesI {
     /// @dev Returns module params.
     function params() external view returns (LicensesParams memory);
 
-    /// @dev Returns the set of valid grant permission strings.
-    function permissions() external view returns (string[] memory);
-
     /// @dev Returns a single license type by id. Reverts if not found.
     function licenseType(string calldata id) external view returns (LicenseType memory);
 
@@ -197,16 +194,16 @@ interface LicensesI {
         string calldata typeId
     ) external view returns (License[] memory);
 
-    /// @dev Returns the admin key entry for an address. Reverts if not found.
-    function adminKey(address admin) external view returns (AdminKey memory);
+    /// @dev Returns the permissions entry for an address. Reverts if not found.
+    function permissionsByAddress(address admin) external view returns (AddressPermissions memory);
 
-    /// @dev Returns all admin keys.
-    function adminKeys() external view returns (AdminKey[] memory);
+    /// @dev Returns the permissions of every address.
+    function permissions() external view returns (AddressPermissions[] memory);
 
-    /// @dev Returns admin keys that have `permission` over `licenseTypeId`.
+    /// @dev Returns address permissions entries that have `permission` over `licenseTypeId`.
     ///      An empty `permission` matches any permission.
-    function adminKeysByLicenseType(
+    function permissionsByLicenseType(
         string calldata licenseTypeId,
         string calldata permission
-    ) external view returns (AdminKey[] memory);
+    ) external view returns (AddressPermissions[] memory);
 }

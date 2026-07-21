@@ -16,11 +16,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:     "Query the licenses module parameters",
 				},
 				{
-					RpcMethod: "Permissions",
-					Use:       "permissions",
-					Short:     "List valid admin key permissions",
-				},
-				{
 					RpcMethod: "LicenseType",
 					Use:       "license-type [id]",
 					Short:     "Query a license type by id",
@@ -68,22 +63,22 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
-					RpcMethod: "AdminKey",
-					Use:       "admin-key [address]",
-					Short:     "Query admin key grants for an address",
+					RpcMethod: "PermissionsByAddress",
+					Use:       "permissions-by-address [address]",
+					Short:     "Query permission grants for an address",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "address"},
 					},
 				},
 				{
-					RpcMethod: "AdminKeys",
-					Use:       "admin-keys",
-					Short:     "Query all admin keys",
+					RpcMethod: "Permissions",
+					Use:       "permissions",
+					Short:     "Query permission grants of every address",
 				},
 				{
-					RpcMethod: "AdminKeysByLicenseType",
-					Use:       "admin-keys-by-license-type [license-type-id]",
-					Short:     "Query admin keys for a license type",
+					RpcMethod: "PermissionsByLicenseType",
+					Use:       "permissions-by-license-type [license-type-id]",
+					Short:     "Query permission grants for a license type",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "license_type_id"},
 					},
@@ -147,11 +142,11 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Skip:      true,
 				},
 				{
-					RpcMethod: "GrantAdminPermissions",
+					RpcMethod: "GrantPermissions",
 					Skip:      true,
 				},
 				{
-					RpcMethod: "RevokeAdminKeyPermissions",
+					RpcMethod: "RevokePermissions",
 					Skip:      true,
 				},
 				{

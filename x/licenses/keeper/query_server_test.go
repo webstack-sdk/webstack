@@ -82,9 +82,9 @@ func TestQueryLicense(t *testing.T) {
 		Owner: owner, Id: "ql", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"ql"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"ql"}}},
 	})
 	require.NoError(t, err)
 
@@ -119,9 +119,9 @@ func TestQueryLicensesByHolder(t *testing.T) {
 		Owner: owner, Id: "h2", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"h1", "h2"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"h1", "h2"}}},
 	})
 	require.NoError(t, err)
 
@@ -159,9 +159,9 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 		Owner: owner, Id: "rvq", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: admin,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"rvq"}},
 			{Permission: types.PermissionRevoke, LicenseTypes: []string{"rvq"}},
 		},
@@ -199,7 +199,7 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	require.Equal(t, types.StatusRevoked, lresp.License.Status)
 }
 
-func TestQueryAdminKeys(t *testing.T) {
+func TestQueryPermissions(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	q := setupQuerier(k)
 	admin1 := sample.AccAddress()
@@ -208,14 +208,14 @@ func TestQueryAdminKeys(t *testing.T) {
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t1", MaxSupply: math.ZeroInt()})
 	require.NoError(t, err)
 
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: admin1,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: admin2,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}},
 			{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}},
 		},
@@ -223,17 +223,17 @@ func TestQueryAdminKeys(t *testing.T) {
 	require.NoError(t, err)
 
 	// Query single
-	resp, err := q.AdminKey(ctx, &types.QueryAdminKeyRequest{Address: admin1})
+	resp, err := q.PermissionsByAddress(ctx, &types.QueryPermissionsByAddressRequest{Address: admin1})
 	require.NoError(t, err)
-	require.Equal(t, admin1, resp.AdminKey.Address)
-	require.Len(t, resp.AdminKey.Grants, 1)
+	require.Equal(t, admin1, resp.Permissions.Address)
+	require.Len(t, resp.Permissions.Grants, 1)
 
 	// Not found
-	_, err = q.AdminKey(ctx, &types.QueryAdminKeyRequest{Address: sample.AccAddress()})
+	_, err = q.PermissionsByAddress(ctx, &types.QueryPermissionsByAddressRequest{Address: sample.AccAddress()})
 	require.Error(t, err)
 
 	// Query all
-	allResp, err := q.AdminKeys(ctx, &types.QueryAdminKeysRequest{})
+	allResp, err := q.Permissions(ctx, &types.QueryPermissionsRequest{})
 	require.NoError(t, err)
-	require.Len(t, allResp.AdminKeys, 2)
+	require.Len(t, allResp.Permissions, 2)
 }

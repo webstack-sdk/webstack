@@ -222,25 +222,25 @@ func (m *MsgCreateLicenseTypeResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateLicenseTypeResponse proto.InternalMessageInfo
 
-// MsgGrantAdminPermissions is the Msg/GrantAdminPermissions request type.
-type MsgGrantAdminPermissions struct {
-	Owner   string          `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	Address string          `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Grants  []AdminKeyGrant `protobuf:"bytes,3,rep,name=grants,proto3" json:"grants"`
+// MsgGrantPermissions is the Msg/GrantPermissions request type.
+type MsgGrantPermissions struct {
+	Owner   string            `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	Address string            `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Grants  []PermissionGrant `protobuf:"bytes,3,rep,name=grants,proto3" json:"grants"`
 }
 
-func (m *MsgGrantAdminPermissions) Reset()         { *m = MsgGrantAdminPermissions{} }
-func (m *MsgGrantAdminPermissions) String() string { return proto.CompactTextString(m) }
-func (*MsgGrantAdminPermissions) ProtoMessage()    {}
-func (*MsgGrantAdminPermissions) Descriptor() ([]byte, []int) {
+func (m *MsgGrantPermissions) Reset()         { *m = MsgGrantPermissions{} }
+func (m *MsgGrantPermissions) String() string { return proto.CompactTextString(m) }
+func (*MsgGrantPermissions) ProtoMessage()    {}
+func (*MsgGrantPermissions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{4}
 }
-func (m *MsgGrantAdminPermissions) XXX_Unmarshal(b []byte) error {
+func (m *MsgGrantPermissions) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgGrantAdminPermissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgGrantPermissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgGrantAdminPermissions.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgGrantPermissions.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -250,55 +250,55 @@ func (m *MsgGrantAdminPermissions) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgGrantAdminPermissions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgGrantAdminPermissions.Merge(m, src)
+func (m *MsgGrantPermissions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgGrantPermissions.Merge(m, src)
 }
-func (m *MsgGrantAdminPermissions) XXX_Size() int {
+func (m *MsgGrantPermissions) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgGrantAdminPermissions) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgGrantAdminPermissions.DiscardUnknown(m)
+func (m *MsgGrantPermissions) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgGrantPermissions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgGrantAdminPermissions proto.InternalMessageInfo
+var xxx_messageInfo_MsgGrantPermissions proto.InternalMessageInfo
 
-func (m *MsgGrantAdminPermissions) GetOwner() string {
+func (m *MsgGrantPermissions) GetOwner() string {
 	if m != nil {
 		return m.Owner
 	}
 	return ""
 }
 
-func (m *MsgGrantAdminPermissions) GetAddress() string {
+func (m *MsgGrantPermissions) GetAddress() string {
 	if m != nil {
 		return m.Address
 	}
 	return ""
 }
 
-func (m *MsgGrantAdminPermissions) GetGrants() []AdminKeyGrant {
+func (m *MsgGrantPermissions) GetGrants() []PermissionGrant {
 	if m != nil {
 		return m.Grants
 	}
 	return nil
 }
 
-// MsgGrantAdminPermissionsResponse is the Msg/GrantAdminPermissions response type.
-type MsgGrantAdminPermissionsResponse struct {
+// MsgGrantPermissionsResponse is the Msg/GrantPermissions response type.
+type MsgGrantPermissionsResponse struct {
 }
 
-func (m *MsgGrantAdminPermissionsResponse) Reset()         { *m = MsgGrantAdminPermissionsResponse{} }
-func (m *MsgGrantAdminPermissionsResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgGrantAdminPermissionsResponse) ProtoMessage()    {}
-func (*MsgGrantAdminPermissionsResponse) Descriptor() ([]byte, []int) {
+func (m *MsgGrantPermissionsResponse) Reset()         { *m = MsgGrantPermissionsResponse{} }
+func (m *MsgGrantPermissionsResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgGrantPermissionsResponse) ProtoMessage()    {}
+func (*MsgGrantPermissionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{5}
 }
-func (m *MsgGrantAdminPermissionsResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgGrantPermissionsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgGrantAdminPermissionsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgGrantPermissionsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgGrantAdminPermissionsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgGrantPermissionsResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -308,36 +308,36 @@ func (m *MsgGrantAdminPermissionsResponse) XXX_Marshal(b []byte, deterministic b
 		return b[:n], nil
 	}
 }
-func (m *MsgGrantAdminPermissionsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgGrantAdminPermissionsResponse.Merge(m, src)
+func (m *MsgGrantPermissionsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgGrantPermissionsResponse.Merge(m, src)
 }
-func (m *MsgGrantAdminPermissionsResponse) XXX_Size() int {
+func (m *MsgGrantPermissionsResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgGrantAdminPermissionsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgGrantAdminPermissionsResponse.DiscardUnknown(m)
+func (m *MsgGrantPermissionsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgGrantPermissionsResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgGrantAdminPermissionsResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgGrantPermissionsResponse proto.InternalMessageInfo
 
-// AdminKeyPermission identifies a single (license_type, permission) pair to revoke.
-type AdminKeyPermission struct {
+// PermissionPair identifies a single (license_type, permission) pair to revoke.
+type PermissionPair struct {
 	LicenseTypeId string     `protobuf:"bytes,1,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
 	Permission    Permission `protobuf:"varint,2,opt,name=permission,proto3,enum=licenses.v1.Permission" json:"permission,omitempty"`
 }
 
-func (m *AdminKeyPermission) Reset()         { *m = AdminKeyPermission{} }
-func (m *AdminKeyPermission) String() string { return proto.CompactTextString(m) }
-func (*AdminKeyPermission) ProtoMessage()    {}
-func (*AdminKeyPermission) Descriptor() ([]byte, []int) {
+func (m *PermissionPair) Reset()         { *m = PermissionPair{} }
+func (m *PermissionPair) String() string { return proto.CompactTextString(m) }
+func (*PermissionPair) ProtoMessage()    {}
+func (*PermissionPair) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{6}
 }
-func (m *AdminKeyPermission) XXX_Unmarshal(b []byte) error {
+func (m *PermissionPair) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *AdminKeyPermission) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *PermissionPair) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_AdminKeyPermission.Marshal(b, m, deterministic)
+		return xxx_messageInfo_PermissionPair.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -347,51 +347,51 @@ func (m *AdminKeyPermission) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *AdminKeyPermission) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AdminKeyPermission.Merge(m, src)
+func (m *PermissionPair) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PermissionPair.Merge(m, src)
 }
-func (m *AdminKeyPermission) XXX_Size() int {
+func (m *PermissionPair) XXX_Size() int {
 	return m.Size()
 }
-func (m *AdminKeyPermission) XXX_DiscardUnknown() {
-	xxx_messageInfo_AdminKeyPermission.DiscardUnknown(m)
+func (m *PermissionPair) XXX_DiscardUnknown() {
+	xxx_messageInfo_PermissionPair.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AdminKeyPermission proto.InternalMessageInfo
+var xxx_messageInfo_PermissionPair proto.InternalMessageInfo
 
-func (m *AdminKeyPermission) GetLicenseTypeId() string {
+func (m *PermissionPair) GetLicenseTypeId() string {
 	if m != nil {
 		return m.LicenseTypeId
 	}
 	return ""
 }
 
-func (m *AdminKeyPermission) GetPermission() Permission {
+func (m *PermissionPair) GetPermission() Permission {
 	if m != nil {
 		return m.Permission
 	}
 	return Permission_PERMISSION_UNSPECIFIED
 }
 
-// MsgRevokeAdminKeyPermissions is the Msg/RevokeAdminKeyPermissions request type.
-type MsgRevokeAdminKeyPermissions struct {
-	Owner       string               `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	Address     string               `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Permissions []AdminKeyPermission `protobuf:"bytes,3,rep,name=permissions,proto3" json:"permissions"`
+// MsgRevokePermissions is the Msg/RevokePermissions request type.
+type MsgRevokePermissions struct {
+	Owner       string           `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	Address     string           `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Permissions []PermissionPair `protobuf:"bytes,3,rep,name=permissions,proto3" json:"permissions"`
 }
 
-func (m *MsgRevokeAdminKeyPermissions) Reset()         { *m = MsgRevokeAdminKeyPermissions{} }
-func (m *MsgRevokeAdminKeyPermissions) String() string { return proto.CompactTextString(m) }
-func (*MsgRevokeAdminKeyPermissions) ProtoMessage()    {}
-func (*MsgRevokeAdminKeyPermissions) Descriptor() ([]byte, []int) {
+func (m *MsgRevokePermissions) Reset()         { *m = MsgRevokePermissions{} }
+func (m *MsgRevokePermissions) String() string { return proto.CompactTextString(m) }
+func (*MsgRevokePermissions) ProtoMessage()    {}
+func (*MsgRevokePermissions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{7}
 }
-func (m *MsgRevokeAdminKeyPermissions) XXX_Unmarshal(b []byte) error {
+func (m *MsgRevokePermissions) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgRevokeAdminKeyPermissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgRevokePermissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgRevokeAdminKeyPermissions.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgRevokePermissions.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -401,55 +401,55 @@ func (m *MsgRevokeAdminKeyPermissions) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-func (m *MsgRevokeAdminKeyPermissions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgRevokeAdminKeyPermissions.Merge(m, src)
+func (m *MsgRevokePermissions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgRevokePermissions.Merge(m, src)
 }
-func (m *MsgRevokeAdminKeyPermissions) XXX_Size() int {
+func (m *MsgRevokePermissions) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgRevokeAdminKeyPermissions) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgRevokeAdminKeyPermissions.DiscardUnknown(m)
+func (m *MsgRevokePermissions) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgRevokePermissions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgRevokeAdminKeyPermissions proto.InternalMessageInfo
+var xxx_messageInfo_MsgRevokePermissions proto.InternalMessageInfo
 
-func (m *MsgRevokeAdminKeyPermissions) GetOwner() string {
+func (m *MsgRevokePermissions) GetOwner() string {
 	if m != nil {
 		return m.Owner
 	}
 	return ""
 }
 
-func (m *MsgRevokeAdminKeyPermissions) GetAddress() string {
+func (m *MsgRevokePermissions) GetAddress() string {
 	if m != nil {
 		return m.Address
 	}
 	return ""
 }
 
-func (m *MsgRevokeAdminKeyPermissions) GetPermissions() []AdminKeyPermission {
+func (m *MsgRevokePermissions) GetPermissions() []PermissionPair {
 	if m != nil {
 		return m.Permissions
 	}
 	return nil
 }
 
-// MsgRevokeAdminKeyPermissionsResponse is the Msg/RevokeAdminKeyPermissions response type.
-type MsgRevokeAdminKeyPermissionsResponse struct {
+// MsgRevokePermissionsResponse is the Msg/RevokePermissions response type.
+type MsgRevokePermissionsResponse struct {
 }
 
-func (m *MsgRevokeAdminKeyPermissionsResponse) Reset()         { *m = MsgRevokeAdminKeyPermissionsResponse{} }
-func (m *MsgRevokeAdminKeyPermissionsResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgRevokeAdminKeyPermissionsResponse) ProtoMessage()    {}
-func (*MsgRevokeAdminKeyPermissionsResponse) Descriptor() ([]byte, []int) {
+func (m *MsgRevokePermissionsResponse) Reset()         { *m = MsgRevokePermissionsResponse{} }
+func (m *MsgRevokePermissionsResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgRevokePermissionsResponse) ProtoMessage()    {}
+func (*MsgRevokePermissionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e2811ecaf66379ee, []int{8}
 }
-func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgRevokePermissionsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgRevokePermissionsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgRevokeAdminKeyPermissionsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgRevokePermissionsResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -459,17 +459,17 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_Marshal(b []byte, determinist
 		return b[:n], nil
 	}
 }
-func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgRevokeAdminKeyPermissionsResponse.Merge(m, src)
+func (m *MsgRevokePermissionsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgRevokePermissionsResponse.Merge(m, src)
 }
-func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_Size() int {
+func (m *MsgRevokePermissionsResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgRevokeAdminKeyPermissionsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgRevokeAdminKeyPermissionsResponse.DiscardUnknown(m)
+func (m *MsgRevokePermissionsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgRevokePermissionsResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgRevokeAdminKeyPermissionsResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgRevokePermissionsResponse proto.InternalMessageInfo
 
 // IssueLicenseEntry defines a single issuance within a MsgIssueLicenses.
 type IssueLicenseEntry struct {
@@ -971,11 +971,11 @@ func init() {
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "licenses.v1.MsgUpdateParamsResponse")
 	proto.RegisterType((*MsgCreateLicenseType)(nil), "licenses.v1.MsgCreateLicenseType")
 	proto.RegisterType((*MsgCreateLicenseTypeResponse)(nil), "licenses.v1.MsgCreateLicenseTypeResponse")
-	proto.RegisterType((*MsgGrantAdminPermissions)(nil), "licenses.v1.MsgGrantAdminPermissions")
-	proto.RegisterType((*MsgGrantAdminPermissionsResponse)(nil), "licenses.v1.MsgGrantAdminPermissionsResponse")
-	proto.RegisterType((*AdminKeyPermission)(nil), "licenses.v1.AdminKeyPermission")
-	proto.RegisterType((*MsgRevokeAdminKeyPermissions)(nil), "licenses.v1.MsgRevokeAdminKeyPermissions")
-	proto.RegisterType((*MsgRevokeAdminKeyPermissionsResponse)(nil), "licenses.v1.MsgRevokeAdminKeyPermissionsResponse")
+	proto.RegisterType((*MsgGrantPermissions)(nil), "licenses.v1.MsgGrantPermissions")
+	proto.RegisterType((*MsgGrantPermissionsResponse)(nil), "licenses.v1.MsgGrantPermissionsResponse")
+	proto.RegisterType((*PermissionPair)(nil), "licenses.v1.PermissionPair")
+	proto.RegisterType((*MsgRevokePermissions)(nil), "licenses.v1.MsgRevokePermissions")
+	proto.RegisterType((*MsgRevokePermissionsResponse)(nil), "licenses.v1.MsgRevokePermissionsResponse")
 	proto.RegisterType((*IssueLicenseEntry)(nil), "licenses.v1.IssueLicenseEntry")
 	proto.RegisterType((*MsgIssueLicenses)(nil), "licenses.v1.MsgIssueLicenses")
 	proto.RegisterType((*MsgIssueLicensesResponse)(nil), "licenses.v1.MsgIssueLicensesResponse")
@@ -990,84 +990,83 @@ func init() {
 func init() { proto.RegisterFile("licenses/v1/tx.proto", fileDescriptor_e2811ecaf66379ee) }
 
 var fileDescriptor_e2811ecaf66379ee = []byte{
-	// 1229 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x57, 0xcf, 0x6f, 0x1b, 0x45,
-	0x14, 0xce, 0xd8, 0xf9, 0x51, 0xbf, 0x90, 0xa4, 0x59, 0x52, 0xc5, 0xb1, 0x52, 0xc7, 0xdd, 0x26,
-	0xc1, 0x09, 0xb5, 0x37, 0x31, 0x55, 0x52, 0x19, 0x01, 0x6a, 0x00, 0x55, 0x51, 0xb1, 0xa8, 0xb6,
-	0xe5, 0xc2, 0xc5, 0xda, 0x78, 0x87, 0xcd, 0x2a, 0xf6, 0xae, 0xb5, 0x33, 0x4e, 0xe3, 0x1b, 0xca,
-	0xa1, 0x87, 0x0a, 0x21, 0x24, 0x0e, 0xfc, 0x09, 0x70, 0xcc, 0xa1, 0x07, 0x40, 0xe2, 0xde, 0x63,
-	0x29, 0x17, 0xc4, 0xa1, 0x42, 0x09, 0x52, 0x6e, 0x70, 0xe2, 0x8e, 0x66, 0x66, 0x77, 0xec, 0x5d,
-	0xaf, 0x7f, 0x70, 0xe1, 0xc2, 0x25, 0xf2, 0xbe, 0xf7, 0xe6, 0xcd, 0xf7, 0xbe, 0x6f, 0xe6, 0xbd,
-	0x09, 0x2c, 0xd4, 0xed, 0x1a, 0x76, 0x08, 0x26, 0xda, 0xf1, 0xb6, 0x46, 0x4f, 0x8a, 0x4d, 0xcf,
-	0xa5, 0xae, 0x32, 0x1d, 0x58, 0x8b, 0xc7, 0xdb, 0x99, 0x79, 0xa3, 0x61, 0x3b, 0xae, 0xc6, 0xff,
-	0x0a, 0x7f, 0x66, 0xb1, 0xe6, 0x92, 0x86, 0x4b, 0xb4, 0x06, 0xb1, 0xd8, 0xba, 0x06, 0xb1, 0x7c,
-	0xc7, 0x92, 0x70, 0x54, 0xf9, 0x97, 0x26, 0x3e, 0x7c, 0xd7, 0x82, 0xe5, 0x5a, 0xae, 0xb0, 0xb3,
-	0x5f, 0xbe, 0x75, 0xd9, 0x72, 0x5d, 0xab, 0x8e, 0x35, 0xa3, 0x69, 0x6b, 0x86, 0xe3, 0xb8, 0xd4,
-	0xa0, 0xb6, 0xeb, 0x04, 0x6b, 0xd2, 0xdd, 0xe8, 0x9a, 0x86, 0x67, 0x34, 0x7c, 0x8f, 0xfa, 0x03,
-	0x82, 0xb9, 0x0a, 0xb1, 0x3e, 0x69, 0x9a, 0x06, 0xc5, 0x0f, 0xb8, 0x47, 0xd9, 0x81, 0x94, 0xd1,
-	0xa2, 0x87, 0xae, 0x67, 0xd3, 0x76, 0x1a, 0xe5, 0x50, 0x3e, 0xb5, 0x97, 0x7e, 0xf9, 0xac, 0xb0,
-	0xe0, 0xc3, 0xb8, 0x6b, 0x9a, 0x1e, 0x26, 0xe4, 0x21, 0xf5, 0x6c, 0xc7, 0xd2, 0x3b, 0xa1, 0xca,
-	0x0e, 0x4c, 0x8a, 0xdc, 0xe9, 0x44, 0x0e, 0xe5, 0xa7, 0x4b, 0xaf, 0x17, 0xbb, 0xca, 0x2f, 0x8a,
-	0xe4, 0x7b, 0xa9, 0xe7, 0xaf, 0x56, 0xc6, 0xbe, 0xbb, 0x3c, 0xdb, 0x44, 0xba, 0x1f, 0x5d, 0xde,
-	0x39, 0xbd, 0x3c, 0xdb, 0xec, 0xe4, 0x79, 0x7a, 0x79, 0xb6, 0x79, 0xf3, 0x31, 0x3e, 0x20, 0xd4,
-	0xa8, 0x1d, 0x69, 0x27, 0x9a, 0xc4, 0x1e, 0xc1, 0xa9, 0x2e, 0xc1, 0x62, 0xc4, 0xa4, 0x63, 0xd2,
-	0x74, 0x1d, 0x82, 0xd5, 0x27, 0x09, 0x58, 0xa8, 0x10, 0xeb, 0x7d, 0x0f, 0x1b, 0x14, 0x7f, 0x24,
-	0x12, 0x3c, 0x6a, 0x37, 0xb1, 0x52, 0x84, 0x09, 0xf7, 0xb1, 0x83, 0xbd, 0xa1, 0x75, 0x89, 0x30,
-	0x65, 0x16, 0x12, 0xb6, 0xc9, 0xeb, 0x49, 0xe9, 0x09, 0xdb, 0x54, 0x56, 0x61, 0x86, 0x7a, 0x86,
-	0x43, 0x3e, 0xc3, 0x9e, 0x67, 0x1c, 0xd4, 0x71, 0x3a, 0x99, 0x43, 0xf9, 0x2b, 0x7a, 0xd8, 0xa8,
-	0x7c, 0x0c, 0xd0, 0x30, 0x4e, 0xaa, 0xa4, 0xd5, 0x6c, 0xd6, 0xdb, 0xe9, 0x71, 0xbe, 0xd5, 0x16,
-	0x2b, 0xfc, 0xb7, 0x57, 0x2b, 0xd7, 0xc4, 0x76, 0xc4, 0x3c, 0x2a, 0xda, 0xae, 0xd6, 0x30, 0xe8,
-	0x61, 0x71, 0xdf, 0xa1, 0x2f, 0x9f, 0x15, 0xc0, 0xc7, 0xb1, 0xef, 0x50, 0xc1, 0x4f, 0xaa, 0x61,
-	0x9c, 0x3c, 0xe4, 0x29, 0xca, 0xbb, 0x8c, 0x22, 0x01, 0x89, 0xd1, 0x93, 0xef, 0x43, 0x4f, 0x4f,
-	0xbd, 0x6a, 0x16, 0x96, 0xe3, 0xec, 0x92, 0xa8, 0xbf, 0x11, 0xa4, 0x2b, 0xc4, 0xba, 0xe7, 0x19,
-	0x0e, 0xbd, 0x6b, 0x36, 0x6c, 0xe7, 0x01, 0xf6, 0x1a, 0x36, 0x21, 0xec, 0xf0, 0xfc, 0x6b, 0xb2,
-	0x4a, 0x30, 0x65, 0x08, 0xbb, 0x60, 0x6c, 0xc0, 0x8a, 0x20, 0x50, 0xb9, 0x03, 0x93, 0x16, 0xdb,
-	0x9c, 0xa4, 0x93, 0xb9, 0x64, 0x7e, 0xba, 0x94, 0x09, 0x1d, 0x1a, 0x0e, 0xe9, 0x3e, 0x6e, 0x73,
-	0x7c, 0x7b, 0xe3, 0x8c, 0x42, 0xdd, 0x8f, 0x2f, 0xbf, 0x1d, 0xe6, 0xe4, 0x56, 0x1f, 0x4e, 0x62,
-	0x4b, 0x53, 0x55, 0xc8, 0xf5, 0xf3, 0x49, 0x6e, 0x5a, 0xa0, 0x04, 0xfb, 0x77, 0xdc, 0xca, 0x3a,
-	0xcc, 0xf9, 0xe9, 0xab, 0xb4, 0xdd, 0xc4, 0x55, 0xdb, 0x14, 0xf4, 0xe8, 0x33, 0xf5, 0x0e, 0xbf,
-	0xfb, 0xa6, 0xb2, 0x0b, 0xd0, 0x94, 0xab, 0x38, 0x1f, 0xb3, 0xa5, 0xc5, 0xf0, 0x8d, 0x90, 0x6e,
-	0xbd, 0x2b, 0x54, 0xfd, 0x22, 0xc1, 0x35, 0xd3, 0xf1, 0xb1, 0x7b, 0x84, 0x7b, 0x01, 0xfc, 0x37,
-	0xb2, 0xdc, 0x83, 0xe9, 0x0e, 0xa4, 0x40, 0x9b, 0x95, 0x58, 0x6d, 0x3a, 0xd0, 0x7c, 0x81, 0xba,
-	0x57, 0x96, 0xdf, 0x0b, 0xab, 0xb4, 0xd5, 0x47, 0xa5, 0xbe, 0xd5, 0xaa, 0xeb, 0xb0, 0x3a, 0xc8,
-	0x2f, 0xd5, 0xfa, 0x09, 0xc1, 0xfc, 0x3e, 0x21, 0xad, 0xe0, 0x98, 0x7f, 0xe8, 0x50, 0xaf, 0x3d,
-	0xb2, 0x5a, 0x5b, 0x30, 0x79, 0xe8, 0xd6, 0x4d, 0xec, 0x0d, 0xa5, 0xc8, 0x8f, 0x53, 0xae, 0x03,
-	0x10, 0x6a, 0x78, 0xb4, 0xca, 0xda, 0x0f, 0x6f, 0x03, 0x29, 0x3d, 0xc5, 0x2d, 0x1f, 0x18, 0x14,
-	0x2b, 0x4b, 0x70, 0x05, 0x3b, 0xa6, 0x70, 0xf2, 0x06, 0xa0, 0x4f, 0x61, 0xc7, 0xe4, 0xae, 0x05,
-	0x98, 0xa8, 0xb9, 0x2d, 0x87, 0xa6, 0x27, 0x72, 0x28, 0x3f, 0xae, 0x8b, 0x0f, 0xf5, 0x47, 0x04,
-	0x57, 0x2b, 0xc4, 0xea, 0x2e, 0x81, 0x30, 0x58, 0x36, 0x33, 0x0c, 0xd7, 0xda, 0x8f, 0x53, 0xde,
-	0x85, 0x29, 0xec, 0x50, 0xcf, 0xc6, 0x4c, 0x6c, 0x26, 0x5a, 0x36, 0x24, 0x5a, 0x0f, 0x43, 0xbe,
-	0x66, 0xc1, 0xa2, 0xf2, 0x6d, 0xa6, 0x97, 0x9f, 0x8c, 0x09, 0xb6, 0xda, 0x47, 0xb0, 0x10, 0x4e,
-	0xf5, 0x16, 0xef, 0x22, 0x21, 0x5b, 0x20, 0x8c, 0x72, 0x15, 0x92, 0xb6, 0x49, 0xd2, 0x28, 0x97,
-	0xcc, 0x8f, 0xeb, 0xec, 0xa7, 0xfa, 0x17, 0x82, 0x79, 0xa9, 0xa9, 0xac, 0xb5, 0x04, 0x53, 0x1e,
-	0xb7, 0x0c, 0x2f, 0x36, 0x08, 0x8c, 0x93, 0x37, 0x31, 0x58, 0xde, 0xe4, 0x88, 0xf2, 0x4a, 0x91,
-	0xc6, 0xbb, 0x44, 0x12, 0xa3, 0x2a, 0xd8, 0x9d, 0xd1, 0xb3, 0x36, 0xf0, 0x3c, 0x4b, 0x7e, 0x0a,
-	0xb0, 0xd4, 0x63, 0x1c, 0x40, 0xd0, 0x9f, 0x08, 0x94, 0x0a, 0xb1, 0x1e, 0xf9, 0x43, 0xc5, 0x5f,
-	0xd1, 0x55, 0x05, 0x1a, 0xb1, 0x8a, 0x51, 0xf9, 0x11, 0x63, 0x2e, 0xc9, 0x4b, 0x65, 0x63, 0x6e,
-	0x07, 0x52, 0x1e, 0xae, 0xd9, 0x4d, 0x1b, 0xfb, 0x0c, 0x0c, 0x7c, 0x02, 0xc8, 0x50, 0xc1, 0x8f,
-	0xbf, 0x39, 0xa3, 0x67, 0xbd, 0x0f, 0x3d, 0x91, 0xca, 0xd4, 0x65, 0xc8, 0xf4, 0x5a, 0xa3, 0xd3,
-	0x5c, 0x4c, 0xfa, 0xff, 0xcf, 0x34, 0xef, 0xa9, 0xd7, 0x9f, 0xe6, 0x3d, 0xf6, 0x80, 0xa8, 0xd2,
-	0xcf, 0x29, 0x48, 0x56, 0x88, 0xa5, 0x9c, 0x22, 0x78, 0x2d, 0xf4, 0xa4, 0x5b, 0x0e, 0x35, 0x81,
-	0xc8, 0xab, 0x29, 0xb3, 0x3a, 0xc8, 0x2b, 0x55, 0x28, 0x9e, 0xfe, 0xf2, 0xc7, 0xd7, 0x89, 0x7c,
-	0x19, 0x6d, 0xaa, 0x37, 0x35, 0x09, 0x59, 0x02, 0xa6, 0x27, 0x5a, 0x8b, 0x2f, 0xab, 0x8a, 0x67,
-	0x9d, 0xf2, 0x0d, 0x82, 0xf9, 0xde, 0x07, 0xd8, 0x8d, 0xe8, 0x5e, 0x3d, 0x21, 0x99, 0x8d, 0xa1,
-	0x21, 0x12, 0xd3, 0x6d, 0x8e, 0xa9, 0xc8, 0x30, 0x6d, 0xc4, 0x63, 0xaa, 0xf1, 0xb5, 0xd5, 0xee,
-	0x5b, 0xa0, 0x7c, 0x8b, 0xe0, 0x5a, 0xfc, 0x8b, 0x67, 0x2d, 0xba, 0x75, 0x6c, 0x58, 0xa6, 0x30,
-	0x52, 0x98, 0x44, 0x79, 0x87, 0xa3, 0x2c, 0x31, 0x94, 0x85, 0x78, 0x94, 0xfc, 0x49, 0x53, 0x35,
-	0x58, 0x82, 0x6a, 0xd7, 0xf4, 0x54, 0xbe, 0x47, 0xb0, 0xd4, 0xff, 0x21, 0xd0, 0x43, 0x54, 0xdf,
-	0xd0, 0xcc, 0xf6, 0xc8, 0xa1, 0x12, 0xf5, 0x3b, 0x1c, 0xf5, 0x2e, 0x43, 0x5d, 0x8a, 0x47, 0x2d,
-	0xfa, 0xa0, 0x0f, 0xfb, 0x08, 0xb7, 0x43, 0xd0, 0x9f, 0x20, 0x98, 0x09, 0x0f, 0xb3, 0xeb, 0x51,
-	0x0c, 0x21, 0x77, 0x66, 0x6d, 0xa0, 0x5b, 0xc2, 0xd2, 0x38, 0xac, 0x0d, 0x06, 0x6b, 0x35, 0x1e,
-	0x16, 0x1f, 0x5e, 0x81, 0xe2, 0x44, 0x79, 0x8a, 0x60, 0x36, 0x32, 0x6a, 0xb2, 0xf1, 0x6c, 0x48,
-	0x28, 0xeb, 0x83, 0xfd, 0x12, 0xcb, 0x16, 0xc7, 0xb2, 0xc9, 0xb0, 0xac, 0x0d, 0xa4, 0x48, 0x82,
-	0xf9, 0x12, 0xc1, 0x5c, 0xb4, 0xad, 0xaf, 0x44, 0x77, 0x8b, 0x04, 0x64, 0xde, 0x18, 0x12, 0x20,
-	0xf1, 0x6c, 0x73, 0x3c, 0x6f, 0x32, 0x3c, 0xeb, 0xf1, 0x78, 0x82, 0xce, 0x16, 0x20, 0xe2, 0xb7,
-	0xb4, 0xb7, 0xb1, 0xde, 0x88, 0xef, 0x08, 0x03, 0x6f, 0x69, 0xdf, 0xb6, 0x34, 0xc2, 0x2d, 0xf5,
-	0x3b, 0x47, 0xf7, 0x2d, 0xcd, 0x4c, 0x7c, 0xce, 0xfa, 0xe6, 0xde, 0xfd, 0xe7, 0xe7, 0x59, 0xf4,
-	0xe2, 0x3c, 0x8b, 0x7e, 0x3f, 0xcf, 0xa2, 0xaf, 0x2e, 0xb2, 0x63, 0x2f, 0x2e, 0xb2, 0x63, 0xbf,
-	0x5e, 0x64, 0xc7, 0x3e, 0xdd, 0xb6, 0x6c, 0x7a, 0xd8, 0x3a, 0x28, 0xd6, 0xdc, 0x86, 0xcc, 0x5a,
-	0x20, 0xe6, 0x91, 0x16, 0xd7, 0x4f, 0x59, 0x4a, 0x72, 0x30, 0xc9, 0xff, 0xeb, 0x7d, 0xeb, 0x9f,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0x5a, 0xd9, 0xe7, 0x6e, 0xaf, 0x0f, 0x00, 0x00,
+	// 1201 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x57, 0xbb, 0x6f, 0x23, 0x45,
+	0x18, 0xcf, 0xd8, 0x79, 0x9c, 0xbf, 0x90, 0xd7, 0x5e, 0x50, 0x1c, 0x5f, 0xe2, 0xf8, 0xf6, 0xf2,
+	0x70, 0xc2, 0xc5, 0x9b, 0xf8, 0x4e, 0x39, 0x29, 0x05, 0x12, 0x39, 0x10, 0x8a, 0xc0, 0x22, 0xda,
+	0x3b, 0x1a, 0x1a, 0x6b, 0xe3, 0x1d, 0x36, 0xab, 0xd8, 0xbb, 0xcb, 0xce, 0x38, 0x97, 0x74, 0x28,
+	0xc5, 0x15, 0x57, 0x20, 0x04, 0x12, 0x48, 0xfc, 0x05, 0x94, 0x29, 0xae, 0x01, 0x89, 0xfe, 0xca,
+	0xd3, 0xd1, 0x20, 0x8a, 0x13, 0x4a, 0x90, 0x52, 0x01, 0x2d, 0x25, 0x9a, 0x99, 0xdd, 0xb1, 0xbd,
+	0xbb, 0x7e, 0xd0, 0xd0, 0xd0, 0x44, 0xde, 0xef, 0x31, 0xf3, 0xfb, 0x7e, 0xbf, 0x99, 0xef, 0x9b,
+	0xc0, 0x6c, 0xdd, 0xae, 0x61, 0x87, 0x60, 0xa2, 0x9d, 0x6c, 0x6b, 0xf4, 0xb4, 0xe4, 0xf9, 0x2e,
+	0x75, 0x95, 0xf1, 0xd0, 0x5a, 0x3a, 0xd9, 0xce, 0xcd, 0x18, 0x0d, 0xdb, 0x71, 0x35, 0xfe, 0x57,
+	0xf8, 0x73, 0x73, 0x35, 0x97, 0x34, 0x5c, 0xa2, 0x35, 0x88, 0xc5, 0xf2, 0x1a, 0xc4, 0x0a, 0x1c,
+	0xf3, 0xc2, 0x51, 0xe5, 0x5f, 0x9a, 0xf8, 0x08, 0x5c, 0xb3, 0x96, 0x6b, 0xb9, 0xc2, 0xce, 0x7e,
+	0x05, 0xd6, 0x05, 0xcb, 0x75, 0xad, 0x3a, 0xd6, 0x0c, 0xcf, 0xd6, 0x0c, 0xc7, 0x71, 0xa9, 0x41,
+	0x6d, 0xd7, 0x09, 0x73, 0xb2, 0xed, 0xe8, 0x3c, 0xc3, 0x37, 0x1a, 0x81, 0x47, 0xfd, 0x01, 0xc1,
+	0x54, 0x85, 0x58, 0x1f, 0x7b, 0xa6, 0x41, 0xf1, 0x01, 0xf7, 0x28, 0x3b, 0x90, 0x31, 0x9a, 0xf4,
+	0xc8, 0xf5, 0x6d, 0x7a, 0x96, 0x45, 0x05, 0x54, 0xcc, 0xec, 0x65, 0x5f, 0x3d, 0xdf, 0x9c, 0x0d,
+	0x60, 0xbc, 0x63, 0x9a, 0x3e, 0x26, 0xe4, 0x11, 0xf5, 0x6d, 0xc7, 0xd2, 0x5b, 0xa1, 0xca, 0x0e,
+	0x8c, 0x8a, 0xb5, 0xb3, 0xa9, 0x02, 0x2a, 0x8e, 0x97, 0x6f, 0x96, 0xda, 0xca, 0x2f, 0x89, 0xc5,
+	0xf7, 0x32, 0x2f, 0x5e, 0x2f, 0x0d, 0x7d, 0x7f, 0x7d, 0xb1, 0x81, 0xf4, 0x20, 0x7a, 0x77, 0xe7,
+	0xfc, 0xfa, 0x62, 0xa3, 0xb5, 0xce, 0xb3, 0xeb, 0x8b, 0x8d, 0x3b, 0x4f, 0xf0, 0x21, 0xa1, 0x46,
+	0xed, 0x58, 0x3b, 0xd5, 0x24, 0xf6, 0x08, 0x4e, 0x75, 0x1e, 0xe6, 0x22, 0x26, 0x1d, 0x13, 0xcf,
+	0x75, 0x08, 0x56, 0x9f, 0xa6, 0x60, 0xb6, 0x42, 0xac, 0x87, 0x3e, 0x36, 0x28, 0xfe, 0x50, 0x2c,
+	0xf0, 0xf8, 0xcc, 0xc3, 0x4a, 0x09, 0x46, 0xdc, 0x27, 0x0e, 0xf6, 0xfb, 0xd6, 0x25, 0xc2, 0x94,
+	0x49, 0x48, 0xd9, 0x26, 0xaf, 0x27, 0xa3, 0xa7, 0x6c, 0x53, 0x59, 0x86, 0x09, 0xea, 0x1b, 0x0e,
+	0xf9, 0x14, 0xfb, 0xbe, 0x71, 0x58, 0xc7, 0xd9, 0x74, 0x01, 0x15, 0x6f, 0xe8, 0x9d, 0x46, 0xe5,
+	0x23, 0x80, 0x86, 0x71, 0x5a, 0x25, 0x4d, 0xcf, 0xab, 0x9f, 0x65, 0x87, 0xf9, 0x56, 0x5b, 0xac,
+	0xf0, 0x5f, 0x5f, 0x2f, 0xbd, 0x29, 0xb6, 0x23, 0xe6, 0x71, 0xc9, 0x76, 0xb5, 0x86, 0x41, 0x8f,
+	0x4a, 0xfb, 0x0e, 0x7d, 0xf5, 0x7c, 0x13, 0x02, 0x1c, 0xfb, 0x0e, 0x15, 0xfc, 0x64, 0x1a, 0xc6,
+	0xe9, 0x23, 0xbe, 0xc4, 0xee, 0x03, 0x46, 0x91, 0x80, 0xc4, 0xe8, 0x29, 0x76, 0xa1, 0x27, 0x56,
+	0xaf, 0x9a, 0x87, 0x85, 0x24, 0xbb, 0x24, 0xea, 0x0f, 0x04, 0x37, 0x2b, 0xc4, 0x7a, 0xdf, 0x37,
+	0x1c, 0x7a, 0x80, 0xfd, 0x86, 0x4d, 0x08, 0x3b, 0x37, 0xff, 0x9a, 0xa7, 0x32, 0x8c, 0x19, 0xc2,
+	0x2e, 0xc8, 0xea, 0x91, 0x11, 0x06, 0x2a, 0xbb, 0x30, 0x6a, 0xb1, 0x7d, 0x49, 0x36, 0x5d, 0x48,
+	0x17, 0xc7, 0xcb, 0x0b, 0x9d, 0xe7, 0x45, 0xa2, 0xe1, 0xe0, 0xf6, 0x86, 0x19, 0x7f, 0x7a, 0x90,
+	0x21, 0xce, 0x4c, 0x8b, 0x90, 0xb5, 0x2e, 0x84, 0x44, 0xeb, 0x52, 0x17, 0xe1, 0x56, 0x82, 0x59,
+	0xd2, 0xf1, 0x19, 0x4c, 0xb6, 0xcc, 0x07, 0x86, 0xed, 0x2b, 0xab, 0x30, 0x15, 0x2c, 0x58, 0xa5,
+	0x67, 0x1e, 0xae, 0xda, 0xa6, 0xa0, 0x44, 0x9f, 0xa8, 0xb7, 0xe8, 0xdc, 0x37, 0x95, 0x07, 0x00,
+	0x9e, 0xcc, 0xe4, 0x1c, 0x4c, 0x96, 0xe7, 0xba, 0x14, 0xa4, 0xb7, 0x85, 0xaa, 0x7f, 0x23, 0x7e,
+	0x54, 0x75, 0x7c, 0xe2, 0x1e, 0xe3, 0xff, 0x5a, 0x82, 0x87, 0x30, 0xde, 0x82, 0x12, 0xea, 0x70,
+	0xab, 0x0b, 0x6c, 0xc6, 0x47, 0x20, 0x43, 0x7b, 0xd6, 0xa0, 0x87, 0x33, 0x56, 0x61, 0x70, 0x38,
+	0x63, 0x76, 0xa9, 0xc6, 0x4f, 0x08, 0x66, 0xf6, 0x09, 0x69, 0x86, 0x27, 0xf7, 0x3d, 0x87, 0xfa,
+	0x67, 0x03, 0x2b, 0xb2, 0x05, 0xa3, 0x47, 0x6e, 0xdd, 0xc4, 0x7e, 0x5f, 0x3a, 0x82, 0x38, 0x65,
+	0x11, 0x80, 0x50, 0xc3, 0xa7, 0x55, 0xd6, 0x51, 0xf8, 0xcd, 0xce, 0xe8, 0x19, 0x6e, 0x79, 0xd7,
+	0xa0, 0x58, 0x99, 0x87, 0x1b, 0xd8, 0x31, 0x85, 0x93, 0xdf, 0x69, 0x7d, 0x0c, 0x3b, 0x26, 0x77,
+	0xcd, 0xc2, 0x48, 0xcd, 0x6d, 0x3a, 0x34, 0x3b, 0x52, 0x40, 0xc5, 0x61, 0x5d, 0x7c, 0xa8, 0x3f,
+	0x22, 0x98, 0xae, 0x10, 0xab, 0xbd, 0x04, 0xc2, 0x60, 0xd9, 0xcc, 0xd0, 0x5f, 0xd7, 0x20, 0x4e,
+	0x79, 0x1b, 0xc6, 0xb0, 0x43, 0x7d, 0x1b, 0x33, 0x61, 0x99, 0x40, 0xf9, 0x0e, 0x81, 0x62, 0x0c,
+	0x05, 0x1a, 0x85, 0x49, 0xbb, 0xf7, 0x99, 0x3e, 0xc1, 0x62, 0x4c, 0xa0, 0xe5, 0x2e, 0x02, 0x75,
+	0xe0, 0x54, 0xef, 0x42, 0x36, 0x6a, 0x0b, 0x85, 0x51, 0xa6, 0x21, 0x6d, 0x9b, 0x24, 0x8b, 0x0a,
+	0xe9, 0xe2, 0xb0, 0xce, 0x7e, 0xaa, 0x7f, 0x21, 0x98, 0x91, 0x5a, 0xca, 0x5a, 0xcb, 0x30, 0xe6,
+	0x73, 0x4b, 0xff, 0x62, 0xc3, 0xc0, 0x24, 0x79, 0x53, 0xbd, 0xe5, 0x4d, 0x0f, 0x28, 0xaf, 0x14,
+	0x69, 0xb8, 0x4d, 0x24, 0xd1, 0x49, 0xc2, 0xdd, 0x19, 0x3d, 0x2b, 0x3d, 0xcf, 0xaf, 0xe4, 0x67,
+	0x13, 0xe6, 0x63, 0xc6, 0x1e, 0x04, 0xfd, 0x89, 0x40, 0xa9, 0x10, 0xeb, 0x71, 0x30, 0x27, 0x82,
+	0x8c, 0xb6, 0x2a, 0xd0, 0x80, 0x55, 0x0c, 0xca, 0x8f, 0x98, 0x5c, 0x69, 0x5e, 0x2a, 0x9b, 0x5c,
+	0x3b, 0x90, 0xf1, 0x71, 0xcd, 0xf6, 0x6c, 0x1c, 0x30, 0xd0, 0x73, 0xaa, 0xcb, 0x50, 0xc1, 0x4f,
+	0xb0, 0x39, 0xa3, 0x67, 0xb5, 0x0b, 0x3d, 0x91, 0xca, 0xd4, 0x05, 0xc8, 0xc5, 0xad, 0xd1, 0x01,
+	0x2d, 0x86, 0xf7, 0xff, 0x67, 0x40, 0xc7, 0xea, 0x0d, 0x7a, 0x60, 0xcc, 0x1e, 0x12, 0x55, 0xfe,
+	0x2e, 0x03, 0xe9, 0x0a, 0xb1, 0x94, 0x73, 0x04, 0x6f, 0x74, 0xbc, 0xd2, 0x3a, 0xa7, 0x65, 0xe4,
+	0x21, 0x94, 0x5b, 0xee, 0xe5, 0x95, 0x2a, 0x94, 0xce, 0x7f, 0xfe, 0xfd, 0xeb, 0x54, 0x71, 0x17,
+	0x6d, 0xa8, 0x77, 0x34, 0x09, 0x59, 0x02, 0xa6, 0xa7, 0x5a, 0x93, 0xa7, 0x55, 0xc5, 0x4b, 0x4d,
+	0xf9, 0x16, 0xc1, 0x4c, 0xfc, 0x4d, 0x75, 0x3b, 0xba, 0x57, 0x2c, 0x24, 0xb7, 0xde, 0x37, 0x44,
+	0x62, 0xba, 0xcf, 0x31, 0x95, 0x18, 0xa6, 0xf5, 0x64, 0x4c, 0x35, 0x9e, 0x5b, 0x6d, 0xbf, 0x05,
+	0xca, 0x57, 0x08, 0xa6, 0x63, 0x8f, 0x98, 0x42, 0x74, 0xd7, 0x68, 0x44, 0xae, 0xd8, 0x2f, 0x42,
+	0xc2, 0x2a, 0x73, 0x58, 0x77, 0x19, 0xac, 0xb5, 0x64, 0x58, 0xfc, 0x65, 0x52, 0x6d, 0x1b, 0x8c,
+	0xca, 0x37, 0x08, 0x66, 0xe2, 0x73, 0x3d, 0x46, 0x57, 0x2c, 0x24, 0x4e, 0x57, 0xf7, 0x19, 0x79,
+	0x8f, 0xe3, 0xda, 0x64, 0xb8, 0x8a, 0xc9, 0xb8, 0x44, 0x6b, 0xeb, 0x00, 0xf6, 0x14, 0xc1, 0x44,
+	0xe7, 0x54, 0x5a, 0x8c, 0xee, 0xd8, 0xe1, 0xce, 0xad, 0xf4, 0x74, 0x4b, 0x30, 0x1a, 0x07, 0xb3,
+	0xce, 0xc0, 0x2c, 0x27, 0x83, 0xe1, 0x53, 0x28, 0x94, 0x8e, 0x28, 0xcf, 0x10, 0x4c, 0x46, 0x66,
+	0x46, 0x3e, 0xb9, 0x76, 0x09, 0x65, 0xb5, 0xb7, 0x5f, 0x62, 0xd9, 0xe2, 0x58, 0x36, 0x18, 0x96,
+	0x95, 0x9e, 0xc4, 0x48, 0x30, 0x5f, 0x20, 0x98, 0x8a, 0xf6, 0xe7, 0xa5, 0xe8, 0x6e, 0x91, 0x80,
+	0xdc, 0x5a, 0x9f, 0x00, 0x89, 0x67, 0x9b, 0xe3, 0x79, 0x8b, 0xe1, 0x59, 0x4d, 0xc6, 0x13, 0xb6,
+	0xa8, 0x10, 0x11, 0xbf, 0x6e, 0xf1, 0x0e, 0x79, 0x3b, 0xf9, 0x6a, 0xf7, 0xbc, 0x6e, 0x5d, 0xfb,
+	0xcb, 0x00, 0xd7, 0x2d, 0x68, 0x01, 0xed, 0xd7, 0x2d, 0x37, 0xf2, 0x39, 0x6b, 0x80, 0x7b, 0x1f,
+	0xbc, 0xb8, 0xcc, 0xa3, 0x97, 0x97, 0x79, 0xf4, 0xdb, 0x65, 0x1e, 0x7d, 0x79, 0x95, 0x1f, 0x7a,
+	0x79, 0x95, 0x1f, 0xfa, 0xe5, 0x2a, 0x3f, 0xf4, 0xc9, 0xb6, 0x65, 0xd3, 0xa3, 0xe6, 0x61, 0xa9,
+	0xe6, 0x36, 0xe4, 0xaa, 0x9b, 0xc4, 0x3c, 0xd6, 0x92, 0x1a, 0x23, 0x5b, 0x92, 0x1c, 0x8e, 0xf2,
+	0xff, 0x48, 0xef, 0xfd, 0x13, 0x00, 0x00, 0xff, 0xff, 0xa5, 0xde, 0x70, 0x95, 0x4b, 0x0f, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1086,13 +1085,13 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	// CreateLicenseType creates a new license type. Signer must be the module owner.
 	CreateLicenseType(ctx context.Context, in *MsgCreateLicenseType, opts ...grpc.CallOption) (*MsgCreateLicenseTypeResponse, error)
-	// GrantAdminPermissions merges admin key grants for an address. Signer must be the module owner.
+	// GrantPermissions merges permission grants for an address. Signer must be the module owner.
 	// Existing grants for the address are preserved; new (permission, license type) pairs are unioned in.
-	GrantAdminPermissions(ctx context.Context, in *MsgGrantAdminPermissions, opts ...grpc.CallOption) (*MsgGrantAdminPermissionsResponse, error)
-	// RevokeAdminKeyPermissions removes the given (license type, permission) pairs from an admin
-	// key's grants. If a grant's license types become empty it is dropped; if all grants are gone
-	// the admin key entry itself is deleted. Signer must be the module owner.
-	RevokeAdminKeyPermissions(ctx context.Context, in *MsgRevokeAdminKeyPermissions, opts ...grpc.CallOption) (*MsgRevokeAdminKeyPermissionsResponse, error)
+	GrantPermissions(ctx context.Context, in *MsgGrantPermissions, opts ...grpc.CallOption) (*MsgGrantPermissionsResponse, error)
+	// RevokePermissions removes the given (license type, permission) pairs from an address's
+	// grants. Pairs that are not currently granted are silently ignored. Signer must be the
+	// module owner.
+	RevokePermissions(ctx context.Context, in *MsgRevokePermissions, opts ...grpc.CallOption) (*MsgRevokePermissionsResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(ctx context.Context, in *MsgIssueLicenses, opts ...grpc.CallOption) (*MsgIssueLicensesResponse, error)
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
@@ -1130,18 +1129,18 @@ func (c *msgClient) CreateLicenseType(ctx context.Context, in *MsgCreateLicenseT
 	return out, nil
 }
 
-func (c *msgClient) GrantAdminPermissions(ctx context.Context, in *MsgGrantAdminPermissions, opts ...grpc.CallOption) (*MsgGrantAdminPermissionsResponse, error) {
-	out := new(MsgGrantAdminPermissionsResponse)
-	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/GrantAdminPermissions", in, out, opts...)
+func (c *msgClient) GrantPermissions(ctx context.Context, in *MsgGrantPermissions, opts ...grpc.CallOption) (*MsgGrantPermissionsResponse, error) {
+	out := new(MsgGrantPermissionsResponse)
+	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/GrantPermissions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) RevokeAdminKeyPermissions(ctx context.Context, in *MsgRevokeAdminKeyPermissions, opts ...grpc.CallOption) (*MsgRevokeAdminKeyPermissionsResponse, error) {
-	out := new(MsgRevokeAdminKeyPermissionsResponse)
-	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/RevokeAdminKeyPermissions", in, out, opts...)
+func (c *msgClient) RevokePermissions(ctx context.Context, in *MsgRevokePermissions, opts ...grpc.CallOption) (*MsgRevokePermissionsResponse, error) {
+	out := new(MsgRevokePermissionsResponse)
+	err := c.cc.Invoke(ctx, "/licenses.v1.Msg/RevokePermissions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1190,13 +1189,13 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	// CreateLicenseType creates a new license type. Signer must be the module owner.
 	CreateLicenseType(context.Context, *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error)
-	// GrantAdminPermissions merges admin key grants for an address. Signer must be the module owner.
+	// GrantPermissions merges permission grants for an address. Signer must be the module owner.
 	// Existing grants for the address are preserved; new (permission, license type) pairs are unioned in.
-	GrantAdminPermissions(context.Context, *MsgGrantAdminPermissions) (*MsgGrantAdminPermissionsResponse, error)
-	// RevokeAdminKeyPermissions removes the given (license type, permission) pairs from an admin
-	// key's grants. If a grant's license types become empty it is dropped; if all grants are gone
-	// the admin key entry itself is deleted. Signer must be the module owner.
-	RevokeAdminKeyPermissions(context.Context, *MsgRevokeAdminKeyPermissions) (*MsgRevokeAdminKeyPermissionsResponse, error)
+	GrantPermissions(context.Context, *MsgGrantPermissions) (*MsgGrantPermissionsResponse, error)
+	// RevokePermissions removes the given (license type, permission) pairs from an address's
+	// grants. Pairs that are not currently granted are silently ignored. Signer must be the
+	// module owner.
+	RevokePermissions(context.Context, *MsgRevokePermissions) (*MsgRevokePermissionsResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error)
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
@@ -1218,11 +1217,11 @@ func (*UnimplementedMsgServer) UpdateParams(ctx context.Context, req *MsgUpdateP
 func (*UnimplementedMsgServer) CreateLicenseType(ctx context.Context, req *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLicenseType not implemented")
 }
-func (*UnimplementedMsgServer) GrantAdminPermissions(ctx context.Context, req *MsgGrantAdminPermissions) (*MsgGrantAdminPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GrantAdminPermissions not implemented")
+func (*UnimplementedMsgServer) GrantPermissions(ctx context.Context, req *MsgGrantPermissions) (*MsgGrantPermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GrantPermissions not implemented")
 }
-func (*UnimplementedMsgServer) RevokeAdminKeyPermissions(ctx context.Context, req *MsgRevokeAdminKeyPermissions) (*MsgRevokeAdminKeyPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokeAdminKeyPermissions not implemented")
+func (*UnimplementedMsgServer) RevokePermissions(ctx context.Context, req *MsgRevokePermissions) (*MsgRevokePermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokePermissions not implemented")
 }
 func (*UnimplementedMsgServer) IssueLicenses(ctx context.Context, req *MsgIssueLicenses) (*MsgIssueLicensesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IssueLicenses not implemented")
@@ -1277,38 +1276,38 @@ func _Msg_CreateLicenseType_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_GrantAdminPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgGrantAdminPermissions)
+func _Msg_GrantPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgGrantPermissions)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).GrantAdminPermissions(ctx, in)
+		return srv.(MsgServer).GrantPermissions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/licenses.v1.Msg/GrantAdminPermissions",
+		FullMethod: "/licenses.v1.Msg/GrantPermissions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).GrantAdminPermissions(ctx, req.(*MsgGrantAdminPermissions))
+		return srv.(MsgServer).GrantPermissions(ctx, req.(*MsgGrantPermissions))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_RevokeAdminKeyPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgRevokeAdminKeyPermissions)
+func _Msg_RevokePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRevokePermissions)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).RevokeAdminKeyPermissions(ctx, in)
+		return srv.(MsgServer).RevokePermissions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/licenses.v1.Msg/RevokeAdminKeyPermissions",
+		FullMethod: "/licenses.v1.Msg/RevokePermissions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RevokeAdminKeyPermissions(ctx, req.(*MsgRevokeAdminKeyPermissions))
+		return srv.(MsgServer).RevokePermissions(ctx, req.(*MsgRevokePermissions))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1398,12 +1397,12 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_CreateLicenseType_Handler,
 		},
 		{
-			MethodName: "GrantAdminPermissions",
-			Handler:    _Msg_GrantAdminPermissions_Handler,
+			MethodName: "GrantPermissions",
+			Handler:    _Msg_GrantPermissions_Handler,
 		},
 		{
-			MethodName: "RevokeAdminKeyPermissions",
-			Handler:    _Msg_RevokeAdminKeyPermissions_Handler,
+			MethodName: "RevokePermissions",
+			Handler:    _Msg_RevokePermissions_Handler,
 		},
 		{
 			MethodName: "IssueLicenses",
@@ -1569,7 +1568,7 @@ func (m *MsgCreateLicenseTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, e
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgGrantAdminPermissions) Marshal() (dAtA []byte, err error) {
+func (m *MsgGrantPermissions) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1579,12 +1578,12 @@ func (m *MsgGrantAdminPermissions) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgGrantAdminPermissions) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgGrantPermissions) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgGrantAdminPermissions) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgGrantPermissions) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1620,7 +1619,7 @@ func (m *MsgGrantAdminPermissions) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgGrantAdminPermissionsResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgGrantPermissionsResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1630,12 +1629,12 @@ func (m *MsgGrantAdminPermissionsResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgGrantAdminPermissionsResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgGrantPermissionsResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgGrantAdminPermissionsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgGrantPermissionsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1643,7 +1642,7 @@ func (m *MsgGrantAdminPermissionsResponse) MarshalToSizedBuffer(dAtA []byte) (in
 	return len(dAtA) - i, nil
 }
 
-func (m *AdminKeyPermission) Marshal() (dAtA []byte, err error) {
+func (m *PermissionPair) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1653,12 +1652,12 @@ func (m *AdminKeyPermission) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *AdminKeyPermission) MarshalTo(dAtA []byte) (int, error) {
+func (m *PermissionPair) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *AdminKeyPermission) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *PermissionPair) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1678,7 +1677,7 @@ func (m *AdminKeyPermission) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgRevokeAdminKeyPermissions) Marshal() (dAtA []byte, err error) {
+func (m *MsgRevokePermissions) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1688,12 +1687,12 @@ func (m *MsgRevokeAdminKeyPermissions) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgRevokeAdminKeyPermissions) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgRevokePermissions) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgRevokeAdminKeyPermissions) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgRevokePermissions) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1729,7 +1728,7 @@ func (m *MsgRevokeAdminKeyPermissions) MarshalToSizedBuffer(dAtA []byte) (int, e
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgRevokeAdminKeyPermissionsResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgRevokePermissionsResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1739,12 +1738,12 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) Marshal() (dAtA []byte, err error
 	return dAtA[:n], nil
 }
 
-func (m *MsgRevokeAdminKeyPermissionsResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgRevokePermissionsResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgRevokeAdminKeyPermissionsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgRevokePermissionsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -2201,7 +2200,7 @@ func (m *MsgCreateLicenseTypeResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgGrantAdminPermissions) Size() (n int) {
+func (m *MsgGrantPermissions) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2224,7 +2223,7 @@ func (m *MsgGrantAdminPermissions) Size() (n int) {
 	return n
 }
 
-func (m *MsgGrantAdminPermissionsResponse) Size() (n int) {
+func (m *MsgGrantPermissionsResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2233,7 +2232,7 @@ func (m *MsgGrantAdminPermissionsResponse) Size() (n int) {
 	return n
 }
 
-func (m *AdminKeyPermission) Size() (n int) {
+func (m *PermissionPair) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2249,7 +2248,7 @@ func (m *AdminKeyPermission) Size() (n int) {
 	return n
 }
 
-func (m *MsgRevokeAdminKeyPermissions) Size() (n int) {
+func (m *MsgRevokePermissions) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2272,7 +2271,7 @@ func (m *MsgRevokeAdminKeyPermissions) Size() (n int) {
 	return n
 }
 
-func (m *MsgRevokeAdminKeyPermissionsResponse) Size() (n int) {
+func (m *MsgRevokePermissionsResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2837,7 +2836,7 @@ func (m *MsgCreateLicenseTypeResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgGrantAdminPermissions) Unmarshal(dAtA []byte) error {
+func (m *MsgGrantPermissions) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2860,10 +2859,10 @@ func (m *MsgGrantAdminPermissions) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgGrantAdminPermissions: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgGrantPermissions: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgGrantAdminPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgGrantPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2959,7 +2958,7 @@ func (m *MsgGrantAdminPermissions) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Grants = append(m.Grants, AdminKeyGrant{})
+			m.Grants = append(m.Grants, PermissionGrant{})
 			if err := m.Grants[len(m.Grants)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -2985,7 +2984,7 @@ func (m *MsgGrantAdminPermissions) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgGrantAdminPermissionsResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgGrantPermissionsResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3008,10 +3007,10 @@ func (m *MsgGrantAdminPermissionsResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgGrantAdminPermissionsResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgGrantPermissionsResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgGrantAdminPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgGrantPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -3035,7 +3034,7 @@ func (m *MsgGrantAdminPermissionsResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *AdminKeyPermission) Unmarshal(dAtA []byte) error {
+func (m *PermissionPair) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3058,10 +3057,10 @@ func (m *AdminKeyPermission) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: AdminKeyPermission: wiretype end group for non-group")
+			return fmt.Errorf("proto: PermissionPair: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: AdminKeyPermission: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: PermissionPair: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -3136,7 +3135,7 @@ func (m *AdminKeyPermission) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgRevokeAdminKeyPermissions) Unmarshal(dAtA []byte) error {
+func (m *MsgRevokePermissions) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3159,10 +3158,10 @@ func (m *MsgRevokeAdminKeyPermissions) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgRevokeAdminKeyPermissions: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgRevokePermissions: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgRevokeAdminKeyPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgRevokePermissions: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -3258,7 +3257,7 @@ func (m *MsgRevokeAdminKeyPermissions) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Permissions = append(m.Permissions, AdminKeyPermission{})
+			m.Permissions = append(m.Permissions, PermissionPair{})
 			if err := m.Permissions[len(m.Permissions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -3284,7 +3283,7 @@ func (m *MsgRevokeAdminKeyPermissions) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgRevokeAdminKeyPermissionsResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgRevokePermissionsResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3307,10 +3306,10 @@ func (m *MsgRevokeAdminKeyPermissionsResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgRevokeAdminKeyPermissionsResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgRevokePermissionsResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgRevokeAdminKeyPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgRevokePermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -25,7 +25,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Permission enumerates the admin-key permissions that can be granted.
+// Permission enumerates the permissions that can be granted to an address.
 type Permission int32
 
 const (
@@ -103,24 +103,24 @@ func (m *Params) GetOwner() string {
 	return ""
 }
 
-// AdminKeyGrant defines a permission grant for a specific set of license types.
-type AdminKeyGrant struct {
+// PermissionGrant defines a permission grant for a specific set of license types.
+type PermissionGrant struct {
 	Permission   Permission `protobuf:"varint,1,opt,name=permission,proto3,enum=licenses.v1.Permission" json:"permission,omitempty"`
 	LicenseTypes []string   `protobuf:"bytes,2,rep,name=license_types,json=licenseTypes,proto3" json:"license_types,omitempty"`
 }
 
-func (m *AdminKeyGrant) Reset()         { *m = AdminKeyGrant{} }
-func (m *AdminKeyGrant) String() string { return proto.CompactTextString(m) }
-func (*AdminKeyGrant) ProtoMessage()    {}
-func (*AdminKeyGrant) Descriptor() ([]byte, []int) {
+func (m *PermissionGrant) Reset()         { *m = PermissionGrant{} }
+func (m *PermissionGrant) String() string { return proto.CompactTextString(m) }
+func (*PermissionGrant) ProtoMessage()    {}
+func (*PermissionGrant) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5fef22f2330496a6, []int{1}
 }
-func (m *AdminKeyGrant) XXX_Unmarshal(b []byte) error {
+func (m *PermissionGrant) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *AdminKeyGrant) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *PermissionGrant) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_AdminKeyGrant.Marshal(b, m, deterministic)
+		return xxx_messageInfo_PermissionGrant.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -130,50 +130,50 @@ func (m *AdminKeyGrant) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *AdminKeyGrant) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AdminKeyGrant.Merge(m, src)
+func (m *PermissionGrant) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PermissionGrant.Merge(m, src)
 }
-func (m *AdminKeyGrant) XXX_Size() int {
+func (m *PermissionGrant) XXX_Size() int {
 	return m.Size()
 }
-func (m *AdminKeyGrant) XXX_DiscardUnknown() {
-	xxx_messageInfo_AdminKeyGrant.DiscardUnknown(m)
+func (m *PermissionGrant) XXX_DiscardUnknown() {
+	xxx_messageInfo_PermissionGrant.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AdminKeyGrant proto.InternalMessageInfo
+var xxx_messageInfo_PermissionGrant proto.InternalMessageInfo
 
-func (m *AdminKeyGrant) GetPermission() Permission {
+func (m *PermissionGrant) GetPermission() Permission {
 	if m != nil {
 		return m.Permission
 	}
 	return Permission_PERMISSION_UNSPECIFIED
 }
 
-func (m *AdminKeyGrant) GetLicenseTypes() []string {
+func (m *PermissionGrant) GetLicenseTypes() []string {
 	if m != nil {
 		return m.LicenseTypes
 	}
 	return nil
 }
 
-// AdminKey defines the set of grants for an address.
-type AdminKey struct {
-	Address string          `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Grants  []AdminKeyGrant `protobuf:"bytes,2,rep,name=grants,proto3" json:"grants"`
+// AddressPermissions defines the set of permission grants for an address.
+type AddressPermissions struct {
+	Address string            `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Grants  []PermissionGrant `protobuf:"bytes,2,rep,name=grants,proto3" json:"grants"`
 }
 
-func (m *AdminKey) Reset()         { *m = AdminKey{} }
-func (m *AdminKey) String() string { return proto.CompactTextString(m) }
-func (*AdminKey) ProtoMessage()    {}
-func (*AdminKey) Descriptor() ([]byte, []int) {
+func (m *AddressPermissions) Reset()         { *m = AddressPermissions{} }
+func (m *AddressPermissions) String() string { return proto.CompactTextString(m) }
+func (*AddressPermissions) ProtoMessage()    {}
+func (*AddressPermissions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5fef22f2330496a6, []int{2}
 }
-func (m *AdminKey) XXX_Unmarshal(b []byte) error {
+func (m *AddressPermissions) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *AdminKey) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *AddressPermissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_AdminKey.Marshal(b, m, deterministic)
+		return xxx_messageInfo_AddressPermissions.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -183,26 +183,26 @@ func (m *AdminKey) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *AdminKey) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AdminKey.Merge(m, src)
+func (m *AddressPermissions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddressPermissions.Merge(m, src)
 }
-func (m *AdminKey) XXX_Size() int {
+func (m *AddressPermissions) XXX_Size() int {
 	return m.Size()
 }
-func (m *AdminKey) XXX_DiscardUnknown() {
-	xxx_messageInfo_AdminKey.DiscardUnknown(m)
+func (m *AddressPermissions) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddressPermissions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AdminKey proto.InternalMessageInfo
+var xxx_messageInfo_AddressPermissions proto.InternalMessageInfo
 
-func (m *AdminKey) GetAddress() string {
+func (m *AddressPermissions) GetAddress() string {
 	if m != nil {
 		return m.Address
 	}
 	return ""
 }
 
-func (m *AdminKey) GetGrants() []AdminKeyGrant {
+func (m *AddressPermissions) GetGrants() []PermissionGrant {
 	if m != nil {
 		return m.Grants
 	}
@@ -212,14 +212,14 @@ func (m *AdminKey) GetGrants() []AdminKeyGrant {
 func init() {
 	proto.RegisterEnum("licenses.v1.Permission", Permission_name, Permission_value)
 	proto.RegisterType((*Params)(nil), "licenses.v1.Params")
-	proto.RegisterType((*AdminKeyGrant)(nil), "licenses.v1.AdminKeyGrant")
-	proto.RegisterType((*AdminKey)(nil), "licenses.v1.AdminKey")
+	proto.RegisterType((*PermissionGrant)(nil), "licenses.v1.PermissionGrant")
+	proto.RegisterType((*AddressPermissions)(nil), "licenses.v1.AddressPermissions")
 }
 
 func init() { proto.RegisterFile("licenses/v1/params.proto", fileDescriptor_5fef22f2330496a6) }
 
 var fileDescriptor_5fef22f2330496a6 = []byte{
-	// 403 bytes of a gzipped FileDescriptorProto
+	// 400 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0xc8, 0xc9, 0x4c, 0x4e,
 	0xcd, 0x2b, 0x4e, 0x2d, 0xd6, 0x2f, 0x33, 0xd4, 0x2f, 0x48, 0x2c, 0x4a, 0xcc, 0x2d, 0xd6, 0x2b,
 	0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x86, 0xc9, 0xe8, 0x95, 0x19, 0x4a, 0x09, 0x26, 0xe6, 0x66,
@@ -229,23 +229,22 @@ var fileDescriptor_5fef22f2330496a6 = []byte{
 	0x91, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0xa7, 0x93, 0xc4, 0xa5, 0x2d, 0xba, 0x22, 0x50, 0x03, 0x1c,
 	0x53, 0x52, 0x8a, 0x52, 0x8b, 0x8b, 0x83, 0x4b, 0x8a, 0x32, 0xf3, 0xd2, 0x83, 0x20, 0xca, 0xac,
 	0x94, 0x5f, 0x2c, 0x90, 0x67, 0xec, 0x7a, 0xbe, 0x41, 0x4b, 0xaa, 0x3c, 0x35, 0xa9, 0xb8, 0x24,
-	0x31, 0x39, 0x5b, 0xbf, 0x42, 0x1f, 0xee, 0x70, 0x88, 0xa1, 0x4a, 0xb9, 0x5c, 0xbc, 0x8e, 0x29,
-	0xb9, 0x99, 0x79, 0xde, 0xa9, 0x95, 0xee, 0x45, 0x89, 0x79, 0x25, 0x42, 0xe6, 0x5c, 0x5c, 0x05,
-	0xa9, 0x45, 0xb9, 0x99, 0xc5, 0xc5, 0x99, 0xf9, 0x79, 0x60, 0xab, 0xf8, 0x8c, 0xc4, 0xf5, 0x90,
-	0x7c, 0xa5, 0x17, 0x00, 0x97, 0x0e, 0x42, 0x52, 0x2a, 0xa4, 0xcc, 0xc5, 0x0b, 0x55, 0x15, 0x5f,
-	0x52, 0x59, 0x90, 0x5a, 0x2c, 0xc1, 0xa4, 0xc0, 0xac, 0xc1, 0x19, 0xc4, 0x03, 0x15, 0x0c, 0x01,
-	0x89, 0x29, 0x55, 0x70, 0x71, 0xc0, 0xac, 0x13, 0x32, 0xe2, 0x62, 0x4f, 0x84, 0xb8, 0x9b, 0xa0,
-	0x8f, 0x60, 0x0a, 0x85, 0x2c, 0xb8, 0xd8, 0xd2, 0x41, 0xce, 0x84, 0x98, 0xce, 0x6d, 0x24, 0x85,
-	0xe2, 0x32, 0x14, 0x9f, 0x38, 0xb1, 0x9c, 0xb8, 0x27, 0xcf, 0x10, 0x04, 0x55, 0xaf, 0x15, 0xca,
-	0xc5, 0x85, 0x70, 0xb8, 0x90, 0x14, 0x97, 0x58, 0x80, 0x6b, 0x90, 0xaf, 0x67, 0x70, 0xb0, 0xa7,
-	0xbf, 0x5f, 0x7c, 0xa8, 0x5f, 0x70, 0x80, 0xab, 0xb3, 0xa7, 0x9b, 0xa7, 0xab, 0x8b, 0x00, 0x83,
-	0x90, 0x08, 0x97, 0x00, 0x92, 0x9c, 0x67, 0x70, 0x70, 0xa8, 0xab, 0x00, 0xa3, 0x90, 0x28, 0x97,
-	0x20, 0x92, 0x68, 0x90, 0x6b, 0x98, 0xbf, 0xb7, 0xab, 0x00, 0x93, 0x93, 0xf7, 0x89, 0x47, 0x72,
-	0x8c, 0x17, 0x1e, 0xc9, 0x31, 0x3e, 0x78, 0x24, 0xc7, 0x38, 0xe1, 0xb1, 0x1c, 0xc3, 0x85, 0xc7,
-	0x72, 0x0c, 0x37, 0x1e, 0xcb, 0x31, 0x44, 0x19, 0xa6, 0x67, 0x96, 0x64, 0x94, 0x26, 0xe9, 0x25,
-	0xe7, 0xe7, 0xea, 0xc3, 0x22, 0x40, 0xb7, 0x38, 0x25, 0x5b, 0x1f, 0x5b, 0x6c, 0x80, 0x43, 0x2c,
-	0x89, 0x0d, 0x1c, 0xe5, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x53, 0x61, 0x63, 0x94, 0x5f,
-	0x02, 0x00, 0x00,
+	0x31, 0x39, 0x5b, 0xbf, 0x42, 0x1f, 0xee, 0x70, 0x88, 0xa1, 0x4a, 0xf9, 0x5c, 0xfc, 0x01, 0xa9,
+	0x45, 0xb9, 0x99, 0xc5, 0xc5, 0x99, 0xf9, 0x79, 0xee, 0x45, 0x89, 0x79, 0x25, 0x42, 0xe6, 0x5c,
+	0x5c, 0x05, 0x70, 0x21, 0xb0, 0x65, 0x7c, 0x46, 0xe2, 0x7a, 0x48, 0xfe, 0xd2, 0x43, 0xe8, 0x08,
+	0x42, 0x52, 0x2a, 0xa4, 0xcc, 0xc5, 0x0b, 0x55, 0x15, 0x5f, 0x52, 0x59, 0x90, 0x5a, 0x2c, 0xc1,
+	0xa4, 0xc0, 0xac, 0xc1, 0x19, 0xc4, 0x03, 0x15, 0x0c, 0x01, 0x89, 0x29, 0xb5, 0x30, 0x72, 0x09,
+	0x41, 0x9d, 0x8b, 0x30, 0xa6, 0x58, 0xc8, 0x88, 0x8b, 0x3d, 0x11, 0x22, 0x4a, 0xd0, 0x7b, 0x30,
+	0x85, 0x42, 0x56, 0x5c, 0x6c, 0xe9, 0x20, 0x17, 0x43, 0x2c, 0xe2, 0x36, 0x92, 0xc1, 0xe1, 0x48,
+	0xb0, 0xb7, 0x9c, 0x58, 0x4e, 0xdc, 0x93, 0x67, 0x08, 0x82, 0xea, 0xd0, 0x0a, 0xe5, 0xe2, 0x42,
+	0x28, 0x10, 0x92, 0xe2, 0x12, 0x0b, 0x70, 0x0d, 0xf2, 0xf5, 0x0c, 0x0e, 0xf6, 0xf4, 0xf7, 0x8b,
+	0x0f, 0xf5, 0x0b, 0x0e, 0x70, 0x75, 0xf6, 0x74, 0xf3, 0x74, 0x75, 0x11, 0x60, 0x10, 0x12, 0xe1,
+	0x12, 0x40, 0x92, 0xf3, 0x0c, 0x0e, 0x0e, 0x75, 0x15, 0x60, 0x14, 0x12, 0xe5, 0x12, 0x44, 0x12,
+	0x0d, 0x72, 0x0d, 0xf3, 0xf7, 0x76, 0x15, 0x60, 0x72, 0xf2, 0x3e, 0xf1, 0x48, 0x8e, 0xf1, 0xc2,
+	0x23, 0x39, 0xc6, 0x07, 0x8f, 0xe4, 0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1,
+	0xc6, 0x63, 0x39, 0x86, 0x28, 0xc3, 0xf4, 0xcc, 0x92, 0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc, 0x5c,
+	0x7d, 0x58, 0x7c, 0xe8, 0x16, 0xa7, 0x64, 0xeb, 0x63, 0x8b, 0x1c, 0x70, 0xf0, 0x25, 0xb1, 0x81,
+	0x53, 0x80, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x43, 0x89, 0xbf, 0xb0, 0x6e, 0x02, 0x00, 0x00,
 }
 
 func (this *Params) Equal(that interface{}) bool {
@@ -302,7 +301,7 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *AdminKeyGrant) Marshal() (dAtA []byte, err error) {
+func (m *PermissionGrant) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -312,12 +311,12 @@ func (m *AdminKeyGrant) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *AdminKeyGrant) MarshalTo(dAtA []byte) (int, error) {
+func (m *PermissionGrant) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *AdminKeyGrant) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *PermissionGrant) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -339,7 +338,7 @@ func (m *AdminKeyGrant) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *AdminKey) Marshal() (dAtA []byte, err error) {
+func (m *AddressPermissions) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -349,12 +348,12 @@ func (m *AdminKey) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *AdminKey) MarshalTo(dAtA []byte) (int, error) {
+func (m *AddressPermissions) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *AdminKey) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *AddressPermissions) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -407,7 +406,7 @@ func (m *Params) Size() (n int) {
 	return n
 }
 
-func (m *AdminKeyGrant) Size() (n int) {
+func (m *PermissionGrant) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -425,7 +424,7 @@ func (m *AdminKeyGrant) Size() (n int) {
 	return n
 }
 
-func (m *AdminKey) Size() (n int) {
+func (m *AddressPermissions) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -532,7 +531,7 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *AdminKeyGrant) Unmarshal(dAtA []byte) error {
+func (m *PermissionGrant) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -555,10 +554,10 @@ func (m *AdminKeyGrant) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: AdminKeyGrant: wiretype end group for non-group")
+			return fmt.Errorf("proto: PermissionGrant: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: AdminKeyGrant: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: PermissionGrant: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -633,7 +632,7 @@ func (m *AdminKeyGrant) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *AdminKey) Unmarshal(dAtA []byte) error {
+func (m *AddressPermissions) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -656,10 +655,10 @@ func (m *AdminKey) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: AdminKey: wiretype end group for non-group")
+			return fmt.Errorf("proto: AddressPermissions: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: AdminKey: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: AddressPermissions: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -723,7 +722,7 @@ func (m *AdminKey) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Grants = append(m.Grants, AdminKeyGrant{})
+			m.Grants = append(m.Grants, PermissionGrant{})
 			if err := m.Grants[len(m.Grants)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}

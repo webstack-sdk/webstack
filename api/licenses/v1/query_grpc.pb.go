@@ -19,17 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName                  = "/licenses.v1.Query/Params"
-	Query_Permissions_FullMethodName             = "/licenses.v1.Query/Permissions"
-	Query_LicenseType_FullMethodName             = "/licenses.v1.Query/LicenseType"
-	Query_LicenseTypes_FullMethodName            = "/licenses.v1.Query/LicenseTypes"
-	Query_License_FullMethodName                 = "/licenses.v1.Query/License"
-	Query_LicensesByType_FullMethodName          = "/licenses.v1.Query/LicensesByType"
-	Query_LicensesByHolder_FullMethodName        = "/licenses.v1.Query/LicensesByHolder"
-	Query_LicensesByHolderAndType_FullMethodName = "/licenses.v1.Query/LicensesByHolderAndType"
-	Query_AdminKey_FullMethodName                = "/licenses.v1.Query/AdminKey"
-	Query_AdminKeys_FullMethodName               = "/licenses.v1.Query/AdminKeys"
-	Query_AdminKeysByLicenseType_FullMethodName  = "/licenses.v1.Query/AdminKeysByLicenseType"
+	Query_Params_FullMethodName                   = "/licenses.v1.Query/Params"
+	Query_LicenseType_FullMethodName              = "/licenses.v1.Query/LicenseType"
+	Query_LicenseTypes_FullMethodName             = "/licenses.v1.Query/LicenseTypes"
+	Query_License_FullMethodName                  = "/licenses.v1.Query/License"
+	Query_LicensesByType_FullMethodName           = "/licenses.v1.Query/LicensesByType"
+	Query_LicensesByHolder_FullMethodName         = "/licenses.v1.Query/LicensesByHolder"
+	Query_LicensesByHolderAndType_FullMethodName  = "/licenses.v1.Query/LicensesByHolderAndType"
+	Query_PermissionsByAddress_FullMethodName     = "/licenses.v1.Query/PermissionsByAddress"
+	Query_Permissions_FullMethodName              = "/licenses.v1.Query/Permissions"
+	Query_PermissionsByLicenseType_FullMethodName = "/licenses.v1.Query/PermissionsByLicenseType"
 )
 
 // QueryClient is the client API for Query service.
@@ -38,8 +37,6 @@ const (
 type QueryClient interface {
 	// Params queries the module parameters.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
-	// Permissions returns the list of valid admin key permissions.
-	Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error)
 	// LicenseType queries a license type by id.
 	LicenseType(ctx context.Context, in *QueryLicenseTypeRequest, opts ...grpc.CallOption) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
@@ -56,12 +53,12 @@ type QueryClient interface {
 	// address for a specific type. Revoked licenses are not indexed by holder;
 	// use License or LicensesByType to look them up.
 	LicensesByHolderAndType(ctx context.Context, in *QueryLicensesByHolderAndTypeRequest, opts ...grpc.CallOption) (*QueryLicensesByHolderAndTypeResponse, error)
-	// AdminKey queries the admin key grants for a given address.
-	AdminKey(ctx context.Context, in *QueryAdminKeyRequest, opts ...grpc.CallOption) (*QueryAdminKeyResponse, error)
-	// AdminKeys queries all admin keys.
-	AdminKeys(ctx context.Context, in *QueryAdminKeysRequest, opts ...grpc.CallOption) (*QueryAdminKeysResponse, error)
-	// AdminKeysByLicenseType queries admin keys that have grants for a given license type.
-	AdminKeysByLicenseType(ctx context.Context, in *QueryAdminKeysByLicenseTypeRequest, opts ...grpc.CallOption) (*QueryAdminKeysByLicenseTypeResponse, error)
+	// PermissionsByAddress queries the permission grants for a given address.
+	PermissionsByAddress(ctx context.Context, in *QueryPermissionsByAddressRequest, opts ...grpc.CallOption) (*QueryPermissionsByAddressResponse, error)
+	// Permissions queries the permission grants of every address.
+	Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error)
+	// PermissionsByLicenseType queries addresses that have grants for a given license type.
+	PermissionsByLicenseType(ctx context.Context, in *QueryPermissionsByLicenseTypeRequest, opts ...grpc.CallOption) (*QueryPermissionsByLicenseTypeResponse, error)
 }
 
 type queryClient struct {
@@ -75,15 +72,6 @@ func NewQueryClient(cc grpc.ClientConnInterface) QueryClient {
 func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error) {
 	out := new(QueryParamsResponse)
 	err := c.cc.Invoke(ctx, Query_Params_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error) {
-	out := new(QueryPermissionsResponse)
-	err := c.cc.Invoke(ctx, Query_Permissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -144,27 +132,27 @@ func (c *queryClient) LicensesByHolderAndType(ctx context.Context, in *QueryLice
 	return out, nil
 }
 
-func (c *queryClient) AdminKey(ctx context.Context, in *QueryAdminKeyRequest, opts ...grpc.CallOption) (*QueryAdminKeyResponse, error) {
-	out := new(QueryAdminKeyResponse)
-	err := c.cc.Invoke(ctx, Query_AdminKey_FullMethodName, in, out, opts...)
+func (c *queryClient) PermissionsByAddress(ctx context.Context, in *QueryPermissionsByAddressRequest, opts ...grpc.CallOption) (*QueryPermissionsByAddressResponse, error) {
+	out := new(QueryPermissionsByAddressResponse)
+	err := c.cc.Invoke(ctx, Query_PermissionsByAddress_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) AdminKeys(ctx context.Context, in *QueryAdminKeysRequest, opts ...grpc.CallOption) (*QueryAdminKeysResponse, error) {
-	out := new(QueryAdminKeysResponse)
-	err := c.cc.Invoke(ctx, Query_AdminKeys_FullMethodName, in, out, opts...)
+func (c *queryClient) Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error) {
+	out := new(QueryPermissionsResponse)
+	err := c.cc.Invoke(ctx, Query_Permissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) AdminKeysByLicenseType(ctx context.Context, in *QueryAdminKeysByLicenseTypeRequest, opts ...grpc.CallOption) (*QueryAdminKeysByLicenseTypeResponse, error) {
-	out := new(QueryAdminKeysByLicenseTypeResponse)
-	err := c.cc.Invoke(ctx, Query_AdminKeysByLicenseType_FullMethodName, in, out, opts...)
+func (c *queryClient) PermissionsByLicenseType(ctx context.Context, in *QueryPermissionsByLicenseTypeRequest, opts ...grpc.CallOption) (*QueryPermissionsByLicenseTypeResponse, error) {
+	out := new(QueryPermissionsByLicenseTypeResponse)
+	err := c.cc.Invoke(ctx, Query_PermissionsByLicenseType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -177,8 +165,6 @@ func (c *queryClient) AdminKeysByLicenseType(ctx context.Context, in *QueryAdmin
 type QueryServer interface {
 	// Params queries the module parameters.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
-	// Permissions returns the list of valid admin key permissions.
-	Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error)
 	// LicenseType queries a license type by id.
 	LicenseType(context.Context, *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
@@ -195,12 +181,12 @@ type QueryServer interface {
 	// address for a specific type. Revoked licenses are not indexed by holder;
 	// use License or LicensesByType to look them up.
 	LicensesByHolderAndType(context.Context, *QueryLicensesByHolderAndTypeRequest) (*QueryLicensesByHolderAndTypeResponse, error)
-	// AdminKey queries the admin key grants for a given address.
-	AdminKey(context.Context, *QueryAdminKeyRequest) (*QueryAdminKeyResponse, error)
-	// AdminKeys queries all admin keys.
-	AdminKeys(context.Context, *QueryAdminKeysRequest) (*QueryAdminKeysResponse, error)
-	// AdminKeysByLicenseType queries admin keys that have grants for a given license type.
-	AdminKeysByLicenseType(context.Context, *QueryAdminKeysByLicenseTypeRequest) (*QueryAdminKeysByLicenseTypeResponse, error)
+	// PermissionsByAddress queries the permission grants for a given address.
+	PermissionsByAddress(context.Context, *QueryPermissionsByAddressRequest) (*QueryPermissionsByAddressResponse, error)
+	// Permissions queries the permission grants of every address.
+	Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error)
+	// PermissionsByLicenseType queries addresses that have grants for a given license type.
+	PermissionsByLicenseType(context.Context, *QueryPermissionsByLicenseTypeRequest) (*QueryPermissionsByLicenseTypeResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -210,9 +196,6 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
-}
-func (UnimplementedQueryServer) Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Permissions not implemented")
 }
 func (UnimplementedQueryServer) LicenseType(context.Context, *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LicenseType not implemented")
@@ -232,14 +215,14 @@ func (UnimplementedQueryServer) LicensesByHolder(context.Context, *QueryLicenses
 func (UnimplementedQueryServer) LicensesByHolderAndType(context.Context, *QueryLicensesByHolderAndTypeRequest) (*QueryLicensesByHolderAndTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LicensesByHolderAndType not implemented")
 }
-func (UnimplementedQueryServer) AdminKey(context.Context, *QueryAdminKeyRequest) (*QueryAdminKeyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminKey not implemented")
+func (UnimplementedQueryServer) PermissionsByAddress(context.Context, *QueryPermissionsByAddressRequest) (*QueryPermissionsByAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PermissionsByAddress not implemented")
 }
-func (UnimplementedQueryServer) AdminKeys(context.Context, *QueryAdminKeysRequest) (*QueryAdminKeysResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminKeys not implemented")
+func (UnimplementedQueryServer) Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Permissions not implemented")
 }
-func (UnimplementedQueryServer) AdminKeysByLicenseType(context.Context, *QueryAdminKeysByLicenseTypeRequest) (*QueryAdminKeysByLicenseTypeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminKeysByLicenseType not implemented")
+func (UnimplementedQueryServer) PermissionsByLicenseType(context.Context, *QueryPermissionsByLicenseTypeRequest) (*QueryPermissionsByLicenseTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PermissionsByLicenseType not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -268,24 +251,6 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Params(ctx, req.(*QueryParamsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_Permissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryPermissionsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).Permissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_Permissions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Permissions(ctx, req.(*QueryPermissionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -398,56 +363,56 @@ func _Query_LicensesByHolderAndType_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_AdminKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryAdminKeyRequest)
+func _Query_PermissionsByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryPermissionsByAddressRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).AdminKey(ctx, in)
+		return srv.(QueryServer).PermissionsByAddress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_AdminKey_FullMethodName,
+		FullMethod: Query_PermissionsByAddress_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).AdminKey(ctx, req.(*QueryAdminKeyRequest))
+		return srv.(QueryServer).PermissionsByAddress(ctx, req.(*QueryPermissionsByAddressRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_AdminKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryAdminKeysRequest)
+func _Query_Permissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryPermissionsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).AdminKeys(ctx, in)
+		return srv.(QueryServer).Permissions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_AdminKeys_FullMethodName,
+		FullMethod: Query_Permissions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).AdminKeys(ctx, req.(*QueryAdminKeysRequest))
+		return srv.(QueryServer).Permissions(ctx, req.(*QueryPermissionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_AdminKeysByLicenseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryAdminKeysByLicenseTypeRequest)
+func _Query_PermissionsByLicenseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryPermissionsByLicenseTypeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).AdminKeysByLicenseType(ctx, in)
+		return srv.(QueryServer).PermissionsByLicenseType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_AdminKeysByLicenseType_FullMethodName,
+		FullMethod: Query_PermissionsByLicenseType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).AdminKeysByLicenseType(ctx, req.(*QueryAdminKeysByLicenseTypeRequest))
+		return srv.(QueryServer).PermissionsByLicenseType(ctx, req.(*QueryPermissionsByLicenseTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -462,10 +427,6 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
-		},
-		{
-			MethodName: "Permissions",
-			Handler:    _Query_Permissions_Handler,
 		},
 		{
 			MethodName: "LicenseType",
@@ -492,16 +453,16 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Query_LicensesByHolderAndType_Handler,
 		},
 		{
-			MethodName: "AdminKey",
-			Handler:    _Query_AdminKey_Handler,
+			MethodName: "PermissionsByAddress",
+			Handler:    _Query_PermissionsByAddress_Handler,
 		},
 		{
-			MethodName: "AdminKeys",
-			Handler:    _Query_AdminKeys_Handler,
+			MethodName: "Permissions",
+			Handler:    _Query_Permissions_Handler,
 		},
 		{
-			MethodName: "AdminKeysByLicenseType",
-			Handler:    _Query_AdminKeysByLicenseType_Handler,
+			MethodName: "PermissionsByLicenseType",
+			Handler:    _Query_PermissionsByLicenseType_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -15,13 +15,13 @@ import (
 
 // Event names. Must match the event names in LicensesI.sol / abi.json.
 const (
-	EventTypeLicenseTypeCreated         = "LicenseTypeCreated"
-	EventTypeLicenseTypeUpdated         = "LicenseTypeUpdated"
-	EventTypeAdminPermissionsGranted    = "AdminPermissionsGranted"
-	EventTypeAdminKeyPermissionsRevoked = "AdminKeyPermissionsRevoked"
-	EventTypeLicenseIssued              = "LicenseIssued"
-	EventTypeLicenseRevoked             = "LicenseRevoked"
-	EventTypeLicenseTransferred         = "LicenseTransferred"
+	EventTypeLicenseTypeCreated = "LicenseTypeCreated"
+	EventTypeLicenseTypeUpdated = "LicenseTypeUpdated"
+	EventTypePermissionsGranted = "PermissionsGranted"
+	EventTypePermissionsRevoked = "PermissionsRevoked"
+	EventTypeLicenseIssued      = "LicenseIssued"
+	EventTypeLicenseRevoked     = "LicenseRevoked"
+	EventTypeLicenseTransferred = "LicenseTransferred"
 )
 
 // emitLog writes an EVM log entry to the stateDB.
@@ -76,9 +76,9 @@ func (p Precompile) EmitLicenseTypeUpdated(ctx sdk.Context, stateDB vm.StateDB, 
 	return nil
 }
 
-// EmitAdminPermissionsGranted emits the AdminPermissionsGranted event.
-func (p Precompile) EmitAdminPermissionsGranted(ctx sdk.Context, stateDB vm.StateDB, admin common.Address) error {
-	event := p.Events[EventTypeAdminPermissionsGranted]
+// EmitPermissionsGranted emits the PermissionsGranted event.
+func (p Precompile) EmitPermissionsGranted(ctx sdk.Context, stateDB vm.StateDB, admin common.Address) error {
+	event := p.Events[EventTypePermissionsGranted]
 
 	adminTopic, err := cmn.MakeTopic(admin)
 	if err != nil {
@@ -89,9 +89,9 @@ func (p Precompile) EmitAdminPermissionsGranted(ctx sdk.Context, stateDB vm.Stat
 	return nil
 }
 
-// EmitAdminKeyPermissionsRevoked emits the AdminKeyPermissionsRevoked event.
-func (p Precompile) EmitAdminKeyPermissionsRevoked(ctx sdk.Context, stateDB vm.StateDB, admin common.Address) error {
-	event := p.Events[EventTypeAdminKeyPermissionsRevoked]
+// EmitPermissionsRevoked emits the PermissionsRevoked event.
+func (p Precompile) EmitPermissionsRevoked(ctx sdk.Context, stateDB vm.StateDB, admin common.Address) error {
+	event := p.Events[EventTypePermissionsRevoked]
 
 	adminTopic, err := cmn.MakeTopic(admin)
 	if err != nil {

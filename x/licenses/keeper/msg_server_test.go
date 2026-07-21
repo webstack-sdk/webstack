@@ -167,10 +167,10 @@ func TestCreateLicenseType(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
-// GrantAdminPermissions
+// GrantPermissions
 // ---------------------------------------------------------------------------
 
-func TestGrantAdminPermissions(t *testing.T) {
+func TestGrantPermissions(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
@@ -182,16 +182,16 @@ func TestGrantAdminPermissions(t *testing.T) {
 
 	tests := []struct {
 		name      string
-		input     *types.MsgGrantAdminPermissions
+		input     *types.MsgGrantPermissions
 		expErr    bool
 		expErrMsg string
 	}{
 		{
 			name: "non-owner",
-			input: &types.MsgGrantAdminPermissions{
+			input: &types.MsgGrantPermissions{
 				Owner:   sample.AccAddress(),
 				Address: adminAddr,
-				Grants: []types.AdminKeyGrant{
+				Grants: []types.PermissionGrant{
 					{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}},
 				},
 			},
@@ -200,10 +200,10 @@ func TestGrantAdminPermissions(t *testing.T) {
 		},
 		{
 			name: "invalid address",
-			input: &types.MsgGrantAdminPermissions{
+			input: &types.MsgGrantPermissions{
 				Owner:   owner,
 				Address: "bad",
-				Grants: []types.AdminKeyGrant{
+				Grants: []types.PermissionGrant{
 					{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}},
 				},
 			},
@@ -212,10 +212,10 @@ func TestGrantAdminPermissions(t *testing.T) {
 		},
 		{
 			name: "invalid permission",
-			input: &types.MsgGrantAdminPermissions{
+			input: &types.MsgGrantPermissions{
 				Owner:   owner,
 				Address: adminAddr,
-				Grants: []types.AdminKeyGrant{
+				Grants: []types.PermissionGrant{
 					{Permission: types.Permission(99), LicenseTypes: []string{"t1"}},
 				},
 			},
@@ -224,10 +224,10 @@ func TestGrantAdminPermissions(t *testing.T) {
 		},
 		{
 			name: "empty license types",
-			input: &types.MsgGrantAdminPermissions{
+			input: &types.MsgGrantPermissions{
 				Owner:   owner,
 				Address: adminAddr,
-				Grants: []types.AdminKeyGrant{
+				Grants: []types.PermissionGrant{
 					{Permission: types.PermissionIssue, LicenseTypes: []string{}},
 				},
 			},
@@ -236,10 +236,10 @@ func TestGrantAdminPermissions(t *testing.T) {
 		},
 		{
 			name: "valid",
-			input: &types.MsgGrantAdminPermissions{
+			input: &types.MsgGrantPermissions{
 				Owner:   owner,
 				Address: adminAddr,
-				Grants: []types.AdminKeyGrant{
+				Grants: []types.PermissionGrant{
 					{Permission: types.PermissionIssue, LicenseTypes: []string{"t1", "t2"}},
 					{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}},
 				},
@@ -250,7 +250,7 @@ func TestGrantAdminPermissions(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			_, err := ms.GrantAdminPermissions(ctx, tc.input)
+			_, err := ms.GrantPermissions(ctx, tc.input)
 			if tc.expErr {
 				require.Error(t, err)
 				require.Contains(t, err.Error(), tc.expErrMsg)
@@ -265,9 +265,9 @@ func TestGrantAdminPermissions(t *testing.T) {
 	}
 }
 
-// TestGrantAdminPermissionsMerges verifies that repeated GrantAdminPermissions
+// TestGrantPermissionsMerges verifies that repeated GrantPermissions
 // calls for the same address accumulate grants rather than overwriting them.
-func TestGrantAdminPermissionsMerges(t *testing.T) {
+func TestGrantPermissionsMerges(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
@@ -276,30 +276,30 @@ func TestGrantAdminPermissionsMerges(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: adminAddr,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
 	})
 	require.NoError(t, err)
 
 	// Adding a new permission must not drop the previous one.
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: adminAddr,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}}},
 	})
 	require.NoError(t, err)
 
 	// Extending an existing permission with a new license type must union, not replace.
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: adminAddr,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t2", "t3"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t2", "t3"}}},
 	})
 	require.NoError(t, err)
 
 	// Re-granting the same (permission, license type) pair must be a no-op (dedup).
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: adminAddr,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
 	})
 	require.NoError(t, err)
 
@@ -311,7 +311,7 @@ func TestGrantAdminPermissionsMerges(t *testing.T) {
 
 	// State should be deterministic: grants sorted by permission, license types sorted within each grant,
 	// with no duplicates.
-	ak, found, err := k.GetAdminKey(ctx, adminAddr)
+	ak, found, err := k.GetPermissionsByAddress(ctx, adminAddr)
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Len(t, ak.Grants, 2)
@@ -322,10 +322,10 @@ func TestGrantAdminPermissionsMerges(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
-// RevokeAdminKeyPermissions
+// RevokePermissions
 // ---------------------------------------------------------------------------
 
-func TestRevokeAdminKeyPermissions(t *testing.T) {
+func TestRevokePermissions(t *testing.T) {
 	k, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
@@ -337,10 +337,10 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 	seed := func(t *testing.T) {
 		t.Helper()
 		// Reset to a known set of grants for each subtest.
-		require.NoError(t, k.AdminGrants.Clear(ctx, collections.NewPrefixedTripleRange[string, int32, string](adminAddr)))
-		_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		require.NoError(t, k.Permissions.Clear(ctx, collections.NewPrefixedTripleRange[string, int32, string](adminAddr)))
+		_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 			Owner: owner, Address: adminAddr,
-			Grants: []types.AdminKeyGrant{
+			Grants: []types.PermissionGrant{
 				{Permission: types.PermissionIssue, LicenseTypes: []string{"t1", "t2"}},
 				{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}},
 			},
@@ -350,10 +350,10 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 
 	t.Run("non-owner is rejected", func(t *testing.T) {
 		seed(t)
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner:   sample.AccAddress(),
 			Address: adminAddr,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "t1", Permission: types.PermissionIssue},
 			},
 		})
@@ -365,9 +365,9 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 
 	t.Run("removes matching pair, leaves others", func(t *testing.T) {
 		seed(t)
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner: owner, Address: adminAddr,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "t1", Permission: types.PermissionIssue},
 			},
 		})
@@ -379,14 +379,14 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 
 	t.Run("dropping last license type drops the grant", func(t *testing.T) {
 		seed(t)
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner: owner, Address: adminAddr,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "t1", Permission: types.PermissionRevoke},
 			},
 		})
 		require.NoError(t, err)
-		ak, found, err := k.GetAdminKey(ctx, adminAddr)
+		ak, found, err := k.GetPermissionsByAddress(ctx, adminAddr)
 		require.NoError(t, err)
 		require.True(t, found)
 		// Only the "issue" grant should remain — "revoke" had only t1, now empty.
@@ -394,27 +394,27 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 		require.Equal(t, types.PermissionIssue, ak.Grants[0].Permission)
 	})
 
-	t.Run("removing every pair deletes the admin key entry", func(t *testing.T) {
+	t.Run("removing every pair deletes the permissions entry", func(t *testing.T) {
 		seed(t)
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner: owner, Address: adminAddr,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "t1", Permission: types.PermissionIssue},
 				{LicenseTypeId: "t2", Permission: types.PermissionIssue},
 				{LicenseTypeId: "t1", Permission: types.PermissionRevoke},
 			},
 		})
 		require.NoError(t, err)
-		_, found, err := k.GetAdminKey(ctx, adminAddr)
+		_, found, err := k.GetPermissionsByAddress(ctx, adminAddr)
 		require.NoError(t, err)
-		require.False(t, found, "admin key entry should be gone when no grants remain")
+		require.False(t, found, "permissions entry should be gone when no grants remain")
 	})
 
 	t.Run("unknown pairs are silently ignored", func(t *testing.T) {
 		seed(t)
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner: owner, Address: adminAddr,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "does-not-exist", Permission: types.PermissionIssue},
 				{LicenseTypeId: "t1", Permission: types.Permission(99)},
 				{LicenseTypeId: "t2", Permission: types.PermissionIssue}, // this one matches
@@ -426,11 +426,11 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 		require.True(t, k.HasPermission(ctx, adminAddr, types.PermissionRevoke, "t1"))
 	})
 
-	t.Run("revoke on missing admin key is a no-op", func(t *testing.T) {
+	t.Run("revoke on missing permissions entry is a no-op", func(t *testing.T) {
 		other := sample.AccAddress()
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner: owner, Address: other,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "t1", Permission: types.PermissionIssue},
 			},
 		})
@@ -439,9 +439,9 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 
 	t.Run("re-grant after full removal works", func(t *testing.T) {
 		seed(t)
-		_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+		_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 			Owner: owner, Address: adminAddr,
-			Permissions: []types.AdminKeyPermission{
+			Permissions: []types.PermissionPair{
 				{LicenseTypeId: "t1", Permission: types.PermissionIssue},
 				{LicenseTypeId: "t2", Permission: types.PermissionIssue},
 				{LicenseTypeId: "t1", Permission: types.PermissionRevoke},
@@ -449,9 +449,9 @@ func TestRevokeAdminKeyPermissions(t *testing.T) {
 		})
 		require.NoError(t, err)
 
-		_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+		_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 			Owner: owner, Address: adminAddr,
-			Grants: []types.AdminKeyGrant{{Permission: types.PermissionRevoke, LicenseTypes: []string{"t2"}}},
+			Grants: []types.PermissionGrant{{Permission: types.PermissionRevoke, LicenseTypes: []string{"t2"}}},
 		})
 		require.NoError(t, err)
 		require.True(t, k.HasPermission(ctx, adminAddr, types.PermissionRevoke, "t2"))
@@ -473,9 +473,9 @@ func TestIssueLicenses(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}}},
 	})
 	require.NoError(t, err)
 
@@ -628,9 +628,9 @@ func TestIssueLicensesMultipleEntries(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"capped", "open"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"capped", "open"}}},
 	})
 	require.NoError(t, err)
 
@@ -709,14 +709,14 @@ func TestRevokeLicenses(t *testing.T) {
 		Owner: owner, Id: "rev", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"rev"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"rev"}}},
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: revoker,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionRevoke, LicenseTypes: []string{"rev"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionRevoke, LicenseTypes: []string{"rev"}}},
 	})
 	require.NoError(t, err)
 
@@ -803,9 +803,9 @@ func TestRevokeLicensesPreservesEndDate(t *testing.T) {
 		Owner: owner, Id: "ed", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: admin,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"ed"}},
 			{Permission: types.PermissionRevoke, LicenseTypes: []string{"ed"}},
 		},
@@ -852,9 +852,9 @@ func TestTransferLicense(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"xfer", "noxfer"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"xfer", "noxfer"}}},
 	})
 	require.NoError(t, err)
 
@@ -945,9 +945,9 @@ func TestIssueLicensesSupplyCheckIsUnsigned(t *testing.T) {
 		Owner: owner, Id: "lim", Transferrable: false, MaxSupply: math.NewInt(100),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"lim"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"lim"}}},
 	})
 	require.NoError(t, err)
 
@@ -961,54 +961,54 @@ func TestIssueLicensesSupplyCheckIsUnsigned(t *testing.T) {
 	require.Contains(t, err.Error(), "exceed max supply")
 }
 
-// TestGrantAdminPermissionsGrantsCap rejects an over-cap Grants slice.
-func TestGrantAdminPermissionsGrantsCap(t *testing.T) {
+// TestGrantPermissionsGrantsCap rejects an over-cap Grants slice.
+func TestGrantPermissionsGrantsCap(t *testing.T) {
 	_, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
-	grants := make([]types.AdminKeyGrant, types.MaxAdminGrants+1)
+	grants := make([]types.PermissionGrant, types.MaxPermissions+1)
 	for i := range grants {
-		grants[i] = types.AdminKeyGrant{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}
+		grants[i] = types.PermissionGrant{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}
 	}
 
-	_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: adminAddr, Grants: grants,
 	})
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "grants length")
 }
 
-// TestGrantAdminPermissionsLicenseTypesCap rejects an over-cap inner
+// TestGrantPermissionsLicenseTypesCap rejects an over-cap inner
 // LicenseTypes slice within a single grant.
-func TestGrantAdminPermissionsLicenseTypesCap(t *testing.T) {
+func TestGrantPermissionsLicenseTypesCap(t *testing.T) {
 	_, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
-	lts := make([]string, types.MaxAdminGrants+1)
+	lts := make([]string, types.MaxPermissions+1)
 	for i := range lts {
 		lts[i] = "t1"
 	}
 
-	_, err := ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner:   owner,
 		Address: adminAddr,
-		Grants:  []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: lts}},
+		Grants:  []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: lts}},
 	})
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "license_types length")
 }
 
-// TestRevokeAdminKeyPermissionsCap rejects an over-cap Permissions slice.
-func TestRevokeAdminKeyPermissionsCap(t *testing.T) {
+// TestRevokePermissionsCap rejects an over-cap Permissions slice.
+func TestRevokePermissionsCap(t *testing.T) {
 	_, ms, ctx, owner := setupWithOwner(t)
 	adminAddr := sample.AccAddress()
 
-	perms := make([]types.AdminKeyPermission, types.MaxAdminGrants+1)
+	perms := make([]types.PermissionPair, types.MaxPermissions+1)
 	for i := range perms {
-		perms[i] = types.AdminKeyPermission{LicenseTypeId: "t1", Permission: types.PermissionIssue}
+		perms[i] = types.PermissionPair{LicenseTypeId: "t1", Permission: types.PermissionIssue}
 	}
 
-	_, err := ms.RevokeAdminKeyPermissions(ctx, &types.MsgRevokeAdminKeyPermissions{
+	_, err := ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
 		Owner: owner, Address: adminAddr, Permissions: perms,
 	})
 	require.Error(t, err)
@@ -1026,9 +1026,9 @@ func TestIssueLicensesEntriesCap(t *testing.T) {
 		Owner: owner, Id: "cap", Transferrable: false, MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"cap"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"cap"}}},
 	})
 	require.NoError(t, err)
 
@@ -1058,9 +1058,9 @@ func TestTransferLicenseRejectsRevoked(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{
+		Grants: []types.PermissionGrant{
 			{Permission: types.PermissionIssue, LicenseTypes: []string{"xfer"}},
 			{Permission: types.PermissionRevoke, LicenseTypes: []string{"xfer"}},
 		},
@@ -1112,9 +1112,9 @@ func TestUpdateLicenseType(t *testing.T) {
 		Owner: owner, Id: "lt1", Transferrable: false, MaxSupply: math.NewInt(100),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantAdminPermissions(ctx, &types.MsgGrantAdminPermissions{
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
 		Owner: owner, Address: issuer,
-		Grants: []types.AdminKeyGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"lt1"}}},
+		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"lt1"}}},
 	})
 	require.NoError(t, err)
 	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{

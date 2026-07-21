@@ -15,18 +15,18 @@ import (
 	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
 )
 
-// AdminKeyGrantArg mirrors the Solidity AdminKeyGrant tuple.
+// PermissionGrantArg mirrors the Solidity PermissionGrant tuple.
 //
 // NOTE: this is a type *alias* so it matches the anonymous struct that
 // go-ethereum's ABI decoder generates for the corresponding `tuple[]` input.
-type AdminKeyGrantArg = struct {
+type PermissionGrantArg = struct {
 	Permission   string   `json:"permission"`
 	LicenseTypes []string `json:"licenseTypes"`
 }
 
 // IssueLicenseEntryArg mirrors the Solidity IssueLicenseEntry tuple.
 //
-// NOTE: alias type, see AdminKeyGrantArg.
+// NOTE: alias type, see PermissionGrantArg.
 type IssueLicenseEntryArg = struct {
 	LicenseTypeId string         `json:"licenseTypeId"`
 	Holder        common.Address `json:"holder"`
@@ -35,11 +35,11 @@ type IssueLicenseEntryArg = struct {
 	Count         uint64         `json:"count"`
 }
 
-// AdminKeyPermissionArg mirrors the Solidity AdminKeyPermission tuple
+// PermissionPairArg mirrors the Solidity PermissionPair tuple
 // (licenseTypeId, permission).
 //
-// NOTE: alias type, see AdminKeyGrantArg.
-type AdminKeyPermissionArg = struct {
+// NOTE: alias type, see PermissionGrantArg.
+type PermissionPairArg = struct {
 	LicenseTypeId string `json:"licenseTypeId"`
 	Permission    string `json:"permission"`
 }
@@ -70,16 +70,16 @@ type LicenseOutput struct {
 	RevokedDate string         `abi:"revokedDate"`
 }
 
-// AdminKeyGrantOutput mirrors the Solidity AdminKeyGrant tuple (output side).
-type AdminKeyGrantOutput struct {
+// PermissionGrantOutput mirrors the Solidity PermissionGrant tuple (output side).
+type PermissionGrantOutput struct {
 	Permission   string   `abi:"permission"`
 	LicenseTypes []string `abi:"licenseTypes"`
 }
 
-// AdminKeyOutput mirrors the Solidity AdminKey tuple (output side).
-type AdminKeyOutput struct {
-	AdminAddress common.Address        `abi:"adminAddress"`
-	Grants       []AdminKeyGrantOutput `abi:"grants"`
+// AddressPermissionsOutput mirrors the Solidity AddressPermissions tuple (output side).
+type AddressPermissionsOutput struct {
+	Grantee common.Address          `abi:"grantee"`
+	Grants  []PermissionGrantOutput `abi:"grants"`
 }
 
 // hexToBech32 converts an EVM address to its bech32 form using the chain's account codec.
@@ -160,12 +160,12 @@ func licensesToOutputs(ls []licensestypes.License) ([]LicenseOutput, error) {
 	return out, nil
 }
 
-// adminKeysToOutputs converts a slice of SDK AdminKeys into their ABI
+// addressPermissionsListToOutputs converts a slice of SDK Permissions into their ABI
 // counterparts, propagating the first decode error.
-func adminKeysToOutputs(aks []licensestypes.AdminKey) ([]AdminKeyOutput, error) {
-	out := make([]AdminKeyOutput, 0, len(aks))
+func addressPermissionsListToOutputs(aks []licensestypes.AddressPermissions) ([]AddressPermissionsOutput, error) {
+	out := make([]AddressPermissionsOutput, 0, len(aks))
 	for _, ak := range aks {
-		o, err := adminKeyToOutput(ak)
+		o, err := addressPermissionsToOutput(ak)
 		if err != nil {
 			return nil, err
 		}
@@ -174,23 +174,23 @@ func adminKeysToOutputs(aks []licensestypes.AdminKey) ([]AdminKeyOutput, error) 
 	return out, nil
 }
 
-// adminKeyToOutput converts an SDK AdminKey into its ABI counterpart. Returns
+// addressPermissionsToOutput converts an SDK AddressPermissions into its ABI counterpart. Returns
 // an error if the stored admin bech32 is malformed.
-func adminKeyToOutput(ak licensestypes.AdminKey) (AdminKeyOutput, error) {
+func addressPermissionsToOutput(ak licensestypes.AddressPermissions) (AddressPermissionsOutput, error) {
 	addr, err := bech32ToHex(ak.Address)
 	if err != nil {
-		return AdminKeyOutput{}, fmt.Errorf("admin key %s: %w", ak.Address, err)
+		return AddressPermissionsOutput{}, fmt.Errorf("permissions entry %s: %w", ak.Address, err)
 	}
-	grants := make([]AdminKeyGrantOutput, 0, len(ak.Grants))
+	grants := make([]PermissionGrantOutput, 0, len(ak.Grants))
 	for _, g := range ak.Grants {
-		grants = append(grants, AdminKeyGrantOutput{
+		grants = append(grants, PermissionGrantOutput{
 			Permission:   g.Permission.Short(),
 			LicenseTypes: append([]string{}, g.LicenseTypes...),
 		})
 	}
-	return AdminKeyOutput{
-		AdminAddress: addr,
-		Grants:       grants,
+	return AddressPermissionsOutput{
+		Grantee: addr,
+		Grants:  grants,
 	}, nil
 }
 

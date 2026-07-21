@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName              = "/licenses.v1.Msg/UpdateParams"
-	Msg_CreateLicenseType_FullMethodName         = "/licenses.v1.Msg/CreateLicenseType"
-	Msg_GrantAdminPermissions_FullMethodName     = "/licenses.v1.Msg/GrantAdminPermissions"
-	Msg_RevokeAdminKeyPermissions_FullMethodName = "/licenses.v1.Msg/RevokeAdminKeyPermissions"
-	Msg_IssueLicenses_FullMethodName             = "/licenses.v1.Msg/IssueLicenses"
-	Msg_RevokeLicenses_FullMethodName            = "/licenses.v1.Msg/RevokeLicenses"
-	Msg_TransferLicense_FullMethodName           = "/licenses.v1.Msg/TransferLicense"
-	Msg_UpdateLicenseType_FullMethodName         = "/licenses.v1.Msg/UpdateLicenseType"
+	Msg_UpdateParams_FullMethodName      = "/licenses.v1.Msg/UpdateParams"
+	Msg_CreateLicenseType_FullMethodName = "/licenses.v1.Msg/CreateLicenseType"
+	Msg_GrantPermissions_FullMethodName  = "/licenses.v1.Msg/GrantPermissions"
+	Msg_RevokePermissions_FullMethodName = "/licenses.v1.Msg/RevokePermissions"
+	Msg_IssueLicenses_FullMethodName     = "/licenses.v1.Msg/IssueLicenses"
+	Msg_RevokeLicenses_FullMethodName    = "/licenses.v1.Msg/RevokeLicenses"
+	Msg_TransferLicense_FullMethodName   = "/licenses.v1.Msg/TransferLicense"
+	Msg_UpdateLicenseType_FullMethodName = "/licenses.v1.Msg/UpdateLicenseType"
 )
 
 // MsgClient is the client API for Msg service.
@@ -37,13 +37,13 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	// CreateLicenseType creates a new license type. Signer must be the module owner.
 	CreateLicenseType(ctx context.Context, in *MsgCreateLicenseType, opts ...grpc.CallOption) (*MsgCreateLicenseTypeResponse, error)
-	// GrantAdminPermissions merges admin key grants for an address. Signer must be the module owner.
+	// GrantPermissions merges permission grants for an address. Signer must be the module owner.
 	// Existing grants for the address are preserved; new (permission, license type) pairs are unioned in.
-	GrantAdminPermissions(ctx context.Context, in *MsgGrantAdminPermissions, opts ...grpc.CallOption) (*MsgGrantAdminPermissionsResponse, error)
-	// RevokeAdminKeyPermissions removes the given (license type, permission) pairs from an admin
-	// key's grants. If a grant's license types become empty it is dropped; if all grants are gone
-	// the admin key entry itself is deleted. Signer must be the module owner.
-	RevokeAdminKeyPermissions(ctx context.Context, in *MsgRevokeAdminKeyPermissions, opts ...grpc.CallOption) (*MsgRevokeAdminKeyPermissionsResponse, error)
+	GrantPermissions(ctx context.Context, in *MsgGrantPermissions, opts ...grpc.CallOption) (*MsgGrantPermissionsResponse, error)
+	// RevokePermissions removes the given (license type, permission) pairs from an address's
+	// grants. Pairs that are not currently granted are silently ignored. Signer must be the
+	// module owner.
+	RevokePermissions(ctx context.Context, in *MsgRevokePermissions, opts ...grpc.CallOption) (*MsgRevokePermissionsResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(ctx context.Context, in *MsgIssueLicenses, opts ...grpc.CallOption) (*MsgIssueLicensesResponse, error)
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
@@ -81,18 +81,18 @@ func (c *msgClient) CreateLicenseType(ctx context.Context, in *MsgCreateLicenseT
 	return out, nil
 }
 
-func (c *msgClient) GrantAdminPermissions(ctx context.Context, in *MsgGrantAdminPermissions, opts ...grpc.CallOption) (*MsgGrantAdminPermissionsResponse, error) {
-	out := new(MsgGrantAdminPermissionsResponse)
-	err := c.cc.Invoke(ctx, Msg_GrantAdminPermissions_FullMethodName, in, out, opts...)
+func (c *msgClient) GrantPermissions(ctx context.Context, in *MsgGrantPermissions, opts ...grpc.CallOption) (*MsgGrantPermissionsResponse, error) {
+	out := new(MsgGrantPermissionsResponse)
+	err := c.cc.Invoke(ctx, Msg_GrantPermissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) RevokeAdminKeyPermissions(ctx context.Context, in *MsgRevokeAdminKeyPermissions, opts ...grpc.CallOption) (*MsgRevokeAdminKeyPermissionsResponse, error) {
-	out := new(MsgRevokeAdminKeyPermissionsResponse)
-	err := c.cc.Invoke(ctx, Msg_RevokeAdminKeyPermissions_FullMethodName, in, out, opts...)
+func (c *msgClient) RevokePermissions(ctx context.Context, in *MsgRevokePermissions, opts ...grpc.CallOption) (*MsgRevokePermissionsResponse, error) {
+	out := new(MsgRevokePermissionsResponse)
+	err := c.cc.Invoke(ctx, Msg_RevokePermissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -143,13 +143,13 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	// CreateLicenseType creates a new license type. Signer must be the module owner.
 	CreateLicenseType(context.Context, *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error)
-	// GrantAdminPermissions merges admin key grants for an address. Signer must be the module owner.
+	// GrantPermissions merges permission grants for an address. Signer must be the module owner.
 	// Existing grants for the address are preserved; new (permission, license type) pairs are unioned in.
-	GrantAdminPermissions(context.Context, *MsgGrantAdminPermissions) (*MsgGrantAdminPermissionsResponse, error)
-	// RevokeAdminKeyPermissions removes the given (license type, permission) pairs from an admin
-	// key's grants. If a grant's license types become empty it is dropped; if all grants are gone
-	// the admin key entry itself is deleted. Signer must be the module owner.
-	RevokeAdminKeyPermissions(context.Context, *MsgRevokeAdminKeyPermissions) (*MsgRevokeAdminKeyPermissionsResponse, error)
+	GrantPermissions(context.Context, *MsgGrantPermissions) (*MsgGrantPermissionsResponse, error)
+	// RevokePermissions removes the given (license type, permission) pairs from an address's
+	// grants. Pairs that are not currently granted are silently ignored. Signer must be the
+	// module owner.
+	RevokePermissions(context.Context, *MsgRevokePermissions) (*MsgRevokePermissionsResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error)
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
@@ -172,11 +172,11 @@ func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*
 func (UnimplementedMsgServer) CreateLicenseType(context.Context, *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLicenseType not implemented")
 }
-func (UnimplementedMsgServer) GrantAdminPermissions(context.Context, *MsgGrantAdminPermissions) (*MsgGrantAdminPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GrantAdminPermissions not implemented")
+func (UnimplementedMsgServer) GrantPermissions(context.Context, *MsgGrantPermissions) (*MsgGrantPermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GrantPermissions not implemented")
 }
-func (UnimplementedMsgServer) RevokeAdminKeyPermissions(context.Context, *MsgRevokeAdminKeyPermissions) (*MsgRevokeAdminKeyPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokeAdminKeyPermissions not implemented")
+func (UnimplementedMsgServer) RevokePermissions(context.Context, *MsgRevokePermissions) (*MsgRevokePermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokePermissions not implemented")
 }
 func (UnimplementedMsgServer) IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IssueLicenses not implemented")
@@ -239,38 +239,38 @@ func _Msg_CreateLicenseType_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_GrantAdminPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgGrantAdminPermissions)
+func _Msg_GrantPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgGrantPermissions)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).GrantAdminPermissions(ctx, in)
+		return srv.(MsgServer).GrantPermissions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_GrantAdminPermissions_FullMethodName,
+		FullMethod: Msg_GrantPermissions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).GrantAdminPermissions(ctx, req.(*MsgGrantAdminPermissions))
+		return srv.(MsgServer).GrantPermissions(ctx, req.(*MsgGrantPermissions))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_RevokeAdminKeyPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgRevokeAdminKeyPermissions)
+func _Msg_RevokePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRevokePermissions)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).RevokeAdminKeyPermissions(ctx, in)
+		return srv.(MsgServer).RevokePermissions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_RevokeAdminKeyPermissions_FullMethodName,
+		FullMethod: Msg_RevokePermissions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RevokeAdminKeyPermissions(ctx, req.(*MsgRevokeAdminKeyPermissions))
+		return srv.(MsgServer).RevokePermissions(ctx, req.(*MsgRevokePermissions))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -363,12 +363,12 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_CreateLicenseType_Handler,
 		},
 		{
-			MethodName: "GrantAdminPermissions",
-			Handler:    _Msg_GrantAdminPermissions_Handler,
+			MethodName: "GrantPermissions",
+			Handler:    _Msg_GrantPermissions_Handler,
 		},
 		{
-			MethodName: "RevokeAdminKeyPermissions",
-			Handler:    _Msg_RevokeAdminKeyPermissions_Handler,
+			MethodName: "RevokePermissions",
+			Handler:    _Msg_RevokePermissions_Handler,
 		},
 		{
 			MethodName: "IssueLicenses",

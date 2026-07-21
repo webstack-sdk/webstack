@@ -112,23 +112,23 @@ func (q Querier) LicensesByHolderAndType(ctx context.Context, req *types.QueryLi
 	return &types.QueryLicensesByHolderAndTypeResponse{Licenses: licenses}, nil
 }
 
-func (q Querier) AdminKey(ctx context.Context, req *types.QueryAdminKeyRequest) (*types.QueryAdminKeyResponse, error) {
-	ak, found, err := q.Keeper.GetAdminKey(ctx, req.Address)
+func (q Querier) PermissionsByAddress(ctx context.Context, req *types.QueryPermissionsByAddressRequest) (*types.QueryPermissionsByAddressResponse, error) {
+	ak, found, err := q.Keeper.GetPermissionsByAddress(ctx, req.Address)
 	if err != nil {
 		return nil, err
 	}
 	if !found {
-		return nil, types.ErrAdminKeyNotFound.Wrapf("admin key for %s not found", req.Address)
+		return nil, types.ErrPermissionsNotFound.Wrapf("permissions for %s not found", req.Address)
 	}
-	return &types.QueryAdminKeyResponse{AdminKey: ak}, nil
+	return &types.QueryPermissionsByAddressResponse{Permissions: ak}, nil
 }
 
-// paginateAdminKeys applies address-level pagination to a grouped admin key
+// paginatePermissions applies address-level pagination to a grouped permissions entry
 // slice (already in ascending address order). PageRequest.Key is an address:
 // results start at the first entry >= that address; NextKey is the address of
 // the first entry beyond the returned page. Offset is honored when Key is
 // unset.
-func paginateAdminKeys(adminKeys []types.AdminKey, page *query.PageRequest) ([]types.AdminKey, *query.PageResponse) {
+func paginatePermissions(adminKeys []types.AddressPermissions, page *query.PageRequest) ([]types.AddressPermissions, *query.PageResponse) {
 	limit := uint64(query.DefaultLimit)
 	var offset uint64
 	var startAddr string
@@ -165,22 +165,22 @@ func paginateAdminKeys(adminKeys []types.AdminKey, page *query.PageRequest) ([]t
 	return adminKeys[start:end], pageResp
 }
 
-func (q Querier) AdminKeys(ctx context.Context, req *types.QueryAdminKeysRequest) (*types.QueryAdminKeysResponse, error) {
-	all, err := q.Keeper.GetAdminKeys(ctx)
+func (q Querier) Permissions(ctx context.Context, req *types.QueryPermissionsRequest) (*types.QueryPermissionsResponse, error) {
+	all, err := q.Keeper.GetAllPermissions(ctx)
 	if err != nil {
 		return nil, err
 	}
-	page, pageResp := paginateAdminKeys(all, req.Pagination)
-	return &types.QueryAdminKeysResponse{AdminKeys: page, Pagination: pageResp}, nil
+	page, pageResp := paginatePermissions(all, req.Pagination)
+	return &types.QueryPermissionsResponse{Permissions: page, Pagination: pageResp}, nil
 }
 
-func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdminKeysByLicenseTypeRequest) (*types.QueryAdminKeysByLicenseTypeResponse, error) {
-	all, err := q.Keeper.GetAdminKeys(ctx)
+func (q Querier) PermissionsByLicenseType(ctx context.Context, req *types.QueryPermissionsByLicenseTypeRequest) (*types.QueryPermissionsByLicenseTypeResponse, error) {
+	all, err := q.Keeper.GetAllPermissions(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	matches := func(ak types.AdminKey) bool {
+	matches := func(ak types.AddressPermissions) bool {
 		for _, grant := range ak.Grants {
 			// The request carries the lowercase boundary form ("issue").
 			if req.Permission != "" && grant.Permission.Short() != req.Permission {
@@ -195,17 +195,13 @@ func (q Querier) AdminKeysByLicenseType(ctx context.Context, req *types.QueryAdm
 		return false
 	}
 
-	var filtered []types.AdminKey
+	var filtered []types.AddressPermissions
 	for _, ak := range all {
 		if matches(ak) {
 			filtered = append(filtered, ak)
 		}
 	}
 
-	page, pageResp := paginateAdminKeys(filtered, req.Pagination)
-	return &types.QueryAdminKeysByLicenseTypeResponse{AdminKeys: page, Pagination: pageResp}, nil
-}
-
-func (q Querier) Permissions(_ context.Context, _ *types.QueryPermissionsRequest) (*types.QueryPermissionsResponse, error) {
-	return &types.QueryPermissionsResponse{Permissions: types.ValidPermissionStrings()}, nil
+	page, pageResp := paginatePermissions(filtered, req.Pagination)
+	return &types.QueryPermissionsByLicenseTypeResponse{Permissions: page, Pagination: pageResp}, nil
 }
