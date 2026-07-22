@@ -130,10 +130,10 @@ import (
 
 	appconfig "github.com/webstack-sdk/webstack/config"
 	"github.com/webstack-sdk/webstack/docs"
-	licenses "github.com/webstack-sdk/webstack/x/licenses"
-	licenseskeeper "github.com/webstack-sdk/webstack/x/licenses/keeper"
-	licensesprecompile "github.com/webstack-sdk/webstack/x/licenses/precompile"
-	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
+	license "github.com/webstack-sdk/webstack/x/license"
+	licensekeeper "github.com/webstack-sdk/webstack/x/license/keeper"
+	licenseprecompile "github.com/webstack-sdk/webstack/x/license/precompile"
+	licensetypes "github.com/webstack-sdk/webstack/x/license/types"
 )
 
 func init() {
@@ -198,7 +198,7 @@ type WebstackApp struct {
 	EVMMempool        *evmmempool.ExperimentalEVMMempool
 
 	// Custom module keepers
-	LicensesKeeper licenseskeeper.Keeper
+	LicenseKeeper licensekeeper.Keeper
 
 	// the module manager
 	ModuleManager      *module.Manager
@@ -250,7 +250,7 @@ func NewApp(
 		// Cosmos EVM store keys
 		evmtypes.StoreKey, feemarkettypes.StoreKey, erc20types.StoreKey, precisebanktypes.StoreKey,
 		// Custom module store keys
-		licensestypes.StoreKey,
+		licensetypes.StoreKey,
 	)
 
 	tkeys := storetypes.NewTransientStoreKeys(evmtypes.TransientKey, feemarkettypes.TransientKey)
@@ -428,11 +428,11 @@ func NewApp(
 		app.AccountKeeper,
 	)
 
-	// LicensesKeeper is constructed before the EVM keeper so that the licenses
+	// LicenseKeeper is constructed before the EVM keeper so that the licenses
 	// precompile can be registered alongside the upstream static precompiles.
-	app.LicensesKeeper = licenseskeeper.NewKeeper(
+	app.LicenseKeeper = licensekeeper.NewKeeper(
 		appCodec,
-		runtime.NewKVStoreService(keys[licensestypes.StoreKey]),
+		runtime.NewKVStoreService(keys[licensetypes.StoreKey]),
 		logger,
 		authAddr,
 	)
@@ -452,19 +452,19 @@ func NewApp(
 		app.SlashingKeeper,
 		appCodec,
 	)
-	licensesPrecompile := licensesprecompile.NewPrecompile(
-		app.LicensesKeeper,
+	licensePrecompile := licenseprecompile.NewPrecompile(
+		app.LicenseKeeper,
 		evmAddrCodec,
-		common.HexToAddress(licensestypes.PrecompileAddress),
+		common.HexToAddress(licensetypes.PrecompileAddress),
 	)
 	// Guard against silent collision if a future cosmos/evm upgrade ships a
 	// stock precompile at the same address. The licenses precompile claims
 	// an application-reserved slot; if upstream ever lands one there, we
 	// want to fail loud at start-up rather than overwrite either side.
-	if _, exists := staticPrecompiles[licensesPrecompile.Address()]; exists {
-		panic(fmt.Sprintf("precompile address %s is already registered", licensesPrecompile.Address()))
+	if _, exists := staticPrecompiles[licensePrecompile.Address()]; exists {
+		panic(fmt.Sprintf("precompile address %s is already registered", licensePrecompile.Address()))
 	}
-	staticPrecompiles[licensesPrecompile.Address()] = licensesPrecompile
+	staticPrecompiles[licensePrecompile.Address()] = licensePrecompile
 
 	app.EVMKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], keys,
@@ -566,7 +566,7 @@ func NewApp(
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		precisebank.NewAppModule(app.PreciseBankKeeper, app.BankKeeper, app.AccountKeeper),
 		// Custom modules
-		licenses.NewAppModule(appCodec, app.LicensesKeeper),
+		license.NewAppModule(appCodec, app.LicenseKeeper),
 	)
 
 	app.BasicModuleManager = module.NewBasicManagerFromManager(
@@ -626,7 +626,7 @@ func NewApp(
 		precisebanktypes.ModuleName,
 		ibctransfertypes.ModuleName,
 		// Custom modules
-		licensestypes.ModuleName,
+		licensetypes.ModuleName,
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
 		feegrant.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
 	}

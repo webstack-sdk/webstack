@@ -1,0 +1,30 @@
+syntax = "proto3";
+package license.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "license/v1/license.proto";
+import "license/v1/license_type.proto";
+import "license/v1/params.proto";
+
+option go_package = "github.com/webstack-sdk/webstack/x/license/types";
+
+// LicenseCount is the next-id sequence entry for one license type. It is
+// exported explicitly rather than derived from LicenseType.issued_count so
+// the id sequence and the stats counter remain independent concepts.
+message LicenseCount {
+  string license_type_id = 1;
+  uint64 count = 2;
+}
+
+// GenesisState defines the licenses module's genesis state.
+message GenesisState {
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  repeated LicenseType license_types = 2 [(gogoproto.nullable) = false];
+  repeated License licenses = 3 [(gogoproto.nullable) = false];
+  repeated AddressPermissions permissions = 4 [(gogoproto.nullable) = false];
+  repeated LicenseCount license_counts = 5 [(gogoproto.nullable) = false];
+}
