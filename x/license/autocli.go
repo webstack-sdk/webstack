@@ -1,0 +1,166 @@
+package license
+
+import (
+	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
+	modulev1 "github.com/webstack-sdk/webstack/api/license/v1"
+)
+
+func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
+	return &autocliv1.ModuleOptions{
+		Query: &autocliv1.ServiceCommandDescriptor{
+			Service: modulev1.Query_ServiceDesc.ServiceName,
+			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
+				{
+					RpcMethod: "Params",
+					Use:       "params",
+					Short:     "Query the licenses module parameters",
+				},
+				{
+					RpcMethod: "LicenseType",
+					Use:       "license-type [id]",
+					Short:     "Query a license type by id",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "id"},
+					},
+				},
+				{
+					RpcMethod: "LicenseTypes",
+					Use:       "license-types",
+					Short:     "Query all license types",
+				},
+				{
+					RpcMethod: "License",
+					Use:       "license [type-id] [id]",
+					Short:     "Query a license by type and id",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "type_id"},
+						{ProtoField: "id"},
+					},
+				},
+				{
+					RpcMethod: "Licenses",
+					Use:       "licenses",
+					Short:     "Query all licenses across all types",
+				},
+				{
+					RpcMethod: "LicensesByType",
+					Use:       "licenses-by-type [type-id]",
+					Short:     "Query all licenses for a given type",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "type_id"},
+					},
+				},
+				{
+					RpcMethod: "LicensesByHolder",
+					Use:       "licenses-by-holder [holder]",
+					Short:     "Query all licenses held by an address",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "holder"},
+					},
+				},
+				{
+					RpcMethod: "LicensesByHolderAndType",
+					Use:       "licenses-by-holder-and-type [holder] [type-id]",
+					Short:     "Query licenses by holder and type",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "holder"},
+						{ProtoField: "type_id"},
+					},
+				},
+				{
+					RpcMethod: "PermissionsByAddress",
+					Use:       "permissions-by-address [address]",
+					Short:     "Query permission grants for an address",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "address"},
+					},
+				},
+				{
+					RpcMethod: "Permissions",
+					Use:       "permissions",
+					Short:     "Query permission grants of every address",
+				},
+				{
+					RpcMethod: "PermissionsByLicenseType",
+					Use:       "permissions-by-license-type [license-type-id]",
+					Short:     "Query permission grants for a license type",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "license_type_id"},
+					},
+				},
+			},
+		},
+		Tx: &autocliv1.ServiceCommandDescriptor{
+			Service:              modulev1.Msg_ServiceDesc.ServiceName,
+			EnhanceCustomCommand: true,
+			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
+				{
+					RpcMethod: "CreateLicenseType",
+					Use:       "create-license-type [id] [transferrable]",
+					Short:     "Create a new license type",
+					Long:      "Create a new license type. Use --max-supply to limit the number of licenses (default 0 = unlimited).",
+					Example:   "webstackd tx licenses create-license-type node.license true --max-supply 1000 --from owner",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "id"},
+						{ProtoField: "transferrable"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"max_supply": {Name: "max-supply", DefaultValue: "0", Usage: "maximum number of licenses that can be issued (0 = unlimited)"},
+					},
+				},
+				{
+					RpcMethod: "UpdateLicenseType",
+					Use:       "update-license-type [id]",
+					Short:     "Update a license type",
+					Long:      "Update a license type's transferrability and/or max supply.",
+					Example:   "webstackd tx licenses update-license-type node.license --transferrable true --max-supply 2000 --from owner",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "id"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"transferrable": {Name: "transferrable", Usage: "whether licenses of this type can be transferred"},
+						"max_supply":    {Name: "max-supply", DefaultValue: "0", Usage: "maximum number of licenses (0 = unlimited)"},
+					},
+				},
+				{
+					RpcMethod: "RevokeLicenses",
+					Use:       "revoke-licenses [license-type-id] [holder] [count]",
+					Short:     "Revoke licenses for a holder, most recent first",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "license_type_id"},
+						{ProtoField: "holder"},
+						{ProtoField: "count"},
+					},
+				},
+				{
+					RpcMethod: "TransferLicense",
+					Use:       "transfer-license [license-type-id] [id] [recipient]",
+					Short:     "Transfer a license to a new holder",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "license_type_id"},
+						{ProtoField: "id"},
+						{ProtoField: "recipient"},
+					},
+				},
+				{
+					RpcMethod: "UpdateParams",
+					Skip:      true,
+				},
+				{
+					RpcMethod: "GrantPermissions",
+					Skip:      true,
+				},
+				{
+					RpcMethod: "RevokePermissions",
+					Skip:      true,
+				},
+				{
+					// Handled by the custom CmdIssueLicenses command; the
+					// repeated entries field doesn't map to positional args.
+					RpcMethod: "IssueLicenses",
+					Skip:      true,
+				},
+			},
+		},
+	}
+}

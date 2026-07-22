@@ -20,8 +20,8 @@ BASEFEE=10000000
 # (see config/config.go); declared here so the script and downstream tooling agree
 # on it. Update both this var AND the Go side if the prefix ever changes.
 BECH32_PREFIX="webstack"
-# Bech32 address that owns the x/licenses module in genesis. The owner is the
-# only signer allowed to create license types and grant admin keys.
+# Bech32 address that owns the x/license module in genesis. The owner is the
+# only signer allowed to create license types and grant permissions.
 LICENSES_OWNER="webstack1trg2p4ugswx8p0ywqpg2wrhgddknh0jqq6jxta"
 
 CONFIG_TOML="$CHAINDIR/config/config.toml"
@@ -31,6 +31,13 @@ TMP_GENESIS="$CHAINDIR/config/tmp_genesis.json"
 
 # ---------- Dependency checks ----------
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq is required but not installed. Install it: brew install jq"; exit 1; }
+# `go install` drops the binary in GOBIN (default GOPATH/bin), which is often
+# not on PATH; add it so `make sh-testnet` works out of the box.
+if command -v go >/dev/null 2>&1; then
+  GOBIN_DIR="$(go env GOBIN)"
+  [ -z "$GOBIN_DIR" ] && GOBIN_DIR="$(go env GOPATH)/bin"
+  PATH="$PATH:$GOBIN_DIR"
+fi
 command -v "$BINARY" >/dev/null 2>&1 || { echo >&2 "$BINARY not found in PATH. Run 'make install' first or let 'make sh-testnet' handle it."; exit 1; }
 
 # ---------- Flags ----------
@@ -112,8 +119,8 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "uri_hash": ""
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
-  # Enable all static precompiles. Must include the licenses precompile (0x1900)
-  # so callers can dispatch into x/licenses via the EVM.
+  # Enable all static precompiles. Must include the license precompile (0x1900)
+  # so callers can dispatch into x/license via the EVM.
   jq '.app_state["evm"]["params"]["active_static_precompiles"]=[
     "0x0000000000000000000000000000000000000100",
     "0x0000000000000000000000000000000000000400",
@@ -137,11 +144,11 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "enabled": true
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
-  # Set licenses module owner
-  jq '.app_state["licenses"]["params"]["owner"]="'"$LICENSES_OWNER"'"' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+  # Set license module owner
+  jq '.app_state["license"]["params"]["owner"]="'"$LICENSES_OWNER"'"' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # Seed the webstack.node license type. max_supply="0" means unlimited.
-  jq '.app_state["licenses"]["license_types"]=[{
+  jq '.app_state["license"]["license_types"]=[{
     "id": "webstack.node",
     "transferrable": false,
     "max_supply": "0",
@@ -150,13 +157,13 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "revoked_count": "0"
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
-  # Grant the owner issue+revoke admin rights over webstack.node so the testnet
-  # can mint and revoke licenses from genesis without an extra grant-admin-permissions tx.
-  jq '.app_state["licenses"]["admin_keys"]=[{
+  # Grant the owner issue+revoke rights over webstack.node so the testnet
+  # can mint and revoke licenses from genesis without an extra grant-permissions tx.
+  jq '.app_state["license"]["permissions"]=[{
     "address": "'"$LICENSES_OWNER"'",
     "grants": [
-      { "permission": "issue",  "license_types": ["webstack.node"] },
-      { "permission": "revoke", "license_types": ["webstack.node"] }
+      { "permission": "PERMISSION_ISSUE",  "license_types": ["webstack.node"] },
+      { "permission": "PERMISSION_REVOKE", "license_types": ["webstack.node"] }
     ]
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 

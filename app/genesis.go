@@ -11,7 +11,7 @@ import (
 
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 
-	licensestypes "github.com/webstack-sdk/webstack/x/licenses/types"
+	licensetypes "github.com/webstack-sdk/webstack/x/license/types"
 )
 
 // GenesisState of the blockchain is represented here as a map of raw json
@@ -26,7 +26,7 @@ func NewEVMGenesisState() *evmtypes.GenesisState {
 	// registered in the static precompile map.
 	evmGenState.Params.ActiveStaticPrecompiles = append(
 		append([]string{}, evmtypes.AvailableStaticPrecompiles...),
-		licensestypes.PrecompileAddress,
+		licensetypes.PrecompileAddress,
 	)
 	evmGenState.Preinstalls = evmtypes.DefaultPreinstalls
 

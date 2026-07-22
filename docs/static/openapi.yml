@@ -12,7 +12,7 @@
     "application/json"
   ],
   "paths": {
-    "/webstack/licenses/admin_key/{address}": {
+    "/webstack/license/admin_key/{address}": {
       "get": {
         "operationId": "Query_AdminKey",
         "responses": {
@@ -42,7 +42,7 @@
         ]
       }
     },
-    "/webstack/licenses/admin_keys": {
+    "/webstack/license/admin_keys": {
       "get": {
         "operationId": "Query_AdminKeys",
         "responses": {
@@ -99,7 +99,7 @@
         ]
       }
     },
-    "/webstack/licenses/admin_keys_by_license_type/{license_type_id}": {
+    "/webstack/license/admin_keys_by_license_type/{license_type_id}": {
       "get": {
         "operationId": "Query_AdminKeysByLicenseType",
         "responses": {
@@ -168,7 +168,7 @@
         ]
       }
     },
-    "/webstack/licenses/license/{type_id}/{id}": {
+    "/webstack/license/license/{type_id}/{id}": {
       "get": {
         "operationId": "Query_License",
         "responses": {
@@ -205,7 +205,7 @@
         ]
       }
     },
-    "/webstack/licenses/license_type/{id}": {
+    "/webstack/license/license_type/{id}": {
       "get": {
         "operationId": "Query_LicenseType",
         "responses": {
@@ -235,7 +235,7 @@
         ]
       }
     },
-    "/webstack/licenses/license_types": {
+    "/webstack/license/license_types": {
       "get": {
         "operationId": "Query_LicenseTypes",
         "responses": {
@@ -292,7 +292,7 @@
         ]
       }
     },
-    "/webstack/licenses/licenses_by_holder/{holder}": {
+    "/webstack/license/licenses_by_holder/{holder}": {
       "get": {
         "operationId": "Query_LicensesByHolder",
         "responses": {
@@ -355,7 +355,7 @@
         ]
       }
     },
-    "/webstack/licenses/licenses_by_holder/{holder}/{type_id}": {
+    "/webstack/license/licenses_by_holder/{holder}/{type_id}": {
       "get": {
         "operationId": "Query_LicensesByHolderAndType",
         "responses": {
@@ -424,7 +424,7 @@
         ]
       }
     },
-    "/webstack/licenses/licenses_by_type/{type_id}": {
+    "/webstack/license/licenses_by_type/{type_id}": {
       "get": {
         "operationId": "Query_LicensesByType",
         "responses": {
@@ -487,7 +487,7 @@
         ]
       }
     },
-    "/webstack/licenses/params": {
+    "/webstack/license/params": {
       "get": {
         "operationId": "Query_Params",
         "responses": {
@@ -509,7 +509,7 @@
         ]
       }
     },
-    "/webstack/licenses/permissions": {
+    "/webstack/license/permissions": {
       "get": {
         "operationId": "Query_Permissions",
         "responses": {
@@ -531,7 +531,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/update_params": {
+    "/webstack/license/tx/update_params": {
       "post": {
         "operationId": "Msg_UpdateParams",
         "responses": {
@@ -563,7 +563,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/create_license_type": {
+    "/webstack/license/tx/create_license_type": {
       "post": {
         "operationId": "Msg_CreateLicenseType",
         "responses": {
@@ -595,7 +595,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/set_admin_key": {
+    "/webstack/license/tx/set_admin_key": {
       "post": {
         "operationId": "Msg_SetAdminKey",
         "responses": {
@@ -627,7 +627,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/remove_admin_key": {
+    "/webstack/license/tx/remove_admin_key": {
       "post": {
         "operationId": "Msg_RemoveAdminKey",
         "responses": {
@@ -659,7 +659,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/issue_license": {
+    "/webstack/license/tx/issue_license": {
       "post": {
         "operationId": "Msg_IssueLicense",
         "responses": {
@@ -691,7 +691,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/revoke_license": {
+    "/webstack/license/tx/revoke_license": {
       "post": {
         "operationId": "Msg_RevokeLicense",
         "responses": {
@@ -723,7 +723,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/update_license": {
+    "/webstack/license/tx/update_license": {
       "post": {
         "operationId": "Msg_UpdateLicense",
         "responses": {
@@ -755,7 +755,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/transfer_license": {
+    "/webstack/license/tx/transfer_license": {
       "post": {
         "operationId": "Msg_TransferLicense",
         "responses": {
@@ -787,7 +787,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/update_license_type": {
+    "/webstack/license/tx/update_license_type": {
       "post": {
         "operationId": "Msg_UpdateLicenseType",
         "responses": {
@@ -819,7 +819,7 @@
         ]
       }
     },
-    "/webstack/licenses/tx/batch_issue_license": {
+    "/webstack/license/tx/batch_issue_license": {
       "post": {
         "operationId": "Msg_BatchIssueLicense",
         "responses": {
@@ -935,7 +935,7 @@
       "type": "object",
       "properties": {
         "admin_key": {
-          "$ref": "#/definitions/licenses.AdminKey"
+          "$ref": "#/definitions/license.AdminKey"
         }
       }
     },
@@ -946,7 +946,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/licenses.AdminKey"
+            "$ref": "#/definitions/license.AdminKey"
           }
         },
         "pagination": {
@@ -961,7 +961,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/licenses.AdminKey"
+            "$ref": "#/definitions/license.AdminKey"
           }
         },
         "pagination": {
@@ -973,7 +973,7 @@
       "type": "object",
       "properties": {
         "license": {
-          "$ref": "#/definitions/licenses.License"
+          "$ref": "#/definitions/license.License"
         }
       }
     },
@@ -981,7 +981,7 @@
       "type": "object",
       "properties": {
         "license_type": {
-          "$ref": "#/definitions/licenses.LicenseType"
+          "$ref": "#/definitions/license.LicenseType"
         }
       }
     },
@@ -992,7 +992,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/licenses.LicenseType"
+            "$ref": "#/definitions/license.LicenseType"
           }
         },
         "pagination": {
@@ -1007,7 +1007,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/licenses.License"
+            "$ref": "#/definitions/license.License"
           }
         },
         "pagination": {
@@ -1022,7 +1022,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/licenses.License"
+            "$ref": "#/definitions/license.License"
           }
         },
         "pagination": {
@@ -1037,7 +1037,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/licenses.License"
+            "$ref": "#/definitions/license.License"
           }
         },
         "pagination": {
@@ -1049,7 +1049,7 @@
       "type": "object",
       "properties": {
         "params": {
-          "$ref": "#/definitions/licenses.Params"
+          "$ref": "#/definitions/license.Params"
         }
       }
     },
@@ -1071,7 +1071,7 @@
           "type": "string"
         },
         "params": {
-          "$ref": "#/definitions/licenses.Params"
+          "$ref": "#/definitions/license.Params"
         }
       }
     },
@@ -1293,7 +1293,7 @@
         }
       }
     },
-    "licenses.AdminKey": {
+    "license.AdminKey": {
       "type": "object",
       "properties": {
         "address": {
@@ -1308,7 +1308,7 @@
         }
       }
     },
-    "licenses.License": {
+    "license.License": {
       "type": "object",
       "properties": {
         "id": {
@@ -1332,7 +1332,7 @@
         }
       }
     },
-    "licenses.LicenseType": {
+    "license.LicenseType": {
       "type": "object",
       "properties": {
         "id": {
@@ -1349,7 +1349,7 @@
         }
       }
     },
-    "licenses.Params": {
+    "license.Params": {
       "type": "object",
       "properties": {
         "owner": {
