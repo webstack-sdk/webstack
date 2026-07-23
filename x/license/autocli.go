@@ -11,11 +11,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			Service: modulev1.Query_ServiceDesc.ServiceName,
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
 				{
-					RpcMethod: "Params",
-					Use:       "params",
-					Short:     "Query the licenses module parameters",
-				},
-				{
 					RpcMethod: "LicenseType",
 					Use:       "license-type [id]",
 					Short:     "Query a license type by id",
@@ -65,27 +60,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "holder"},
 						{ProtoField: "type_id"},
-					},
-				},
-				{
-					RpcMethod: "PermissionsByAddress",
-					Use:       "permissions-by-address [address]",
-					Short:     "Query permission grants for an address",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "address"},
-					},
-				},
-				{
-					RpcMethod: "Permissions",
-					Use:       "permissions",
-					Short:     "Query permission grants of every address",
-				},
-				{
-					RpcMethod: "PermissionsByLicenseType",
-					Use:       "permissions-by-license-type [license-type-id]",
-					Short:     "Query permission grants for a license type",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "license_type_id"},
 					},
 				},
 			},
@@ -141,18 +115,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "id"},
 						{ProtoField: "recipient"},
 					},
-				},
-				{
-					RpcMethod: "UpdateParams",
-					Skip:      true,
-				},
-				{
-					RpcMethod: "GrantPermissions",
-					Skip:      true,
-				},
-				{
-					RpcMethod: "RevokePermissions",
-					Skip:      true,
 				},
 				{
 					// Handled by the custom CmdIssueLicenses command; the

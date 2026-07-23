@@ -8,11 +8,6 @@ address constant LICENSE_PRECOMPILE_ADDRESS = 0x776562737461636B0000000000000000
 /// @dev The LicenseI contract's instance.
 LicenseI constant LICENSE_CONTRACT = LicenseI(LICENSE_PRECOMPILE_ADDRESS);
 
-/// @dev LicenseParams represents the module params.
-struct LicenseParams {
-    address owner;
-}
-
 /// @dev LicenseType describes a class of issuable licenses.
 struct LicenseType {
     string id;
@@ -35,25 +30,6 @@ struct License {
     string revokedDate;
 }
 
-/// @dev PermissionGrant is one (permission, [licenseTypeId]) entry on an address's permissions.
-struct PermissionGrant {
-    string permission;
-    string[] licenseTypes;
-}
-
-/// @dev AddressPermissions describes an address that has been granted admin permissions.
-struct AddressPermissions {
-    address grantee;
-    PermissionGrant[] grants;
-}
-
-/// @dev PermissionPair identifies a single (licenseTypeId, permission) pair
-///      to revoke from an address's permissions.
-struct PermissionPair {
-    string licenseTypeId;
-    string permission;
-}
-
 /// @dev IssueLicenseEntry is a single issuance within an issueLicenses call.
 struct IssueLicenseEntry {
     string licenseTypeId;
@@ -65,7 +41,9 @@ struct IssueLicenseEntry {
 
 /// @author Webstack
 /// @title Licenses Precompile Contract
-/// @dev Exposes the x/license module to EVM smart contracts.
+/// @dev Exposes the x/license module to EVM smart contracts. Ownership and
+///      permission grants are managed by the x/permission module under the
+///      "license" namespace; they are not exposed through this precompile.
 interface LicenseI {
     // ---------------------------------------------------------------------
     // Events
@@ -76,13 +54,6 @@ interface LicenseI {
 
     /// @dev Emitted when a license type is updated.
     event LicenseTypeUpdated(string indexed id, bool transferrable, uint256 maxSupply);
-
-    /// @dev Emitted when permissions are granted (or merged) for an address.
-    event PermissionsGranted(address indexed admin);
-
-    /// @dev Emitted when specific permissions are revoked for an address.
-    ///      The entire permissions entry is deleted if no grants remain.
-    event PermissionsRevoked(address indexed admin);
 
     /// @dev Emitted when one or more licenses of a single type are issued to a holder.
     event LicenseIssued(
@@ -112,35 +83,18 @@ interface LicenseI {
     // Transactions
     // ---------------------------------------------------------------------
 
-    /// @dev Create a new license type. Caller must be the module owner.
+    /// @dev Create a new license type. Caller must be the license namespace owner.
     function createLicenseType(
         string calldata id,
         bool transferrable,
         uint256 maxSupply
     ) external returns (bool success);
 
-    /// @dev Update an existing license type. Caller must be the module owner.
+    /// @dev Update an existing license type. Caller must be the license namespace owner.
     function updateLicenseType(
         string calldata id,
         bool transferrable,
         uint256 maxSupply
-    ) external returns (bool success);
-
-    /// @dev Grant permissions for an address. The supplied grants are
-    ///      MERGED with any existing grants; (permission, licenseType) pairs that
-    ///      already exist are deduped. Caller must be the module owner.
-    function grantPermissions(
-        address admin,
-        PermissionGrant[] calldata grants
-    ) external returns (bool success);
-
-    /// @dev Revoke specific (licenseTypeId, permission) pairs from an address's permissions.
-    ///      Pairs that are not currently granted are silently ignored. A grant
-    ///      whose license types become empty is dropped; if no grants remain
-    ///      the permissions entry itself is deleted. Caller must be the module owner.
-    function revokePermissions(
-        address admin,
-        PermissionPair[] calldata permissions
     ) external returns (bool success);
 
     /// @dev Issue licenses for each entry. Each entry names its own license
@@ -170,9 +124,6 @@ interface LicenseI {
     // Queries
     // ---------------------------------------------------------------------
 
-    /// @dev Returns module params.
-    function params() external view returns (LicenseParams memory);
-
     /// @dev Returns a single license type by id. Reverts if not found.
     function licenseType(string calldata id) external view returns (LicenseType memory);
 
@@ -196,17 +147,4 @@ interface LicenseI {
         address holder,
         string calldata typeId
     ) external view returns (License[] memory);
-
-    /// @dev Returns the permissions entry for an address. Reverts if not found.
-    function permissionsByAddress(address admin) external view returns (AddressPermissions memory);
-
-    /// @dev Returns the permissions of every address.
-    function permissions() external view returns (AddressPermissions[] memory);
-
-    /// @dev Returns address permissions entries that have `permission` over `licenseTypeId`.
-    ///      An empty `permission` matches any permission.
-    function permissionsByLicenseType(
-        string calldata licenseTypeId,
-        string calldata permission
-    ) external view returns (AddressPermissions[] memory);
 }

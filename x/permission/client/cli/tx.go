@@ -51,7 +51,7 @@ namespace owner (--from) must sign.
 [grantee]      The address receiving the grants.
 [permissions]  Comma-delimited list of permissions to grant. Valid values are
                whatever the module registered; query them with:
-               webstackd query permission namespace [module]
+               webstackd query permission module [module]
 [scopes]       Comma-delimited list of scope identifiers these permissions
                apply to (e.g. license type IDs), or "-" for a module-wide
                grant in namespaces that don't scope their permissions.

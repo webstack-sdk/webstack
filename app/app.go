@@ -433,15 +433,6 @@ func NewApp(
 		app.AccountKeeper,
 	)
 
-	// LicenseKeeper is constructed before the EVM keeper so that the licenses
-	// precompile can be registered alongside the upstream static precompiles.
-	app.LicenseKeeper = licensekeeper.NewKeeper(
-		appCodec,
-		runtime.NewKVStoreService(keys[licensetypes.StoreKey]),
-		logger,
-		authAddr,
-	)
-
 	// PermissionKeeper hosts per-module grant namespaces. Consuming modules
 	// register their namespace specs (permission vocabulary, scope validator)
 	// here during wiring.
@@ -451,6 +442,18 @@ func NewApp(
 		logger,
 		authAddr,
 	)
+
+	// LicenseKeeper is constructed before the EVM keeper so that the licenses
+	// precompile can be registered alongside the upstream static precompiles.
+	// Ownership and grants live in the permission keeper's "license" namespace.
+	app.LicenseKeeper = licensekeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[licensetypes.StoreKey]),
+		logger,
+		authAddr,
+		app.PermissionKeeper,
+	)
+	license.RegisterNamespace(app.PermissionKeeper, app.LicenseKeeper)
 
 	// Set up EVM keeper
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))

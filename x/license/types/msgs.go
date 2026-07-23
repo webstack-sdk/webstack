@@ -33,23 +33,12 @@ func ValidateDates(startDate, endDate string) error {
 }
 
 var (
-	_ sdk.Msg = &MsgUpdateParams{}
 	_ sdk.Msg = &MsgCreateLicenseType{}
-	_ sdk.Msg = &MsgGrantPermissions{}
-	_ sdk.Msg = &MsgRevokePermissions{}
 	_ sdk.Msg = &MsgIssueLicenses{}
 	_ sdk.Msg = &MsgRevokeLicenses{}
 	_ sdk.Msg = &MsgTransferLicense{}
 	_ sdk.Msg = &MsgUpdateLicenseType{}
 )
-
-func (msg *MsgUpdateParams) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.Authority)
-	if err != nil {
-		return ErrInvalidSigner.Wrapf("invalid authority address: %s", err)
-	}
-	return msg.Params.Validate()
-}
 
 func (msg *MsgCreateLicenseType) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
@@ -77,45 +66,6 @@ func ValidateMaxSupply(v math.Int) error {
 	}
 	if v.IsNegative() {
 		return ErrInvalidMaxSupply.Wrapf("max_supply must not be negative, got %s", v.String())
-	}
-	return nil
-}
-
-func (msg *MsgGrantPermissions) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
-	}
-	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
-	}
-	if len(msg.Grants) > MaxPermissions {
-		return fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), MaxPermissions)
-	}
-	for i, g := range msg.Grants {
-		if !g.Permission.IsValid() {
-			return fmt.Errorf("grant %d: invalid permission %q", i, g.Permission.String())
-		}
-		if len(g.LicenseTypes) > MaxPermissions {
-			return fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(g.LicenseTypes), MaxPermissions)
-		}
-	}
-	return nil
-}
-
-func (msg *MsgRevokePermissions) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
-	}
-	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
-	}
-	if len(msg.Permissions) > MaxPermissions {
-		return fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), MaxPermissions)
-	}
-	for i, p := range msg.Permissions {
-		if !p.Permission.IsValid() {
-			return fmt.Errorf("pair %d: invalid permission %q", i, p.Permission.String())
-		}
 	}
 	return nil
 }

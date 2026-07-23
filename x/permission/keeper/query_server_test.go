@@ -11,6 +11,27 @@ import (
 	"github.com/webstack-sdk/webstack/x/permission/types"
 )
 
+// TestModuleQueriesWithoutOwner: registered modules are queryable before any
+// owner is set — the namespace comes back with an empty owner, and the
+// vocabulary is still served from the registry.
+func TestModuleQueriesWithoutOwner(t *testing.T) {
+	k, _, ctx := setupMsgServer(t)
+	q := keeper.NewQuerier(k)
+
+	resp, err := q.Modules(ctx, &types.QueryModulesRequest{})
+	require.NoError(t, err)
+	require.Len(t, resp.Namespaces, 2)
+	for _, ns := range resp.Namespaces {
+		require.Empty(t, ns.Owner)
+	}
+
+	mresp, err := q.Module(ctx, &types.QueryModuleRequest{Module: testModule})
+	require.NoError(t, err)
+	require.Equal(t, testModule, mresp.Namespace.Module)
+	require.Empty(t, mresp.Namespace.Owner)
+	require.Equal(t, []string{"issue", "revoke"}, mresp.Permissions)
+}
+
 // TestQueries exercises the query server over a fixed state:
 //
 //	granteeOne: (issue, scopeA), (issue, scopeB), (revoke, scopeA)  in testModule
@@ -21,7 +42,7 @@ func TestQueries(t *testing.T) {
 	q := keeper.NewQuerier(k)
 
 	openOwner := sample.AccAddress()
-	_, err := ms.CreateNamespace(ctx, &types.MsgCreateNamespace{
+	_, err := ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
 		Authority: k.GetAuthority(),
 		Module:    openModule,
 		Owner:     openOwner,
@@ -58,43 +79,29 @@ func TestQueries(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	t.Run("namespaces", func(t *testing.T) {
-		resp, err := q.Namespaces(ctx, &types.QueryNamespacesRequest{})
+	t.Run("modules", func(t *testing.T) {
+		resp, err := q.Modules(ctx, &types.QueryModulesRequest{})
 		require.NoError(t, err)
 		require.Len(t, resp.Namespaces, 2)
 
-		// Key order is ascending module name: openmod before testmod.
+		// Registered modules in ascending name order: openmod before testmod.
 		require.Equal(t, openModule, resp.Namespaces[0].Module)
+		require.Equal(t, openOwner, resp.Namespaces[0].Owner)
 		require.Equal(t, testModule, resp.Namespaces[1].Module)
+		require.Equal(t, owner, resp.Namespaces[1].Owner)
 	})
 
-	t.Run("namespaces pagination", func(t *testing.T) {
-		resp, err := q.Namespaces(ctx, &types.QueryNamespacesRequest{
-			Pagination: &query.PageRequest{Limit: 1},
-		})
-		require.NoError(t, err)
-		require.Len(t, resp.Namespaces, 1)
-		require.NotNil(t, resp.Pagination.NextKey)
-
-		resp2, err := q.Namespaces(ctx, &types.QueryNamespacesRequest{
-			Pagination: &query.PageRequest{Key: resp.Pagination.NextKey},
-		})
-		require.NoError(t, err)
-		require.Len(t, resp2.Namespaces, 1)
-		require.NotEqual(t, resp.Namespaces[0].Module, resp2.Namespaces[0].Module)
-	})
-
-	t.Run("namespace", func(t *testing.T) {
-		resp, err := q.Namespace(ctx, &types.QueryNamespaceRequest{Module: testModule})
+	t.Run("module", func(t *testing.T) {
+		resp, err := q.Module(ctx, &types.QueryModuleRequest{Module: testModule})
 		require.NoError(t, err)
 		require.Equal(t, owner, resp.Namespace.Owner)
 		// Registered vocabulary, ascending.
 		require.Equal(t, []string{"issue", "revoke"}, resp.Permissions)
 	})
 
-	t.Run("namespace not found", func(t *testing.T) {
-		_, err := q.Namespace(ctx, &types.QueryNamespaceRequest{Module: "ghostmod"})
-		require.ErrorContains(t, err, "not found")
+	t.Run("module not registered", func(t *testing.T) {
+		_, err := q.Module(ctx, &types.QueryModuleRequest{Module: "ghostmod"})
+		require.ErrorContains(t, err, "not registered")
 	})
 
 	t.Run("grants", func(t *testing.T) {

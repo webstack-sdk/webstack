@@ -7,25 +7,11 @@ import (
 )
 
 var (
-	_ sdk.Msg = &MsgCreateNamespace{}
 	_ sdk.Msg = &MsgUpdateNamespaceOwner{}
 	_ sdk.Msg = &MsgTransferOwnership{}
 	_ sdk.Msg = &MsgGrantPermissions{}
 	_ sdk.Msg = &MsgRevokePermissions{}
 )
-
-func (msg *MsgCreateNamespace) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Authority); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid authority address: %s", err)
-	}
-	if err := ValidateName("module", msg.Module); err != nil {
-		return err
-	}
-	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return fmt.Errorf("invalid owner address: %w", err)
-	}
-	return nil
-}
 
 func (msg *MsgUpdateNamespaceOwner) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Authority); err != nil {

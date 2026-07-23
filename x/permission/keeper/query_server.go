@@ -20,32 +20,46 @@ func NewQuerier(keeper Keeper) Querier {
 	return Querier{Keeper: keeper}
 }
 
-func (q Querier) Namespaces(ctx context.Context, req *types.QueryNamespacesRequest) (*types.QueryNamespacesResponse, error) {
-	namespaces, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.Namespaces, req.Pagination,
-		func(_ string, ns types.Namespace) (types.Namespace, error) {
-			return ns, nil
-		},
-	)
-	if err != nil {
-		return nil, err
+// Modules returns every registered module's namespace, in ascending module
+// order. The owner is joined from state and empty for modules whose owner has
+// not been set yet.
+func (q Querier) Modules(ctx context.Context, _ *types.QueryModulesRequest) (*types.QueryModulesResponse, error) {
+	registered := q.Keeper.RegisteredModules()
+	namespaces := make([]types.Namespace, 0, len(registered))
+	for _, module := range registered {
+		ns, found, err := q.Keeper.GetNamespace(ctx, module)
+		if err != nil {
+			return nil, err
+		}
+		if !found {
+			ns = types.Namespace{Module: module}
+		}
+		namespaces = append(namespaces, ns)
 	}
-	return &types.QueryNamespacesResponse{Namespaces: namespaces, Pagination: pageResp}, nil
+	return &types.QueryModulesResponse{Namespaces: namespaces}, nil
 }
 
-func (q Querier) Namespace(ctx context.Context, req *types.QueryNamespaceRequest) (*types.QueryNamespaceResponse, error) {
+// Module returns a registered module's namespace plus the permission
+// vocabulary it registered in this binary. The owner is empty if it has not
+// been set yet.
+func (q Querier) Module(ctx context.Context, req *types.QueryModuleRequest) (*types.QueryModuleResponse, error) {
+	spec, registered := q.Keeper.Spec(req.Module)
+	if !registered {
+		return nil, types.ErrModuleNotRegistered.Wrapf("module %q is not registered in this binary", req.Module)
+	}
+
 	ns, found, err := q.Keeper.GetNamespace(ctx, req.Module)
 	if err != nil {
 		return nil, err
 	}
 	if !found {
-		return nil, types.ErrNamespaceNotFound.Wrapf("namespace for module %q not found", req.Module)
+		ns = types.Namespace{Module: req.Module}
 	}
 
-	resp := &types.QueryNamespaceResponse{Namespace: ns}
-	if spec, registered := q.Keeper.Spec(req.Module); registered {
-		resp.Permissions = spec.SortedPermissions()
-	}
-	return resp, nil
+	return &types.QueryModuleResponse{
+		Namespace:   ns,
+		Permissions: spec.SortedPermissions(),
+	}, nil
 }
 
 // grantFromKey rebuilds the flat Grant view from a Grants keyset entry.

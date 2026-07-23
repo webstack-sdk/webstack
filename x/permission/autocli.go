@@ -11,14 +11,14 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			Service: modulev1.Query_ServiceDesc.ServiceName,
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
 				{
-					RpcMethod: "Namespaces",
-					Use:       "namespaces",
-					Short:     "Query all namespaces",
+					RpcMethod: "Modules",
+					Use:       "modules",
+					Short:     "Query every module namespace",
 				},
 				{
-					RpcMethod: "Namespace",
-					Use:       "namespace [module]",
-					Short:     "Query a namespace and its registered permissions by module name",
+					RpcMethod: "Module",
+					Use:       "module [module]",
+					Short:     "Query a module's namespace owner and its valid permissions",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "module"},
 					},
@@ -78,11 +78,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "module"},
 						{ProtoField: "new_owner"},
 					},
-				},
-				{
-					// Governance-gated; submitted via gov proposal, not the CLI.
-					RpcMethod: "CreateNamespace",
-					Skip:      true,
 				},
 				{
 					// Governance-gated; submitted via gov proposal, not the CLI.

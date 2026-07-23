@@ -11,15 +11,17 @@ option go_package = "github.com/webstack-sdk/webstack/x/permission/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  // Namespaces queries all namespaces.
-  rpc Namespaces(QueryNamespacesRequest) returns (QueryNamespacesResponse) {
-    option (google.api.http).get = "/webstack/permission/namespaces";
+  // Modules queries every registered module namespace. The owner is empty for
+  // modules whose namespace owner has not been set yet.
+  rpc Modules(QueryModulesRequest) returns (QueryModulesResponse) {
+    option (google.api.http).get = "/webstack/permission/modules";
   }
 
-  // Namespace queries a namespace by module name, including the permission
-  // vocabulary the module registered in this binary.
-  rpc Namespace(QueryNamespaceRequest) returns (QueryNamespaceResponse) {
-    option (google.api.http).get = "/webstack/permission/namespace/{module}";
+  // Module queries a registered module's namespace owner and the permission
+  // vocabulary the module registered in this binary. The owner is empty if it
+  // has not been set yet.
+  rpc Module(QueryModuleRequest) returns (QueryModuleResponse) {
+    option (google.api.http).get = "/webstack/permission/module/{module}";
   }
 
   // Grants queries every grant within a namespace.
@@ -45,24 +47,23 @@ service Query {
   }
 }
 
-// QueryNamespacesRequest is the request type for the Query/Namespaces RPC method.
-message QueryNamespacesRequest {
-  cosmos.base.query.v1beta1.PageRequest pagination = 1;
-}
+// QueryModulesRequest is the request type for the Query/Modules RPC method.
+// The registered-module set is bounded by the compiled-in modules, so this
+// query is not paginated.
+message QueryModulesRequest {}
 
-// QueryNamespacesResponse is the response type for the Query/Namespaces RPC method.
-message QueryNamespacesResponse {
+// QueryModulesResponse is the response type for the Query/Modules RPC method.
+message QueryModulesResponse {
   repeated Namespace namespaces = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-// QueryNamespaceRequest is the request type for the Query/Namespace RPC method.
-message QueryNamespaceRequest {
+// QueryModuleRequest is the request type for the Query/Module RPC method.
+message QueryModuleRequest {
   string module = 1;
 }
 
-// QueryNamespaceResponse is the response type for the Query/Namespace RPC method.
-message QueryNamespaceResponse {
+// QueryModuleResponse is the response type for the Query/Module RPC method.
+message QueryModuleResponse {
   Namespace namespace = 1 [(gogoproto.nullable) = false];
   // permissions is the valid permission vocabulary the module registered in
   // this binary, in ascending order.

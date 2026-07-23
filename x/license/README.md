@@ -1,13 +1,12 @@
 # Licenses Module
 
-The `x/license` module provides on-chain license management for Cosmos SDK chains. It allows a module owner to define license types, delegate permissions, and issue/revoke/transfer licenses to addresses.
+The `x/license` module provides on-chain license management for Cosmos SDK chains. It allows a namespace owner to define license types and delegated addresses to issue/revoke/transfer licenses.
 
 ## Overview
 
 - **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and transferrability
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
-- **Permissions** grant granular rights (issue, revoke) per license type to delegated addresses
-- **Module Owner** (set via params) controls license type creation and permission management
+- **Ownership and permissions** live in the [`x/permission`](../permission/README.md) module under the `license` namespace: the namespace owner controls license type creation, and per-type `issue`/`revoke` grants delegate rights to other addresses
 
 ## Installation
 
@@ -77,13 +76,19 @@ The `init()` function in `depinject.go` automatically registers the module. The 
 
 ## Concepts
 
-### Module Owner
+### Namespace Owner
 
-The module has a single `owner` address set in params. Only the owner can:
+The license module registers the `license` namespace with the `x/permission`
+module at wiring time, declaring the `issue`/`revoke` vocabulary and a scope
+validator that checks license type ids exist. The namespace owner is the only
+address that can:
 - Create and update license types
-- Grant and revoke permissions
+- Grant and revoke permissions (via `x/permission` messages)
 
-The owner is initially set via genesis or governance (`MsgUpdateParams`).
+The namespace itself exists by virtue of the registration — it is never
+created by a transaction. Its owner is set in the permission module's genesis
+or by governance (`MsgUpdateNamespaceOwner`), and can be handed off by the
+current owner (`MsgTransferOwnership`).
 
 ### License Types
 
@@ -122,36 +127,25 @@ license type.
 
 ### Permissions
 
-The owner delegates permissions to addresses. Each address's permissions are a set of grants:
+The owner delegates `issue`/`revoke` rights per license type through the
+`x/permission` module:
 
-```json
-{
-  "address": "webstack1abc...",
-  "grants": [
-    { "permission": "PERMISSION_ISSUE", "license_types": ["node.license", "validator.license"] },
-    { "permission": "PERMISSION_REVOKE", "license_types": ["node.license"] }
-  ]
-}
+```bash
+webstackd tx permission grant-permissions license webstack1admin... issue,revoke node.license,validator.license --from owner
+webstackd tx permission revoke-permissions license webstack1admin... issue:node.license --from owner
+webstackd query permission grants-by-grantee license webstack1admin...
 ```
 
-Valid permissions: `issue`, `revoke` (the `Permission` proto enum; the CLI and
-EVM precompile accept and return these lowercase forms, while gRPC/genesis
-JSON uses the enum names `PERMISSION_ISSUE` / `PERMISSION_REVOKE`).
-
-Each license type in a grant must refer to an existing license type. Wildcards are not supported — grants must explicitly specify each license type.
-
-On disk, grants are stored as a flat set of
-`(address, permission, license_type_id)` keys, so permission checks are a
-single point-read. The grouped shape above is the genesis and query API view,
-reconstructed on demand.
+Each grant's scope must refer to an existing license type (enforced by the
+registered scope validator). Wildcards are not supported — grants must
+explicitly name each license type. The license keeper answers "may X issue Y?"
+with a single point-read via `permissionKeeper.Has(ctx, "license", addr,
+"issue", licenseTypeID)`.
 
 ## Messages
 
-### MsgUpdateParams
-Update module parameters (governance only).
-
 ### MsgCreateLicenseType
-Create a new license type. Signer must be the module owner.
+Create a new license type. Signer must be the license namespace owner.
 
 ```bash
 webstackd tx license create-license-type node.license true 1000 --from owner
@@ -162,30 +156,6 @@ Update an existing license type. Cannot set `max_supply` below `issued_count`.
 
 ```bash
 webstackd tx license update-license-type node.license true 2000 --from owner
-```
-
-### MsgGrantPermissions
-Grant permissions to an address. Signer must be the module owner. Grants are
-**merged** with any existing grants for the address: the (permission, license
-type) pairs in the message are added to whatever is already stored, with
-duplicates deduped. Existing grants are never removed by `MsgGrantPermissions`;
-use `MsgRevokePermissions` to remove specific pairs.
-
-```bash
-webstackd tx license grant-permissions webstack1admin... issue,revoke node.license,validator.license --from owner
-```
-
-### MsgRevokePermissions
-Remove specific `(license_type_id, permission)` pairs from an address's permissions.
-Signer must be the module owner.
-
-Pairs that aren't currently granted are silently ignored. A grant whose
-license-type list becomes empty is dropped, and if no grants remain the
-address's permissions entry disappears.
-
-```bash
-webstackd tx license revoke-permissions webstack1admin... \
-  node.license:issue validator.license:revoke --from owner
 ```
 
 ### MsgIssueLicenses
@@ -223,7 +193,6 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 
 | Query | Description | CLI |
 |-------|-------------|-----|
-| `Params` | Module parameters | `webstackd q license params` |
 | `LicenseType` | Single license type by ID | `webstackd q license license-type node.license` |
 | `LicenseTypes` | All license types (paginated) | `webstackd q license license-types` |
 | `License` | Single license by type + ID | `webstackd q license license node.license 1` |
@@ -231,16 +200,15 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 | `LicensesByType` | All licenses for a type (paginated) | `webstackd q license licenses-by-type node.license` |
 | `LicensesByHolder` | Active licenses for a holder (paginated) | `webstackd q license licenses-by-holder webstack1...` |
 | `LicensesByHolderAndType` | Active licenses by holder + type (paginated) | `webstackd q license licenses-by-holder-and-type webstack1... node.license` |
-| `PermissionsByAddress` | Grants for an address | `webstackd q license permissions-by-address webstack1...` |
-| `Permissions` | Grants of every address (paginated) | `webstackd q license permissions` |
-| `PermissionsByLicenseType` | Addresses with grants for a license type | `webstackd q license permissions-by-license-type node.license` |
+
+Permission grants are served by the `x/permission` queries (e.g.
+`webstackd q permission grants license`).
 
 ### REST endpoints
 
 All queries are available at `http://localhost:1317/webstack/license/...`:
 
 ```
-GET /webstack/license/params
 GET /webstack/license/license_type/{id}
 GET /webstack/license/license_types
 GET /webstack/license/license/{type_id}/{id}
@@ -248,9 +216,6 @@ GET /webstack/license/licenses
 GET /webstack/license/licenses_by_type/{type_id}
 GET /webstack/license/licenses_by_holder/{holder}
 GET /webstack/license/licenses_by_holder/{holder}/{type_id}
-GET /webstack/license/permissions_by_address/{address}
-GET /webstack/license/permissions
-GET /webstack/license/permissions_by_license_type/{license_type_id}
 ```
 
 ## Genesis
@@ -260,9 +225,6 @@ Example genesis configuration:
 ```json
 {
   "license": {
-    "params": {
-      "owner": "webstack1owneraddress..."
-    },
     "license_types": [
       {
         "id": "node.license",
@@ -272,21 +234,21 @@ Example genesis configuration:
       }
     ],
     "licenses": [],
-    "license_counts": [],
-    "permissions": [
-      {
-        "address": "webstack1adminaddress...",
-        "grants": [
-          {
-            "permission": "PERMISSION_ISSUE",
-            "license_types": ["node.license"]
-          }
-        ]
-      }
+    "license_counts": []
+  },
+  "permission": {
+    "namespaces": [
+      { "module": "license", "owner": "webstack1owneraddress..." }
+    ],
+    "grants": [
+      { "module": "license", "grantee": "webstack1adminaddress...", "permission": "issue", "scope": "node.license" }
     ]
   }
 }
 ```
+
+The permission module initializes after the license module, so genesis grants
+can be validated against the license types declared above.
 
 ## Events
 
@@ -296,12 +258,9 @@ All state-changing operations emit events:
 |-------|------------|
 | `create_license_type` | `license_type_id` |
 | `update_license_type` | `license_type_id` |
-| `grant_permissions` | `address`, `permissions`, `grant_license_types` |
-| `revoke_permissions` | `address`, `permissions`, `grant_license_types` |
 | `issue_licenses` | `license_type_id`, `holder`, `count` (one event per entry) |
 | `revoke_licenses` | `license_type_id`, `holder`, `count` |
 | `transfer_license` | `license_type_id`, `license_id`, `holder`, `recipient` |
-| `update_params` | `owner` |
 
 ## State Storage
 
@@ -309,12 +268,13 @@ The module uses the `cosmossdk.io/collections` framework for type-safe state man
 
 | Collection | Key | Value |
 |------------|-----|-------|
-| `Params` | (singleton) | `Params` |
 | `LicenseTypes` | `string` (type ID) | `LicenseType` |
 | `Licenses` | `(string, uint64)` (type ID, license ID) | `License` |
 | `LicenseCounts` | `string` (type ID) | `uint64` (next-id sequence, exported in genesis as `license_counts`) |
-| `Permissions` | `(string, int32, string)` (address, permission, type ID) | (keyset, no value) |
 | `ActiveLicensesByHolder` | `(string, string, uint64)` (holder, type ID, license ID) | (keyset, no value; active licenses only) |
+
+Permission grants are stored in the `x/permission` module under the `license`
+namespace.
 
 ## Module Versioning
 

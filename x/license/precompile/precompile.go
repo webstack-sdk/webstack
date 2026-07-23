@@ -103,10 +103,6 @@ func (p Precompile) Execute(ctx sdk.Context, stateDB vm.StateDB, contract *vm.Co
 		return p.CreateLicenseType(ctx, contract, stateDB, method, args)
 	case UpdateLicenseTypeMethod:
 		return p.UpdateLicenseType(ctx, contract, stateDB, method, args)
-	case GrantPermissionsMethod:
-		return p.GrantPermissions(ctx, contract, stateDB, method, args)
-	case RevokePermissionsMethod:
-		return p.RevokePermissions(ctx, contract, stateDB, method, args)
 	case IssueLicensesMethod:
 		return p.IssueLicenses(ctx, contract, stateDB, method, args)
 	case RevokeLicensesMethod:
@@ -115,8 +111,6 @@ func (p Precompile) Execute(ctx sdk.Context, stateDB vm.StateDB, contract *vm.Co
 		return p.TransferLicense(ctx, contract, stateDB, method, args)
 
 	// queries
-	case ParamsMethod:
-		return p.Params(ctx, method, args)
 	case LicenseTypeMethod:
 		return p.LicenseType(ctx, method, args)
 	case LicenseTypesMethod:
@@ -131,12 +125,6 @@ func (p Precompile) Execute(ctx sdk.Context, stateDB vm.StateDB, contract *vm.Co
 		return p.LicensesByHolder(ctx, method, args)
 	case LicensesByHolderAndTypeMethod:
 		return p.LicensesByHolderAndType(ctx, method, args)
-	case PermissionsByAddressMethod:
-		return p.PermissionsByAddress(ctx, method, args)
-	case PermissionsMethod:
-		return p.Permissions(ctx, method, args)
-	case PermissionsByLicenseTypeMethod:
-		return p.PermissionsByLicenseType(ctx, method, args)
 	default:
 		return nil, fmt.Errorf(cmn.ErrUnknownMethod, method.Name)
 	}
@@ -147,8 +135,6 @@ func (Precompile) IsTransaction(method *abi.Method) bool {
 	switch method.Name {
 	case CreateLicenseTypeMethod,
 		UpdateLicenseTypeMethod,
-		GrantPermissionsMethod,
-		RevokePermissionsMethod,
 		IssueLicensesMethod,
 		RevokeLicensesMethod,
 		TransferLicenseMethod:

@@ -10,22 +10,16 @@ import "permission/v1/permission.proto";
 
 option go_package = "github.com/webstack-sdk/webstack/x/permission/types";
 
-// Msg defines the Msg service.
+// Msg defines the Msg service. Namespaces are not created by transactions:
+// they exist for exactly the modules registered with the permission keeper at
+// app wiring. State only carries each namespace's owner.
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // CreateNamespace creates a grant namespace for a module and sets its owner.
-  // Signer must be the module authority (governance).
-  rpc CreateNamespace(MsgCreateNamespace) returns (MsgCreateNamespaceResponse) {
-    option (google.api.http) = {
-      post: "/webstack/permission/tx/create_namespace"
-      body: "*"
-    };
-  }
-
-  // UpdateNamespaceOwner rotates the owner of an existing namespace. Signer
-  // must be the module authority (governance); it exists so a lost or
-  // compromised owner can be recovered without the current owner's key.
+  // UpdateNamespaceOwner sets or rotates the owner of a registered module's
+  // namespace. Signer must be the module authority (governance); it is how an
+  // owner is first established outside genesis, and how a lost or compromised
+  // owner is recovered without the current owner's key.
   rpc UpdateNamespaceOwner(MsgUpdateNamespaceOwner) returns (MsgUpdateNamespaceOwnerResponse) {
     option (google.api.http) = {
       post: "/webstack/permission/tx/update_namespace_owner"
@@ -62,19 +56,6 @@ service Msg {
     };
   }
 }
-
-// MsgCreateNamespace is the Msg/CreateNamespace request type.
-message MsgCreateNamespace {
-  option (cosmos.msg.v1.signer) = "authority";
-  option (amino.name) = "webstack/x/permission/MsgCreateNamespace";
-
-  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string module = 2;
-  string owner = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-}
-
-// MsgCreateNamespaceResponse is the Msg/CreateNamespace response type.
-message MsgCreateNamespaceResponse {}
 
 // MsgUpdateNamespaceOwner is the Msg/UpdateNamespaceOwner request type.
 message MsgUpdateNamespaceOwner {

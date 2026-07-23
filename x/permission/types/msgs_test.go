@@ -38,17 +38,17 @@ func TestMsgValidateBasic(t *testing.T) {
 		expErrMsg string
 	}{
 		{
-			name: "create namespace valid",
-			msg:  &types.MsgCreateNamespace{Authority: addr, Module: "license", Owner: addr},
+			name: "update namespace owner valid",
+			msg:  &types.MsgUpdateNamespaceOwner{Authority: addr, Module: "license", Owner: addr},
 		},
 		{
-			name:      "create namespace bad authority",
-			msg:       &types.MsgCreateNamespace{Authority: "x", Module: "license", Owner: addr},
+			name:      "update namespace owner bad authority",
+			msg:       &types.MsgUpdateNamespaceOwner{Authority: "x", Module: "license", Owner: addr},
 			expErrMsg: "invalid authority",
 		},
 		{
-			name:      "create namespace bad module",
-			msg:       &types.MsgCreateNamespace{Authority: addr, Module: "Bad Mod", Owner: addr},
+			name:      "update namespace owner bad module",
+			msg:       &types.MsgUpdateNamespaceOwner{Authority: addr, Module: "Bad Mod", Owner: addr},
 			expErrMsg: "invalid module",
 		},
 		{

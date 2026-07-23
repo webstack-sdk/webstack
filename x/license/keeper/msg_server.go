@@ -3,14 +3,12 @@ package keeper
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	"github.com/webstack-sdk/webstack/x/license/types"
 )
@@ -25,28 +23,6 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 	return &msgServer{k: keeper}
 }
 
-func (ms msgServer) UpdateParams(ctx context.Context, msg *types.MsgUpdateParams) (*types.MsgUpdateParamsResponse, error) {
-	if ms.k.authority != msg.Authority {
-		return nil, errorsmod.Wrapf(govtypes.ErrInvalidSigner, "invalid authority; expected %s, got %s", ms.k.authority, msg.Authority)
-	}
-
-	if err := msg.Params.Validate(); err != nil {
-		return nil, fmt.Errorf("invalid params: %w", err)
-	}
-
-	if err := ms.k.Params.Set(ctx, msg.Params); err != nil {
-		return nil, err
-	}
-
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeUpdateParams,
-		sdk.NewAttribute(types.AttributeKeyOwner, msg.Params.Owner),
-	))
-
-	return &types.MsgUpdateParamsResponse{}, nil
-}
-
 func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateLicenseType) (*types.MsgCreateLicenseTypeResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
@@ -55,8 +31,7 @@ func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateL
 		return nil, err
 	}
 	if !isOwner {
-		params, _ := ms.k.Params.Get(ctx)
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the license namespace owner", msg.Owner)
 	}
 
 	if msg.Id == "" {
@@ -101,8 +76,7 @@ func (ms msgServer) UpdateLicenseType(ctx context.Context, msg *types.MsgUpdateL
 		return nil, err
 	}
 	if !isOwner {
-		params, _ := ms.k.Params.Get(ctx)
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the license namespace owner", msg.Owner)
 	}
 
 	if err := types.ValidateMaxSupply(msg.MaxSupply); err != nil {
@@ -133,118 +107,6 @@ func (ms msgServer) UpdateLicenseType(ctx context.Context, msg *types.MsgUpdateL
 	return &types.MsgUpdateLicenseTypeResponse{}, nil
 }
 
-// GrantPermissions merges the incoming grants with any existing grants for the
-// given address. (permission, license type) pairs that already exist are deduped;
-// nothing is ever removed by this message. Use MsgRevokePermissions to remove
-// specific pairs.
-func (ms msgServer) GrantPermissions(ctx context.Context, msg *types.MsgGrantPermissions) (*types.MsgGrantPermissionsResponse, error) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
-	if err != nil {
-		return nil, err
-	}
-	if !isOwner {
-		params, _ := ms.k.Params.Get(ctx)
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
-	}
-
-	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
-		return nil, fmt.Errorf("invalid address %q: %w", msg.Address, err)
-	}
-
-	if len(msg.Grants) > types.MaxPermissions {
-		return nil, fmt.Errorf("grants length %d exceeds max %d", len(msg.Grants), types.MaxPermissions)
-	}
-
-	for i, grant := range msg.Grants {
-		if len(grant.LicenseTypes) > types.MaxPermissions {
-			return nil, fmt.Errorf("grant %d license_types length %d exceeds max %d", i, len(grant.LicenseTypes), types.MaxPermissions)
-		}
-		if !grant.Permission.IsValid() {
-			return nil, fmt.Errorf("invalid permission %q: must be one of %s", grant.Permission.String(), strings.Join(types.ValidPermissionStrings(), ", "))
-		}
-		if len(grant.LicenseTypes) == 0 {
-			return nil, fmt.Errorf("grant for permission %q must include at least one license type", grant.Permission)
-		}
-		for _, lt := range grant.LicenseTypes {
-			if _, found, err := ms.k.GetLicenseType(ctx, lt); err != nil {
-				return nil, err
-			} else if !found {
-				return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %q in grant for permission %q does not exist", lt, grant.Permission)
-			}
-		}
-	}
-
-	// Grants are unioned into the flat keyset: existing pairs are untouched and
-	// re-granted pairs are idempotent overwrites.
-	for _, grant := range msg.Grants {
-		for _, lt := range grant.LicenseTypes {
-			if err := ms.k.Permissions.Set(ctx, collections.Join3(msg.Address, int32(grant.Permission), lt)); err != nil {
-				return nil, err
-			}
-		}
-	}
-
-	var perms []string
-	var grantTypes []string
-	for _, grant := range msg.Grants {
-		perms = append(perms, grant.Permission.Short())
-		grantTypes = append(grantTypes, strings.Join(grant.LicenseTypes, ","))
-	}
-
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeGrantPermissions,
-		sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
-		sdk.NewAttribute(types.AttributeKeyPermissions, strings.Join(perms, ",")),
-		sdk.NewAttribute(types.AttributeKeyGrantTypes, strings.Join(grantTypes, ";")),
-	))
-
-	return &types.MsgGrantPermissionsResponse{}, nil
-}
-
-// RevokePermissions removes specific (license type, permission) pairs
-// from an address's permissions. Pairs that are not currently present are silently ignored
-// (Remove is idempotent) — the caller can safely re-send the same revoke.
-func (ms msgServer) RevokePermissions(ctx context.Context, msg *types.MsgRevokePermissions) (*types.MsgRevokePermissionsResponse, error) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
-	if err != nil {
-		return nil, err
-	}
-	if !isOwner {
-		params, _ := ms.k.Params.Get(ctx)
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the module owner %s", msg.Owner, params.Owner)
-	}
-
-	if len(msg.Permissions) > types.MaxPermissions {
-		return nil, fmt.Errorf("permissions length %d exceeds max %d", len(msg.Permissions), types.MaxPermissions)
-	}
-
-	for _, p := range msg.Permissions {
-		if err := ms.k.Permissions.Remove(ctx, collections.Join3(msg.Address, int32(p.Permission), p.LicenseTypeId)); err != nil {
-			return nil, err
-		}
-	}
-
-	var revokedPerms []string
-	var revokedTypes []string
-	for _, p := range msg.Permissions {
-		revokedPerms = append(revokedPerms, p.Permission.Short())
-		revokedTypes = append(revokedTypes, p.LicenseTypeId)
-	}
-
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeRevokePermissions,
-		sdk.NewAttribute(types.AttributeKeyAddress, msg.Address),
-		sdk.NewAttribute(types.AttributeKeyPermissions, strings.Join(revokedPerms, ",")),
-		sdk.NewAttribute(types.AttributeKeyGrantTypes, strings.Join(revokedTypes, ",")),
-	))
-
-	return &types.MsgRevokePermissionsResponse{}, nil
-}
-
 // IssueLicenses issues licenses for each entry in the message. Each entry
 // carries its own license type, holder, dates, and count; the signer must hold
 // the "issue" grant for every referenced license type. All entries are
@@ -271,7 +133,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 			return nil, errorsmod.Wrapf(types.ErrInvalidCount, "entry %d: count must be greater than zero", i)
 		}
 
-		hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Issuer, entry.LicenseTypeId, types.PermissionIssue)
+		hasPerm, err := ms.k.hasPermission(ctx, msg.Issuer, types.PermissionIssue, entry.LicenseTypeId)
 		if err != nil {
 			return nil, err
 		}
@@ -356,7 +218,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLicenses) (*types.MsgRevokeLicensesResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	hasPerm, err := ms.k.hasAdminPermission(ctx, msg.Revoker, msg.LicenseTypeId, types.PermissionRevoke)
+	hasPerm, err := ms.k.hasPermission(ctx, msg.Revoker, types.PermissionRevoke, msg.LicenseTypeId)
 	if err != nil {
 		return nil, err
 	}

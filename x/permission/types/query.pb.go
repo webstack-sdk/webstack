@@ -31,23 +31,24 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// QueryNamespacesRequest is the request type for the Query/Namespaces RPC method.
-type QueryNamespacesRequest struct {
-	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+// QueryModulesRequest is the request type for the Query/Modules RPC method.
+// The registered-module set is bounded by the compiled-in modules, so this
+// query is not paginated.
+type QueryModulesRequest struct {
 }
 
-func (m *QueryNamespacesRequest) Reset()         { *m = QueryNamespacesRequest{} }
-func (m *QueryNamespacesRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryNamespacesRequest) ProtoMessage()    {}
-func (*QueryNamespacesRequest) Descriptor() ([]byte, []int) {
+func (m *QueryModulesRequest) Reset()         { *m = QueryModulesRequest{} }
+func (m *QueryModulesRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryModulesRequest) ProtoMessage()    {}
+func (*QueryModulesRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_333973988e19df7f, []int{0}
 }
-func (m *QueryNamespacesRequest) XXX_Unmarshal(b []byte) error {
+func (m *QueryModulesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryNamespacesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryModulesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryNamespacesRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryModulesRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -57,43 +58,35 @@ func (m *QueryNamespacesRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *QueryNamespacesRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryNamespacesRequest.Merge(m, src)
+func (m *QueryModulesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryModulesRequest.Merge(m, src)
 }
-func (m *QueryNamespacesRequest) XXX_Size() int {
+func (m *QueryModulesRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryNamespacesRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryNamespacesRequest.DiscardUnknown(m)
+func (m *QueryModulesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryModulesRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryNamespacesRequest proto.InternalMessageInfo
+var xxx_messageInfo_QueryModulesRequest proto.InternalMessageInfo
 
-func (m *QueryNamespacesRequest) GetPagination() *query.PageRequest {
-	if m != nil {
-		return m.Pagination
-	}
-	return nil
+// QueryModulesResponse is the response type for the Query/Modules RPC method.
+type QueryModulesResponse struct {
+	Namespaces []Namespace `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces"`
 }
 
-// QueryNamespacesResponse is the response type for the Query/Namespaces RPC method.
-type QueryNamespacesResponse struct {
-	Namespaces []Namespace         `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces"`
-	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (m *QueryNamespacesResponse) Reset()         { *m = QueryNamespacesResponse{} }
-func (m *QueryNamespacesResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryNamespacesResponse) ProtoMessage()    {}
-func (*QueryNamespacesResponse) Descriptor() ([]byte, []int) {
+func (m *QueryModulesResponse) Reset()         { *m = QueryModulesResponse{} }
+func (m *QueryModulesResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryModulesResponse) ProtoMessage()    {}
+func (*QueryModulesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_333973988e19df7f, []int{1}
 }
-func (m *QueryNamespacesResponse) XXX_Unmarshal(b []byte) error {
+func (m *QueryModulesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryNamespacesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryModulesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryNamespacesResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryModulesResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -103,49 +96,42 @@ func (m *QueryNamespacesResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-func (m *QueryNamespacesResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryNamespacesResponse.Merge(m, src)
+func (m *QueryModulesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryModulesResponse.Merge(m, src)
 }
-func (m *QueryNamespacesResponse) XXX_Size() int {
+func (m *QueryModulesResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryNamespacesResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryNamespacesResponse.DiscardUnknown(m)
+func (m *QueryModulesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryModulesResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryNamespacesResponse proto.InternalMessageInfo
+var xxx_messageInfo_QueryModulesResponse proto.InternalMessageInfo
 
-func (m *QueryNamespacesResponse) GetNamespaces() []Namespace {
+func (m *QueryModulesResponse) GetNamespaces() []Namespace {
 	if m != nil {
 		return m.Namespaces
 	}
 	return nil
 }
 
-func (m *QueryNamespacesResponse) GetPagination() *query.PageResponse {
-	if m != nil {
-		return m.Pagination
-	}
-	return nil
-}
-
-// QueryNamespaceRequest is the request type for the Query/Namespace RPC method.
-type QueryNamespaceRequest struct {
+// QueryModuleRequest is the request type for the Query/Module RPC method.
+type QueryModuleRequest struct {
 	Module string `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
 }
 
-func (m *QueryNamespaceRequest) Reset()         { *m = QueryNamespaceRequest{} }
-func (m *QueryNamespaceRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryNamespaceRequest) ProtoMessage()    {}
-func (*QueryNamespaceRequest) Descriptor() ([]byte, []int) {
+func (m *QueryModuleRequest) Reset()         { *m = QueryModuleRequest{} }
+func (m *QueryModuleRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryModuleRequest) ProtoMessage()    {}
+func (*QueryModuleRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_333973988e19df7f, []int{2}
 }
-func (m *QueryNamespaceRequest) XXX_Unmarshal(b []byte) error {
+func (m *QueryModuleRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryModuleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryNamespaceRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryModuleRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -155,45 +141,45 @@ func (m *QueryNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-func (m *QueryNamespaceRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryNamespaceRequest.Merge(m, src)
+func (m *QueryModuleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryModuleRequest.Merge(m, src)
 }
-func (m *QueryNamespaceRequest) XXX_Size() int {
+func (m *QueryModuleRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryNamespaceRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryNamespaceRequest.DiscardUnknown(m)
+func (m *QueryModuleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryModuleRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryNamespaceRequest proto.InternalMessageInfo
+var xxx_messageInfo_QueryModuleRequest proto.InternalMessageInfo
 
-func (m *QueryNamespaceRequest) GetModule() string {
+func (m *QueryModuleRequest) GetModule() string {
 	if m != nil {
 		return m.Module
 	}
 	return ""
 }
 
-// QueryNamespaceResponse is the response type for the Query/Namespace RPC method.
-type QueryNamespaceResponse struct {
+// QueryModuleResponse is the response type for the Query/Module RPC method.
+type QueryModuleResponse struct {
 	Namespace Namespace `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace"`
 	// permissions is the valid permission vocabulary the module registered in
 	// this binary, in ascending order.
 	Permissions []string `protobuf:"bytes,2,rep,name=permissions,proto3" json:"permissions,omitempty"`
 }
 
-func (m *QueryNamespaceResponse) Reset()         { *m = QueryNamespaceResponse{} }
-func (m *QueryNamespaceResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryNamespaceResponse) ProtoMessage()    {}
-func (*QueryNamespaceResponse) Descriptor() ([]byte, []int) {
+func (m *QueryModuleResponse) Reset()         { *m = QueryModuleResponse{} }
+func (m *QueryModuleResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryModuleResponse) ProtoMessage()    {}
+func (*QueryModuleResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_333973988e19df7f, []int{3}
 }
-func (m *QueryNamespaceResponse) XXX_Unmarshal(b []byte) error {
+func (m *QueryModuleResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryModuleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryNamespaceResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryModuleResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -203,26 +189,26 @@ func (m *QueryNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *QueryNamespaceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryNamespaceResponse.Merge(m, src)
+func (m *QueryModuleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryModuleResponse.Merge(m, src)
 }
-func (m *QueryNamespaceResponse) XXX_Size() int {
+func (m *QueryModuleResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryNamespaceResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryNamespaceResponse.DiscardUnknown(m)
+func (m *QueryModuleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryModuleResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryNamespaceResponse proto.InternalMessageInfo
+var xxx_messageInfo_QueryModuleResponse proto.InternalMessageInfo
 
-func (m *QueryNamespaceResponse) GetNamespace() Namespace {
+func (m *QueryModuleResponse) GetNamespace() Namespace {
 	if m != nil {
 		return m.Namespace
 	}
 	return Namespace{}
 }
 
-func (m *QueryNamespaceResponse) GetPermissions() []string {
+func (m *QueryModuleResponse) GetPermissions() []string {
 	if m != nil {
 		return m.Permissions
 	}
@@ -687,10 +673,10 @@ func (m *QueryHasPermissionResponse) GetHasPermission() bool {
 }
 
 func init() {
-	proto.RegisterType((*QueryNamespacesRequest)(nil), "permission.v1.QueryNamespacesRequest")
-	proto.RegisterType((*QueryNamespacesResponse)(nil), "permission.v1.QueryNamespacesResponse")
-	proto.RegisterType((*QueryNamespaceRequest)(nil), "permission.v1.QueryNamespaceRequest")
-	proto.RegisterType((*QueryNamespaceResponse)(nil), "permission.v1.QueryNamespaceResponse")
+	proto.RegisterType((*QueryModulesRequest)(nil), "permission.v1.QueryModulesRequest")
+	proto.RegisterType((*QueryModulesResponse)(nil), "permission.v1.QueryModulesResponse")
+	proto.RegisterType((*QueryModuleRequest)(nil), "permission.v1.QueryModuleRequest")
+	proto.RegisterType((*QueryModuleResponse)(nil), "permission.v1.QueryModuleResponse")
 	proto.RegisterType((*QueryGrantsRequest)(nil), "permission.v1.QueryGrantsRequest")
 	proto.RegisterType((*QueryGrantsResponse)(nil), "permission.v1.QueryGrantsResponse")
 	proto.RegisterType((*QueryGrantsByGranteeRequest)(nil), "permission.v1.QueryGrantsByGranteeRequest")
@@ -704,57 +690,55 @@ func init() {
 func init() { proto.RegisterFile("permission/v1/query.proto", fileDescriptor_333973988e19df7f) }
 
 var fileDescriptor_333973988e19df7f = []byte{
-	// 795 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x96, 0xdf, 0x4f, 0x13, 0x4b,
-	0x14, 0xc7, 0x3b, 0x05, 0xca, 0xed, 0x21, 0xbd, 0x37, 0x99, 0xdb, 0xcb, 0x2d, 0xbd, 0x64, 0x29,
-	0x1b, 0x7e, 0x14, 0xae, 0xec, 0xd8, 0x12, 0xf5, 0x45, 0x4d, 0x2c, 0x51, 0x4c, 0x8c, 0x06, 0x97,
-	0x37, 0x5f, 0xea, 0xb6, 0x9d, 0x2c, 0x0d, 0x74, 0x77, 0xe9, 0x6c, 0x11, 0x42, 0xfa, 0x62, 0x7c,
-	0xf1, 0xcd, 0xe8, 0x8b, 0xc6, 0xf8, 0x82, 0x7f, 0x01, 0x89, 0x7f, 0x04, 0x8f, 0x44, 0x5f, 0x7c,
-	0x32, 0x06, 0xfc, 0x43, 0x4c, 0x67, 0xa7, 0xfb, 0xcb, 0xb5, 0x4b, 0x88, 0x26, 0x3c, 0xc1, 0xcc,
-	0x7c, 0xcf, 0x9c, 0xcf, 0xf9, 0x9e, 0x99, 0xd9, 0xc2, 0x84, 0x45, 0xdb, 0xad, 0x26, 0x63, 0x4d,
-	0xd3, 0x20, 0x3b, 0x25, 0xb2, 0xdd, 0xa1, 0xed, 0x3d, 0xc5, 0x6a, 0x9b, 0xb6, 0x89, 0x33, 0xde,
-	0x92, 0xb2, 0x53, 0xca, 0x2f, 0xd6, 0x4d, 0xd6, 0x32, 0x19, 0xa9, 0x69, 0x8c, 0x3a, 0x3a, 0xb2,
-	0x53, 0xaa, 0x51, 0x5b, 0x2b, 0x11, 0x4b, 0xd3, 0x9b, 0x86, 0x66, 0xf7, 0x84, 0x3c, 0x34, 0x3f,
-	0xe1, 0x68, 0xab, 0x7c, 0x44, 0x9c, 0x81, 0x58, 0xca, 0xea, 0xa6, 0x6e, 0x3a, 0xf3, 0xbd, 0xff,
-	0xc4, 0xec, 0xa4, 0x6e, 0x9a, 0xfa, 0x16, 0x25, 0x9a, 0xd5, 0x24, 0x9a, 0x61, 0x98, 0x36, 0xdf,
-	0xad, 0x1f, 0x23, 0x05, 0x21, 0x7d, 0x5c, 0x7c, 0x5d, 0x7e, 0x0c, 0xe3, 0x0f, 0x7b, 0x40, 0x0f,
-	0xb4, 0x16, 0x65, 0x96, 0x56, 0xa7, 0x4c, 0xa5, 0xdb, 0x1d, 0xca, 0x6c, 0x7c, 0x07, 0xc0, 0x83,
-	0xcb, 0xa1, 0x02, 0x2a, 0x8e, 0x95, 0xe7, 0x14, 0x01, 0xd4, 0xab, 0x44, 0x71, 0x2a, 0x16, 0x95,
-	0x28, 0x6b, 0x9a, 0x4e, 0x45, 0xac, 0xea, 0x8b, 0x94, 0x0f, 0x10, 0xfc, 0xfb, 0x43, 0x0a, 0x66,
-	0x99, 0x06, 0xa3, 0xf8, 0x26, 0x80, 0xe1, 0xce, 0xe6, 0x50, 0x61, 0xa8, 0x38, 0x56, 0xce, 0x29,
-	0x01, 0xf3, 0x14, 0x37, 0xac, 0x32, 0x7c, 0xf4, 0x65, 0x2a, 0xa1, 0xfa, 0x22, 0xf0, 0x6a, 0x80,
-	0x31, 0xc9, 0x19, 0xe7, 0x63, 0x19, 0x9d, 0xe4, 0x01, 0x48, 0x02, 0xff, 0x04, 0x19, 0xfb, 0x2e,
-	0x8c, 0x43, 0xaa, 0x65, 0x36, 0x3a, 0x5b, 0x94, 0x3b, 0x90, 0x56, 0xc5, 0x48, 0xde, 0x0d, 0xfb,
-	0xe6, 0xd6, 0x74, 0x1d, 0xd2, 0x2e, 0xa1, 0xb0, 0x2d, 0xae, 0x24, 0x2f, 0x00, 0x17, 0x60, 0xcc,
-	0xd3, 0xb2, 0x5c, 0xb2, 0x30, 0x54, 0x4c, 0xab, 0xfe, 0x29, 0xd9, 0x06, 0xcc, 0x33, 0xaf, 0xb6,
-	0x35, 0xc3, 0x66, 0x31, 0x9c, 0xa1, 0x2e, 0x26, 0xcf, 0xdd, 0xc5, 0x97, 0x08, 0xfe, 0x0e, 0xa4,
-	0x15, 0xd5, 0x96, 0x21, 0xa5, 0xf3, 0x19, 0xd1, 0xbd, 0x6c, 0xa8, 0x54, 0x2e, 0x17, 0x65, 0x0a,
-	0xe5, 0xaf, 0xeb, 0xda, 0x21, 0x82, 0xff, 0x7c, 0x50, 0x15, 0xe7, 0x2f, 0x8d, 0x6b, 0x1e, 0x2e,
-	0xc3, 0xa8, 0xee, 0x28, 0x79, 0xf6, 0x74, 0x25, 0xf7, 0xf1, 0xc3, 0x52, 0x56, 0x00, 0xdc, 0x6a,
-	0x34, 0xda, 0x94, 0xb1, 0x75, 0xbb, 0xdd, 0x34, 0x74, 0xb5, 0x2f, 0x0c, 0x19, 0x39, 0x74, 0x6e,
-	0x23, 0xdf, 0x22, 0x98, 0x8c, 0x66, 0xbe, 0x20, 0x8e, 0x4e, 0x04, 0xe8, 0xd6, 0xeb, 0xa6, 0x15,
-	0xeb, 0x67, 0x16, 0x46, 0x58, 0x4f, 0xe7, 0xb8, 0xa9, 0x3a, 0x03, 0x2c, 0x01, 0x78, 0xe4, 0xdc,
-	0xb1, 0xb4, 0xea, 0x9b, 0x09, 0x39, 0x3a, 0x7c, 0x6e, 0x47, 0xdf, 0x20, 0xc8, 0x47, 0x31, 0x5f,
-	0x04, 0x3f, 0xdf, 0xf5, 0xfd, 0xbc, 0xab, 0xb1, 0x35, 0x37, 0xed, 0xef, 0x38, 0x9f, 0x71, 0x6e,
-	0xbb, 0x3d, 0x1a, 0xf6, 0xf5, 0x48, 0x5e, 0x11, 0xd6, 0x85, 0xf0, 0x84, 0x75, 0xb3, 0xf0, 0xe7,
-	0x86, 0xc6, 0xaa, 0xbe, 0x7d, 0x7b, 0x9c, 0x7f, 0xa8, 0x99, 0x0d, 0xbf, 0xbc, 0xfc, 0x7a, 0x14,
-	0x46, 0xf8, 0x2e, 0xf8, 0x19, 0x02, 0xf0, 0x9e, 0x79, 0x3c, 0x1b, 0xb2, 0x3a, 0xfa, 0x4b, 0x93,
-	0x9f, 0x8b, 0x93, 0x39, 0x38, 0xf2, 0xfc, 0xd3, 0x4f, 0xdf, 0x5e, 0x25, 0xa7, 0xf1, 0x14, 0x79,
-	0x42, 0x6b, 0xcc, 0xd6, 0xea, 0x9b, 0xbe, 0xef, 0x19, 0xf1, 0x7d, 0x16, 0x9e, 0x23, 0x48, 0xbb,
-	0xf1, 0x78, 0x66, 0xe0, 0xf6, 0x7d, 0x88, 0xd9, 0x18, 0x95, 0x60, 0x20, 0x9c, 0x61, 0x01, 0xcf,
-	0x0f, 0x66, 0x20, 0xfb, 0x4e, 0x2b, 0xbb, 0xb8, 0x0b, 0x29, 0xe7, 0x5c, 0xe2, 0xe9, 0xa8, 0x0c,
-	0x81, 0x57, 0x3c, 0x2f, 0x0f, 0x92, 0x08, 0x82, 0x4b, 0x9c, 0x60, 0x0e, 0xcf, 0x44, 0x12, 0x38,
-	0x07, 0xd8, 0x4b, 0x7f, 0x80, 0xe0, 0xaf, 0xd0, 0x4b, 0x83, 0x17, 0x7f, 0x9e, 0x25, 0xfc, 0x84,
-	0xe6, 0xff, 0x3f, 0x93, 0x56, 0xa0, 0x5d, 0xe5, 0x68, 0x97, 0xb1, 0x72, 0x16, 0x34, 0xb2, 0x2f,
-	0x8e, 0x6e, 0x17, 0xbf, 0x47, 0x90, 0x09, 0x5c, 0x5e, 0x5c, 0x1c, 0x94, 0xd6, 0xff, 0x26, 0xe5,
-	0x17, 0xce, 0xa0, 0x14, 0x78, 0x37, 0x38, 0xde, 0x35, 0x7c, 0x65, 0x00, 0x5e, 0xb5, 0xb6, 0x57,
-	0xe5, 0x57, 0xc3, 0xc7, 0xc9, 0xc7, 0x5d, 0x7c, 0x88, 0x20, 0x13, 0xb8, 0x27, 0xd1, 0x94, 0x51,
-	0x37, 0x3d, 0x9a, 0x32, 0xf2, 0xd2, 0xc9, 0xf7, 0x38, 0xe5, 0x6d, 0xbc, 0x12, 0x49, 0x19, 0xbc,
-	0x8f, 0x11, 0x66, 0x92, 0x7d, 0x6f, 0xb9, 0x5b, 0xb9, 0x7f, 0x74, 0x22, 0xa1, 0xe3, 0x13, 0x09,
-	0x7d, 0x3d, 0x91, 0xd0, 0x8b, 0x53, 0x29, 0x71, 0x7c, 0x2a, 0x25, 0x3e, 0x9f, 0x4a, 0x89, 0x47,
-	0xcb, 0x7a, 0xd3, 0xde, 0xe8, 0xd4, 0x94, 0xba, 0xd9, 0x72, 0x13, 0x2d, 0xb1, 0xc6, 0xa6, 0x97,
-	0x75, 0xd7, 0x9f, 0xd7, 0xde, 0xb3, 0x28, 0xab, 0xa5, 0xf8, 0x8f, 0xc6, 0xe5, 0xef, 0x01, 0x00,
-	0x00, 0xff, 0xff, 0x4c, 0x84, 0x1d, 0xdc, 0xfb, 0x0a, 0x00, 0x00,
+	// 768 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x96, 0xcf, 0x6e, 0xd3, 0x30,
+	0x1c, 0xc7, 0x9b, 0xfd, 0xe9, 0xa8, 0xa7, 0x82, 0x64, 0x0a, 0xea, 0xca, 0x14, 0x4a, 0x18, 0xa3,
+	0x8c, 0x2d, 0xa1, 0x9d, 0x80, 0x0b, 0x20, 0xd1, 0x09, 0x86, 0x84, 0x86, 0x46, 0x26, 0x71, 0xe0,
+	0x52, 0xb9, 0xad, 0x95, 0x55, 0x5b, 0xe3, 0xac, 0x4e, 0xc7, 0xa6, 0xa9, 0x17, 0x9e, 0x00, 0xc1,
+	0x09, 0x21, 0x2e, 0xf0, 0x04, 0x93, 0x78, 0x88, 0x1d, 0x27, 0xb8, 0x70, 0x42, 0x68, 0xe3, 0x39,
+	0x10, 0x8a, 0xed, 0x34, 0x4e, 0x94, 0x35, 0xd5, 0x24, 0xa4, 0x9d, 0x32, 0xdb, 0x5f, 0xfb, 0xfb,
+	0xf1, 0xd7, 0xf6, 0x6f, 0x05, 0x53, 0x0e, 0xee, 0xb4, 0x5b, 0x94, 0xb6, 0x88, 0x6d, 0x6c, 0x97,
+	0x8d, 0xad, 0x2e, 0xee, 0xec, 0xea, 0x4e, 0x87, 0xb8, 0x04, 0x66, 0x83, 0x21, 0x7d, 0xbb, 0x5c,
+	0x98, 0x6b, 0x10, 0xda, 0x26, 0xd4, 0xa8, 0x23, 0x8a, 0xb9, 0xce, 0xd8, 0x2e, 0xd7, 0xb1, 0x8b,
+	0xca, 0x86, 0x83, 0xac, 0x96, 0x8d, 0x5c, 0x4f, 0xc8, 0xa6, 0x16, 0xa6, 0xb8, 0xb6, 0xc6, 0x5a,
+	0x06, 0x6f, 0x88, 0xa1, 0x9c, 0x45, 0x2c, 0xc2, 0xfb, 0xbd, 0xbf, 0x44, 0xef, 0xb4, 0x45, 0x88,
+	0xb5, 0x89, 0x0d, 0xe4, 0xb4, 0x0c, 0x64, 0xdb, 0xc4, 0x65, 0xab, 0xf9, 0x73, 0xd4, 0x30, 0xa4,
+	0xc4, 0xc5, 0xc6, 0xb5, 0x4b, 0xe0, 0xe2, 0x4b, 0x0f, 0x68, 0x85, 0x34, 0xbb, 0x9b, 0x98, 0x9a,
+	0x78, 0xab, 0x8b, 0xa9, 0xab, 0xbd, 0x02, 0xb9, 0x70, 0x37, 0x75, 0x88, 0x4d, 0x31, 0x7c, 0x04,
+	0x80, 0x8d, 0xda, 0x98, 0x3a, 0xa8, 0x81, 0x69, 0x5e, 0x29, 0x8e, 0x96, 0x26, 0x2b, 0x79, 0x3d,
+	0xb4, 0x5b, 0xfd, 0x85, 0x2f, 0xa8, 0x8e, 0x1d, 0xfc, 0xba, 0x9a, 0x32, 0xa5, 0x19, 0xda, 0x3c,
+	0x80, 0xd2, 0xba, 0xc2, 0x0d, 0x5e, 0x06, 0xe9, 0x36, 0xeb, 0xc8, 0x2b, 0x45, 0xa5, 0x94, 0x31,
+	0x45, 0x4b, 0xeb, 0x86, 0xe0, 0xfa, 0x10, 0x0f, 0x40, 0xa6, 0xbf, 0x24, 0x9b, 0x91, 0xcc, 0x10,
+	0x4c, 0x80, 0x45, 0x30, 0x19, 0x68, 0x69, 0x7e, 0xa4, 0x38, 0x5a, 0xca, 0x98, 0x72, 0x97, 0xe6,
+	0x0a, 0xc8, 0xe5, 0x0e, 0xb2, 0x5d, 0x9a, 0x00, 0x09, 0x9f, 0x02, 0x10, 0x1c, 0x62, 0x7e, 0x84,
+	0xe1, 0xcc, 0xea, 0xe2, 0xe0, 0xbc, 0x13, 0xd7, 0xf9, 0xcd, 0x10, 0x27, 0xae, 0xaf, 0x22, 0xcb,
+	0xdf, 0xb8, 0x29, 0xcd, 0xd4, 0xde, 0x2b, 0x62, 0xb7, 0xbe, 0xad, 0xd8, 0x6d, 0x05, 0xa4, 0x2d,
+	0xd6, 0x23, 0xe2, 0xce, 0x45, 0xb6, 0xca, 0xe4, 0x62, 0x9b, 0x42, 0x09, 0x97, 0x63, 0x98, 0x6e,
+	0x26, 0x32, 0x71, 0xc3, 0x10, 0xd4, 0xbe, 0x02, 0xae, 0x48, 0x50, 0x55, 0xfe, 0xc5, 0x49, 0x27,
+	0x07, 0x2b, 0x60, 0xc2, 0xe2, 0x4a, 0xe6, 0x9e, 0xa9, 0xe6, 0xbf, 0x7f, 0x5b, 0xc8, 0x09, 0x80,
+	0xc7, 0xcd, 0x66, 0x07, 0x53, 0xba, 0xe6, 0x76, 0x5a, 0xb6, 0x65, 0xfa, 0xc2, 0x48, 0x90, 0xa3,
+	0xa7, 0x0e, 0xf2, 0x93, 0x02, 0xa6, 0xe3, 0x99, 0xcf, 0x48, 0xa2, 0x53, 0x21, 0xba, 0xb5, 0x06,
+	0x71, 0x12, 0xf3, 0xcc, 0x81, 0x71, 0xea, 0xe9, 0x78, 0x9a, 0x26, 0x6f, 0x40, 0x15, 0x80, 0x80,
+	0x9c, 0x25, 0x96, 0x31, 0xa5, 0x9e, 0x48, 0xa2, 0x63, 0xa7, 0x4e, 0xf4, 0xa3, 0x02, 0x0a, 0x71,
+	0xcc, 0x67, 0x21, 0xcf, 0xcf, 0x7e, 0x9e, 0xcf, 0x10, 0x5d, 0xed, 0xdb, 0xfe, 0x8f, 0xfb, 0x99,
+	0x94, 0x76, 0xff, 0x8c, 0xc6, 0xa4, 0x33, 0xd2, 0x96, 0x44, 0x74, 0x11, 0x3c, 0x11, 0xdd, 0x0d,
+	0x70, 0x7e, 0x1d, 0xd1, 0x9a, 0xb4, 0xae, 0xc7, 0x79, 0xce, 0xcc, 0xae, 0xcb, 0xf2, 0xca, 0xdf,
+	0x34, 0x18, 0x67, 0xab, 0xc0, 0x1d, 0x30, 0x21, 0x6a, 0x32, 0xd4, 0x22, 0x31, 0xc7, 0xd4, 0xf1,
+	0xc2, 0xf5, 0x81, 0x1a, 0x0e, 0xa1, 0xcd, 0xbc, 0xfd, 0xf1, 0xe7, 0xc3, 0x88, 0x0a, 0xa7, 0x8d,
+	0x37, 0xb8, 0x4e, 0x5d, 0xd4, 0xd8, 0x90, 0xfe, 0x4f, 0x18, 0x6d, 0x61, 0xd7, 0x03, 0x69, 0x3e,
+	0x11, 0x5e, 0x3b, 0x79, 0x51, 0xdf, 0x57, 0x1b, 0x24, 0x11, 0xb6, 0xf3, 0xcc, 0x76, 0x16, 0xce,
+	0x0c, 0xb0, 0x35, 0xf6, 0xf8, 0xb7, 0xe7, 0xd9, 0xf3, 0xdb, 0x17, 0x6f, 0x1f, 0xaa, 0xd5, 0xf1,
+	0xf6, 0xe1, 0xba, 0x9a, 0x60, 0xcf, 0xaf, 0x69, 0x60, 0xff, 0x45, 0x01, 0x17, 0x22, 0xf5, 0x04,
+	0xce, 0x9d, 0xec, 0x12, 0x2d, 0x94, 0x85, 0xdb, 0x43, 0x69, 0x05, 0xda, 0x3d, 0x86, 0x76, 0x07,
+	0xea, 0xc3, 0xa0, 0x19, 0x7b, 0xe2, 0x82, 0xf6, 0xe0, 0x57, 0x05, 0x64, 0x43, 0x4f, 0x14, 0x96,
+	0x06, 0xd9, 0xca, 0x95, 0xa7, 0x70, 0x6b, 0x08, 0xa5, 0xc0, 0x7b, 0xc8, 0xf0, 0xee, 0xc3, 0xbb,
+	0x03, 0xf0, 0x6a, 0xf5, 0xdd, 0x1a, 0x7b, 0x00, 0x12, 0x27, 0x6b, 0xf7, 0xe0, 0xbe, 0x02, 0xb2,
+	0xa1, 0xd7, 0x10, 0x4f, 0x19, 0xf7, 0x9e, 0xe3, 0x29, 0x63, 0x9f, 0x96, 0xf6, 0x9c, 0x51, 0x3e,
+	0x81, 0x4b, 0xb1, 0x94, 0xe1, 0x57, 0x17, 0x13, 0xa6, 0xb1, 0x17, 0x0c, 0xf7, 0xaa, 0x2b, 0x07,
+	0x47, 0xaa, 0x72, 0x78, 0xa4, 0x2a, 0xbf, 0x8f, 0x54, 0xe5, 0xdd, 0xb1, 0x9a, 0x3a, 0x3c, 0x56,
+	0x53, 0x3f, 0x8f, 0xd5, 0xd4, 0xeb, 0x45, 0xab, 0xe5, 0xae, 0x77, 0xeb, 0x7a, 0x83, 0xb4, 0xfb,
+	0x46, 0x0b, 0xb4, 0xb9, 0x11, 0xb8, 0xee, 0xc8, 0xbe, 0xee, 0xae, 0x83, 0x69, 0x3d, 0xcd, 0x7e,
+	0x7c, 0x2d, 0xfe, 0x0b, 0x00, 0x00, 0xff, 0xff, 0x68, 0xc5, 0x3c, 0xd8, 0x43, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -769,11 +753,13 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	// Namespaces queries all namespaces.
-	Namespaces(ctx context.Context, in *QueryNamespacesRequest, opts ...grpc.CallOption) (*QueryNamespacesResponse, error)
-	// Namespace queries a namespace by module name, including the permission
-	// vocabulary the module registered in this binary.
-	Namespace(ctx context.Context, in *QueryNamespaceRequest, opts ...grpc.CallOption) (*QueryNamespaceResponse, error)
+	// Modules queries every registered module namespace. The owner is empty for
+	// modules whose namespace owner has not been set yet.
+	Modules(ctx context.Context, in *QueryModulesRequest, opts ...grpc.CallOption) (*QueryModulesResponse, error)
+	// Module queries a registered module's namespace owner and the permission
+	// vocabulary the module registered in this binary. The owner is empty if it
+	// has not been set yet.
+	Module(ctx context.Context, in *QueryModuleRequest, opts ...grpc.CallOption) (*QueryModuleResponse, error)
 	// Grants queries every grant within a namespace.
 	Grants(ctx context.Context, in *QueryGrantsRequest, opts ...grpc.CallOption) (*QueryGrantsResponse, error)
 	// GrantsByGrantee queries the grants held by an address within a namespace.
@@ -794,18 +780,18 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) Namespaces(ctx context.Context, in *QueryNamespacesRequest, opts ...grpc.CallOption) (*QueryNamespacesResponse, error) {
-	out := new(QueryNamespacesResponse)
-	err := c.cc.Invoke(ctx, "/permission.v1.Query/Namespaces", in, out, opts...)
+func (c *queryClient) Modules(ctx context.Context, in *QueryModulesRequest, opts ...grpc.CallOption) (*QueryModulesResponse, error) {
+	out := new(QueryModulesResponse)
+	err := c.cc.Invoke(ctx, "/permission.v1.Query/Modules", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) Namespace(ctx context.Context, in *QueryNamespaceRequest, opts ...grpc.CallOption) (*QueryNamespaceResponse, error) {
-	out := new(QueryNamespaceResponse)
-	err := c.cc.Invoke(ctx, "/permission.v1.Query/Namespace", in, out, opts...)
+func (c *queryClient) Module(ctx context.Context, in *QueryModuleRequest, opts ...grpc.CallOption) (*QueryModuleResponse, error) {
+	out := new(QueryModuleResponse)
+	err := c.cc.Invoke(ctx, "/permission.v1.Query/Module", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -850,11 +836,13 @@ func (c *queryClient) HasPermission(ctx context.Context, in *QueryHasPermissionR
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	// Namespaces queries all namespaces.
-	Namespaces(context.Context, *QueryNamespacesRequest) (*QueryNamespacesResponse, error)
-	// Namespace queries a namespace by module name, including the permission
-	// vocabulary the module registered in this binary.
-	Namespace(context.Context, *QueryNamespaceRequest) (*QueryNamespaceResponse, error)
+	// Modules queries every registered module namespace. The owner is empty for
+	// modules whose namespace owner has not been set yet.
+	Modules(context.Context, *QueryModulesRequest) (*QueryModulesResponse, error)
+	// Module queries a registered module's namespace owner and the permission
+	// vocabulary the module registered in this binary. The owner is empty if it
+	// has not been set yet.
+	Module(context.Context, *QueryModuleRequest) (*QueryModuleResponse, error)
 	// Grants queries every grant within a namespace.
 	Grants(context.Context, *QueryGrantsRequest) (*QueryGrantsResponse, error)
 	// GrantsByGrantee queries the grants held by an address within a namespace.
@@ -871,11 +859,11 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) Namespaces(ctx context.Context, req *QueryNamespacesRequest) (*QueryNamespacesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Namespaces not implemented")
+func (*UnimplementedQueryServer) Modules(ctx context.Context, req *QueryModulesRequest) (*QueryModulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Modules not implemented")
 }
-func (*UnimplementedQueryServer) Namespace(ctx context.Context, req *QueryNamespaceRequest) (*QueryNamespaceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Namespace not implemented")
+func (*UnimplementedQueryServer) Module(ctx context.Context, req *QueryModuleRequest) (*QueryModuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Module not implemented")
 }
 func (*UnimplementedQueryServer) Grants(ctx context.Context, req *QueryGrantsRequest) (*QueryGrantsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Grants not implemented")
@@ -894,38 +882,38 @@ func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
 }
 
-func _Query_Namespaces_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryNamespacesRequest)
+func _Query_Modules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryModulesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).Namespaces(ctx, in)
+		return srv.(QueryServer).Modules(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/permission.v1.Query/Namespaces",
+		FullMethod: "/permission.v1.Query/Modules",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Namespaces(ctx, req.(*QueryNamespacesRequest))
+		return srv.(QueryServer).Modules(ctx, req.(*QueryModulesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_Namespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryNamespaceRequest)
+func _Query_Module_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryModuleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).Namespace(ctx, in)
+		return srv.(QueryServer).Module(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/permission.v1.Query/Namespace",
+		FullMethod: "/permission.v1.Query/Module",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Namespace(ctx, req.(*QueryNamespaceRequest))
+		return srv.(QueryServer).Module(ctx, req.(*QueryModuleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1007,12 +995,12 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Namespaces",
-			Handler:    _Query_Namespaces_Handler,
+			MethodName: "Modules",
+			Handler:    _Query_Modules_Handler,
 		},
 		{
-			MethodName: "Namespace",
-			Handler:    _Query_Namespace_Handler,
+			MethodName: "Module",
+			Handler:    _Query_Module_Handler,
 		},
 		{
 			MethodName: "Grants",
@@ -1035,7 +1023,7 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	Metadata: "permission/v1/query.proto",
 }
 
-func (m *QueryNamespacesRequest) Marshal() (dAtA []byte, err error) {
+func (m *QueryModulesRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1045,32 +1033,20 @@ func (m *QueryNamespacesRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *QueryNamespacesRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryModulesRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryNamespacesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryModulesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintQuery(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryNamespacesResponse) Marshal() (dAtA []byte, err error) {
+func (m *QueryModulesResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1080,28 +1056,16 @@ func (m *QueryNamespacesResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *QueryNamespacesResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryModulesResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryNamespacesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryModulesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintQuery(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x12
-	}
 	if len(m.Namespaces) > 0 {
 		for iNdEx := len(m.Namespaces) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -1119,7 +1083,7 @@ func (m *QueryNamespacesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryNamespaceRequest) Marshal() (dAtA []byte, err error) {
+func (m *QueryModuleRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1129,12 +1093,12 @@ func (m *QueryNamespaceRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *QueryNamespaceRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryModuleRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryNamespaceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryModuleRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1149,7 +1113,7 @@ func (m *QueryNamespaceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryNamespaceResponse) Marshal() (dAtA []byte, err error) {
+func (m *QueryModuleResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1159,12 +1123,12 @@ func (m *QueryNamespaceResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *QueryNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryModuleResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryModuleResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1580,20 +1544,16 @@ func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *QueryNamespacesRequest) Size() (n int) {
+func (m *QueryModulesRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
-		n += 1 + l + sovQuery(uint64(l))
-	}
 	return n
 }
 
-func (m *QueryNamespacesResponse) Size() (n int) {
+func (m *QueryModulesResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1605,14 +1565,10 @@ func (m *QueryNamespacesResponse) Size() (n int) {
 			n += 1 + l + sovQuery(uint64(l))
 		}
 	}
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
-		n += 1 + l + sovQuery(uint64(l))
-	}
 	return n
 }
 
-func (m *QueryNamespaceRequest) Size() (n int) {
+func (m *QueryModuleRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1625,7 +1581,7 @@ func (m *QueryNamespaceRequest) Size() (n int) {
 	return n
 }
 
-func (m *QueryNamespaceResponse) Size() (n int) {
+func (m *QueryModuleResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1805,7 +1761,7 @@ func sovQuery(x uint64) (n int) {
 func sozQuery(x uint64) (n int) {
 	return sovQuery(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *QueryNamespacesRequest) Unmarshal(dAtA []byte) error {
+func (m *QueryModulesRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1828,48 +1784,12 @@ func (m *QueryNamespacesRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryNamespacesRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryModulesRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryNamespacesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryModulesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageRequest{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])
@@ -1891,7 +1811,7 @@ func (m *QueryNamespacesRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *QueryNamespacesResponse) Unmarshal(dAtA []byte) error {
+func (m *QueryModulesResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1914,10 +1834,10 @@ func (m *QueryNamespacesResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryNamespacesResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryModulesResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryNamespacesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryModulesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1954,42 +1874,6 @@ func (m *QueryNamespacesResponse) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageResponse{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])
@@ -2011,7 +1895,7 @@ func (m *QueryNamespacesResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *QueryNamespaceRequest) Unmarshal(dAtA []byte) error {
+func (m *QueryModuleRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2034,10 +1918,10 @@ func (m *QueryNamespaceRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryNamespaceRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryModuleRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryNamespaceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryModuleRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2093,7 +1977,7 @@ func (m *QueryNamespaceRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *QueryNamespaceResponse) Unmarshal(dAtA []byte) error {
+func (m *QueryModuleResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2116,10 +2000,10 @@ func (m *QueryNamespaceResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryNamespaceResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryModuleResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryModuleResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

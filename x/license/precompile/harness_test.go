@@ -22,13 +22,16 @@ import (
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
 	"github.com/webstack-sdk/webstack/x/license/keeper"
 	licensetypes "github.com/webstack-sdk/webstack/x/license/types"
+	permissiontypes "github.com/webstack-sdk/webstack/x/permission/types"
 )
 
 // testFixture bundles everything an end-to-end precompile test needs: a real
-// licenses keeper backed by an in-memory store, the precompile under test, a
-// recording StateDB to capture emitted logs, and the EVM-derived owner.
+// licenses keeper (with its permission keeper) backed by an in-memory store,
+// the precompile under test, a recording StateDB to capture emitted logs, and
+// the EVM-derived owner.
 type testFixture struct {
 	t          *testing.T
+	fixture    *keepertest.LicenseFixture
 	keeper     keeper.Keeper
 	ctx        sdk.Context
 	precompile Precompile
@@ -40,26 +43,32 @@ type testFixture struct {
 }
 
 // newTestFixture wires a fresh precompile against a fresh in-memory keeper,
-// installing an EVM-derived owner so that owner-gated tx methods can be tested
-// using the precompile's contract.Caller() path.
+// installing an EVM-derived address as the license namespace owner so that
+// owner-gated tx methods can be tested using the precompile's
+// contract.Caller() path.
 func newTestFixture(t *testing.T) *testFixture {
 	t.Helper()
 
-	k, ctx := keepertest.LicenseKeeper(t)
+	fx := keepertest.NewLicenseFixture(t)
 	cdc := evmaddress.NewEvmCodec(sdk.GetConfig().GetBech32AccountAddrPrefix())
 
 	ownerHex := common.HexToAddress("0x1111111111111111111111111111111111111111")
 	ownerBech, err := cdc.BytesToString(ownerHex.Bytes())
 	require.NoError(t, err)
 
-	require.NoError(t, k.SetParams(ctx, licensetypes.Params{Owner: ownerBech}))
+	// Replace the fixture's random namespace owner with the EVM-derived one.
+	require.NoError(t, fx.PermissionKeeper.Namespaces.Set(fx.Ctx, licensetypes.ModuleName, permissiontypes.Namespace{
+		Module: licensetypes.ModuleName,
+		Owner:  ownerBech,
+	}))
 
-	p := NewPrecompile(k, cdc, common.HexToAddress(licensetypes.PrecompileAddress))
+	p := NewPrecompile(fx.Keeper, cdc, common.HexToAddress(licensetypes.PrecompileAddress))
 
 	return &testFixture{
 		t:          t,
-		keeper:     k,
-		ctx:        ctx,
+		fixture:    fx,
+		keeper:     fx.Keeper,
+		ctx:        fx.Ctx,
 		precompile: *p,
 		stateDB:    &recordingStateDB{},
 		addrCdc:    cdc,

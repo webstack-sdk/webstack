@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"sort"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -106,6 +107,18 @@ func (k Keeper) Spec(module string) (types.NamespaceSpec, bool) {
 	return spec, ok
 }
 
+// RegisteredModules returns the names of every module registered in this
+// binary, in ascending order. Namespaces exist for exactly these modules;
+// state only carries their owners.
+func (k Keeper) RegisteredModules() []string {
+	modules := make([]string, 0, len(k.registry))
+	for module := range k.registry {
+		modules = append(modules, module)
+	}
+	sort.Strings(modules)
+	return modules
+}
+
 // GetNamespace returns a namespace by module name and whether it was found.
 func (k Keeper) GetNamespace(ctx context.Context, module string) (types.Namespace, bool, error) {
 	ns, err := k.Namespaces.Get(ctx, module)
@@ -115,16 +128,16 @@ func (k Keeper) GetNamespace(ctx context.Context, module string) (types.Namespac
 	return ns, true, nil
 }
 
-// IsOwner reports whether addr owns the module's namespace. A missing
-// namespace is surfaced as ErrNamespaceNotFound so callers can distinguish
-// "not the owner" from "namespace does not exist".
+// IsOwner reports whether addr owns the module's namespace. A namespace with
+// no owner set is surfaced as ErrNamespaceNotFound so callers can distinguish
+// "not the owner" from "no owner configured".
 func (k Keeper) IsOwner(ctx context.Context, module, addr string) (bool, error) {
 	ns, found, err := k.GetNamespace(ctx, module)
 	if err != nil {
 		return false, err
 	}
 	if !found {
-		return false, types.ErrNamespaceNotFound.Wrapf("namespace for module %q not found", module)
+		return false, types.ErrNamespaceNotFound.Wrapf("no owner is set for namespace %q", module)
 	}
 	return ns.Owner == addr, nil
 }

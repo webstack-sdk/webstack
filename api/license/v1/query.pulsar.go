@@ -2,7 +2,6 @@
 package licensev1
 
 import (
-	_ "cosmossdk.io/api/amino"
 	v1beta1 "cosmossdk.io/api/cosmos/base/query/v1beta1"
 	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
@@ -16,797 +15,6 @@ import (
 	reflect "reflect"
 	sync "sync"
 )
-
-var (
-	md_QueryParamsRequest protoreflect.MessageDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryParamsRequest = File_license_v1_query_proto.Messages().ByName("QueryParamsRequest")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryParamsRequest)(nil)
-
-type fastReflection_QueryParamsRequest QueryParamsRequest
-
-func (x *QueryParamsRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryParamsRequest)(x)
-}
-
-func (x *QueryParamsRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryParamsRequest_messageType fastReflection_QueryParamsRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryParamsRequest_messageType{}
-
-type fastReflection_QueryParamsRequest_messageType struct{}
-
-func (x fastReflection_QueryParamsRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryParamsRequest)(nil)
-}
-func (x fastReflection_QueryParamsRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryParamsRequest)
-}
-func (x fastReflection_QueryParamsRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryParamsRequest
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryParamsRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryParamsRequest
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryParamsRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryParamsRequest_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryParamsRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryParamsRequest)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryParamsRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryParamsRequest)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryParamsRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryParamsRequest) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsRequest) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryParamsRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsRequest does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryParamsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryParamsRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryParamsRequest", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryParamsRequest) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsRequest) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryParamsRequest) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryParamsRequest) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryParamsRequest)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryParamsRequest)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryParamsRequest)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryParamsRequest: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryParamsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
-	md_QueryParamsResponse        protoreflect.MessageDescriptor
-	fd_QueryParamsResponse_params protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryParamsResponse = File_license_v1_query_proto.Messages().ByName("QueryParamsResponse")
-	fd_QueryParamsResponse_params = md_QueryParamsResponse.Fields().ByName("params")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryParamsResponse)(nil)
-
-type fastReflection_QueryParamsResponse QueryParamsResponse
-
-func (x *QueryParamsResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryParamsResponse)(x)
-}
-
-func (x *QueryParamsResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryParamsResponse_messageType fastReflection_QueryParamsResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryParamsResponse_messageType{}
-
-type fastReflection_QueryParamsResponse_messageType struct{}
-
-func (x fastReflection_QueryParamsResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryParamsResponse)(nil)
-}
-func (x fastReflection_QueryParamsResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryParamsResponse)
-}
-func (x fastReflection_QueryParamsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryParamsResponse
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryParamsResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryParamsResponse
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryParamsResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryParamsResponse_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryParamsResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryParamsResponse)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryParamsResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryParamsResponse)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryParamsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Params != nil {
-		value := protoreflect.ValueOfMessage(x.Params.ProtoReflect())
-		if !f(fd_QueryParamsResponse_params, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryParamsResponse) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryParamsResponse.params":
-		return x.Params != nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsResponse) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryParamsResponse.params":
-		x.Params = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryParamsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryParamsResponse.params":
-		value := x.Params
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsResponse does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryParamsResponse.params":
-		x.Params = value.Message().Interface().(*Params)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryParamsResponse.params":
-		if x.Params == nil {
-			x.Params = new(Params)
-		}
-		return protoreflect.ValueOfMessage(x.Params.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryParamsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryParamsResponse.params":
-		m := new(Params)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryParamsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryParamsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryParamsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryParamsResponse", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryParamsResponse) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryParamsResponse) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryParamsResponse) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryParamsResponse) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryParamsResponse)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if x.Params != nil {
-			l = options.Size(x.Params)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryParamsResponse)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Params != nil {
-			encoded, err := options.Marshal(x.Params)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0xa
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryParamsResponse)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryParamsResponse: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryParamsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Params", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Params == nil {
-					x.Params = &Params{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Params); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
 
 var (
 	md_QueryLicenseTypeRequest    protoreflect.MessageDescriptor
@@ -828,7 +36,7 @@ func (x *QueryLicenseTypeRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[2]
+	mi := &file_license_v1_query_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1248,7 +456,7 @@ func (x *QueryLicenseTypeResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[3]
+	mi := &file_license_v1_query_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1683,7 +891,7 @@ func (x *QueryLicenseTypesRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypesRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[4]
+	mi := &file_license_v1_query_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2171,7 +1379,7 @@ func (x *QueryLicenseTypesResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseTypesResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[5]
+	mi := &file_license_v1_query_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2693,7 +1901,7 @@ func (x *QueryLicenseRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[6]
+	mi := &file_license_v1_query_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3159,7 +2367,7 @@ func (x *QueryLicenseResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicenseResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[7]
+	mi := &file_license_v1_query_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3594,7 +2802,7 @@ func (x *QueryLicensesRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[8]
+	mi := &file_license_v1_query_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4082,7 +3290,7 @@ func (x *QueryLicensesResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[9]
+	mi := &file_license_v1_query_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4604,7 +3812,7 @@ func (x *QueryLicensesByTypeRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[10]
+	mi := &file_license_v1_query_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5154,7 +4362,7 @@ func (x *QueryLicensesByTypeResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[11]
+	mi := &file_license_v1_query_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5676,7 +4884,7 @@ func (x *QueryLicensesByHolderRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByHolderRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[12]
+	mi := &file_license_v1_query_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6226,7 +5434,7 @@ func (x *QueryLicensesByHolderResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLicensesByHolderResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[13]
+	mi := &file_license_v1_query_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6750,7 +5958,7 @@ func (x *QueryLicensesByHolderAndTypeRequest) ProtoReflect() protoreflect.Messag
 }
 
 func (x *QueryLicensesByHolderAndTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[14]
+	mi := &file_license_v1_query_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7362,7 +6570,7 @@ func (x *QueryLicensesByHolderAndTypeResponse) ProtoReflect() protoreflect.Messa
 }
 
 func (x *QueryLicensesByHolderAndTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[15]
+	mi := &file_license_v1_query_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7862,3005 +7070,6 @@ func (x *fastReflection_QueryLicensesByHolderAndTypeResponse) ProtoMethods() *pr
 	}
 }
 
-var (
-	md_QueryPermissionsByAddressRequest         protoreflect.MessageDescriptor
-	fd_QueryPermissionsByAddressRequest_address protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryPermissionsByAddressRequest = File_license_v1_query_proto.Messages().ByName("QueryPermissionsByAddressRequest")
-	fd_QueryPermissionsByAddressRequest_address = md_QueryPermissionsByAddressRequest.Fields().ByName("address")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsByAddressRequest)(nil)
-
-type fastReflection_QueryPermissionsByAddressRequest QueryPermissionsByAddressRequest
-
-func (x *QueryPermissionsByAddressRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByAddressRequest)(x)
-}
-
-func (x *QueryPermissionsByAddressRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsByAddressRequest_messageType fastReflection_QueryPermissionsByAddressRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsByAddressRequest_messageType{}
-
-type fastReflection_QueryPermissionsByAddressRequest_messageType struct{}
-
-func (x fastReflection_QueryPermissionsByAddressRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByAddressRequest)(nil)
-}
-func (x fastReflection_QueryPermissionsByAddressRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByAddressRequest)
-}
-func (x fastReflection_QueryPermissionsByAddressRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByAddressRequest
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByAddressRequest
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsByAddressRequest_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsByAddressRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByAddressRequest)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsByAddressRequest)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Address != "" {
-		value := protoreflect.ValueOfString(x.Address)
-		if !f(fd_QueryPermissionsByAddressRequest_address, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressRequest.address":
-		return x.Address != ""
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressRequest.address":
-		x.Address = ""
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryPermissionsByAddressRequest.address":
-		value := x.Address
-		return protoreflect.ValueOfString(value)
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressRequest does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressRequest.address":
-		x.Address = value.Interface().(string)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressRequest.address":
-		panic(fmt.Errorf("field address of message license.v1.QueryPermissionsByAddressRequest is not mutable"))
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsByAddressRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressRequest.address":
-		return protoreflect.ValueOfString("")
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsByAddressRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryPermissionsByAddressRequest", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsByAddressRequest) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressRequest) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsByAddressRequest) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsByAddressRequest) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsByAddressRequest)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		l = len(x.Address)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByAddressRequest)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if len(x.Address) > 0 {
-			i -= len(x.Address)
-			copy(dAtA[i:], x.Address)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Address)))
-			i--
-			dAtA[i] = 0xa
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByAddressRequest)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressRequest: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Address = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
-	md_QueryPermissionsByAddressResponse             protoreflect.MessageDescriptor
-	fd_QueryPermissionsByAddressResponse_permissions protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryPermissionsByAddressResponse = File_license_v1_query_proto.Messages().ByName("QueryPermissionsByAddressResponse")
-	fd_QueryPermissionsByAddressResponse_permissions = md_QueryPermissionsByAddressResponse.Fields().ByName("permissions")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsByAddressResponse)(nil)
-
-type fastReflection_QueryPermissionsByAddressResponse QueryPermissionsByAddressResponse
-
-func (x *QueryPermissionsByAddressResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByAddressResponse)(x)
-}
-
-func (x *QueryPermissionsByAddressResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsByAddressResponse_messageType fastReflection_QueryPermissionsByAddressResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsByAddressResponse_messageType{}
-
-type fastReflection_QueryPermissionsByAddressResponse_messageType struct{}
-
-func (x fastReflection_QueryPermissionsByAddressResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByAddressResponse)(nil)
-}
-func (x fastReflection_QueryPermissionsByAddressResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByAddressResponse)
-}
-func (x fastReflection_QueryPermissionsByAddressResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByAddressResponse
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByAddressResponse
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsByAddressResponse_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsByAddressResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByAddressResponse)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsByAddressResponse)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Permissions != nil {
-		value := protoreflect.ValueOfMessage(x.Permissions.ProtoReflect())
-		if !f(fd_QueryPermissionsByAddressResponse_permissions, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressResponse.permissions":
-		return x.Permissions != nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressResponse.permissions":
-		x.Permissions = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryPermissionsByAddressResponse.permissions":
-		value := x.Permissions
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressResponse does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressResponse.permissions":
-		x.Permissions = value.Message().Interface().(*AddressPermissions)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressResponse.permissions":
-		if x.Permissions == nil {
-			x.Permissions = new(AddressPermissions)
-		}
-		return protoreflect.ValueOfMessage(x.Permissions.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsByAddressResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByAddressResponse.permissions":
-		m := new(AddressPermissions)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByAddressResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByAddressResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsByAddressResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryPermissionsByAddressResponse", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsByAddressResponse) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByAddressResponse) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsByAddressResponse) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsByAddressResponse) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsByAddressResponse)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if x.Permissions != nil {
-			l = options.Size(x.Permissions)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByAddressResponse)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Permissions != nil {
-			encoded, err := options.Marshal(x.Permissions)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0xa
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByAddressResponse)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressResponse: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByAddressResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Permissions == nil {
-					x.Permissions = &AddressPermissions{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
-	md_QueryPermissionsRequest            protoreflect.MessageDescriptor
-	fd_QueryPermissionsRequest_pagination protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryPermissionsRequest = File_license_v1_query_proto.Messages().ByName("QueryPermissionsRequest")
-	fd_QueryPermissionsRequest_pagination = md_QueryPermissionsRequest.Fields().ByName("pagination")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsRequest)(nil)
-
-type fastReflection_QueryPermissionsRequest QueryPermissionsRequest
-
-func (x *QueryPermissionsRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsRequest)(x)
-}
-
-func (x *QueryPermissionsRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[18]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsRequest_messageType fastReflection_QueryPermissionsRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsRequest_messageType{}
-
-type fastReflection_QueryPermissionsRequest_messageType struct{}
-
-func (x fastReflection_QueryPermissionsRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsRequest)(nil)
-}
-func (x fastReflection_QueryPermissionsRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsRequest)
-}
-func (x fastReflection_QueryPermissionsRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsRequest
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsRequest
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsRequest_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsRequest)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsRequest)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Pagination != nil {
-		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryPermissionsRequest_pagination, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsRequest) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsRequest.pagination":
-		return x.Pagination != nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsRequest.pagination":
-		x.Pagination = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryPermissionsRequest.pagination":
-		value := x.Pagination
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsRequest does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsRequest.pagination":
-		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsRequest.pagination":
-		if x.Pagination == nil {
-			x.Pagination = new(v1beta1.PageRequest)
-		}
-		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsRequest.pagination":
-		m := new(v1beta1.PageRequest)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryPermissionsRequest", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsRequest) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsRequest) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsRequest) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsRequest) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsRequest)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if x.Pagination != nil {
-			l = options.Size(x.Pagination)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsRequest)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Pagination != nil {
-			encoded, err := options.Marshal(x.Pagination)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0xa
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsRequest)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsRequest: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Pagination == nil {
-					x.Pagination = &v1beta1.PageRequest{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var _ protoreflect.List = (*_QueryPermissionsResponse_1_list)(nil)
-
-type _QueryPermissionsResponse_1_list struct {
-	list *[]*AddressPermissions
-}
-
-func (x *_QueryPermissionsResponse_1_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_QueryPermissionsResponse_1_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_QueryPermissionsResponse_1_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_QueryPermissionsResponse_1_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_QueryPermissionsResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(AddressPermissions)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_QueryPermissionsResponse_1_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_QueryPermissionsResponse_1_list) NewElement() protoreflect.Value {
-	v := new(AddressPermissions)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_QueryPermissionsResponse_1_list) IsValid() bool {
-	return x.list != nil
-}
-
-var (
-	md_QueryPermissionsResponse             protoreflect.MessageDescriptor
-	fd_QueryPermissionsResponse_permissions protoreflect.FieldDescriptor
-	fd_QueryPermissionsResponse_pagination  protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryPermissionsResponse = File_license_v1_query_proto.Messages().ByName("QueryPermissionsResponse")
-	fd_QueryPermissionsResponse_permissions = md_QueryPermissionsResponse.Fields().ByName("permissions")
-	fd_QueryPermissionsResponse_pagination = md_QueryPermissionsResponse.Fields().ByName("pagination")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsResponse)(nil)
-
-type fastReflection_QueryPermissionsResponse QueryPermissionsResponse
-
-func (x *QueryPermissionsResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsResponse)(x)
-}
-
-func (x *QueryPermissionsResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[19]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsResponse_messageType fastReflection_QueryPermissionsResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsResponse_messageType{}
-
-type fastReflection_QueryPermissionsResponse_messageType struct{}
-
-func (x fastReflection_QueryPermissionsResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsResponse)(nil)
-}
-func (x fastReflection_QueryPermissionsResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsResponse)
-}
-func (x fastReflection_QueryPermissionsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsResponse
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsResponse
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsResponse_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsResponse)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsResponse)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.Permissions) != 0 {
-		value := protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{list: &x.Permissions})
-		if !f(fd_QueryPermissionsResponse_permissions, value) {
-			return
-		}
-	}
-	if x.Pagination != nil {
-		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryPermissionsResponse_pagination, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsResponse) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsResponse.permissions":
-		return len(x.Permissions) != 0
-	case "license.v1.QueryPermissionsResponse.pagination":
-		return x.Pagination != nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsResponse.permissions":
-		x.Permissions = nil
-	case "license.v1.QueryPermissionsResponse.pagination":
-		x.Pagination = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryPermissionsResponse.permissions":
-		if len(x.Permissions) == 0 {
-			return protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{})
-		}
-		listValue := &_QueryPermissionsResponse_1_list{list: &x.Permissions}
-		return protoreflect.ValueOfList(listValue)
-	case "license.v1.QueryPermissionsResponse.pagination":
-		value := x.Pagination
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsResponse does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsResponse.permissions":
-		lv := value.List()
-		clv := lv.(*_QueryPermissionsResponse_1_list)
-		x.Permissions = *clv.list
-	case "license.v1.QueryPermissionsResponse.pagination":
-		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsResponse.permissions":
-		if x.Permissions == nil {
-			x.Permissions = []*AddressPermissions{}
-		}
-		value := &_QueryPermissionsResponse_1_list{list: &x.Permissions}
-		return protoreflect.ValueOfList(value)
-	case "license.v1.QueryPermissionsResponse.pagination":
-		if x.Pagination == nil {
-			x.Pagination = new(v1beta1.PageResponse)
-		}
-		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsResponse.permissions":
-		list := []*AddressPermissions{}
-		return protoreflect.ValueOfList(&_QueryPermissionsResponse_1_list{list: &list})
-	case "license.v1.QueryPermissionsResponse.pagination":
-		m := new(v1beta1.PageResponse)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryPermissionsResponse", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsResponse) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsResponse) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsResponse) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsResponse) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsResponse)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if len(x.Permissions) > 0 {
-			for _, e := range x.Permissions {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
-		if x.Pagination != nil {
-			l = options.Size(x.Pagination)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsResponse)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Pagination != nil {
-			encoded, err := options.Marshal(x.Pagination)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0x12
-		}
-		if len(x.Permissions) > 0 {
-			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Permissions[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0xa
-			}
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsResponse)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsResponse: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Permissions = append(x.Permissions, &AddressPermissions{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Pagination == nil {
-					x.Pagination = &v1beta1.PageResponse{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
-	md_QueryPermissionsByLicenseTypeRequest                 protoreflect.MessageDescriptor
-	fd_QueryPermissionsByLicenseTypeRequest_license_type_id protoreflect.FieldDescriptor
-	fd_QueryPermissionsByLicenseTypeRequest_permission      protoreflect.FieldDescriptor
-	fd_QueryPermissionsByLicenseTypeRequest_pagination      protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryPermissionsByLicenseTypeRequest = File_license_v1_query_proto.Messages().ByName("QueryPermissionsByLicenseTypeRequest")
-	fd_QueryPermissionsByLicenseTypeRequest_license_type_id = md_QueryPermissionsByLicenseTypeRequest.Fields().ByName("license_type_id")
-	fd_QueryPermissionsByLicenseTypeRequest_permission = md_QueryPermissionsByLicenseTypeRequest.Fields().ByName("permission")
-	fd_QueryPermissionsByLicenseTypeRequest_pagination = md_QueryPermissionsByLicenseTypeRequest.Fields().ByName("pagination")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsByLicenseTypeRequest)(nil)
-
-type fastReflection_QueryPermissionsByLicenseTypeRequest QueryPermissionsByLicenseTypeRequest
-
-func (x *QueryPermissionsByLicenseTypeRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByLicenseTypeRequest)(x)
-}
-
-func (x *QueryPermissionsByLicenseTypeRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[20]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsByLicenseTypeRequest_messageType fastReflection_QueryPermissionsByLicenseTypeRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsByLicenseTypeRequest_messageType{}
-
-type fastReflection_QueryPermissionsByLicenseTypeRequest_messageType struct{}
-
-func (x fastReflection_QueryPermissionsByLicenseTypeRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByLicenseTypeRequest)(nil)
-}
-func (x fastReflection_QueryPermissionsByLicenseTypeRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByLicenseTypeRequest)
-}
-func (x fastReflection_QueryPermissionsByLicenseTypeRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByLicenseTypeRequest
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByLicenseTypeRequest
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsByLicenseTypeRequest_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByLicenseTypeRequest)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsByLicenseTypeRequest)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.LicenseTypeId != "" {
-		value := protoreflect.ValueOfString(x.LicenseTypeId)
-		if !f(fd_QueryPermissionsByLicenseTypeRequest_license_type_id, value) {
-			return
-		}
-	}
-	if x.Permission != "" {
-		value := protoreflect.ValueOfString(x.Permission)
-		if !f(fd_QueryPermissionsByLicenseTypeRequest_permission, value) {
-			return
-		}
-	}
-	if x.Pagination != nil {
-		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryPermissionsByLicenseTypeRequest_pagination, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
-		return x.LicenseTypeId != ""
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.permission":
-		return x.Permission != ""
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.pagination":
-		return x.Pagination != nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
-		x.LicenseTypeId = ""
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.permission":
-		x.Permission = ""
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.pagination":
-		x.Pagination = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
-		value := x.LicenseTypeId
-		return protoreflect.ValueOfString(value)
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.permission":
-		value := x.Permission
-		return protoreflect.ValueOfString(value)
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.pagination":
-		value := x.Pagination
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
-		x.LicenseTypeId = value.Interface().(string)
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.permission":
-		x.Permission = value.Interface().(string)
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.pagination":
-		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.pagination":
-		if x.Pagination == nil {
-			x.Pagination = new(v1beta1.PageRequest)
-		}
-		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
-		panic(fmt.Errorf("field license_type_id of message license.v1.QueryPermissionsByLicenseTypeRequest is not mutable"))
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.permission":
-		panic(fmt.Errorf("field permission of message license.v1.QueryPermissionsByLicenseTypeRequest is not mutable"))
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.license_type_id":
-		return protoreflect.ValueOfString("")
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.permission":
-		return protoreflect.ValueOfString("")
-	case "license.v1.QueryPermissionsByLicenseTypeRequest.pagination":
-		m := new(v1beta1.PageRequest)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeRequest"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryPermissionsByLicenseTypeRequest", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsByLicenseTypeRequest) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeRequest)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		l = len(x.LicenseTypeId)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		l = len(x.Permission)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.Pagination != nil {
-			l = options.Size(x.Pagination)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeRequest)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Pagination != nil {
-			encoded, err := options.Marshal(x.Pagination)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0x1a
-		}
-		if len(x.Permission) > 0 {
-			i -= len(x.Permission)
-			copy(dAtA[i:], x.Permission)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Permission)))
-			i--
-			dAtA[i] = 0x12
-		}
-		if len(x.LicenseTypeId) > 0 {
-			i -= len(x.LicenseTypeId)
-			copy(dAtA[i:], x.LicenseTypeId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.LicenseTypeId)))
-			i--
-			dAtA[i] = 0xa
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeRequest)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeRequest: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.LicenseTypeId = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permission", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Permission = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 3:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Pagination == nil {
-					x.Pagination = &v1beta1.PageRequest{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var _ protoreflect.List = (*_QueryPermissionsByLicenseTypeResponse_1_list)(nil)
-
-type _QueryPermissionsByLicenseTypeResponse_1_list struct {
-	list *[]*AddressPermissions
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(AddressPermissions)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) NewElement() protoreflect.Value {
-	v := new(AddressPermissions)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_QueryPermissionsByLicenseTypeResponse_1_list) IsValid() bool {
-	return x.list != nil
-}
-
-var (
-	md_QueryPermissionsByLicenseTypeResponse             protoreflect.MessageDescriptor
-	fd_QueryPermissionsByLicenseTypeResponse_permissions protoreflect.FieldDescriptor
-	fd_QueryPermissionsByLicenseTypeResponse_pagination  protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_license_v1_query_proto_init()
-	md_QueryPermissionsByLicenseTypeResponse = File_license_v1_query_proto.Messages().ByName("QueryPermissionsByLicenseTypeResponse")
-	fd_QueryPermissionsByLicenseTypeResponse_permissions = md_QueryPermissionsByLicenseTypeResponse.Fields().ByName("permissions")
-	fd_QueryPermissionsByLicenseTypeResponse_pagination = md_QueryPermissionsByLicenseTypeResponse.Fields().ByName("pagination")
-}
-
-var _ protoreflect.Message = (*fastReflection_QueryPermissionsByLicenseTypeResponse)(nil)
-
-type fastReflection_QueryPermissionsByLicenseTypeResponse QueryPermissionsByLicenseTypeResponse
-
-func (x *QueryPermissionsByLicenseTypeResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByLicenseTypeResponse)(x)
-}
-
-func (x *QueryPermissionsByLicenseTypeResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_license_v1_query_proto_msgTypes[21]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_QueryPermissionsByLicenseTypeResponse_messageType fastReflection_QueryPermissionsByLicenseTypeResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryPermissionsByLicenseTypeResponse_messageType{}
-
-type fastReflection_QueryPermissionsByLicenseTypeResponse_messageType struct{}
-
-func (x fastReflection_QueryPermissionsByLicenseTypeResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryPermissionsByLicenseTypeResponse)(nil)
-}
-func (x fastReflection_QueryPermissionsByLicenseTypeResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByLicenseTypeResponse)
-}
-func (x fastReflection_QueryPermissionsByLicenseTypeResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByLicenseTypeResponse
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryPermissionsByLicenseTypeResponse
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryPermissionsByLicenseTypeResponse_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryPermissionsByLicenseTypeResponse)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryPermissionsByLicenseTypeResponse)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.Permissions) != 0 {
-		value := protoreflect.ValueOfList(&_QueryPermissionsByLicenseTypeResponse_1_list{list: &x.Permissions})
-		if !f(fd_QueryPermissionsByLicenseTypeResponse_permissions, value) {
-			return
-		}
-	}
-	if x.Pagination != nil {
-		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryPermissionsByLicenseTypeResponse_pagination, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.permissions":
-		return len(x.Permissions) != 0
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.pagination":
-		return x.Pagination != nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.permissions":
-		x.Permissions = nil
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.pagination":
-		x.Pagination = nil
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.permissions":
-		if len(x.Permissions) == 0 {
-			return protoreflect.ValueOfList(&_QueryPermissionsByLicenseTypeResponse_1_list{})
-		}
-		listValue := &_QueryPermissionsByLicenseTypeResponse_1_list{list: &x.Permissions}
-		return protoreflect.ValueOfList(listValue)
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.pagination":
-		value := x.Pagination
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.permissions":
-		lv := value.List()
-		clv := lv.(*_QueryPermissionsByLicenseTypeResponse_1_list)
-		x.Permissions = *clv.list
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.pagination":
-		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.permissions":
-		if x.Permissions == nil {
-			x.Permissions = []*AddressPermissions{}
-		}
-		value := &_QueryPermissionsByLicenseTypeResponse_1_list{list: &x.Permissions}
-		return protoreflect.ValueOfList(value)
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.pagination":
-		if x.Pagination == nil {
-			x.Pagination = new(v1beta1.PageResponse)
-		}
-		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.permissions":
-		list := []*AddressPermissions{}
-		return protoreflect.ValueOfList(&_QueryPermissionsByLicenseTypeResponse_1_list{list: &list})
-	case "license.v1.QueryPermissionsByLicenseTypeResponse.pagination":
-		m := new(v1beta1.PageResponse)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.QueryPermissionsByLicenseTypeResponse"))
-		}
-		panic(fmt.Errorf("message license.v1.QueryPermissionsByLicenseTypeResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in license.v1.QueryPermissionsByLicenseTypeResponse", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryPermissionsByLicenseTypeResponse) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeResponse)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if len(x.Permissions) > 0 {
-			for _, e := range x.Permissions {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
-		if x.Pagination != nil {
-			l = options.Size(x.Pagination)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeResponse)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Pagination != nil {
-			encoded, err := options.Marshal(x.Pagination)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0x12
-		}
-		if len(x.Permissions) > 0 {
-			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Permissions[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0xa
-			}
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryPermissionsByLicenseTypeResponse)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeResponse: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryPermissionsByLicenseTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Permissions = append(x.Permissions, &AddressPermissions{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Pagination == nil {
-					x.Pagination = &v1beta1.PageResponse{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -10874,69 +7083,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// QueryParamsRequest is the request type for the Query/Params RPC method.
-type QueryParamsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *QueryParamsRequest) Reset() {
-	*x = QueryParamsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryParamsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryParamsRequest) ProtoMessage() {}
-
-// Deprecated: Use QueryParamsRequest.ProtoReflect.Descriptor instead.
-func (*QueryParamsRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{0}
-}
-
-// QueryParamsResponse is the response type for the Query/Params RPC method.
-type QueryParamsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Params *Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params,omitempty"`
-}
-
-func (x *QueryParamsResponse) Reset() {
-	*x = QueryParamsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryParamsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryParamsResponse) ProtoMessage() {}
-
-// Deprecated: Use QueryParamsResponse.ProtoReflect.Descriptor instead.
-func (*QueryParamsResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *QueryParamsResponse) GetParams() *Params {
-	if x != nil {
-		return x.Params
-	}
-	return nil
-}
-
 // QueryLicenseTypeRequest is the request type for the Query/LicenseType RPC method.
 type QueryLicenseTypeRequest struct {
 	state         protoimpl.MessageState
@@ -10949,7 +7095,7 @@ type QueryLicenseTypeRequest struct {
 func (x *QueryLicenseTypeRequest) Reset() {
 	*x = QueryLicenseTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[2]
+		mi := &file_license_v1_query_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -10963,7 +7109,7 @@ func (*QueryLicenseTypeRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypeRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypeRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{2}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *QueryLicenseTypeRequest) GetId() string {
@@ -10985,7 +7131,7 @@ type QueryLicenseTypeResponse struct {
 func (x *QueryLicenseTypeResponse) Reset() {
 	*x = QueryLicenseTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[3]
+		mi := &file_license_v1_query_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -10999,7 +7145,7 @@ func (*QueryLicenseTypeResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypeResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{3}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *QueryLicenseTypeResponse) GetLicenseType() *LicenseType {
@@ -11021,7 +7167,7 @@ type QueryLicenseTypesRequest struct {
 func (x *QueryLicenseTypesRequest) Reset() {
 	*x = QueryLicenseTypesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[4]
+		mi := &file_license_v1_query_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11035,7 +7181,7 @@ func (*QueryLicenseTypesRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypesRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypesRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{4}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *QueryLicenseTypesRequest) GetPagination() *v1beta1.PageRequest {
@@ -11058,7 +7204,7 @@ type QueryLicenseTypesResponse struct {
 func (x *QueryLicenseTypesResponse) Reset() {
 	*x = QueryLicenseTypesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[5]
+		mi := &file_license_v1_query_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11072,7 +7218,7 @@ func (*QueryLicenseTypesResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseTypesResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicenseTypesResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{5}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *QueryLicenseTypesResponse) GetLicenseTypes() []*LicenseType {
@@ -11102,7 +7248,7 @@ type QueryLicenseRequest struct {
 func (x *QueryLicenseRequest) Reset() {
 	*x = QueryLicenseRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[6]
+		mi := &file_license_v1_query_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11116,7 +7262,7 @@ func (*QueryLicenseRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicenseRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{6}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *QueryLicenseRequest) GetTypeId() string {
@@ -11145,7 +7291,7 @@ type QueryLicenseResponse struct {
 func (x *QueryLicenseResponse) Reset() {
 	*x = QueryLicenseResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[7]
+		mi := &file_license_v1_query_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11159,7 +7305,7 @@ func (*QueryLicenseResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicenseResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicenseResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{7}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *QueryLicenseResponse) GetLicense() *License {
@@ -11181,7 +7327,7 @@ type QueryLicensesRequest struct {
 func (x *QueryLicensesRequest) Reset() {
 	*x = QueryLicensesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[8]
+		mi := &file_license_v1_query_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11195,7 +7341,7 @@ func (*QueryLicensesRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{8}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *QueryLicensesRequest) GetPagination() *v1beta1.PageRequest {
@@ -11218,7 +7364,7 @@ type QueryLicensesResponse struct {
 func (x *QueryLicensesResponse) Reset() {
 	*x = QueryLicensesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[9]
+		mi := &file_license_v1_query_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11232,7 +7378,7 @@ func (*QueryLicensesResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{9}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *QueryLicensesResponse) GetLicenses() []*License {
@@ -11262,7 +7408,7 @@ type QueryLicensesByTypeRequest struct {
 func (x *QueryLicensesByTypeRequest) Reset() {
 	*x = QueryLicensesByTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[10]
+		mi := &file_license_v1_query_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11276,7 +7422,7 @@ func (*QueryLicensesByTypeRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByTypeRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByTypeRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{10}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *QueryLicensesByTypeRequest) GetTypeId() string {
@@ -11306,7 +7452,7 @@ type QueryLicensesByTypeResponse struct {
 func (x *QueryLicensesByTypeResponse) Reset() {
 	*x = QueryLicensesByTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[11]
+		mi := &file_license_v1_query_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11320,7 +7466,7 @@ func (*QueryLicensesByTypeResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByTypeResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByTypeResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{11}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *QueryLicensesByTypeResponse) GetLicenses() []*License {
@@ -11350,7 +7496,7 @@ type QueryLicensesByHolderRequest struct {
 func (x *QueryLicensesByHolderRequest) Reset() {
 	*x = QueryLicensesByHolderRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[12]
+		mi := &file_license_v1_query_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11364,7 +7510,7 @@ func (*QueryLicensesByHolderRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{12}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *QueryLicensesByHolderRequest) GetHolder() string {
@@ -11394,7 +7540,7 @@ type QueryLicensesByHolderResponse struct {
 func (x *QueryLicensesByHolderResponse) Reset() {
 	*x = QueryLicensesByHolderResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[13]
+		mi := &file_license_v1_query_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11408,7 +7554,7 @@ func (*QueryLicensesByHolderResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{13}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *QueryLicensesByHolderResponse) GetLicenses() []*License {
@@ -11439,7 +7585,7 @@ type QueryLicensesByHolderAndTypeRequest struct {
 func (x *QueryLicensesByHolderAndTypeRequest) Reset() {
 	*x = QueryLicensesByHolderAndTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[14]
+		mi := &file_license_v1_query_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11453,7 +7599,7 @@ func (*QueryLicensesByHolderAndTypeRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderAndTypeRequest.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderAndTypeRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{14}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *QueryLicensesByHolderAndTypeRequest) GetHolder() string {
@@ -11490,7 +7636,7 @@ type QueryLicensesByHolderAndTypeResponse struct {
 func (x *QueryLicensesByHolderAndTypeResponse) Reset() {
 	*x = QueryLicensesByHolderAndTypeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[15]
+		mi := &file_license_v1_query_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -11504,7 +7650,7 @@ func (*QueryLicensesByHolderAndTypeResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLicensesByHolderAndTypeResponse.ProtoReflect.Descriptor instead.
 func (*QueryLicensesByHolderAndTypeResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{15}
+	return file_license_v1_query_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *QueryLicensesByHolderAndTypeResponse) GetLicenses() []*License {
@@ -11521,280 +7667,23 @@ func (x *QueryLicensesByHolderAndTypeResponse) GetPagination() *v1beta1.PageResp
 	return nil
 }
 
-// QueryPermissionsByAddressRequest is the request type for the Query/PermissionsByAddress RPC method.
-type QueryPermissionsByAddressRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-}
-
-func (x *QueryPermissionsByAddressRequest) Reset() {
-	*x = QueryPermissionsByAddressRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsByAddressRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsByAddressRequest) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsByAddressRequest.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsByAddressRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *QueryPermissionsByAddressRequest) GetAddress() string {
-	if x != nil {
-		return x.Address
-	}
-	return ""
-}
-
-// QueryPermissionsByAddressResponse is the response type for the Query/PermissionsByAddress RPC method.
-type QueryPermissionsByAddressResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Permissions *AddressPermissions `protobuf:"bytes,1,opt,name=permissions,proto3" json:"permissions,omitempty"`
-}
-
-func (x *QueryPermissionsByAddressResponse) Reset() {
-	*x = QueryPermissionsByAddressResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsByAddressResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsByAddressResponse) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsByAddressResponse.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsByAddressResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *QueryPermissionsByAddressResponse) GetPermissions() *AddressPermissions {
-	if x != nil {
-		return x.Permissions
-	}
-	return nil
-}
-
-// QueryPermissionsRequest is the request type for the Query/Permissions RPC method.
-type QueryPermissionsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Pagination *v1beta1.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (x *QueryPermissionsRequest) Reset() {
-	*x = QueryPermissionsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[18]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsRequest) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsRequest.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *QueryPermissionsRequest) GetPagination() *v1beta1.PageRequest {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-// QueryPermissionsResponse is the response type for the Query/Permissions RPC method.
-type QueryPermissionsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Permissions []*AddressPermissions `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty"`
-	Pagination  *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (x *QueryPermissionsResponse) Reset() {
-	*x = QueryPermissionsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[19]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsResponse) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsResponse.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *QueryPermissionsResponse) GetPermissions() []*AddressPermissions {
-	if x != nil {
-		return x.Permissions
-	}
-	return nil
-}
-
-func (x *QueryPermissionsResponse) GetPagination() *v1beta1.PageResponse {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-// QueryPermissionsByLicenseTypeRequest is the request type for the Query/PermissionsByLicenseType RPC method.
-type QueryPermissionsByLicenseTypeRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	LicenseTypeId string               `protobuf:"bytes,1,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
-	Permission    string               `protobuf:"bytes,2,opt,name=permission,proto3" json:"permission,omitempty"`
-	Pagination    *v1beta1.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (x *QueryPermissionsByLicenseTypeRequest) Reset() {
-	*x = QueryPermissionsByLicenseTypeRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[20]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsByLicenseTypeRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsByLicenseTypeRequest) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsByLicenseTypeRequest.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsByLicenseTypeRequest) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *QueryPermissionsByLicenseTypeRequest) GetLicenseTypeId() string {
-	if x != nil {
-		return x.LicenseTypeId
-	}
-	return ""
-}
-
-func (x *QueryPermissionsByLicenseTypeRequest) GetPermission() string {
-	if x != nil {
-		return x.Permission
-	}
-	return ""
-}
-
-func (x *QueryPermissionsByLicenseTypeRequest) GetPagination() *v1beta1.PageRequest {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-// QueryPermissionsByLicenseTypeResponse is the response type for the Query/PermissionsByLicenseType RPC method.
-type QueryPermissionsByLicenseTypeResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Permissions []*AddressPermissions `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty"`
-	Pagination  *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (x *QueryPermissionsByLicenseTypeResponse) Reset() {
-	*x = QueryPermissionsByLicenseTypeResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_license_v1_query_proto_msgTypes[21]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *QueryPermissionsByLicenseTypeResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*QueryPermissionsByLicenseTypeResponse) ProtoMessage() {}
-
-// Deprecated: Use QueryPermissionsByLicenseTypeResponse.ProtoReflect.Descriptor instead.
-func (*QueryPermissionsByLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return file_license_v1_query_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *QueryPermissionsByLicenseTypeResponse) GetPermissions() []*AddressPermissions {
-	if x != nil {
-		return x.Permissions
-	}
-	return nil
-}
-
-func (x *QueryPermissionsByLicenseTypeResponse) GetPagination() *v1beta1.PageResponse {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
 var File_license_v1_query_proto protoreflect.FileDescriptor
 
 var file_license_v1_query_proto_rawDesc = []byte{
 	0x0a, 0x16, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x71, 0x75, 0x65,
 	0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x76, 0x31, 0x1a, 0x11, 0x61, 0x6d, 0x69, 0x6e, 0x6f, 0x2f, 0x61, 0x6d, 0x69, 0x6e,
-	0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x2a, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f,
-	0x62, 0x61, 0x73, 0x65, 0x2f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2f, 0x76, 0x31, 0x62, 0x65, 0x74,
-	0x61, 0x31, 0x2f, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x1a, 0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14,
-	0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69,
-	0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x1a, 0x18, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x5f, 0x74, 0x79, 0x70, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x17, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x22, 0x14, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72,
-	0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x4c, 0x0a, 0x13, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x35, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x12, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x50,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01,
-	0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x29, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72,
+	0x65, 0x2e, 0x76, 0x31, 0x1a, 0x2a, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x62, 0x61, 0x73,
+	0x65, 0x2f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2f, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2f,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x1a, 0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63,
+	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67,
+	0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e,
+	0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
+	0x18, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79,
+	0x70, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x29, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72,
 	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x02, 0x69, 0x64, 0x22, 0x5c, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65,
@@ -11904,173 +7793,82 @@ var file_license_v1_query_proto_rawDesc = []byte{
 	0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
 	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
 	0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x56, 0x0a, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x32, 0x0a, 0x07, 0x61,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4,
-	0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22,
-	0x6b, 0x0a, 0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x46, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x50, 0x65,
-	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52,
-	0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x61, 0x0a, 0x17,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f,
-	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
-	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22,
-	0xab, 0x01, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x46, 0x0a, 0x0b,
-	0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x1e, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
-	0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
-	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
-	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb6, 0x01,
-	0x0a, 0x24, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x1e,
-	0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x46,
-	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
-	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
-	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb8, 0x01, 0x0a, 0x25, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x46, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x70, 0x65, 0x72,
-	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63,
-	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79,
-	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x32, 0xf1, 0x0c, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x6b, 0x0a, 0x06, 0x50,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1e, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x20, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1a, 0x12, 0x18,
-	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x85, 0x01, 0x0a, 0x0b, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x23, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25, 0x12, 0x23, 0x2f, 0x77, 0x65,
-	0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x12, 0x84, 0x01, 0x0a, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x73, 0x12, 0x24, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27,
-	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63,
-	0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x12, 0x7e, 0x0a, 0x07, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x12, 0x1f, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f,
-	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x73, 0x0a, 0x08, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x12, 0x20, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c,
-	0x12, 0x1a, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x97, 0x01, 0x0a,
-	0x0e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12,
-	0x26, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2e, 0x12, 0x2c, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x74, 0x79,
-	0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x9e, 0x01, 0x0a, 0x10, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x12, 0x28, 0x2e, 0x6c, 0x69,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x86, 0x08, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x12, 0x85, 0x01, 0x0a, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x23, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x25, 0x12, 0x23, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f,
+	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f,
+	0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x84, 0x01, 0x0a, 0x0c, 0x4c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x24, 0x2e, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x25, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12,
+	0x1f, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73,
+	0x12, 0x7e, 0x0a, 0x07, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x12, 0x1f, 0x2e, 0x6c, 0x69,
 	0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73,
-	0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x35, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x2f, 0x7b,
-	0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d, 0x12, 0xbd, 0x01, 0x0a, 0x17, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54,
-	0x79, 0x70, 0x65, 0x12, 0x2f, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79,
-	0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76,
-	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42,
-	0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x39, 0x12, 0x37,
-	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x68, 0x6f,
-	0x6c, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d, 0x2f, 0x7b, 0x74,
-	0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xaf, 0x01, 0x0a, 0x14, 0x50, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x12, 0x2c, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63,
+	0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
+	0x12, 0x73, 0x0a, 0x08, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x20, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21,
 	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x41, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
-	0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x2f,
-	0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x12, 0x7f, 0x0a, 0x0b, 0x50, 0x65, 0x72,
-	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x23, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69,
-	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e,
+	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x77, 0x65, 0x62, 0x73,
+	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x73, 0x12, 0x97, 0x01, 0x0a, 0x0e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x26, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x27, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x54, 0x79, 0x70,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2e, 0x12, 0x2c, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79,
+	0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12,
+	0x9e, 0x01, 0x0a, 0x10, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f,
+	0x6c, 0x64, 0x65, 0x72, 0x12, 0x28, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42,
+	0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29,
+	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65,
+	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2f, 0x12, 0x2d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x62, 0x79,
+	0x5f, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d,
+	0x12, 0xbd, 0x01, 0x0a, 0x17, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48,
+	0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x2f, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x41,
+	0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e,
 	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x25, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x12, 0x1d, 0x2f, 0x77, 0x65,
-	0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0xc8, 0x01, 0x0a, 0x18, 0x50,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x30, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79,
-	0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x79, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
-	0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x47, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x41, 0x12, 0x3f, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74,
-	0x79, 0x70, 0x65, 0x2f, 0x7b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70,
-	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0xa0, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
-	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
-	0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f,
-	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x76,
-	0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56,
-	0x31, 0xe2, 0x02, 0x16, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56, 0x31, 0x5c, 0x47,
-	0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b, 0x4c, 0x69, 0x63,
-	0x65, 0x6e, 0x73, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x42, 0x79, 0x48, 0x6f, 0x6c, 0x64, 0x65, 0x72,
+	0x41, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x3f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x39, 0x12, 0x37, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x68,
+	0x6f, 0x6c, 0x64, 0x65, 0x72, 0x7d, 0x2f, 0x7b, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x7d,
+	0x42, 0xa0, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x2e, 0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
+	0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65,
+	0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
+	0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f,
+	0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c,
+	0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x56, 0x31, 0xca,
+	0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x16, 0x4c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
+	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x3a,
+	0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -12085,90 +7883,64 @@ func file_license_v1_query_proto_rawDescGZIP() []byte {
 	return file_license_v1_query_proto_rawDescData
 }
 
-var file_license_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_license_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_license_v1_query_proto_goTypes = []interface{}{
-	(*QueryParamsRequest)(nil),                    // 0: license.v1.QueryParamsRequest
-	(*QueryParamsResponse)(nil),                   // 1: license.v1.QueryParamsResponse
-	(*QueryLicenseTypeRequest)(nil),               // 2: license.v1.QueryLicenseTypeRequest
-	(*QueryLicenseTypeResponse)(nil),              // 3: license.v1.QueryLicenseTypeResponse
-	(*QueryLicenseTypesRequest)(nil),              // 4: license.v1.QueryLicenseTypesRequest
-	(*QueryLicenseTypesResponse)(nil),             // 5: license.v1.QueryLicenseTypesResponse
-	(*QueryLicenseRequest)(nil),                   // 6: license.v1.QueryLicenseRequest
-	(*QueryLicenseResponse)(nil),                  // 7: license.v1.QueryLicenseResponse
-	(*QueryLicensesRequest)(nil),                  // 8: license.v1.QueryLicensesRequest
-	(*QueryLicensesResponse)(nil),                 // 9: license.v1.QueryLicensesResponse
-	(*QueryLicensesByTypeRequest)(nil),            // 10: license.v1.QueryLicensesByTypeRequest
-	(*QueryLicensesByTypeResponse)(nil),           // 11: license.v1.QueryLicensesByTypeResponse
-	(*QueryLicensesByHolderRequest)(nil),          // 12: license.v1.QueryLicensesByHolderRequest
-	(*QueryLicensesByHolderResponse)(nil),         // 13: license.v1.QueryLicensesByHolderResponse
-	(*QueryLicensesByHolderAndTypeRequest)(nil),   // 14: license.v1.QueryLicensesByHolderAndTypeRequest
-	(*QueryLicensesByHolderAndTypeResponse)(nil),  // 15: license.v1.QueryLicensesByHolderAndTypeResponse
-	(*QueryPermissionsByAddressRequest)(nil),      // 16: license.v1.QueryPermissionsByAddressRequest
-	(*QueryPermissionsByAddressResponse)(nil),     // 17: license.v1.QueryPermissionsByAddressResponse
-	(*QueryPermissionsRequest)(nil),               // 18: license.v1.QueryPermissionsRequest
-	(*QueryPermissionsResponse)(nil),              // 19: license.v1.QueryPermissionsResponse
-	(*QueryPermissionsByLicenseTypeRequest)(nil),  // 20: license.v1.QueryPermissionsByLicenseTypeRequest
-	(*QueryPermissionsByLicenseTypeResponse)(nil), // 21: license.v1.QueryPermissionsByLicenseTypeResponse
-	(*Params)(nil),                                // 22: license.v1.Params
-	(*LicenseType)(nil),                           // 23: license.v1.LicenseType
-	(*v1beta1.PageRequest)(nil),                   // 24: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),                  // 25: cosmos.base.query.v1beta1.PageResponse
-	(*License)(nil),                               // 26: license.v1.License
-	(*AddressPermissions)(nil),                    // 27: license.v1.AddressPermissions
+	(*QueryLicenseTypeRequest)(nil),              // 0: license.v1.QueryLicenseTypeRequest
+	(*QueryLicenseTypeResponse)(nil),             // 1: license.v1.QueryLicenseTypeResponse
+	(*QueryLicenseTypesRequest)(nil),             // 2: license.v1.QueryLicenseTypesRequest
+	(*QueryLicenseTypesResponse)(nil),            // 3: license.v1.QueryLicenseTypesResponse
+	(*QueryLicenseRequest)(nil),                  // 4: license.v1.QueryLicenseRequest
+	(*QueryLicenseResponse)(nil),                 // 5: license.v1.QueryLicenseResponse
+	(*QueryLicensesRequest)(nil),                 // 6: license.v1.QueryLicensesRequest
+	(*QueryLicensesResponse)(nil),                // 7: license.v1.QueryLicensesResponse
+	(*QueryLicensesByTypeRequest)(nil),           // 8: license.v1.QueryLicensesByTypeRequest
+	(*QueryLicensesByTypeResponse)(nil),          // 9: license.v1.QueryLicensesByTypeResponse
+	(*QueryLicensesByHolderRequest)(nil),         // 10: license.v1.QueryLicensesByHolderRequest
+	(*QueryLicensesByHolderResponse)(nil),        // 11: license.v1.QueryLicensesByHolderResponse
+	(*QueryLicensesByHolderAndTypeRequest)(nil),  // 12: license.v1.QueryLicensesByHolderAndTypeRequest
+	(*QueryLicensesByHolderAndTypeResponse)(nil), // 13: license.v1.QueryLicensesByHolderAndTypeResponse
+	(*LicenseType)(nil),                          // 14: license.v1.LicenseType
+	(*v1beta1.PageRequest)(nil),                  // 15: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),                 // 16: cosmos.base.query.v1beta1.PageResponse
+	(*License)(nil),                              // 17: license.v1.License
 }
 var file_license_v1_query_proto_depIdxs = []int32{
-	22, // 0: license.v1.QueryParamsResponse.params:type_name -> license.v1.Params
-	23, // 1: license.v1.QueryLicenseTypeResponse.license_type:type_name -> license.v1.LicenseType
-	24, // 2: license.v1.QueryLicenseTypesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	23, // 3: license.v1.QueryLicenseTypesResponse.license_types:type_name -> license.v1.LicenseType
-	25, // 4: license.v1.QueryLicenseTypesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	26, // 5: license.v1.QueryLicenseResponse.license:type_name -> license.v1.License
-	24, // 6: license.v1.QueryLicensesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 7: license.v1.QueryLicensesResponse.licenses:type_name -> license.v1.License
-	25, // 8: license.v1.QueryLicensesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 9: license.v1.QueryLicensesByTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 10: license.v1.QueryLicensesByTypeResponse.licenses:type_name -> license.v1.License
-	25, // 11: license.v1.QueryLicensesByTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 12: license.v1.QueryLicensesByHolderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 13: license.v1.QueryLicensesByHolderResponse.licenses:type_name -> license.v1.License
-	25, // 14: license.v1.QueryLicensesByHolderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 15: license.v1.QueryLicensesByHolderAndTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	26, // 16: license.v1.QueryLicensesByHolderAndTypeResponse.licenses:type_name -> license.v1.License
-	25, // 17: license.v1.QueryLicensesByHolderAndTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	27, // 18: license.v1.QueryPermissionsByAddressResponse.permissions:type_name -> license.v1.AddressPermissions
-	24, // 19: license.v1.QueryPermissionsRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	27, // 20: license.v1.QueryPermissionsResponse.permissions:type_name -> license.v1.AddressPermissions
-	25, // 21: license.v1.QueryPermissionsResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 22: license.v1.QueryPermissionsByLicenseTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	27, // 23: license.v1.QueryPermissionsByLicenseTypeResponse.permissions:type_name -> license.v1.AddressPermissions
-	25, // 24: license.v1.QueryPermissionsByLicenseTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 25: license.v1.Query.Params:input_type -> license.v1.QueryParamsRequest
-	2,  // 26: license.v1.Query.LicenseType:input_type -> license.v1.QueryLicenseTypeRequest
-	4,  // 27: license.v1.Query.LicenseTypes:input_type -> license.v1.QueryLicenseTypesRequest
-	6,  // 28: license.v1.Query.License:input_type -> license.v1.QueryLicenseRequest
-	8,  // 29: license.v1.Query.Licenses:input_type -> license.v1.QueryLicensesRequest
-	10, // 30: license.v1.Query.LicensesByType:input_type -> license.v1.QueryLicensesByTypeRequest
-	12, // 31: license.v1.Query.LicensesByHolder:input_type -> license.v1.QueryLicensesByHolderRequest
-	14, // 32: license.v1.Query.LicensesByHolderAndType:input_type -> license.v1.QueryLicensesByHolderAndTypeRequest
-	16, // 33: license.v1.Query.PermissionsByAddress:input_type -> license.v1.QueryPermissionsByAddressRequest
-	18, // 34: license.v1.Query.Permissions:input_type -> license.v1.QueryPermissionsRequest
-	20, // 35: license.v1.Query.PermissionsByLicenseType:input_type -> license.v1.QueryPermissionsByLicenseTypeRequest
-	1,  // 36: license.v1.Query.Params:output_type -> license.v1.QueryParamsResponse
-	3,  // 37: license.v1.Query.LicenseType:output_type -> license.v1.QueryLicenseTypeResponse
-	5,  // 38: license.v1.Query.LicenseTypes:output_type -> license.v1.QueryLicenseTypesResponse
-	7,  // 39: license.v1.Query.License:output_type -> license.v1.QueryLicenseResponse
-	9,  // 40: license.v1.Query.Licenses:output_type -> license.v1.QueryLicensesResponse
-	11, // 41: license.v1.Query.LicensesByType:output_type -> license.v1.QueryLicensesByTypeResponse
-	13, // 42: license.v1.Query.LicensesByHolder:output_type -> license.v1.QueryLicensesByHolderResponse
-	15, // 43: license.v1.Query.LicensesByHolderAndType:output_type -> license.v1.QueryLicensesByHolderAndTypeResponse
-	17, // 44: license.v1.Query.PermissionsByAddress:output_type -> license.v1.QueryPermissionsByAddressResponse
-	19, // 45: license.v1.Query.Permissions:output_type -> license.v1.QueryPermissionsResponse
-	21, // 46: license.v1.Query.PermissionsByLicenseType:output_type -> license.v1.QueryPermissionsByLicenseTypeResponse
-	36, // [36:47] is the sub-list for method output_type
-	25, // [25:36] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	14, // 0: license.v1.QueryLicenseTypeResponse.license_type:type_name -> license.v1.LicenseType
+	15, // 1: license.v1.QueryLicenseTypesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	14, // 2: license.v1.QueryLicenseTypesResponse.license_types:type_name -> license.v1.LicenseType
+	16, // 3: license.v1.QueryLicenseTypesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	17, // 4: license.v1.QueryLicenseResponse.license:type_name -> license.v1.License
+	15, // 5: license.v1.QueryLicensesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 6: license.v1.QueryLicensesResponse.licenses:type_name -> license.v1.License
+	16, // 7: license.v1.QueryLicensesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	15, // 8: license.v1.QueryLicensesByTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 9: license.v1.QueryLicensesByTypeResponse.licenses:type_name -> license.v1.License
+	16, // 10: license.v1.QueryLicensesByTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	15, // 11: license.v1.QueryLicensesByHolderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 12: license.v1.QueryLicensesByHolderResponse.licenses:type_name -> license.v1.License
+	16, // 13: license.v1.QueryLicensesByHolderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	15, // 14: license.v1.QueryLicensesByHolderAndTypeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 15: license.v1.QueryLicensesByHolderAndTypeResponse.licenses:type_name -> license.v1.License
+	16, // 16: license.v1.QueryLicensesByHolderAndTypeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 17: license.v1.Query.LicenseType:input_type -> license.v1.QueryLicenseTypeRequest
+	2,  // 18: license.v1.Query.LicenseTypes:input_type -> license.v1.QueryLicenseTypesRequest
+	4,  // 19: license.v1.Query.License:input_type -> license.v1.QueryLicenseRequest
+	6,  // 20: license.v1.Query.Licenses:input_type -> license.v1.QueryLicensesRequest
+	8,  // 21: license.v1.Query.LicensesByType:input_type -> license.v1.QueryLicensesByTypeRequest
+	10, // 22: license.v1.Query.LicensesByHolder:input_type -> license.v1.QueryLicensesByHolderRequest
+	12, // 23: license.v1.Query.LicensesByHolderAndType:input_type -> license.v1.QueryLicensesByHolderAndTypeRequest
+	1,  // 24: license.v1.Query.LicenseType:output_type -> license.v1.QueryLicenseTypeResponse
+	3,  // 25: license.v1.Query.LicenseTypes:output_type -> license.v1.QueryLicenseTypesResponse
+	5,  // 26: license.v1.Query.License:output_type -> license.v1.QueryLicenseResponse
+	7,  // 27: license.v1.Query.Licenses:output_type -> license.v1.QueryLicensesResponse
+	9,  // 28: license.v1.Query.LicensesByType:output_type -> license.v1.QueryLicensesByTypeResponse
+	11, // 29: license.v1.Query.LicensesByHolder:output_type -> license.v1.QueryLicensesByHolderResponse
+	13, // 30: license.v1.Query.LicensesByHolderAndType:output_type -> license.v1.QueryLicensesByHolderAndTypeResponse
+	24, // [24:31] is the sub-list for method output_type
+	17, // [17:24] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_license_v1_query_proto_init() }
@@ -12178,33 +7950,8 @@ func file_license_v1_query_proto_init() {
 	}
 	file_license_v1_license_proto_init()
 	file_license_v1_license_type_proto_init()
-	file_license_v1_params_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_license_v1_query_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryParamsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryParamsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypeRequest); i {
 			case 0:
 				return &v.state
@@ -12216,7 +7963,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypeResponse); i {
 			case 0:
 				return &v.state
@@ -12228,7 +7975,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypesRequest); i {
 			case 0:
 				return &v.state
@@ -12240,7 +7987,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseTypesResponse); i {
 			case 0:
 				return &v.state
@@ -12252,7 +7999,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseRequest); i {
 			case 0:
 				return &v.state
@@ -12264,7 +8011,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicenseResponse); i {
 			case 0:
 				return &v.state
@@ -12276,7 +8023,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesRequest); i {
 			case 0:
 				return &v.state
@@ -12288,7 +8035,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesResponse); i {
 			case 0:
 				return &v.state
@@ -12300,7 +8047,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByTypeRequest); i {
 			case 0:
 				return &v.state
@@ -12312,7 +8059,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByTypeResponse); i {
 			case 0:
 				return &v.state
@@ -12324,7 +8071,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderRequest); i {
 			case 0:
 				return &v.state
@@ -12336,7 +8083,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderResponse); i {
 			case 0:
 				return &v.state
@@ -12348,7 +8095,7 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderAndTypeRequest); i {
 			case 0:
 				return &v.state
@@ -12360,80 +8107,8 @@ func file_license_v1_query_proto_init() {
 				return nil
 			}
 		}
-		file_license_v1_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_license_v1_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLicensesByHolderAndTypeResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsByAddressRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsByAddressResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsByLicenseTypeRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_license_v1_query_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryPermissionsByLicenseTypeResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12451,7 +8126,7 @@ func file_license_v1_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_license_v1_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   22,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

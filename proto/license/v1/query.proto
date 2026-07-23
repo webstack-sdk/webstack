@@ -1,24 +1,18 @@
 syntax = "proto3";
 package license.v1;
 
-import "amino/amino.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "license/v1/license.proto";
 import "license/v1/license_type.proto";
-import "license/v1/params.proto";
 
 option go_package = "github.com/webstack-sdk/webstack/x/license/types";
 
-// Query defines the gRPC querier service.
+// Query defines the gRPC querier service. Permission grants are served by the
+// x/permission module's queries, under the "license" namespace.
 service Query {
-  // Params queries the module parameters.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/webstack/license/params";
-  }
-
   // LicenseType queries a license type by id.
   rpc LicenseType(QueryLicenseTypeRequest) returns (QueryLicenseTypeResponse) {
     option (google.api.http).get = "/webstack/license/license_type/{id}";
@@ -57,29 +51,6 @@ service Query {
   rpc LicensesByHolderAndType(QueryLicensesByHolderAndTypeRequest) returns (QueryLicensesByHolderAndTypeResponse) {
     option (google.api.http).get = "/webstack/license/licenses_by_holder/{holder}/{type_id}";
   }
-
-  // PermissionsByAddress queries the permission grants for a given address.
-  rpc PermissionsByAddress(QueryPermissionsByAddressRequest) returns (QueryPermissionsByAddressResponse) {
-    option (google.api.http).get = "/webstack/license/permissions_by_address/{address}";
-  }
-
-  // Permissions queries the permission grants of every address.
-  rpc Permissions(QueryPermissionsRequest) returns (QueryPermissionsResponse) {
-    option (google.api.http).get = "/webstack/license/permissions";
-  }
-
-  // PermissionsByLicenseType queries addresses that have grants for a given license type.
-  rpc PermissionsByLicenseType(QueryPermissionsByLicenseTypeRequest) returns (QueryPermissionsByLicenseTypeResponse) {
-    option (google.api.http).get = "/webstack/license/permissions_by_license_type/{license_type_id}";
-  }
-}
-
-// QueryParamsRequest is the request type for the Query/Params RPC method.
-message QueryParamsRequest {}
-
-// QueryParamsResponse is the response type for the Query/Params RPC method.
-message QueryParamsResponse {
-  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
 
 // QueryLicenseTypeRequest is the request type for the Query/LicenseType RPC method.
@@ -159,39 +130,5 @@ message QueryLicensesByHolderAndTypeRequest {
 // QueryLicensesByHolderAndTypeResponse is the response type for the Query/LicensesByHolderAndType RPC method.
 message QueryLicensesByHolderAndTypeResponse {
   repeated License licenses = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
-}
-
-// QueryPermissionsByAddressRequest is the request type for the Query/PermissionsByAddress RPC method.
-message QueryPermissionsByAddressRequest {
-  string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-}
-
-// QueryPermissionsByAddressResponse is the response type for the Query/PermissionsByAddress RPC method.
-message QueryPermissionsByAddressResponse {
-  AddressPermissions permissions = 1 [(gogoproto.nullable) = false];
-}
-
-// QueryPermissionsRequest is the request type for the Query/Permissions RPC method.
-message QueryPermissionsRequest {
-  cosmos.base.query.v1beta1.PageRequest pagination = 1;
-}
-
-// QueryPermissionsResponse is the response type for the Query/Permissions RPC method.
-message QueryPermissionsResponse {
-  repeated AddressPermissions permissions = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
-}
-
-// QueryPermissionsByLicenseTypeRequest is the request type for the Query/PermissionsByLicenseType RPC method.
-message QueryPermissionsByLicenseTypeRequest {
-  string license_type_id = 1;
-  string permission = 2;
-  cosmos.base.query.v1beta1.PageRequest pagination = 3;
-}
-
-// QueryPermissionsByLicenseTypeResponse is the response type for the Query/PermissionsByLicenseType RPC method.
-message QueryPermissionsByLicenseTypeResponse {
-  repeated AddressPermissions permissions = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

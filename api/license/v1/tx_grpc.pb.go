@@ -19,10 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName      = "/license.v1.Msg/UpdateParams"
 	Msg_CreateLicenseType_FullMethodName = "/license.v1.Msg/CreateLicenseType"
-	Msg_GrantPermissions_FullMethodName  = "/license.v1.Msg/GrantPermissions"
-	Msg_RevokePermissions_FullMethodName = "/license.v1.Msg/RevokePermissions"
 	Msg_IssueLicenses_FullMethodName     = "/license.v1.Msg/IssueLicenses"
 	Msg_RevokeLicenses_FullMethodName    = "/license.v1.Msg/RevokeLicenses"
 	Msg_TransferLicense_FullMethodName   = "/license.v1.Msg/TransferLicense"
@@ -33,17 +30,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	// UpdateParams defines a governance operation for updating the module parameters.
-	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
-	// CreateLicenseType creates a new license type. Signer must be the module owner.
+	// CreateLicenseType creates a new license type. Signer must be the license namespace owner.
 	CreateLicenseType(ctx context.Context, in *MsgCreateLicenseType, opts ...grpc.CallOption) (*MsgCreateLicenseTypeResponse, error)
-	// GrantPermissions merges permission grants for an address. Signer must be the module owner.
-	// Existing grants for the address are preserved; new (permission, license type) pairs are unioned in.
-	GrantPermissions(ctx context.Context, in *MsgGrantPermissions, opts ...grpc.CallOption) (*MsgGrantPermissionsResponse, error)
-	// RevokePermissions removes the given (license type, permission) pairs from an address's
-	// grants. Pairs that are not currently granted are silently ignored. Signer must be the
-	// module owner.
-	RevokePermissions(ctx context.Context, in *MsgRevokePermissions, opts ...grpc.CallOption) (*MsgRevokePermissionsResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(ctx context.Context, in *MsgIssueLicenses, opts ...grpc.CallOption) (*MsgIssueLicensesResponse, error)
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
@@ -51,7 +39,7 @@ type MsgClient interface {
 	RevokeLicenses(ctx context.Context, in *MsgRevokeLicenses, opts ...grpc.CallOption) (*MsgRevokeLicensesResponse, error)
 	// TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
 	TransferLicense(ctx context.Context, in *MsgTransferLicense, opts ...grpc.CallOption) (*MsgTransferLicenseResponse, error)
-	// UpdateLicenseType updates an existing license type. Signer must be the module owner.
+	// UpdateLicenseType updates an existing license type. Signer must be the license namespace owner.
 	UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseType, opts ...grpc.CallOption) (*MsgUpdateLicenseTypeResponse, error)
 }
 
@@ -63,36 +51,9 @@ func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error) {
-	out := new(MsgUpdateParamsResponse)
-	err := c.cc.Invoke(ctx, Msg_UpdateParams_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *msgClient) CreateLicenseType(ctx context.Context, in *MsgCreateLicenseType, opts ...grpc.CallOption) (*MsgCreateLicenseTypeResponse, error) {
 	out := new(MsgCreateLicenseTypeResponse)
 	err := c.cc.Invoke(ctx, Msg_CreateLicenseType_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) GrantPermissions(ctx context.Context, in *MsgGrantPermissions, opts ...grpc.CallOption) (*MsgGrantPermissionsResponse, error) {
-	out := new(MsgGrantPermissionsResponse)
-	err := c.cc.Invoke(ctx, Msg_GrantPermissions_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) RevokePermissions(ctx context.Context, in *MsgRevokePermissions, opts ...grpc.CallOption) (*MsgRevokePermissionsResponse, error) {
-	out := new(MsgRevokePermissionsResponse)
-	err := c.cc.Invoke(ctx, Msg_RevokePermissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -139,17 +100,8 @@ func (c *msgClient) UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseT
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	// UpdateParams defines a governance operation for updating the module parameters.
-	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
-	// CreateLicenseType creates a new license type. Signer must be the module owner.
+	// CreateLicenseType creates a new license type. Signer must be the license namespace owner.
 	CreateLicenseType(context.Context, *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error)
-	// GrantPermissions merges permission grants for an address. Signer must be the module owner.
-	// Existing grants for the address are preserved; new (permission, license type) pairs are unioned in.
-	GrantPermissions(context.Context, *MsgGrantPermissions) (*MsgGrantPermissionsResponse, error)
-	// RevokePermissions removes the given (license type, permission) pairs from an address's
-	// grants. Pairs that are not currently granted are silently ignored. Signer must be the
-	// module owner.
-	RevokePermissions(context.Context, *MsgRevokePermissions) (*MsgRevokePermissionsResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error)
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
@@ -157,7 +109,7 @@ type MsgServer interface {
 	RevokeLicenses(context.Context, *MsgRevokeLicenses) (*MsgRevokeLicensesResponse, error)
 	// TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
 	TransferLicense(context.Context, *MsgTransferLicense) (*MsgTransferLicenseResponse, error)
-	// UpdateLicenseType updates an existing license type. Signer must be the module owner.
+	// UpdateLicenseType updates an existing license type. Signer must be the license namespace owner.
 	UpdateLicenseType(context.Context, *MsgUpdateLicenseType) (*MsgUpdateLicenseTypeResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
@@ -166,17 +118,8 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateParams not implemented")
-}
 func (UnimplementedMsgServer) CreateLicenseType(context.Context, *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLicenseType not implemented")
-}
-func (UnimplementedMsgServer) GrantPermissions(context.Context, *MsgGrantPermissions) (*MsgGrantPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GrantPermissions not implemented")
-}
-func (UnimplementedMsgServer) RevokePermissions(context.Context, *MsgRevokePermissions) (*MsgRevokePermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokePermissions not implemented")
 }
 func (UnimplementedMsgServer) IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IssueLicenses not implemented")
@@ -203,24 +146,6 @@ func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {
 	s.RegisterService(&Msg_ServiceDesc, srv)
 }
 
-func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateParams)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).UpdateParams(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_UpdateParams_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateParams(ctx, req.(*MsgUpdateParams))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Msg_CreateLicenseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgCreateLicenseType)
 	if err := dec(in); err != nil {
@@ -235,42 +160,6 @@ func _Msg_CreateLicenseType_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreateLicenseType(ctx, req.(*MsgCreateLicenseType))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_GrantPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgGrantPermissions)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).GrantPermissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_GrantPermissions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).GrantPermissions(ctx, req.(*MsgGrantPermissions))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_RevokePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgRevokePermissions)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).RevokePermissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_RevokePermissions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RevokePermissions(ctx, req.(*MsgRevokePermissions))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -355,20 +244,8 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "UpdateParams",
-			Handler:    _Msg_UpdateParams_Handler,
-		},
-		{
 			MethodName: "CreateLicenseType",
 			Handler:    _Msg_CreateLicenseType_Handler,
-		},
-		{
-			MethodName: "GrantPermissions",
-			Handler:    _Msg_GrantPermissions_Handler,
-		},
-		{
-			MethodName: "RevokePermissions",
-			Handler:    _Msg_RevokePermissions_Handler,
 		},
 		{
 			MethodName: "IssueLicenses",

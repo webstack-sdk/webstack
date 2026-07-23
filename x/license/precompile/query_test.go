@@ -7,7 +7,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/require"
 
-	"cosmossdk.io/collections"
 	"cosmossdk.io/math"
 
 	licensetypes "github.com/webstack-sdk/webstack/x/license/types"
@@ -26,23 +25,6 @@ func seedLicenseType(t *testing.T, f *testFixture, id string, transferrable bool
 		RevokedCount:  math.ZeroInt(),
 	}
 	require.NoError(t, f.keeper.LicenseTypes.Set(f.ctx, id, lt))
-}
-
-func TestQueryParams(t *testing.T) {
-	f := newTestFixture(t)
-	method := ABI.Methods[ParamsMethod]
-
-	bz, err := f.precompile.Params(f.ctx, &method, nil)
-	require.NoError(t, err)
-
-	out, err := method.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	require.Len(t, out, 1)
-
-	got := out[0].(struct {
-		Owner common.Address `json:"owner"`
-	})
-	require.Equal(t, f.OwnerHex, got.Owner)
 }
 
 func TestQueryLicenseType(t *testing.T) {
@@ -217,80 +199,4 @@ func TestQueryLicenses(t *testing.T) {
 	})
 	require.Len(t, list, 2)
 	require.ElementsMatch(t, []string{"type.a", "type.b"}, []string{list[0].TypeId, list[1].TypeId})
-}
-
-// TestQueryPermissions covers all three permissions-by-address queries.
-func TestQueryPermissions(t *testing.T) {
-	f := newTestFixture(t)
-	seedLicenseType(t, f, "type.a", true, 0)
-	seedLicenseType(t, f, "type.b", true, 0)
-
-	adminHex := common.HexToAddress("0x3333333333333333333333333333333333333333")
-	adminBech, err := f.addrCdc.BytesToString(adminHex.Bytes())
-	require.NoError(t, err)
-
-	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(adminBech, int32(licensetypes.PermissionIssue), "type.a")))
-	require.NoError(t, f.keeper.Permissions.Set(f.ctx, collections.Join3(adminBech, int32(licensetypes.PermissionRevoke), "type.b")))
-
-	// AddressPermissions ---------------------------------------------------------
-	akM := ABI.Methods[PermissionsByAddressMethod]
-	bz, err := f.precompile.PermissionsByAddress(f.ctx, &akM, []interface{}{adminHex})
-	require.NoError(t, err)
-	akOut, err := akM.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	ak := akOut[0].(struct {
-		Grantee common.Address `json:"grantee"`
-		Grants  []struct {
-			Permission   string   `json:"permission"`
-			LicenseTypes []string `json:"licenseTypes"`
-		} `json:"grants"`
-	})
-	require.Equal(t, adminHex, ak.Grantee)
-	require.Len(t, ak.Grants, 2)
-
-	// Permissions --------------------------------------------------------
-	allM := ABI.Methods[PermissionsMethod]
-	bz, err = f.precompile.Permissions(f.ctx, &allM, nil)
-	require.NoError(t, err)
-	allOut, err := allM.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	all := allOut[0].([]struct {
-		Grantee common.Address `json:"grantee"`
-		Grants  []struct {
-			Permission   string   `json:"permission"`
-			LicenseTypes []string `json:"licenseTypes"`
-		} `json:"grants"`
-	})
-	require.Len(t, all, 1)
-	require.Equal(t, adminHex, all[0].Grantee)
-
-	// PermissionsByLicenseType -----------------------------------------
-	byM := ABI.Methods[PermissionsByLicenseTypeMethod]
-	bz, err = f.precompile.PermissionsByLicenseType(f.ctx, &byM, []interface{}{"type.a", "issue"})
-	require.NoError(t, err)
-	byOut, err := byM.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	by := byOut[0].([]struct {
-		Grantee common.Address `json:"grantee"`
-		Grants  []struct {
-			Permission   string   `json:"permission"`
-			LicenseTypes []string `json:"licenseTypes"`
-		} `json:"grants"`
-	})
-	require.Len(t, by, 1)
-	require.Equal(t, adminHex, by[0].Grantee)
-
-	// negative match: permission that the admin does not hold for type.a
-	bz, err = f.precompile.PermissionsByLicenseType(f.ctx, &byM, []interface{}{"type.a", "revoke"})
-	require.NoError(t, err)
-	byOut, err = byM.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	emptyList := byOut[0].([]struct {
-		Grantee common.Address `json:"grantee"`
-		Grants  []struct {
-			Permission   string   `json:"permission"`
-			LicenseTypes []string `json:"licenseTypes"`
-		} `json:"grants"`
-	})
-	require.Empty(t, emptyList)
 }

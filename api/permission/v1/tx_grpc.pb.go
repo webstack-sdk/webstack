@@ -19,7 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_CreateNamespace_FullMethodName      = "/permission.v1.Msg/CreateNamespace"
 	Msg_UpdateNamespaceOwner_FullMethodName = "/permission.v1.Msg/UpdateNamespaceOwner"
 	Msg_TransferOwnership_FullMethodName    = "/permission.v1.Msg/TransferOwnership"
 	Msg_GrantPermissions_FullMethodName     = "/permission.v1.Msg/GrantPermissions"
@@ -30,12 +29,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	// CreateNamespace creates a grant namespace for a module and sets its owner.
-	// Signer must be the module authority (governance).
-	CreateNamespace(ctx context.Context, in *MsgCreateNamespace, opts ...grpc.CallOption) (*MsgCreateNamespaceResponse, error)
-	// UpdateNamespaceOwner rotates the owner of an existing namespace. Signer
-	// must be the module authority (governance); it exists so a lost or
-	// compromised owner can be recovered without the current owner's key.
+	// UpdateNamespaceOwner sets or rotates the owner of a registered module's
+	// namespace. Signer must be the module authority (governance); it is how an
+	// owner is first established outside genesis, and how a lost or compromised
+	// owner is recovered without the current owner's key.
 	UpdateNamespaceOwner(ctx context.Context, in *MsgUpdateNamespaceOwner, opts ...grpc.CallOption) (*MsgUpdateNamespaceOwnerResponse, error)
 	// TransferOwnership hands a namespace to a new owner. Signer must be the
 	// current namespace owner.
@@ -56,15 +53,6 @@ type msgClient struct {
 
 func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 	return &msgClient{cc}
-}
-
-func (c *msgClient) CreateNamespace(ctx context.Context, in *MsgCreateNamespace, opts ...grpc.CallOption) (*MsgCreateNamespaceResponse, error) {
-	out := new(MsgCreateNamespaceResponse)
-	err := c.cc.Invoke(ctx, Msg_CreateNamespace_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *msgClient) UpdateNamespaceOwner(ctx context.Context, in *MsgUpdateNamespaceOwner, opts ...grpc.CallOption) (*MsgUpdateNamespaceOwnerResponse, error) {
@@ -107,12 +95,10 @@ func (c *msgClient) RevokePermissions(ctx context.Context, in *MsgRevokePermissi
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	// CreateNamespace creates a grant namespace for a module and sets its owner.
-	// Signer must be the module authority (governance).
-	CreateNamespace(context.Context, *MsgCreateNamespace) (*MsgCreateNamespaceResponse, error)
-	// UpdateNamespaceOwner rotates the owner of an existing namespace. Signer
-	// must be the module authority (governance); it exists so a lost or
-	// compromised owner can be recovered without the current owner's key.
+	// UpdateNamespaceOwner sets or rotates the owner of a registered module's
+	// namespace. Signer must be the module authority (governance); it is how an
+	// owner is first established outside genesis, and how a lost or compromised
+	// owner is recovered without the current owner's key.
 	UpdateNamespaceOwner(context.Context, *MsgUpdateNamespaceOwner) (*MsgUpdateNamespaceOwnerResponse, error)
 	// TransferOwnership hands a namespace to a new owner. Signer must be the
 	// current namespace owner.
@@ -132,9 +118,6 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (UnimplementedMsgServer) CreateNamespace(context.Context, *MsgCreateNamespace) (*MsgCreateNamespaceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateNamespace not implemented")
-}
 func (UnimplementedMsgServer) UpdateNamespaceOwner(context.Context, *MsgUpdateNamespaceOwner) (*MsgUpdateNamespaceOwnerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateNamespaceOwner not implemented")
 }
@@ -158,24 +141,6 @@ type UnsafeMsgServer interface {
 
 func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {
 	s.RegisterService(&Msg_ServiceDesc, srv)
-}
-
-func _Msg_CreateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgCreateNamespace)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).CreateNamespace(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_CreateNamespace_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).CreateNamespace(ctx, req.(*MsgCreateNamespace))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_UpdateNamespaceOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -257,10 +222,6 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "permission.v1.Msg",
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateNamespace",
-			Handler:    _Msg_CreateNamespace_Handler,
-		},
 		{
 			MethodName: "UpdateNamespaceOwner",
 			Handler:    _Msg_UpdateNamespaceOwner_Handler,

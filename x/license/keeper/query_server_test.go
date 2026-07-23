@@ -17,30 +17,9 @@ func setupQuerier(k keeper.Keeper) keeper.Querier {
 	return keeper.NewQuerier(k)
 }
 
-func TestQueryParams(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
-
-	resp, err := q.Params(ctx, &types.QueryParamsRequest{})
-	require.NoError(t, err)
-	require.Equal(t, owner, resp.Params.Owner)
-
-	// Update params and re-query
-	newOwner := sample.AccAddress()
-	_, err = ms.UpdateParams(ctx, &types.MsgUpdateParams{
-		Authority: k.GetAuthority(),
-		Params:    types.Params{Owner: newOwner},
-	})
-	require.NoError(t, err)
-
-	resp, err = q.Params(ctx, &types.QueryParamsRequest{})
-	require.NoError(t, err)
-	require.Equal(t, newOwner, resp.Params.Owner)
-}
-
 func TestQueryLicenseType(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
+	f, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(f.Keeper)
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
 		Owner: owner, Id: "node", Transferrable: true, MaxSupply: math.NewInt(50),
@@ -59,8 +38,8 @@ func TestQueryLicenseType(t *testing.T) {
 }
 
 func TestQueryLicenseTypes(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
+	f, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(f.Keeper)
 
 	for _, id := range []string{"a", "b", "c"} {
 		_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
@@ -75,8 +54,8 @@ func TestQueryLicenseTypes(t *testing.T) {
 }
 
 func TestQueryLicense(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
+	f, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(f.Keeper)
 	issuer := sample.AccAddress()
 	holder := sample.AccAddress()
 
@@ -84,11 +63,7 @@ func TestQueryLicense(t *testing.T) {
 		Owner: owner, Id: "ql", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
-		Owner: owner, Address: issuer,
-		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"ql"}}},
-	})
-	require.NoError(t, err)
+	f.Grant(t, issuer, types.PermissionIssue, "ql")
 
 	issueResp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
 		Issuer: issuer, Entries: []types.IssueLicenseEntry{
@@ -110,8 +85,8 @@ func TestQueryLicense(t *testing.T) {
 // TestQueryLicenses covers the all-licenses query: it spans license types,
 // includes revoked records, and paginates without gaps or duplicates.
 func TestQueryLicenses(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
+	f, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(f.Keeper)
 	admin := sample.AccAddress()
 	holder := sample.AccAddress()
 
@@ -121,16 +96,11 @@ func TestQueryLicenses(t *testing.T) {
 		})
 		require.NoError(t, err)
 	}
-	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
-		Owner: owner, Address: admin,
-		Grants: []types.PermissionGrant{
-			{Permission: types.PermissionIssue, LicenseTypes: []string{"a1", "b2"}},
-			{Permission: types.PermissionRevoke, LicenseTypes: []string{"a1"}},
-		},
-	})
-	require.NoError(t, err)
+	f.Grant(t, admin, types.PermissionIssue, "a1")
+	f.Grant(t, admin, types.PermissionIssue, "b2")
+	f.Grant(t, admin, types.PermissionRevoke, "a1")
 
-	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+	_, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
 		Issuer: admin, Entries: []types.IssueLicenseEntry{
 			{LicenseTypeId: "a1", Holder: holder, StartDate: "2026-01-01", Count: 3},
 			{LicenseTypeId: "b2", Holder: holder, StartDate: "2026-01-01", Count: 2},
@@ -175,8 +145,8 @@ func TestQueryLicenses(t *testing.T) {
 }
 
 func TestQueryLicensesByHolder(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
+	f, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(f.Keeper)
 	issuer := sample.AccAddress()
 	holder := sample.AccAddress()
 
@@ -188,11 +158,8 @@ func TestQueryLicensesByHolder(t *testing.T) {
 		Owner: owner, Id: "h2", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
-		Owner: owner, Address: issuer,
-		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"h1", "h2"}}},
-	})
-	require.NoError(t, err)
+	f.Grant(t, issuer, types.PermissionIssue, "h1")
+	f.Grant(t, issuer, types.PermissionIssue, "h2")
 
 	// Issue 2 of h1 and 1 of h2 to holder, and 1 of h1 to someone else
 	_, err = ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
@@ -255,8 +222,8 @@ func TestQueryLicensesByHolder(t *testing.T) {
 // TestQueryLicensesByHolderExcludesRevoked: the holder index tracks active
 // licenses only, so holder queries must not return revoked licenses.
 func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
+	f, ms, ctx, owner := setupWithOwner(t)
+	q := setupQuerier(f.Keeper)
 	admin := sample.AccAddress()
 	holder := sample.AccAddress()
 
@@ -264,14 +231,8 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 		Owner: owner, Id: "rvq", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
-		Owner: owner, Address: admin,
-		Grants: []types.PermissionGrant{
-			{Permission: types.PermissionIssue, LicenseTypes: []string{"rvq"}},
-			{Permission: types.PermissionRevoke, LicenseTypes: []string{"rvq"}},
-		},
-	})
-	require.NoError(t, err)
+	f.Grant(t, admin, types.PermissionIssue, "rvq")
+	f.Grant(t, admin, types.PermissionRevoke, "rvq")
 
 	issueResp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
 		Issuer: admin, Entries: []types.IssueLicenseEntry{
@@ -302,43 +263,4 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	lresp, err := q.License(ctx, &types.QueryLicenseRequest{TypeId: "rvq", Id: issueResp.Ids[2]})
 	require.NoError(t, err)
 	require.Equal(t, types.StatusRevoked, lresp.License.Status)
-}
-
-func TestQueryPermissions(t *testing.T) {
-	k, ms, ctx, owner := setupWithOwner(t)
-	q := setupQuerier(k)
-	admin1 := sample.AccAddress()
-	admin2 := sample.AccAddress()
-
-	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{Owner: owner, Id: "t1", MaxSupply: math.ZeroInt()})
-	require.NoError(t, err)
-
-	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
-		Owner: owner, Address: admin1,
-		Grants: []types.PermissionGrant{{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}}},
-	})
-	require.NoError(t, err)
-	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
-		Owner: owner, Address: admin2,
-		Grants: []types.PermissionGrant{
-			{Permission: types.PermissionIssue, LicenseTypes: []string{"t1"}},
-			{Permission: types.PermissionRevoke, LicenseTypes: []string{"t1"}},
-		},
-	})
-	require.NoError(t, err)
-
-	// Query single
-	resp, err := q.PermissionsByAddress(ctx, &types.QueryPermissionsByAddressRequest{Address: admin1})
-	require.NoError(t, err)
-	require.Equal(t, admin1, resp.Permissions.Address)
-	require.Len(t, resp.Permissions.Grants, 1)
-
-	// Not found
-	_, err = q.PermissionsByAddress(ctx, &types.QueryPermissionsByAddressRequest{Address: sample.AccAddress()})
-	require.Error(t, err)
-
-	// Query all
-	allResp, err := q.Permissions(ctx, &types.QueryPermissionsRequest{})
-	require.NoError(t, err)
-	require.Len(t, allResp.Permissions, 2)
 }

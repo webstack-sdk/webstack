@@ -8,7 +8,6 @@ import (
 )
 
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateNamespace{}, "webstack/x/permission/MsgCreateNamespace", nil)
 	cdc.RegisterConcrete(&MsgUpdateNamespaceOwner{}, "webstack/x/permission/MsgUpdateNamespaceOwner", nil)
 	cdc.RegisterConcrete(&MsgTransferOwnership{}, "webstack/x/permission/MsgTransferOwnership", nil)
 	cdc.RegisterConcrete(&MsgGrantPermissions{}, "webstack/x/permission/MsgGrantPermissions", nil)
@@ -17,7 +16,6 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateNamespace{},
 		&MsgUpdateNamespaceOwner{},
 		&MsgTransferOwnership{},
 		&MsgGrantPermissions{},

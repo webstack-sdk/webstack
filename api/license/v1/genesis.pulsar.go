@@ -2,7 +2,6 @@
 package licensev1
 
 import (
-	_ "cosmossdk.io/api/amino"
 	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -482,10 +481,61 @@ func (x *fastReflection_LicenseCount) ProtoMethods() *protoiface.Methods {
 	}
 }
 
+var _ protoreflect.List = (*_GenesisState_1_list)(nil)
+
+type _GenesisState_1_list struct {
+	list *[]*LicenseType
+}
+
+func (x *_GenesisState_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_GenesisState_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_GenesisState_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*LicenseType)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_GenesisState_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*LicenseType)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_GenesisState_1_list) AppendMutable() protoreflect.Value {
+	v := new(LicenseType)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_GenesisState_1_list) NewElement() protoreflect.Value {
+	v := new(LicenseType)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_1_list) IsValid() bool {
+	return x.list != nil
+}
+
 var _ protoreflect.List = (*_GenesisState_2_list)(nil)
 
 type _GenesisState_2_list struct {
-	list *[]*LicenseType
+	list *[]*License
 }
 
 func (x *_GenesisState_2_list) Len() int {
@@ -501,18 +551,18 @@ func (x *_GenesisState_2_list) Get(i int) protoreflect.Value {
 
 func (x *_GenesisState_2_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*LicenseType)
+	concreteValue := valueUnwrapped.Interface().(*License)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_GenesisState_2_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*LicenseType)
+	concreteValue := valueUnwrapped.Interface().(*License)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_GenesisState_2_list) AppendMutable() protoreflect.Value {
-	v := new(LicenseType)
+	v := new(License)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
@@ -525,7 +575,7 @@ func (x *_GenesisState_2_list) Truncate(n int) {
 }
 
 func (x *_GenesisState_2_list) NewElement() protoreflect.Value {
-	v := new(LicenseType)
+	v := new(License)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
@@ -536,7 +586,7 @@ func (x *_GenesisState_2_list) IsValid() bool {
 var _ protoreflect.List = (*_GenesisState_3_list)(nil)
 
 type _GenesisState_3_list struct {
-	list *[]*License
+	list *[]*LicenseCount
 }
 
 func (x *_GenesisState_3_list) Len() int {
@@ -552,18 +602,18 @@ func (x *_GenesisState_3_list) Get(i int) protoreflect.Value {
 
 func (x *_GenesisState_3_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*License)
+	concreteValue := valueUnwrapped.Interface().(*LicenseCount)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_GenesisState_3_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*License)
+	concreteValue := valueUnwrapped.Interface().(*LicenseCount)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_GenesisState_3_list) AppendMutable() protoreflect.Value {
-	v := new(License)
+	v := new(LicenseCount)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
@@ -576,7 +626,7 @@ func (x *_GenesisState_3_list) Truncate(n int) {
 }
 
 func (x *_GenesisState_3_list) NewElement() protoreflect.Value {
-	v := new(License)
+	v := new(LicenseCount)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
@@ -584,124 +634,18 @@ func (x *_GenesisState_3_list) IsValid() bool {
 	return x.list != nil
 }
 
-var _ protoreflect.List = (*_GenesisState_4_list)(nil)
-
-type _GenesisState_4_list struct {
-	list *[]*AddressPermissions
-}
-
-func (x *_GenesisState_4_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_GenesisState_4_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_GenesisState_4_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_GenesisState_4_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AddressPermissions)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_GenesisState_4_list) AppendMutable() protoreflect.Value {
-	v := new(AddressPermissions)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_GenesisState_4_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_GenesisState_4_list) NewElement() protoreflect.Value {
-	v := new(AddressPermissions)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_GenesisState_4_list) IsValid() bool {
-	return x.list != nil
-}
-
-var _ protoreflect.List = (*_GenesisState_5_list)(nil)
-
-type _GenesisState_5_list struct {
-	list *[]*LicenseCount
-}
-
-func (x *_GenesisState_5_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_GenesisState_5_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_GenesisState_5_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*LicenseCount)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_GenesisState_5_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*LicenseCount)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_GenesisState_5_list) AppendMutable() protoreflect.Value {
-	v := new(LicenseCount)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_GenesisState_5_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_GenesisState_5_list) NewElement() protoreflect.Value {
-	v := new(LicenseCount)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_GenesisState_5_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
 	md_GenesisState                protoreflect.MessageDescriptor
-	fd_GenesisState_params         protoreflect.FieldDescriptor
 	fd_GenesisState_license_types  protoreflect.FieldDescriptor
 	fd_GenesisState_licenses       protoreflect.FieldDescriptor
-	fd_GenesisState_permissions    protoreflect.FieldDescriptor
 	fd_GenesisState_license_counts protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_license_v1_genesis_proto_init()
 	md_GenesisState = File_license_v1_genesis_proto.Messages().ByName("GenesisState")
-	fd_GenesisState_params = md_GenesisState.Fields().ByName("params")
 	fd_GenesisState_license_types = md_GenesisState.Fields().ByName("license_types")
 	fd_GenesisState_licenses = md_GenesisState.Fields().ByName("licenses")
-	fd_GenesisState_permissions = md_GenesisState.Fields().ByName("permissions")
 	fd_GenesisState_license_counts = md_GenesisState.Fields().ByName("license_counts")
 }
 
@@ -770,32 +714,20 @@ func (x *fastReflection_GenesisState) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_GenesisState) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Params != nil {
-		value := protoreflect.ValueOfMessage(x.Params.ProtoReflect())
-		if !f(fd_GenesisState_params, value) {
-			return
-		}
-	}
 	if len(x.LicenseTypes) != 0 {
-		value := protoreflect.ValueOfList(&_GenesisState_2_list{list: &x.LicenseTypes})
+		value := protoreflect.ValueOfList(&_GenesisState_1_list{list: &x.LicenseTypes})
 		if !f(fd_GenesisState_license_types, value) {
 			return
 		}
 	}
 	if len(x.Licenses) != 0 {
-		value := protoreflect.ValueOfList(&_GenesisState_3_list{list: &x.Licenses})
+		value := protoreflect.ValueOfList(&_GenesisState_2_list{list: &x.Licenses})
 		if !f(fd_GenesisState_licenses, value) {
 			return
 		}
 	}
-	if len(x.Permissions) != 0 {
-		value := protoreflect.ValueOfList(&_GenesisState_4_list{list: &x.Permissions})
-		if !f(fd_GenesisState_permissions, value) {
-			return
-		}
-	}
 	if len(x.LicenseCounts) != 0 {
-		value := protoreflect.ValueOfList(&_GenesisState_5_list{list: &x.LicenseCounts})
+		value := protoreflect.ValueOfList(&_GenesisState_3_list{list: &x.LicenseCounts})
 		if !f(fd_GenesisState_license_counts, value) {
 			return
 		}
@@ -815,14 +747,10 @@ func (x *fastReflection_GenesisState) Range(f func(protoreflect.FieldDescriptor,
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_GenesisState) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "license.v1.GenesisState.params":
-		return x.Params != nil
 	case "license.v1.GenesisState.license_types":
 		return len(x.LicenseTypes) != 0
 	case "license.v1.GenesisState.licenses":
 		return len(x.Licenses) != 0
-	case "license.v1.GenesisState.permissions":
-		return len(x.Permissions) != 0
 	case "license.v1.GenesisState.license_counts":
 		return len(x.LicenseCounts) != 0
 	default:
@@ -841,14 +769,10 @@ func (x *fastReflection_GenesisState) Has(fd protoreflect.FieldDescriptor) bool 
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_GenesisState) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "license.v1.GenesisState.params":
-		x.Params = nil
 	case "license.v1.GenesisState.license_types":
 		x.LicenseTypes = nil
 	case "license.v1.GenesisState.licenses":
 		x.Licenses = nil
-	case "license.v1.GenesisState.permissions":
-		x.Permissions = nil
 	case "license.v1.GenesisState.license_counts":
 		x.LicenseCounts = nil
 	default:
@@ -867,32 +791,23 @@ func (x *fastReflection_GenesisState) Clear(fd protoreflect.FieldDescriptor) {
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_GenesisState) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "license.v1.GenesisState.params":
-		value := x.Params
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "license.v1.GenesisState.license_types":
 		if len(x.LicenseTypes) == 0 {
-			return protoreflect.ValueOfList(&_GenesisState_2_list{})
+			return protoreflect.ValueOfList(&_GenesisState_1_list{})
 		}
-		listValue := &_GenesisState_2_list{list: &x.LicenseTypes}
+		listValue := &_GenesisState_1_list{list: &x.LicenseTypes}
 		return protoreflect.ValueOfList(listValue)
 	case "license.v1.GenesisState.licenses":
 		if len(x.Licenses) == 0 {
-			return protoreflect.ValueOfList(&_GenesisState_3_list{})
+			return protoreflect.ValueOfList(&_GenesisState_2_list{})
 		}
-		listValue := &_GenesisState_3_list{list: &x.Licenses}
-		return protoreflect.ValueOfList(listValue)
-	case "license.v1.GenesisState.permissions":
-		if len(x.Permissions) == 0 {
-			return protoreflect.ValueOfList(&_GenesisState_4_list{})
-		}
-		listValue := &_GenesisState_4_list{list: &x.Permissions}
+		listValue := &_GenesisState_2_list{list: &x.Licenses}
 		return protoreflect.ValueOfList(listValue)
 	case "license.v1.GenesisState.license_counts":
 		if len(x.LicenseCounts) == 0 {
-			return protoreflect.ValueOfList(&_GenesisState_5_list{})
+			return protoreflect.ValueOfList(&_GenesisState_3_list{})
 		}
-		listValue := &_GenesisState_5_list{list: &x.LicenseCounts}
+		listValue := &_GenesisState_3_list{list: &x.LicenseCounts}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
@@ -914,23 +829,17 @@ func (x *fastReflection_GenesisState) Get(descriptor protoreflect.FieldDescripto
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_GenesisState) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "license.v1.GenesisState.params":
-		x.Params = value.Message().Interface().(*Params)
 	case "license.v1.GenesisState.license_types":
 		lv := value.List()
-		clv := lv.(*_GenesisState_2_list)
+		clv := lv.(*_GenesisState_1_list)
 		x.LicenseTypes = *clv.list
 	case "license.v1.GenesisState.licenses":
 		lv := value.List()
-		clv := lv.(*_GenesisState_3_list)
+		clv := lv.(*_GenesisState_2_list)
 		x.Licenses = *clv.list
-	case "license.v1.GenesisState.permissions":
-		lv := value.List()
-		clv := lv.(*_GenesisState_4_list)
-		x.Permissions = *clv.list
 	case "license.v1.GenesisState.license_counts":
 		lv := value.List()
-		clv := lv.(*_GenesisState_5_list)
+		clv := lv.(*_GenesisState_3_list)
 		x.LicenseCounts = *clv.list
 	default:
 		if fd.IsExtension() {
@@ -952,34 +861,23 @@ func (x *fastReflection_GenesisState) Set(fd protoreflect.FieldDescriptor, value
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_GenesisState) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "license.v1.GenesisState.params":
-		if x.Params == nil {
-			x.Params = new(Params)
-		}
-		return protoreflect.ValueOfMessage(x.Params.ProtoReflect())
 	case "license.v1.GenesisState.license_types":
 		if x.LicenseTypes == nil {
 			x.LicenseTypes = []*LicenseType{}
 		}
-		value := &_GenesisState_2_list{list: &x.LicenseTypes}
+		value := &_GenesisState_1_list{list: &x.LicenseTypes}
 		return protoreflect.ValueOfList(value)
 	case "license.v1.GenesisState.licenses":
 		if x.Licenses == nil {
 			x.Licenses = []*License{}
 		}
-		value := &_GenesisState_3_list{list: &x.Licenses}
-		return protoreflect.ValueOfList(value)
-	case "license.v1.GenesisState.permissions":
-		if x.Permissions == nil {
-			x.Permissions = []*AddressPermissions{}
-		}
-		value := &_GenesisState_4_list{list: &x.Permissions}
+		value := &_GenesisState_2_list{list: &x.Licenses}
 		return protoreflect.ValueOfList(value)
 	case "license.v1.GenesisState.license_counts":
 		if x.LicenseCounts == nil {
 			x.LicenseCounts = []*LicenseCount{}
 		}
-		value := &_GenesisState_5_list{list: &x.LicenseCounts}
+		value := &_GenesisState_3_list{list: &x.LicenseCounts}
 		return protoreflect.ValueOfList(value)
 	default:
 		if fd.IsExtension() {
@@ -994,21 +892,15 @@ func (x *fastReflection_GenesisState) Mutable(fd protoreflect.FieldDescriptor) p
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_GenesisState) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "license.v1.GenesisState.params":
-		m := new(Params)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "license.v1.GenesisState.license_types":
 		list := []*LicenseType{}
-		return protoreflect.ValueOfList(&_GenesisState_2_list{list: &list})
+		return protoreflect.ValueOfList(&_GenesisState_1_list{list: &list})
 	case "license.v1.GenesisState.licenses":
 		list := []*License{}
-		return protoreflect.ValueOfList(&_GenesisState_3_list{list: &list})
-	case "license.v1.GenesisState.permissions":
-		list := []*AddressPermissions{}
-		return protoreflect.ValueOfList(&_GenesisState_4_list{list: &list})
+		return protoreflect.ValueOfList(&_GenesisState_2_list{list: &list})
 	case "license.v1.GenesisState.license_counts":
 		list := []*LicenseCount{}
-		return protoreflect.ValueOfList(&_GenesisState_5_list{list: &list})
+		return protoreflect.ValueOfList(&_GenesisState_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: license.v1.GenesisState"))
@@ -1078,10 +970,6 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		if x.Params != nil {
-			l = options.Size(x.Params)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
 		if len(x.LicenseTypes) > 0 {
 			for _, e := range x.LicenseTypes {
 				l = options.Size(e)
@@ -1090,12 +978,6 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 		}
 		if len(x.Licenses) > 0 {
 			for _, e := range x.Licenses {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
-		if len(x.Permissions) > 0 {
-			for _, e := range x.Permissions {
 				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
@@ -1148,23 +1030,7 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 				copy(dAtA[i:], encoded)
 				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
-				dAtA[i] = 0x2a
-			}
-		}
-		if len(x.Permissions) > 0 {
-			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Permissions[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0x22
+				dAtA[i] = 0x1a
 			}
 		}
 		if len(x.Licenses) > 0 {
@@ -1180,7 +1046,7 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 				copy(dAtA[i:], encoded)
 				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
-				dAtA[i] = 0x1a
+				dAtA[i] = 0x12
 			}
 		}
 		if len(x.LicenseTypes) > 0 {
@@ -1196,22 +1062,8 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 				copy(dAtA[i:], encoded)
 				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
-				dAtA[i] = 0x12
+				dAtA[i] = 0xa
 			}
-		}
-		if x.Params != nil {
-			encoded, err := options.Marshal(x.Params)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0xa
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -1264,42 +1116,6 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Params", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Params == nil {
-					x.Params = &Params{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Params); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			case 2:
-				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseTypes", wireType)
 				}
 				var msglen int
@@ -1332,7 +1148,7 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 3:
+			case 2:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Licenses", wireType)
 				}
@@ -1366,41 +1182,7 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 4:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Permissions = append(x.Permissions, &AddressPermissions{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			case 5:
+			case 3:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseCounts", wireType)
 				}
@@ -1528,17 +1310,17 @@ func (x *LicenseCount) GetCount() uint64 {
 	return 0
 }
 
-// GenesisState defines the licenses module's genesis state.
+// GenesisState defines the licenses module's genesis state. Ownership and
+// permission grants live in the x/permission module's genesis, under the
+// "license" namespace.
 type GenesisState struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Params        *Params               `protobuf:"bytes,1,opt,name=params,proto3" json:"params,omitempty"`
-	LicenseTypes  []*LicenseType        `protobuf:"bytes,2,rep,name=license_types,json=licenseTypes,proto3" json:"license_types,omitempty"`
-	Licenses      []*License            `protobuf:"bytes,3,rep,name=licenses,proto3" json:"licenses,omitempty"`
-	Permissions   []*AddressPermissions `protobuf:"bytes,4,rep,name=permissions,proto3" json:"permissions,omitempty"`
-	LicenseCounts []*LicenseCount       `protobuf:"bytes,5,rep,name=license_counts,json=licenseCounts,proto3" json:"license_counts,omitempty"`
+	LicenseTypes  []*LicenseType  `protobuf:"bytes,1,rep,name=license_types,json=licenseTypes,proto3" json:"license_types,omitempty"`
+	Licenses      []*License      `protobuf:"bytes,2,rep,name=licenses,proto3" json:"licenses,omitempty"`
+	LicenseCounts []*LicenseCount `protobuf:"bytes,3,rep,name=license_counts,json=licenseCounts,proto3" json:"license_counts,omitempty"`
 }
 
 func (x *GenesisState) Reset() {
@@ -1561,13 +1343,6 @@ func (*GenesisState) Descriptor() ([]byte, []int) {
 	return file_license_v1_genesis_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GenesisState) GetParams() *Params {
-	if x != nil {
-		return x.Params
-	}
-	return nil
-}
-
 func (x *GenesisState) GetLicenseTypes() []*LicenseType {
 	if x != nil {
 		return x.LicenseTypes
@@ -1578,13 +1353,6 @@ func (x *GenesisState) GetLicenseTypes() []*LicenseType {
 func (x *GenesisState) GetLicenses() []*License {
 	if x != nil {
 		return x.Licenses
-	}
-	return nil
-}
-
-func (x *GenesisState) GetPermissions() []*AddressPermissions {
-	if x != nil {
-		return x.Permissions
 	}
 	return nil
 }
@@ -1601,51 +1369,41 @@ var File_license_v1_genesis_proto protoreflect.FileDescriptor
 var file_license_v1_genesis_proto_rawDesc = []byte{
 	0x0a, 0x18, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x6e,
 	0x65, 0x73, 0x69, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x1a, 0x11, 0x61, 0x6d, 0x69, 0x6e, 0x6f, 0x2f, 0x61, 0x6d,
-	0x69, 0x6e, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
-	0x18, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79,
-	0x70, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x17, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x22, 0x4c, 0x0a, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x75, 0x6e,
-	0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70,
-	0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75,
-	0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22,
-	0xcf, 0x02, 0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65,
-	0x12, 0x35, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x12, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61,
-	0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52,
-	0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x42, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17,
-	0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0c, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x35, 0x0a, 0x08, 0x6c,
-	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x73, 0x12, 0x46, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
-	0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x50, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x45, 0x0a, 0x0e, 0x6c, 0x69,
-	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x18, 0x05, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0x04, 0xc8, 0xde,
-	0x1f, 0x00, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74,
-	0x73, 0x42, 0xa2, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
-	0x65, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65,
-	0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x76, 0x31, 0xa2,
-	0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e,
-	0x56, 0x31, 0xca, 0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56, 0x31, 0xe2,
-	0x02, 0x16, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42,
-	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b, 0x4c, 0x69, 0x63, 0x65, 0x6e,
-	0x73, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x18, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f,
+	0x76, 0x31, 0x2f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x4c, 0x0a, 0x0c, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
+	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64, 0x12, 0x14, 0x0a,
+	0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x63, 0x6f,
+	0x75, 0x6e, 0x74, 0x22, 0xd0, 0x01, 0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53,
+	0x74, 0x61, 0x74, 0x65, 0x12, 0x42, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f,
+	0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x54, 0x79, 0x70, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0c, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x35, 0x0a, 0x08, 0x6c, 0x69, 0x63, 0x65,
+	0x6e, 0x73, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x6c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x42,
+	0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x73, 0x12,
+	0x45, 0x0a, 0x0e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74,
+	0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x75, 0x6e,
+	0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x42, 0xa2, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73,
+	0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73,
+	0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x6c, 0x69, 0x63, 0x65, 0x6e,
+	0x73, 0x65, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4c, 0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4c, 0x69, 0x63,
+	0x65, 0x6e, 0x73, 0x65, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0a, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73,
+	0x65, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x16, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5c, 0x56,
+	0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b,
+	0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1662,24 +1420,20 @@ func file_license_v1_genesis_proto_rawDescGZIP() []byte {
 
 var file_license_v1_genesis_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_license_v1_genesis_proto_goTypes = []interface{}{
-	(*LicenseCount)(nil),       // 0: license.v1.LicenseCount
-	(*GenesisState)(nil),       // 1: license.v1.GenesisState
-	(*Params)(nil),             // 2: license.v1.Params
-	(*LicenseType)(nil),        // 3: license.v1.LicenseType
-	(*License)(nil),            // 4: license.v1.License
-	(*AddressPermissions)(nil), // 5: license.v1.AddressPermissions
+	(*LicenseCount)(nil), // 0: license.v1.LicenseCount
+	(*GenesisState)(nil), // 1: license.v1.GenesisState
+	(*LicenseType)(nil),  // 2: license.v1.LicenseType
+	(*License)(nil),      // 3: license.v1.License
 }
 var file_license_v1_genesis_proto_depIdxs = []int32{
-	2, // 0: license.v1.GenesisState.params:type_name -> license.v1.Params
-	3, // 1: license.v1.GenesisState.license_types:type_name -> license.v1.LicenseType
-	4, // 2: license.v1.GenesisState.licenses:type_name -> license.v1.License
-	5, // 3: license.v1.GenesisState.permissions:type_name -> license.v1.AddressPermissions
-	0, // 4: license.v1.GenesisState.license_counts:type_name -> license.v1.LicenseCount
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	2, // 0: license.v1.GenesisState.license_types:type_name -> license.v1.LicenseType
+	3, // 1: license.v1.GenesisState.licenses:type_name -> license.v1.License
+	0, // 2: license.v1.GenesisState.license_counts:type_name -> license.v1.LicenseCount
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_license_v1_genesis_proto_init() }
@@ -1689,7 +1443,6 @@ func file_license_v1_genesis_proto_init() {
 	}
 	file_license_v1_license_proto_init()
 	file_license_v1_license_type_proto_init()
-	file_license_v1_params_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_license_v1_genesis_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*LicenseCount); i {

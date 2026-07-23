@@ -17,25 +17,23 @@ import (
 )
 
 var (
-	md_QueryNamespacesRequest            protoreflect.MessageDescriptor
-	fd_QueryNamespacesRequest_pagination protoreflect.FieldDescriptor
+	md_QueryModulesRequest protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_permission_v1_query_proto_init()
-	md_QueryNamespacesRequest = File_permission_v1_query_proto.Messages().ByName("QueryNamespacesRequest")
-	fd_QueryNamespacesRequest_pagination = md_QueryNamespacesRequest.Fields().ByName("pagination")
+	md_QueryModulesRequest = File_permission_v1_query_proto.Messages().ByName("QueryModulesRequest")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNamespacesRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryModulesRequest)(nil)
 
-type fastReflection_QueryNamespacesRequest QueryNamespacesRequest
+type fastReflection_QueryModulesRequest QueryModulesRequest
 
-func (x *QueryNamespacesRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNamespacesRequest)(x)
+func (x *QueryModulesRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryModulesRequest)(x)
 }
 
-func (x *QueryNamespacesRequest) slowProtoReflect() protoreflect.Message {
+func (x *QueryModulesRequest) slowProtoReflect() protoreflect.Message {
 	mi := &file_permission_v1_query_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -47,43 +45,43 @@ func (x *QueryNamespacesRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNamespacesRequest_messageType fastReflection_QueryNamespacesRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNamespacesRequest_messageType{}
+var _fastReflection_QueryModulesRequest_messageType fastReflection_QueryModulesRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryModulesRequest_messageType{}
 
-type fastReflection_QueryNamespacesRequest_messageType struct{}
+type fastReflection_QueryModulesRequest_messageType struct{}
 
-func (x fastReflection_QueryNamespacesRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNamespacesRequest)(nil)
+func (x fastReflection_QueryModulesRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryModulesRequest)(nil)
 }
-func (x fastReflection_QueryNamespacesRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespacesRequest)
+func (x fastReflection_QueryModulesRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryModulesRequest)
 }
-func (x fastReflection_QueryNamespacesRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespacesRequest
+func (x fastReflection_QueryModulesRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModulesRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNamespacesRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespacesRequest
+func (x *fastReflection_QueryModulesRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModulesRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNamespacesRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNamespacesRequest_messageType
+func (x *fastReflection_QueryModulesRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryModulesRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNamespacesRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespacesRequest)
+func (x *fastReflection_QueryModulesRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryModulesRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNamespacesRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryNamespacesRequest)(x)
+func (x *fastReflection_QueryModulesRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryModulesRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -91,13 +89,7 @@ func (x *fastReflection_QueryNamespacesRequest) Interface() protoreflect.ProtoMe
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNamespacesRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Pagination != nil {
-		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryNamespacesRequest_pagination, value) {
-			return
-		}
-	}
+func (x *fastReflection_QueryModulesRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -111,15 +103,13 @@ func (x *fastReflection_QueryNamespacesRequest) Range(f func(protoreflect.FieldD
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNamespacesRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryModulesRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesRequest.pagination":
-		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -129,15 +119,13 @@ func (x *fastReflection_QueryNamespacesRequest) Has(fd protoreflect.FieldDescrip
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryModulesRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesRequest.pagination":
-		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -147,16 +135,13 @@ func (x *fastReflection_QueryNamespacesRequest) Clear(fd protoreflect.FieldDescr
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNamespacesRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModulesRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "permission.v1.QueryNamespacesRequest.pagination":
-		value := x.Pagination
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -170,15 +155,13 @@ func (x *fastReflection_QueryNamespacesRequest) Get(descriptor protoreflect.Fiel
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryModulesRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesRequest.pagination":
-		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -192,44 +175,36 @@ func (x *fastReflection_QueryNamespacesRequest) Set(fd protoreflect.FieldDescrip
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModulesRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesRequest.pagination":
-		if x.Pagination == nil {
-			x.Pagination = new(v1beta1.PageRequest)
-		}
-		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNamespacesRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModulesRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesRequest.pagination":
-		m := new(v1beta1.PageRequest)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNamespacesRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryModulesRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryNamespacesRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryModulesRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -237,7 +212,7 @@ func (x *fastReflection_QueryNamespacesRequest) WhichOneof(d protoreflect.OneofD
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNamespacesRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryModulesRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -248,7 +223,7 @@ func (x *fastReflection_QueryNamespacesRequest) GetUnknown() protoreflect.RawFie
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryModulesRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -260,7 +235,7 @@ func (x *fastReflection_QueryNamespacesRequest) SetUnknown(fields protoreflect.R
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNamespacesRequest) IsValid() bool {
+func (x *fastReflection_QueryModulesRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -270,9 +245,9 @@ func (x *fastReflection_QueryNamespacesRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryModulesRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNamespacesRequest)
+		x := input.Message.Interface().(*QueryModulesRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -284,10 +259,6 @@ func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Metho
 		var n int
 		var l int
 		_ = l
-		if x.Pagination != nil {
-			l = options.Size(x.Pagination)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -298,7 +269,7 @@ func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Metho
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespacesRequest)
+		x := input.Message.Interface().(*QueryModulesRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -317,20 +288,6 @@ func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Metho
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Pagination != nil {
-			encoded, err := options.Marshal(x.Pagination)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0xa
-		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
 		} else {
@@ -342,7 +299,7 @@ func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Metho
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespacesRequest)
+		x := input.Message.Interface().(*QueryModulesRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -374,48 +331,12 @@ func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Metho
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespacesRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModulesRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespacesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModulesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Pagination == nil {
-					x.Pagination = &v1beta1.PageRequest{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -451,79 +372,77 @@ func (x *fastReflection_QueryNamespacesRequest) ProtoMethods() *protoiface.Metho
 	}
 }
 
-var _ protoreflect.List = (*_QueryNamespacesResponse_1_list)(nil)
+var _ protoreflect.List = (*_QueryModulesResponse_1_list)(nil)
 
-type _QueryNamespacesResponse_1_list struct {
+type _QueryModulesResponse_1_list struct {
 	list *[]*Namespace
 }
 
-func (x *_QueryNamespacesResponse_1_list) Len() int {
+func (x *_QueryModulesResponse_1_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_QueryNamespacesResponse_1_list) Get(i int) protoreflect.Value {
+func (x *_QueryModulesResponse_1_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_QueryNamespacesResponse_1_list) Set(i int, value protoreflect.Value) {
+func (x *_QueryModulesResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Namespace)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_QueryNamespacesResponse_1_list) Append(value protoreflect.Value) {
+func (x *_QueryModulesResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Namespace)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_QueryNamespacesResponse_1_list) AppendMutable() protoreflect.Value {
+func (x *_QueryModulesResponse_1_list) AppendMutable() protoreflect.Value {
 	v := new(Namespace)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryNamespacesResponse_1_list) Truncate(n int) {
+func (x *_QueryModulesResponse_1_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_QueryNamespacesResponse_1_list) NewElement() protoreflect.Value {
+func (x *_QueryModulesResponse_1_list) NewElement() protoreflect.Value {
 	v := new(Namespace)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryNamespacesResponse_1_list) IsValid() bool {
+func (x *_QueryModulesResponse_1_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_QueryNamespacesResponse            protoreflect.MessageDescriptor
-	fd_QueryNamespacesResponse_namespaces protoreflect.FieldDescriptor
-	fd_QueryNamespacesResponse_pagination protoreflect.FieldDescriptor
+	md_QueryModulesResponse            protoreflect.MessageDescriptor
+	fd_QueryModulesResponse_namespaces protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_permission_v1_query_proto_init()
-	md_QueryNamespacesResponse = File_permission_v1_query_proto.Messages().ByName("QueryNamespacesResponse")
-	fd_QueryNamespacesResponse_namespaces = md_QueryNamespacesResponse.Fields().ByName("namespaces")
-	fd_QueryNamespacesResponse_pagination = md_QueryNamespacesResponse.Fields().ByName("pagination")
+	md_QueryModulesResponse = File_permission_v1_query_proto.Messages().ByName("QueryModulesResponse")
+	fd_QueryModulesResponse_namespaces = md_QueryModulesResponse.Fields().ByName("namespaces")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNamespacesResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryModulesResponse)(nil)
 
-type fastReflection_QueryNamespacesResponse QueryNamespacesResponse
+type fastReflection_QueryModulesResponse QueryModulesResponse
 
-func (x *QueryNamespacesResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNamespacesResponse)(x)
+func (x *QueryModulesResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryModulesResponse)(x)
 }
 
-func (x *QueryNamespacesResponse) slowProtoReflect() protoreflect.Message {
+func (x *QueryModulesResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_permission_v1_query_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -535,43 +454,43 @@ func (x *QueryNamespacesResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNamespacesResponse_messageType fastReflection_QueryNamespacesResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNamespacesResponse_messageType{}
+var _fastReflection_QueryModulesResponse_messageType fastReflection_QueryModulesResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryModulesResponse_messageType{}
 
-type fastReflection_QueryNamespacesResponse_messageType struct{}
+type fastReflection_QueryModulesResponse_messageType struct{}
 
-func (x fastReflection_QueryNamespacesResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNamespacesResponse)(nil)
+func (x fastReflection_QueryModulesResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryModulesResponse)(nil)
 }
-func (x fastReflection_QueryNamespacesResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespacesResponse)
+func (x fastReflection_QueryModulesResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryModulesResponse)
 }
-func (x fastReflection_QueryNamespacesResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespacesResponse
+func (x fastReflection_QueryModulesResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModulesResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNamespacesResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespacesResponse
+func (x *fastReflection_QueryModulesResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModulesResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNamespacesResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNamespacesResponse_messageType
+func (x *fastReflection_QueryModulesResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryModulesResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNamespacesResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespacesResponse)
+func (x *fastReflection_QueryModulesResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryModulesResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNamespacesResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryNamespacesResponse)(x)
+func (x *fastReflection_QueryModulesResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryModulesResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -579,16 +498,10 @@ func (x *fastReflection_QueryNamespacesResponse) Interface() protoreflect.ProtoM
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNamespacesResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryModulesResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if len(x.Namespaces) != 0 {
-		value := protoreflect.ValueOfList(&_QueryNamespacesResponse_1_list{list: &x.Namespaces})
-		if !f(fd_QueryNamespacesResponse_namespaces, value) {
-			return
-		}
-	}
-	if x.Pagination != nil {
-		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryNamespacesResponse_pagination, value) {
+		value := protoreflect.ValueOfList(&_QueryModulesResponse_1_list{list: &x.Namespaces})
+		if !f(fd_QueryModulesResponse_namespaces, value) {
 			return
 		}
 	}
@@ -605,17 +518,15 @@ func (x *fastReflection_QueryNamespacesResponse) Range(f func(protoreflect.Field
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNamespacesResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryModulesResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesResponse.namespaces":
+	case "permission.v1.QueryModulesResponse.namespaces":
 		return len(x.Namespaces) != 0
-	case "permission.v1.QueryNamespacesResponse.pagination":
-		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -625,17 +536,15 @@ func (x *fastReflection_QueryNamespacesResponse) Has(fd protoreflect.FieldDescri
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryModulesResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesResponse.namespaces":
+	case "permission.v1.QueryModulesResponse.namespaces":
 		x.Namespaces = nil
-	case "permission.v1.QueryNamespacesResponse.pagination":
-		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -645,22 +554,19 @@ func (x *fastReflection_QueryNamespacesResponse) Clear(fd protoreflect.FieldDesc
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNamespacesResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModulesResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "permission.v1.QueryNamespacesResponse.namespaces":
+	case "permission.v1.QueryModulesResponse.namespaces":
 		if len(x.Namespaces) == 0 {
-			return protoreflect.ValueOfList(&_QueryNamespacesResponse_1_list{})
+			return protoreflect.ValueOfList(&_QueryModulesResponse_1_list{})
 		}
-		listValue := &_QueryNamespacesResponse_1_list{list: &x.Namespaces}
+		listValue := &_QueryModulesResponse_1_list{list: &x.Namespaces}
 		return protoreflect.ValueOfList(listValue)
-	case "permission.v1.QueryNamespacesResponse.pagination":
-		value := x.Pagination
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -674,19 +580,17 @@ func (x *fastReflection_QueryNamespacesResponse) Get(descriptor protoreflect.Fie
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryModulesResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesResponse.namespaces":
+	case "permission.v1.QueryModulesResponse.namespaces":
 		lv := value.List()
-		clv := lv.(*_QueryNamespacesResponse_1_list)
+		clv := lv.(*_QueryModulesResponse_1_list)
 		x.Namespaces = *clv.list
-	case "permission.v1.QueryNamespacesResponse.pagination":
-		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -700,53 +604,45 @@ func (x *fastReflection_QueryNamespacesResponse) Set(fd protoreflect.FieldDescri
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModulesResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesResponse.namespaces":
+	case "permission.v1.QueryModulesResponse.namespaces":
 		if x.Namespaces == nil {
 			x.Namespaces = []*Namespace{}
 		}
-		value := &_QueryNamespacesResponse_1_list{list: &x.Namespaces}
+		value := &_QueryModulesResponse_1_list{list: &x.Namespaces}
 		return protoreflect.ValueOfList(value)
-	case "permission.v1.QueryNamespacesResponse.pagination":
-		if x.Pagination == nil {
-			x.Pagination = new(v1beta1.PageResponse)
-		}
-		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNamespacesResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModulesResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespacesResponse.namespaces":
+	case "permission.v1.QueryModulesResponse.namespaces":
 		list := []*Namespace{}
-		return protoreflect.ValueOfList(&_QueryNamespacesResponse_1_list{list: &list})
-	case "permission.v1.QueryNamespacesResponse.pagination":
-		m := new(v1beta1.PageResponse)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
+		return protoreflect.ValueOfList(&_QueryModulesResponse_1_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespacesResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModulesResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespacesResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModulesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNamespacesResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryModulesResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryNamespacesResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryModulesResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -754,7 +650,7 @@ func (x *fastReflection_QueryNamespacesResponse) WhichOneof(d protoreflect.Oneof
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNamespacesResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryModulesResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -765,7 +661,7 @@ func (x *fastReflection_QueryNamespacesResponse) GetUnknown() protoreflect.RawFi
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespacesResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryModulesResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -777,7 +673,7 @@ func (x *fastReflection_QueryNamespacesResponse) SetUnknown(fields protoreflect.
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNamespacesResponse) IsValid() bool {
+func (x *fastReflection_QueryModulesResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -787,9 +683,9 @@ func (x *fastReflection_QueryNamespacesResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryModulesResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNamespacesResponse)
+		x := input.Message.Interface().(*QueryModulesResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -807,10 +703,6 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
-		if x.Pagination != nil {
-			l = options.Size(x.Pagination)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -821,7 +713,7 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespacesResponse)
+		x := input.Message.Interface().(*QueryModulesResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -839,20 +731,6 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Pagination != nil {
-			encoded, err := options.Marshal(x.Pagination)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0x12
 		}
 		if len(x.Namespaces) > 0 {
 			for iNdEx := len(x.Namespaces) - 1; iNdEx >= 0; iNdEx-- {
@@ -881,7 +759,7 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespacesResponse)
+		x := input.Message.Interface().(*QueryModulesResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -913,10 +791,10 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespacesResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModulesResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespacesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModulesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -953,42 +831,6 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Pagination == nil {
-					x.Pagination = &v1beta1.PageResponse{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1025,25 +867,25 @@ func (x *fastReflection_QueryNamespacesResponse) ProtoMethods() *protoiface.Meth
 }
 
 var (
-	md_QueryNamespaceRequest        protoreflect.MessageDescriptor
-	fd_QueryNamespaceRequest_module protoreflect.FieldDescriptor
+	md_QueryModuleRequest        protoreflect.MessageDescriptor
+	fd_QueryModuleRequest_module protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_permission_v1_query_proto_init()
-	md_QueryNamespaceRequest = File_permission_v1_query_proto.Messages().ByName("QueryNamespaceRequest")
-	fd_QueryNamespaceRequest_module = md_QueryNamespaceRequest.Fields().ByName("module")
+	md_QueryModuleRequest = File_permission_v1_query_proto.Messages().ByName("QueryModuleRequest")
+	fd_QueryModuleRequest_module = md_QueryModuleRequest.Fields().ByName("module")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNamespaceRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryModuleRequest)(nil)
 
-type fastReflection_QueryNamespaceRequest QueryNamespaceRequest
+type fastReflection_QueryModuleRequest QueryModuleRequest
 
-func (x *QueryNamespaceRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNamespaceRequest)(x)
+func (x *QueryModuleRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryModuleRequest)(x)
 }
 
-func (x *QueryNamespaceRequest) slowProtoReflect() protoreflect.Message {
+func (x *QueryModuleRequest) slowProtoReflect() protoreflect.Message {
 	mi := &file_permission_v1_query_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1055,43 +897,43 @@ func (x *QueryNamespaceRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNamespaceRequest_messageType fastReflection_QueryNamespaceRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNamespaceRequest_messageType{}
+var _fastReflection_QueryModuleRequest_messageType fastReflection_QueryModuleRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryModuleRequest_messageType{}
 
-type fastReflection_QueryNamespaceRequest_messageType struct{}
+type fastReflection_QueryModuleRequest_messageType struct{}
 
-func (x fastReflection_QueryNamespaceRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNamespaceRequest)(nil)
+func (x fastReflection_QueryModuleRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryModuleRequest)(nil)
 }
-func (x fastReflection_QueryNamespaceRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespaceRequest)
+func (x fastReflection_QueryModuleRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryModuleRequest)
 }
-func (x fastReflection_QueryNamespaceRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespaceRequest
+func (x fastReflection_QueryModuleRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModuleRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNamespaceRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespaceRequest
+func (x *fastReflection_QueryModuleRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModuleRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNamespaceRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNamespaceRequest_messageType
+func (x *fastReflection_QueryModuleRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryModuleRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNamespaceRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespaceRequest)
+func (x *fastReflection_QueryModuleRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryModuleRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNamespaceRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryNamespaceRequest)(x)
+func (x *fastReflection_QueryModuleRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryModuleRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1099,10 +941,10 @@ func (x *fastReflection_QueryNamespaceRequest) Interface() protoreflect.ProtoMes
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNamespaceRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryModuleRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Module != "" {
 		value := protoreflect.ValueOfString(x.Module)
-		if !f(fd_QueryNamespaceRequest_module, value) {
+		if !f(fd_QueryModuleRequest_module, value) {
 			return
 		}
 	}
@@ -1119,15 +961,15 @@ func (x *fastReflection_QueryNamespaceRequest) Range(f func(protoreflect.FieldDe
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNamespaceRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryModuleRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceRequest.module":
+	case "permission.v1.QueryModuleRequest.module":
 		return x.Module != ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1137,15 +979,15 @@ func (x *fastReflection_QueryNamespaceRequest) Has(fd protoreflect.FieldDescript
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryModuleRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceRequest.module":
+	case "permission.v1.QueryModuleRequest.module":
 		x.Module = ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1155,16 +997,16 @@ func (x *fastReflection_QueryNamespaceRequest) Clear(fd protoreflect.FieldDescri
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNamespaceRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModuleRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "permission.v1.QueryNamespaceRequest.module":
+	case "permission.v1.QueryModuleRequest.module":
 		value := x.Module
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1178,15 +1020,15 @@ func (x *fastReflection_QueryNamespaceRequest) Get(descriptor protoreflect.Field
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryModuleRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceRequest.module":
+	case "permission.v1.QueryModuleRequest.module":
 		x.Module = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1200,40 +1042,40 @@ func (x *fastReflection_QueryNamespaceRequest) Set(fd protoreflect.FieldDescript
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModuleRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceRequest.module":
-		panic(fmt.Errorf("field module of message permission.v1.QueryNamespaceRequest is not mutable"))
+	case "permission.v1.QueryModuleRequest.module":
+		panic(fmt.Errorf("field module of message permission.v1.QueryModuleRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNamespaceRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModuleRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceRequest.module":
+	case "permission.v1.QueryModuleRequest.module":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleRequest"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNamespaceRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryModuleRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryNamespaceRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryModuleRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1241,7 +1083,7 @@ func (x *fastReflection_QueryNamespaceRequest) WhichOneof(d protoreflect.OneofDe
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNamespaceRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryModuleRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1252,7 +1094,7 @@ func (x *fastReflection_QueryNamespaceRequest) GetUnknown() protoreflect.RawFiel
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryModuleRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1264,7 +1106,7 @@ func (x *fastReflection_QueryNamespaceRequest) SetUnknown(fields protoreflect.Ra
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNamespaceRequest) IsValid() bool {
+func (x *fastReflection_QueryModuleRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -1274,9 +1116,9 @@ func (x *fastReflection_QueryNamespaceRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNamespaceRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryModuleRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNamespaceRequest)
+		x := input.Message.Interface().(*QueryModuleRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1302,7 +1144,7 @@ func (x *fastReflection_QueryNamespaceRequest) ProtoMethods() *protoiface.Method
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespaceRequest)
+		x := input.Message.Interface().(*QueryModuleRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1339,7 +1181,7 @@ func (x *fastReflection_QueryNamespaceRequest) ProtoMethods() *protoiface.Method
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespaceRequest)
+		x := input.Message.Interface().(*QueryModuleRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1371,10 +1213,10 @@ func (x *fastReflection_QueryNamespaceRequest) ProtoMethods() *protoiface.Method
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespaceRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModuleRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespaceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModuleRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -1444,74 +1286,74 @@ func (x *fastReflection_QueryNamespaceRequest) ProtoMethods() *protoiface.Method
 	}
 }
 
-var _ protoreflect.List = (*_QueryNamespaceResponse_2_list)(nil)
+var _ protoreflect.List = (*_QueryModuleResponse_2_list)(nil)
 
-type _QueryNamespaceResponse_2_list struct {
+type _QueryModuleResponse_2_list struct {
 	list *[]string
 }
 
-func (x *_QueryNamespaceResponse_2_list) Len() int {
+func (x *_QueryModuleResponse_2_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_QueryNamespaceResponse_2_list) Get(i int) protoreflect.Value {
+func (x *_QueryModuleResponse_2_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfString((*x.list)[i])
 }
 
-func (x *_QueryNamespaceResponse_2_list) Set(i int, value protoreflect.Value) {
+func (x *_QueryModuleResponse_2_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.String()
 	concreteValue := valueUnwrapped
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_QueryNamespaceResponse_2_list) Append(value protoreflect.Value) {
+func (x *_QueryModuleResponse_2_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.String()
 	concreteValue := valueUnwrapped
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_QueryNamespaceResponse_2_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message QueryNamespaceResponse at list field Permissions as it is not of Message kind"))
+func (x *_QueryModuleResponse_2_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message QueryModuleResponse at list field Permissions as it is not of Message kind"))
 }
 
-func (x *_QueryNamespaceResponse_2_list) Truncate(n int) {
+func (x *_QueryModuleResponse_2_list) Truncate(n int) {
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_QueryNamespaceResponse_2_list) NewElement() protoreflect.Value {
+func (x *_QueryModuleResponse_2_list) NewElement() protoreflect.Value {
 	v := ""
 	return protoreflect.ValueOfString(v)
 }
 
-func (x *_QueryNamespaceResponse_2_list) IsValid() bool {
+func (x *_QueryModuleResponse_2_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_QueryNamespaceResponse             protoreflect.MessageDescriptor
-	fd_QueryNamespaceResponse_namespace   protoreflect.FieldDescriptor
-	fd_QueryNamespaceResponse_permissions protoreflect.FieldDescriptor
+	md_QueryModuleResponse             protoreflect.MessageDescriptor
+	fd_QueryModuleResponse_namespace   protoreflect.FieldDescriptor
+	fd_QueryModuleResponse_permissions protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_permission_v1_query_proto_init()
-	md_QueryNamespaceResponse = File_permission_v1_query_proto.Messages().ByName("QueryNamespaceResponse")
-	fd_QueryNamespaceResponse_namespace = md_QueryNamespaceResponse.Fields().ByName("namespace")
-	fd_QueryNamespaceResponse_permissions = md_QueryNamespaceResponse.Fields().ByName("permissions")
+	md_QueryModuleResponse = File_permission_v1_query_proto.Messages().ByName("QueryModuleResponse")
+	fd_QueryModuleResponse_namespace = md_QueryModuleResponse.Fields().ByName("namespace")
+	fd_QueryModuleResponse_permissions = md_QueryModuleResponse.Fields().ByName("permissions")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNamespaceResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryModuleResponse)(nil)
 
-type fastReflection_QueryNamespaceResponse QueryNamespaceResponse
+type fastReflection_QueryModuleResponse QueryModuleResponse
 
-func (x *QueryNamespaceResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNamespaceResponse)(x)
+func (x *QueryModuleResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryModuleResponse)(x)
 }
 
-func (x *QueryNamespaceResponse) slowProtoReflect() protoreflect.Message {
+func (x *QueryModuleResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_permission_v1_query_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1523,43 +1365,43 @@ func (x *QueryNamespaceResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNamespaceResponse_messageType fastReflection_QueryNamespaceResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNamespaceResponse_messageType{}
+var _fastReflection_QueryModuleResponse_messageType fastReflection_QueryModuleResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryModuleResponse_messageType{}
 
-type fastReflection_QueryNamespaceResponse_messageType struct{}
+type fastReflection_QueryModuleResponse_messageType struct{}
 
-func (x fastReflection_QueryNamespaceResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNamespaceResponse)(nil)
+func (x fastReflection_QueryModuleResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryModuleResponse)(nil)
 }
-func (x fastReflection_QueryNamespaceResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespaceResponse)
+func (x fastReflection_QueryModuleResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryModuleResponse)
 }
-func (x fastReflection_QueryNamespaceResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespaceResponse
+func (x fastReflection_QueryModuleResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModuleResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNamespaceResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNamespaceResponse
+func (x *fastReflection_QueryModuleResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryModuleResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNamespaceResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNamespaceResponse_messageType
+func (x *fastReflection_QueryModuleResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryModuleResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNamespaceResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryNamespaceResponse)
+func (x *fastReflection_QueryModuleResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryModuleResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNamespaceResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryNamespaceResponse)(x)
+func (x *fastReflection_QueryModuleResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryModuleResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1567,16 +1409,16 @@ func (x *fastReflection_QueryNamespaceResponse) Interface() protoreflect.ProtoMe
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNamespaceResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryModuleResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Namespace != nil {
 		value := protoreflect.ValueOfMessage(x.Namespace.ProtoReflect())
-		if !f(fd_QueryNamespaceResponse_namespace, value) {
+		if !f(fd_QueryModuleResponse_namespace, value) {
 			return
 		}
 	}
 	if len(x.Permissions) != 0 {
-		value := protoreflect.ValueOfList(&_QueryNamespaceResponse_2_list{list: &x.Permissions})
-		if !f(fd_QueryNamespaceResponse_permissions, value) {
+		value := protoreflect.ValueOfList(&_QueryModuleResponse_2_list{list: &x.Permissions})
+		if !f(fd_QueryModuleResponse_permissions, value) {
 			return
 		}
 	}
@@ -1593,17 +1435,17 @@ func (x *fastReflection_QueryNamespaceResponse) Range(f func(protoreflect.FieldD
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNamespaceResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryModuleResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceResponse.namespace":
+	case "permission.v1.QueryModuleResponse.namespace":
 		return x.Namespace != nil
-	case "permission.v1.QueryNamespaceResponse.permissions":
+	case "permission.v1.QueryModuleResponse.permissions":
 		return len(x.Permissions) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1613,17 +1455,17 @@ func (x *fastReflection_QueryNamespaceResponse) Has(fd protoreflect.FieldDescrip
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryModuleResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceResponse.namespace":
+	case "permission.v1.QueryModuleResponse.namespace":
 		x.Namespace = nil
-	case "permission.v1.QueryNamespaceResponse.permissions":
+	case "permission.v1.QueryModuleResponse.permissions":
 		x.Permissions = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1633,22 +1475,22 @@ func (x *fastReflection_QueryNamespaceResponse) Clear(fd protoreflect.FieldDescr
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNamespaceResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModuleResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "permission.v1.QueryNamespaceResponse.namespace":
+	case "permission.v1.QueryModuleResponse.namespace":
 		value := x.Namespace
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "permission.v1.QueryNamespaceResponse.permissions":
+	case "permission.v1.QueryModuleResponse.permissions":
 		if len(x.Permissions) == 0 {
-			return protoreflect.ValueOfList(&_QueryNamespaceResponse_2_list{})
+			return protoreflect.ValueOfList(&_QueryModuleResponse_2_list{})
 		}
-		listValue := &_QueryNamespaceResponse_2_list{list: &x.Permissions}
+		listValue := &_QueryModuleResponse_2_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1662,19 +1504,19 @@ func (x *fastReflection_QueryNamespaceResponse) Get(descriptor protoreflect.Fiel
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryModuleResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceResponse.namespace":
+	case "permission.v1.QueryModuleResponse.namespace":
 		x.Namespace = value.Message().Interface().(*Namespace)
-	case "permission.v1.QueryNamespaceResponse.permissions":
+	case "permission.v1.QueryModuleResponse.permissions":
 		lv := value.List()
-		clv := lv.(*_QueryNamespaceResponse_2_list)
+		clv := lv.(*_QueryModuleResponse_2_list)
 		x.Permissions = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1688,53 +1530,53 @@ func (x *fastReflection_QueryNamespaceResponse) Set(fd protoreflect.FieldDescrip
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModuleResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceResponse.namespace":
+	case "permission.v1.QueryModuleResponse.namespace":
 		if x.Namespace == nil {
 			x.Namespace = new(Namespace)
 		}
 		return protoreflect.ValueOfMessage(x.Namespace.ProtoReflect())
-	case "permission.v1.QueryNamespaceResponse.permissions":
+	case "permission.v1.QueryModuleResponse.permissions":
 		if x.Permissions == nil {
 			x.Permissions = []string{}
 		}
-		value := &_QueryNamespaceResponse_2_list{list: &x.Permissions}
+		value := &_QueryModuleResponse_2_list{list: &x.Permissions}
 		return protoreflect.ValueOfList(value)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNamespaceResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryModuleResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "permission.v1.QueryNamespaceResponse.namespace":
+	case "permission.v1.QueryModuleResponse.namespace":
 		m := new(Namespace)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "permission.v1.QueryNamespaceResponse.permissions":
+	case "permission.v1.QueryModuleResponse.permissions":
 		list := []string{}
-		return protoreflect.ValueOfList(&_QueryNamespaceResponse_2_list{list: &list})
+		return protoreflect.ValueOfList(&_QueryModuleResponse_2_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryNamespaceResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: permission.v1.QueryModuleResponse"))
 		}
-		panic(fmt.Errorf("message permission.v1.QueryNamespaceResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message permission.v1.QueryModuleResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNamespaceResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryModuleResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryNamespaceResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in permission.v1.QueryModuleResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1742,7 +1584,7 @@ func (x *fastReflection_QueryNamespaceResponse) WhichOneof(d protoreflect.OneofD
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNamespaceResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryModuleResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1753,7 +1595,7 @@ func (x *fastReflection_QueryNamespaceResponse) GetUnknown() protoreflect.RawFie
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNamespaceResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryModuleResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1765,7 +1607,7 @@ func (x *fastReflection_QueryNamespaceResponse) SetUnknown(fields protoreflect.R
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNamespaceResponse) IsValid() bool {
+func (x *fastReflection_QueryModuleResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -1775,9 +1617,9 @@ func (x *fastReflection_QueryNamespaceResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNamespaceResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryModuleResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNamespaceResponse)
+		x := input.Message.Interface().(*QueryModuleResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1809,7 +1651,7 @@ func (x *fastReflection_QueryNamespaceResponse) ProtoMethods() *protoiface.Metho
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespaceResponse)
+		x := input.Message.Interface().(*QueryModuleResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1862,7 +1704,7 @@ func (x *fastReflection_QueryNamespaceResponse) ProtoMethods() *protoiface.Metho
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNamespaceResponse)
+		x := input.Message.Interface().(*QueryModuleResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1894,10 +1736,10 @@ func (x *fastReflection_QueryNamespaceResponse) ProtoMethods() *protoiface.Metho
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespaceResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModuleResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryModuleResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -6446,17 +6288,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// QueryNamespacesRequest is the request type for the Query/Namespaces RPC method.
-type QueryNamespacesRequest struct {
+// QueryModulesRequest is the request type for the Query/Modules RPC method.
+// The registered-module set is bounded by the compiled-in modules, so this
+// query is not paginated.
+type QueryModulesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	Pagination *v1beta1.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryNamespacesRequest) Reset() {
-	*x = QueryNamespacesRequest{}
+func (x *QueryModulesRequest) Reset() {
+	*x = QueryModulesRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_permission_v1_query_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6464,36 +6306,28 @@ func (x *QueryNamespacesRequest) Reset() {
 	}
 }
 
-func (x *QueryNamespacesRequest) String() string {
+func (x *QueryModulesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNamespacesRequest) ProtoMessage() {}
+func (*QueryModulesRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryNamespacesRequest.ProtoReflect.Descriptor instead.
-func (*QueryNamespacesRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryModulesRequest.ProtoReflect.Descriptor instead.
+func (*QueryModulesRequest) Descriptor() ([]byte, []int) {
 	return file_permission_v1_query_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *QueryNamespacesRequest) GetPagination() *v1beta1.PageRequest {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-// QueryNamespacesResponse is the response type for the Query/Namespaces RPC method.
-type QueryNamespacesResponse struct {
+// QueryModulesResponse is the response type for the Query/Modules RPC method.
+type QueryModulesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Namespaces []*Namespace          `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
-	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Namespaces []*Namespace `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
 }
 
-func (x *QueryNamespacesResponse) Reset() {
-	*x = QueryNamespacesResponse{}
+func (x *QueryModulesResponse) Reset() {
+	*x = QueryModulesResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_permission_v1_query_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6501,33 +6335,26 @@ func (x *QueryNamespacesResponse) Reset() {
 	}
 }
 
-func (x *QueryNamespacesResponse) String() string {
+func (x *QueryModulesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNamespacesResponse) ProtoMessage() {}
+func (*QueryModulesResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryNamespacesResponse.ProtoReflect.Descriptor instead.
-func (*QueryNamespacesResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryModulesResponse.ProtoReflect.Descriptor instead.
+func (*QueryModulesResponse) Descriptor() ([]byte, []int) {
 	return file_permission_v1_query_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *QueryNamespacesResponse) GetNamespaces() []*Namespace {
+func (x *QueryModulesResponse) GetNamespaces() []*Namespace {
 	if x != nil {
 		return x.Namespaces
 	}
 	return nil
 }
 
-func (x *QueryNamespacesResponse) GetPagination() *v1beta1.PageResponse {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-// QueryNamespaceRequest is the request type for the Query/Namespace RPC method.
-type QueryNamespaceRequest struct {
+// QueryModuleRequest is the request type for the Query/Module RPC method.
+type QueryModuleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -6535,8 +6362,8 @@ type QueryNamespaceRequest struct {
 	Module string `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
 }
 
-func (x *QueryNamespaceRequest) Reset() {
-	*x = QueryNamespaceRequest{}
+func (x *QueryModuleRequest) Reset() {
+	*x = QueryModuleRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_permission_v1_query_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6544,26 +6371,26 @@ func (x *QueryNamespaceRequest) Reset() {
 	}
 }
 
-func (x *QueryNamespaceRequest) String() string {
+func (x *QueryModuleRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNamespaceRequest) ProtoMessage() {}
+func (*QueryModuleRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryNamespaceRequest.ProtoReflect.Descriptor instead.
-func (*QueryNamespaceRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryModuleRequest.ProtoReflect.Descriptor instead.
+func (*QueryModuleRequest) Descriptor() ([]byte, []int) {
 	return file_permission_v1_query_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *QueryNamespaceRequest) GetModule() string {
+func (x *QueryModuleRequest) GetModule() string {
 	if x != nil {
 		return x.Module
 	}
 	return ""
 }
 
-// QueryNamespaceResponse is the response type for the Query/Namespace RPC method.
-type QueryNamespaceResponse struct {
+// QueryModuleResponse is the response type for the Query/Module RPC method.
+type QueryModuleResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -6574,8 +6401,8 @@ type QueryNamespaceResponse struct {
 	Permissions []string `protobuf:"bytes,2,rep,name=permissions,proto3" json:"permissions,omitempty"`
 }
 
-func (x *QueryNamespaceResponse) Reset() {
-	*x = QueryNamespaceResponse{}
+func (x *QueryModuleResponse) Reset() {
+	*x = QueryModuleResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_permission_v1_query_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6583,25 +6410,25 @@ func (x *QueryNamespaceResponse) Reset() {
 	}
 }
 
-func (x *QueryNamespaceResponse) String() string {
+func (x *QueryModuleResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNamespaceResponse) ProtoMessage() {}
+func (*QueryModuleResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryNamespaceResponse.ProtoReflect.Descriptor instead.
-func (*QueryNamespaceResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryModuleResponse.ProtoReflect.Descriptor instead.
+func (*QueryModuleResponse) Descriptor() ([]byte, []int) {
 	return file_permission_v1_query_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *QueryNamespaceResponse) GetNamespace() *Namespace {
+func (x *QueryModuleResponse) GetNamespace() *Namespace {
 	if x != nil {
 		return x.Namespace
 	}
 	return nil
 }
 
-func (x *QueryNamespaceResponse) GetPermissions() []string {
+func (x *QueryModuleResponse) GetPermissions() []string {
 	if x != nil {
 		return x.Permissions
 	}
@@ -7008,63 +6835,32 @@ var file_permission_v1_query_proto_rawDesc = []byte{
 	0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
 	0x6e, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x60, 0x0a, 0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73,
-	0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
-	0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa2, 0x01, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x3e, 0x0a, 0x0a, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61,
-	0x63, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65,
-	0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x2f, 0x0a, 0x15,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x22, 0x78, 0x0a,
-	0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x65, 0x72,
-	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x61, 0x6d, 0x65, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x74, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a,
-	0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d,
-	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d,
-	0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31,
-	0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x92, 0x01,
-	0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f,
-	0x00, 0x52, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e,
-	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72,
-	0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x22, 0xb1, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e,
-	0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x32, 0x0a, 0x07, 0x67, 0x72,
-	0x61, 0x6e, 0x74, 0x65, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d,
-	0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53,
-	0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x12, 0x46,
-	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
-	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
-	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9b, 0x01, 0x0a, 0x1c, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x52,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x15, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x6f,
+	0x64, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x56, 0x0a, 0x14,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3e, 0x0a, 0x0a, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63,
+	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61,
+	0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x73, 0x22, 0x2c, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x6f, 0x64,
+	0x75, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f,
+	0x64, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75,
+	0x6c, 0x65, 0x22, 0x75, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x6f, 0x64, 0x75, 0x6c,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x09, 0x6e, 0x61, 0x6d,
+	0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70,
+	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x61, 0x6d,
+	0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x09, 0x6e, 0x61,
+	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x74, 0x0a, 0x12, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
+	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22,
+	0x92, 0x01, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52,
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74,
 	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
 	0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x42, 0x04, 0xc8,
@@ -7073,112 +6869,131 @@ var file_permission_v1_query_proto_rawDesc = []byte{
 	0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75,
 	0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65,
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb1, 0x01, 0x0a, 0x19, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72,
-	0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x63,
-	0x6f, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x73, 0x63, 0x6f, 0x70, 0x65,
-	0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
-	0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x04,
+	0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb1, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72,
+	0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x32, 0x0a, 0x07,
+	0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
+	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65,
+	0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
 	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
 	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61,
-	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x99, 0x01, 0x0a, 0x1a, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x42, 0x04, 0xc8,
-	0xde, 0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70,
-	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75,
-	0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9d, 0x01, 0x0a, 0x19, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x61,
-	0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x32, 0x0a, 0x07, 0x67, 0x72,
-	0x61, 0x6e, 0x74, 0x65, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d,
-	0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53,
-	0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x12, 0x1e,
-	0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x14,
-	0x0a, 0x05, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x73,
-	0x63, 0x6f, 0x70, 0x65, 0x22, 0x43, 0x0a, 0x1a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x61, 0x73,
-	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x68, 0x61, 0x73, 0x5f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x68, 0x61, 0x73, 0x50,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x32, 0x98, 0x07, 0x0a, 0x05, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x12, 0x84, 0x01, 0x0a, 0x0a, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x73, 0x12, 0x25, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e,
-	0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f, 0x77, 0x65, 0x62, 0x73,
-	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f,
-	0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x12, 0x89, 0x01, 0x0a, 0x09, 0x4e,
-	0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x24, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69,
-	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9b, 0x01, 0x0a, 0x1c, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x67, 0x72, 0x61,
+	0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x42,
+	0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x12, 0x47, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
+	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
+	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb1, 0x01, 0x0a, 0x19, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x14, 0x0a, 0x05,
+	0x73, 0x63, 0x6f, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x73, 0x63, 0x6f,
+	0x70, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
+	0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
+	0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x99, 0x01, 0x0a, 0x1a, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x67, 0x72, 0x61,
+	0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x42,
+	0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x12, 0x47, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
+	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
+	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9d, 0x01, 0x0a, 0x19, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x48, 0x61, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x32, 0x0a, 0x07,
+	0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
+	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65,
+	0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x12, 0x14, 0x0a, 0x05, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x05, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x22, 0x43, 0x0a, 0x1a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48,
+	0x61, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x68, 0x61, 0x73, 0x5f, 0x70, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x68, 0x61,
+	0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x32, 0xfe, 0x06, 0x0a, 0x05,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x78, 0x0a, 0x07, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73,
+	0x12, 0x22, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x1e, 0x12, 0x1c, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x12,
+	0x7d, 0x0a, 0x06, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x12, 0x21, 0x2e, 0x70, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d,
+	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x70,
+	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12, 0x24, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
+	0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x6d,
+	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2f, 0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d, 0x12, 0x7d,
+	0x0a, 0x06, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x12, 0x21, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72,
+	0x61, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x70, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12, 0x24, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x67, 0x72,
+	0x61, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d, 0x12, 0xa2, 0x01,
+	0x0a, 0x0f, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65,
+	0x65, 0x12, 0x2a, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47,
+	0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e,
+	0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74,
+	0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x36, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x30, 0x12, 0x2e, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x2f,
+	0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d, 0x2f, 0x7b, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65,
+	0x65, 0x7d, 0x12, 0xa3, 0x01, 0x0a, 0x0d, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53,
+	0x63, 0x6f, 0x70, 0x65, 0x12, 0x28, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73,
+	0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29,
 	0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x29, 0x12, 0x27, 0x2f,
-	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x2f, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x2f, 0x7b, 0x6d,
-	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d, 0x12, 0x7d, 0x0a, 0x06, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73,
-	0x12, 0x21, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
-	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12,
-	0x24, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69,
-	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x6d, 0x6f,
-	0x64, 0x75, 0x6c, 0x65, 0x7d, 0x12, 0xa2, 0x01, 0x0a, 0x0f, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73,
-	0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x12, 0x2a, 0x2e, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
-	0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74,
-	0x73, 0x42, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x36, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x77, 0x65, 0x62,
-	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
-	0x2f, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d,
-	0x2f, 0x7b, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x7d, 0x12, 0xa3, 0x01, 0x0a, 0x0d, 0x47,
-	0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x12, 0x28, 0x2e, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e,
-	0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x3d, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x37, 0x12, 0x35, 0x2f, 0x77, 0x65, 0x62, 0x73,
-	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f,
-	0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x2f,
-	0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d, 0x2f, 0x7b, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x7d,
-	0x12, 0xb1, 0x01, 0x0a, 0x0d, 0x48, 0x61, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x12, 0x28, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x61, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69,
-	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x48, 0x61, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x45, 0x12,
-	0x43, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69,
-	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x68, 0x61, 0x73, 0x5f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73,
-	0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d, 0x2f, 0x7b, 0x67,
-	0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x7d, 0x2f, 0x7b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x7d, 0x42, 0xb5, 0x01, 0x0a, 0x11, 0x63, 0x6f, 0x6d, 0x2e, 0x70, 0x65, 0x72,
-	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64,
-	0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x70, 0x65, 0x72,
-	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x50, 0x58, 0x58, 0xaa,
-	0x02, 0x0d, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x56, 0x31, 0xca,
-	0x02, 0x0d, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0xe2,
-	0x02, 0x19, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0x5c,
-	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0e, 0x50, 0x65,
-	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x75, 0x65, 0x72, 0x79, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x42, 0x79, 0x53, 0x63, 0x6f, 0x70,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3d, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x37, 0x12, 0x35, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x73, 0x5f, 0x62,
+	0x79, 0x5f, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x2f, 0x7b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x7d,
+	0x2f, 0x7b, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x7d, 0x12, 0xb1, 0x01, 0x0a, 0x0d, 0x48, 0x61, 0x73,
+	0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x28, 0x2e, 0x70, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x48, 0x61, 0x73, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x61, 0x73, 0x50, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x4b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x45, 0x12, 0x43, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x68, 0x61,
+	0x73, 0x5f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2f, 0x7b, 0x6d, 0x6f,
+	0x64, 0x75, 0x6c, 0x65, 0x7d, 0x2f, 0x7b, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x65, 0x65, 0x7d, 0x2f,
+	0x7b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x7d, 0x42, 0xb5, 0x01, 0x0a,
+	0x11, 0x63, 0x6f, 0x6d, 0x2e, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e,
+	0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62,
+	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x76,
+	0x31, 0xa2, 0x02, 0x03, 0x50, 0x58, 0x58, 0xaa, 0x02, 0x0d, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0d, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x19, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
+	0x73, 0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64,
+	0x61, 0x74, 0x61, 0xea, 0x02, 0x0e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e,
+	0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -7195,10 +7010,10 @@ func file_permission_v1_query_proto_rawDescGZIP() []byte {
 
 var file_permission_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_permission_v1_query_proto_goTypes = []interface{}{
-	(*QueryNamespacesRequest)(nil),       // 0: permission.v1.QueryNamespacesRequest
-	(*QueryNamespacesResponse)(nil),      // 1: permission.v1.QueryNamespacesResponse
-	(*QueryNamespaceRequest)(nil),        // 2: permission.v1.QueryNamespaceRequest
-	(*QueryNamespaceResponse)(nil),       // 3: permission.v1.QueryNamespaceResponse
+	(*QueryModulesRequest)(nil),          // 0: permission.v1.QueryModulesRequest
+	(*QueryModulesResponse)(nil),         // 1: permission.v1.QueryModulesResponse
+	(*QueryModuleRequest)(nil),           // 2: permission.v1.QueryModuleRequest
+	(*QueryModuleResponse)(nil),          // 3: permission.v1.QueryModuleResponse
 	(*QueryGrantsRequest)(nil),           // 4: permission.v1.QueryGrantsRequest
 	(*QueryGrantsResponse)(nil),          // 5: permission.v1.QueryGrantsResponse
 	(*QueryGrantsByGranteeRequest)(nil),  // 6: permission.v1.QueryGrantsByGranteeRequest
@@ -7207,42 +7022,40 @@ var file_permission_v1_query_proto_goTypes = []interface{}{
 	(*QueryGrantsByScopeResponse)(nil),   // 9: permission.v1.QueryGrantsByScopeResponse
 	(*QueryHasPermissionRequest)(nil),    // 10: permission.v1.QueryHasPermissionRequest
 	(*QueryHasPermissionResponse)(nil),   // 11: permission.v1.QueryHasPermissionResponse
-	(*v1beta1.PageRequest)(nil),          // 12: cosmos.base.query.v1beta1.PageRequest
-	(*Namespace)(nil),                    // 13: permission.v1.Namespace
-	(*v1beta1.PageResponse)(nil),         // 14: cosmos.base.query.v1beta1.PageResponse
-	(*Grant)(nil),                        // 15: permission.v1.Grant
+	(*Namespace)(nil),                    // 12: permission.v1.Namespace
+	(*v1beta1.PageRequest)(nil),          // 13: cosmos.base.query.v1beta1.PageRequest
+	(*Grant)(nil),                        // 14: permission.v1.Grant
+	(*v1beta1.PageResponse)(nil),         // 15: cosmos.base.query.v1beta1.PageResponse
 }
 var file_permission_v1_query_proto_depIdxs = []int32{
-	12, // 0: permission.v1.QueryNamespacesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	13, // 1: permission.v1.QueryNamespacesResponse.namespaces:type_name -> permission.v1.Namespace
-	14, // 2: permission.v1.QueryNamespacesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	13, // 3: permission.v1.QueryNamespaceResponse.namespace:type_name -> permission.v1.Namespace
-	12, // 4: permission.v1.QueryGrantsRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 5: permission.v1.QueryGrantsResponse.grants:type_name -> permission.v1.Grant
-	14, // 6: permission.v1.QueryGrantsResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	12, // 7: permission.v1.QueryGrantsByGranteeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 8: permission.v1.QueryGrantsByGranteeResponse.grants:type_name -> permission.v1.Grant
-	14, // 9: permission.v1.QueryGrantsByGranteeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	12, // 10: permission.v1.QueryGrantsByScopeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 11: permission.v1.QueryGrantsByScopeResponse.grants:type_name -> permission.v1.Grant
-	14, // 12: permission.v1.QueryGrantsByScopeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 13: permission.v1.Query.Namespaces:input_type -> permission.v1.QueryNamespacesRequest
-	2,  // 14: permission.v1.Query.Namespace:input_type -> permission.v1.QueryNamespaceRequest
-	4,  // 15: permission.v1.Query.Grants:input_type -> permission.v1.QueryGrantsRequest
-	6,  // 16: permission.v1.Query.GrantsByGrantee:input_type -> permission.v1.QueryGrantsByGranteeRequest
-	8,  // 17: permission.v1.Query.GrantsByScope:input_type -> permission.v1.QueryGrantsByScopeRequest
-	10, // 18: permission.v1.Query.HasPermission:input_type -> permission.v1.QueryHasPermissionRequest
-	1,  // 19: permission.v1.Query.Namespaces:output_type -> permission.v1.QueryNamespacesResponse
-	3,  // 20: permission.v1.Query.Namespace:output_type -> permission.v1.QueryNamespaceResponse
-	5,  // 21: permission.v1.Query.Grants:output_type -> permission.v1.QueryGrantsResponse
-	7,  // 22: permission.v1.Query.GrantsByGrantee:output_type -> permission.v1.QueryGrantsByGranteeResponse
-	9,  // 23: permission.v1.Query.GrantsByScope:output_type -> permission.v1.QueryGrantsByScopeResponse
-	11, // 24: permission.v1.Query.HasPermission:output_type -> permission.v1.QueryHasPermissionResponse
-	19, // [19:25] is the sub-list for method output_type
-	13, // [13:19] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	12, // 0: permission.v1.QueryModulesResponse.namespaces:type_name -> permission.v1.Namespace
+	12, // 1: permission.v1.QueryModuleResponse.namespace:type_name -> permission.v1.Namespace
+	13, // 2: permission.v1.QueryGrantsRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	14, // 3: permission.v1.QueryGrantsResponse.grants:type_name -> permission.v1.Grant
+	15, // 4: permission.v1.QueryGrantsResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	13, // 5: permission.v1.QueryGrantsByGranteeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	14, // 6: permission.v1.QueryGrantsByGranteeResponse.grants:type_name -> permission.v1.Grant
+	15, // 7: permission.v1.QueryGrantsByGranteeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	13, // 8: permission.v1.QueryGrantsByScopeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	14, // 9: permission.v1.QueryGrantsByScopeResponse.grants:type_name -> permission.v1.Grant
+	15, // 10: permission.v1.QueryGrantsByScopeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 11: permission.v1.Query.Modules:input_type -> permission.v1.QueryModulesRequest
+	2,  // 12: permission.v1.Query.Module:input_type -> permission.v1.QueryModuleRequest
+	4,  // 13: permission.v1.Query.Grants:input_type -> permission.v1.QueryGrantsRequest
+	6,  // 14: permission.v1.Query.GrantsByGrantee:input_type -> permission.v1.QueryGrantsByGranteeRequest
+	8,  // 15: permission.v1.Query.GrantsByScope:input_type -> permission.v1.QueryGrantsByScopeRequest
+	10, // 16: permission.v1.Query.HasPermission:input_type -> permission.v1.QueryHasPermissionRequest
+	1,  // 17: permission.v1.Query.Modules:output_type -> permission.v1.QueryModulesResponse
+	3,  // 18: permission.v1.Query.Module:output_type -> permission.v1.QueryModuleResponse
+	5,  // 19: permission.v1.Query.Grants:output_type -> permission.v1.QueryGrantsResponse
+	7,  // 20: permission.v1.Query.GrantsByGrantee:output_type -> permission.v1.QueryGrantsByGranteeResponse
+	9,  // 21: permission.v1.Query.GrantsByScope:output_type -> permission.v1.QueryGrantsByScopeResponse
+	11, // 22: permission.v1.Query.HasPermission:output_type -> permission.v1.QueryHasPermissionResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_permission_v1_query_proto_init() }
@@ -7253,7 +7066,7 @@ func file_permission_v1_query_proto_init() {
 	file_permission_v1_permission_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_permission_v1_query_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNamespacesRequest); i {
+			switch v := v.(*QueryModulesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -7265,7 +7078,7 @@ func file_permission_v1_query_proto_init() {
 			}
 		}
 		file_permission_v1_query_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNamespacesResponse); i {
+			switch v := v.(*QueryModulesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -7277,7 +7090,7 @@ func file_permission_v1_query_proto_init() {
 			}
 		}
 		file_permission_v1_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNamespaceRequest); i {
+			switch v := v.(*QueryModuleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -7289,7 +7102,7 @@ func file_permission_v1_query_proto_init() {
 			}
 		}
 		file_permission_v1_query_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNamespaceResponse); i {
+			switch v := v.(*QueryModuleResponse); i {
 			case 0:
 				return &v.state
 			case 1:

@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Namespaces_FullMethodName      = "/permission.v1.Query/Namespaces"
-	Query_Namespace_FullMethodName       = "/permission.v1.Query/Namespace"
+	Query_Modules_FullMethodName         = "/permission.v1.Query/Modules"
+	Query_Module_FullMethodName          = "/permission.v1.Query/Module"
 	Query_Grants_FullMethodName          = "/permission.v1.Query/Grants"
 	Query_GrantsByGrantee_FullMethodName = "/permission.v1.Query/GrantsByGrantee"
 	Query_GrantsByScope_FullMethodName   = "/permission.v1.Query/GrantsByScope"
@@ -31,11 +31,13 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type QueryClient interface {
-	// Namespaces queries all namespaces.
-	Namespaces(ctx context.Context, in *QueryNamespacesRequest, opts ...grpc.CallOption) (*QueryNamespacesResponse, error)
-	// Namespace queries a namespace by module name, including the permission
-	// vocabulary the module registered in this binary.
-	Namespace(ctx context.Context, in *QueryNamespaceRequest, opts ...grpc.CallOption) (*QueryNamespaceResponse, error)
+	// Modules queries every registered module namespace. The owner is empty for
+	// modules whose namespace owner has not been set yet.
+	Modules(ctx context.Context, in *QueryModulesRequest, opts ...grpc.CallOption) (*QueryModulesResponse, error)
+	// Module queries a registered module's namespace owner and the permission
+	// vocabulary the module registered in this binary. The owner is empty if it
+	// has not been set yet.
+	Module(ctx context.Context, in *QueryModuleRequest, opts ...grpc.CallOption) (*QueryModuleResponse, error)
 	// Grants queries every grant within a namespace.
 	Grants(ctx context.Context, in *QueryGrantsRequest, opts ...grpc.CallOption) (*QueryGrantsResponse, error)
 	// GrantsByGrantee queries the grants held by an address within a namespace.
@@ -56,18 +58,18 @@ func NewQueryClient(cc grpc.ClientConnInterface) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) Namespaces(ctx context.Context, in *QueryNamespacesRequest, opts ...grpc.CallOption) (*QueryNamespacesResponse, error) {
-	out := new(QueryNamespacesResponse)
-	err := c.cc.Invoke(ctx, Query_Namespaces_FullMethodName, in, out, opts...)
+func (c *queryClient) Modules(ctx context.Context, in *QueryModulesRequest, opts ...grpc.CallOption) (*QueryModulesResponse, error) {
+	out := new(QueryModulesResponse)
+	err := c.cc.Invoke(ctx, Query_Modules_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) Namespace(ctx context.Context, in *QueryNamespaceRequest, opts ...grpc.CallOption) (*QueryNamespaceResponse, error) {
-	out := new(QueryNamespaceResponse)
-	err := c.cc.Invoke(ctx, Query_Namespace_FullMethodName, in, out, opts...)
+func (c *queryClient) Module(ctx context.Context, in *QueryModuleRequest, opts ...grpc.CallOption) (*QueryModuleResponse, error) {
+	out := new(QueryModuleResponse)
+	err := c.cc.Invoke(ctx, Query_Module_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -114,11 +116,13 @@ func (c *queryClient) HasPermission(ctx context.Context, in *QueryHasPermissionR
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
-	// Namespaces queries all namespaces.
-	Namespaces(context.Context, *QueryNamespacesRequest) (*QueryNamespacesResponse, error)
-	// Namespace queries a namespace by module name, including the permission
-	// vocabulary the module registered in this binary.
-	Namespace(context.Context, *QueryNamespaceRequest) (*QueryNamespaceResponse, error)
+	// Modules queries every registered module namespace. The owner is empty for
+	// modules whose namespace owner has not been set yet.
+	Modules(context.Context, *QueryModulesRequest) (*QueryModulesResponse, error)
+	// Module queries a registered module's namespace owner and the permission
+	// vocabulary the module registered in this binary. The owner is empty if it
+	// has not been set yet.
+	Module(context.Context, *QueryModuleRequest) (*QueryModuleResponse, error)
 	// Grants queries every grant within a namespace.
 	Grants(context.Context, *QueryGrantsRequest) (*QueryGrantsResponse, error)
 	// GrantsByGrantee queries the grants held by an address within a namespace.
@@ -136,11 +140,11 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
-func (UnimplementedQueryServer) Namespaces(context.Context, *QueryNamespacesRequest) (*QueryNamespacesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Namespaces not implemented")
+func (UnimplementedQueryServer) Modules(context.Context, *QueryModulesRequest) (*QueryModulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Modules not implemented")
 }
-func (UnimplementedQueryServer) Namespace(context.Context, *QueryNamespaceRequest) (*QueryNamespaceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Namespace not implemented")
+func (UnimplementedQueryServer) Module(context.Context, *QueryModuleRequest) (*QueryModuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Module not implemented")
 }
 func (UnimplementedQueryServer) Grants(context.Context, *QueryGrantsRequest) (*QueryGrantsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Grants not implemented")
@@ -167,38 +171,38 @@ func RegisterQueryServer(s grpc.ServiceRegistrar, srv QueryServer) {
 	s.RegisterService(&Query_ServiceDesc, srv)
 }
 
-func _Query_Namespaces_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryNamespacesRequest)
+func _Query_Modules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryModulesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).Namespaces(ctx, in)
+		return srv.(QueryServer).Modules(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_Namespaces_FullMethodName,
+		FullMethod: Query_Modules_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Namespaces(ctx, req.(*QueryNamespacesRequest))
+		return srv.(QueryServer).Modules(ctx, req.(*QueryModulesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_Namespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryNamespaceRequest)
+func _Query_Module_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryModuleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).Namespace(ctx, in)
+		return srv.(QueryServer).Module(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_Namespace_FullMethodName,
+		FullMethod: Query_Module_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Namespace(ctx, req.(*QueryNamespaceRequest))
+		return srv.(QueryServer).Module(ctx, req.(*QueryModuleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -283,12 +287,12 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Namespaces",
-			Handler:    _Query_Namespaces_Handler,
+			MethodName: "Modules",
+			Handler:    _Query_Modules_Handler,
 		},
 		{
-			MethodName: "Namespace",
-			Handler:    _Query_Namespace_Handler,
+			MethodName: "Module",
+			Handler:    _Query_Module_Handler,
 		},
 		{
 			MethodName: "Grants",

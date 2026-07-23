@@ -1,11 +1,9 @@
 syntax = "proto3";
 package license.v1;
 
-import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "license/v1/license.proto";
 import "license/v1/license_type.proto";
-import "license/v1/params.proto";
 
 option go_package = "github.com/webstack-sdk/webstack/x/license/types";
 
@@ -17,14 +15,11 @@ message LicenseCount {
   uint64 count = 2;
 }
 
-// GenesisState defines the licenses module's genesis state.
+// GenesisState defines the licenses module's genesis state. Ownership and
+// permission grants live in the x/permission module's genesis, under the
+// "license" namespace.
 message GenesisState {
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
-  repeated LicenseType license_types = 2 [(gogoproto.nullable) = false];
-  repeated License licenses = 3 [(gogoproto.nullable) = false];
-  repeated AddressPermissions permissions = 4 [(gogoproto.nullable) = false];
-  repeated LicenseCount license_counts = 5 [(gogoproto.nullable) = false];
+  repeated LicenseType license_types = 1 [(gogoproto.nullable) = false];
+  repeated License licenses = 2 [(gogoproto.nullable) = false];
+  repeated LicenseCount license_counts = 3 [(gogoproto.nullable) = false];
 }

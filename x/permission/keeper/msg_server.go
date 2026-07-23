@@ -24,10 +24,12 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 	return &msgServer{k: keeper}
 }
 
-// CreateNamespace creates the grant namespace for a module and sets its owner.
-// The module must be registered in this binary, so a namespace can never exist
-// without a permission vocabulary to validate grants against.
-func (ms msgServer) CreateNamespace(ctx context.Context, msg *types.MsgCreateNamespace) (*types.MsgCreateNamespaceResponse, error) {
+// UpdateNamespaceOwner sets or rotates the owner of a registered module's
+// namespace via governance. Namespaces are never created by transactions —
+// they exist for exactly the registered modules — so this upserts the owner:
+// it is how an owner is first established outside genesis, and how a lost or
+// compromised owner key is recovered without its cooperation.
+func (ms msgServer) UpdateNamespaceOwner(ctx context.Context, msg *types.MsgUpdateNamespaceOwner) (*types.MsgUpdateNamespaceOwnerResponse, error) {
 	if ms.k.authority != msg.Authority {
 		return nil, errorsmod.Wrapf(govtypes.ErrInvalidSigner, "invalid authority; expected %s, got %s", ms.k.authority, msg.Authority)
 	}
@@ -36,51 +38,11 @@ func (ms msgServer) CreateNamespace(ctx context.Context, msg *types.MsgCreateNam
 		return nil, types.ErrModuleNotRegistered.Wrapf("module %q is not registered in this binary", msg.Module)
 	}
 
-	if _, found, err := ms.k.GetNamespace(ctx, msg.Module); err != nil {
-		return nil, err
-	} else if found {
-		return nil, types.ErrNamespaceExists.Wrapf("namespace for module %q already exists", msg.Module)
-	}
-
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return nil, fmt.Errorf("invalid owner address %q: %w", msg.Owner, err)
 	}
 
 	ns := types.Namespace{Module: msg.Module, Owner: msg.Owner}
-	if err := ms.k.Namespaces.Set(ctx, msg.Module, ns); err != nil {
-		return nil, err
-	}
-
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeCreateNamespace,
-		sdk.NewAttribute(types.AttributeKeyModule, msg.Module),
-		sdk.NewAttribute(types.AttributeKeyOwner, msg.Owner),
-	))
-
-	return &types.MsgCreateNamespaceResponse{}, nil
-}
-
-// UpdateNamespaceOwner rotates a namespace's owner via governance, so a lost
-// or compromised owner key can be recovered without its cooperation.
-func (ms msgServer) UpdateNamespaceOwner(ctx context.Context, msg *types.MsgUpdateNamespaceOwner) (*types.MsgUpdateNamespaceOwnerResponse, error) {
-	if ms.k.authority != msg.Authority {
-		return nil, errorsmod.Wrapf(govtypes.ErrInvalidSigner, "invalid authority; expected %s, got %s", ms.k.authority, msg.Authority)
-	}
-
-	ns, found, err := ms.k.GetNamespace(ctx, msg.Module)
-	if err != nil {
-		return nil, err
-	}
-	if !found {
-		return nil, types.ErrNamespaceNotFound.Wrapf("namespace for module %q not found", msg.Module)
-	}
-
-	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return nil, fmt.Errorf("invalid owner address %q: %w", msg.Owner, err)
-	}
-
-	ns.Owner = msg.Owner
 	if err := ms.k.Namespaces.Set(ctx, msg.Module, ns); err != nil {
 		return nil, err
 	}
@@ -102,7 +64,7 @@ func (ms msgServer) TransferOwnership(ctx context.Context, msg *types.MsgTransfe
 		return nil, err
 	}
 	if !found {
-		return nil, types.ErrNamespaceNotFound.Wrapf("namespace for module %q not found", msg.Module)
+		return nil, types.ErrNamespaceNotFound.Wrapf("no owner is set for namespace %q", msg.Module)
 	}
 
 	if ns.Owner != msg.Owner {
@@ -138,7 +100,7 @@ func (ms msgServer) GrantPermissions(ctx context.Context, msg *types.MsgGrantPer
 		return nil, err
 	}
 	if !found {
-		return nil, types.ErrNamespaceNotFound.Wrapf("namespace for module %q not found", msg.Module)
+		return nil, types.ErrNamespaceNotFound.Wrapf("no owner is set for namespace %q", msg.Module)
 	}
 	if ns.Owner != msg.Owner {
 		return nil, types.ErrUnauthorized.Wrapf("signer %s is not the owner %s of namespace %q", msg.Owner, ns.Owner, msg.Module)
@@ -216,7 +178,7 @@ func (ms msgServer) RevokePermissions(ctx context.Context, msg *types.MsgRevokeP
 		return nil, err
 	}
 	if !found {
-		return nil, types.ErrNamespaceNotFound.Wrapf("namespace for module %q not found", msg.Module)
+		return nil, types.ErrNamespaceNotFound.Wrapf("no owner is set for namespace %q", msg.Module)
 	}
 	if ns.Owner != msg.Owner {
 		return nil, types.ErrUnauthorized.Wrapf("signer %s is not the owner %s of namespace %q", msg.Owner, ns.Owner, msg.Module)

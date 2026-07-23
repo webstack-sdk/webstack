@@ -17,8 +17,6 @@ import (
 const (
 	EventTypeLicenseTypeCreated = "LicenseTypeCreated"
 	EventTypeLicenseTypeUpdated = "LicenseTypeUpdated"
-	EventTypePermissionsGranted = "PermissionsGranted"
-	EventTypePermissionsRevoked = "PermissionsRevoked"
 	EventTypeLicenseIssued      = "LicenseIssued"
 	EventTypeLicenseRevoked     = "LicenseRevoked"
 	EventTypeLicenseTransferred = "LicenseTransferred"
@@ -73,32 +71,6 @@ func (p Precompile) EmitLicenseTypeUpdated(ctx sdk.Context, stateDB vm.StateDB, 
 	}
 
 	p.emitLog(ctx, stateDB, []common.Hash{event.ID, idTopic}, data)
-	return nil
-}
-
-// EmitPermissionsGranted emits the PermissionsGranted event.
-func (p Precompile) EmitPermissionsGranted(ctx sdk.Context, stateDB vm.StateDB, admin common.Address) error {
-	event := p.Events[EventTypePermissionsGranted]
-
-	adminTopic, err := cmn.MakeTopic(admin)
-	if err != nil {
-		return err
-	}
-
-	p.emitLog(ctx, stateDB, []common.Hash{event.ID, adminTopic}, nil)
-	return nil
-}
-
-// EmitPermissionsRevoked emits the PermissionsRevoked event.
-func (p Precompile) EmitPermissionsRevoked(ctx sdk.Context, stateDB vm.StateDB, admin common.Address) error {
-	event := p.Events[EventTypePermissionsRevoked]
-
-	adminTopic, err := cmn.MakeTopic(admin)
-	if err != nil {
-		return err
-	}
-
-	p.emitLog(ctx, stateDB, []common.Hash{event.ID, adminTopic}, nil)
 	return nil
 }
 

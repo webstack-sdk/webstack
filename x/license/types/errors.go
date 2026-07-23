@@ -11,8 +11,6 @@ var (
 	ErrNotLicenseHolder       = errors.Register(ModuleName, 1105, "signer is not the license holder")
 	ErrLicenseNotTransferable = errors.Register(ModuleName, 1106, "license type is not transferrable")
 	ErrUnauthorized           = errors.Register(ModuleName, 1107, "signer does not have the required permission")
-	ErrPermissionsNotFound    = errors.Register(ModuleName, 1108, "permissions not found")
-	ErrInvalidPermission      = errors.Register(ModuleName, 1110, "invalid permission")
 	ErrEmptyLicenseTypeID     = errors.Register(ModuleName, 1111, "license type id cannot be empty")
 	ErrEmptyHolder            = errors.Register(ModuleName, 1112, "holder address cannot be empty")
 	ErrEmptyBatchEntries      = errors.Register(ModuleName, 1113, "batch entries cannot be empty")

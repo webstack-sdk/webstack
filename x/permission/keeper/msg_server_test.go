@@ -44,15 +44,15 @@ func setupMsgServer(t testing.TB) (keeper.Keeper, types.MsgServer, sdk.Context) 
 	return k, keeper.NewMsgServerImpl(k), ctx
 }
 
-// setupWithNamespace additionally creates the testModule namespace with a
-// fresh owner and returns that owner.
+// setupWithNamespace additionally sets a fresh owner on the testModule
+// namespace (via the governance upsert) and returns that owner.
 func setupWithNamespace(t testing.TB) (keeper.Keeper, types.MsgServer, sdk.Context, string) {
 	t.Helper()
 
 	k, ms, ctx := setupMsgServer(t)
 	owner := sample.AccAddress()
 
-	_, err := ms.CreateNamespace(ctx, &types.MsgCreateNamespace{
+	_, err := ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
 		Authority: k.GetAuthority(),
 		Module:    testModule,
 		Owner:     owner,
@@ -63,21 +63,21 @@ func setupWithNamespace(t testing.TB) (keeper.Keeper, types.MsgServer, sdk.Conte
 }
 
 // ---------------------------------------------------------------------------
-// CreateNamespace
+// UpdateNamespaceOwner
 // ---------------------------------------------------------------------------
 
-func TestCreateNamespace(t *testing.T) {
+func TestUpdateNamespaceOwner(t *testing.T) {
 	k, ms, ctx := setupMsgServer(t)
 	owner := sample.AccAddress()
 
 	tests := []struct {
 		name      string
-		input     *types.MsgCreateNamespace
+		input     *types.MsgUpdateNamespaceOwner
 		expErrMsg string
 	}{
 		{
 			name: "invalid authority",
-			input: &types.MsgCreateNamespace{
+			input: &types.MsgUpdateNamespaceOwner{
 				Authority: sample.AccAddress(),
 				Module:    testModule,
 				Owner:     owner,
@@ -86,7 +86,7 @@ func TestCreateNamespace(t *testing.T) {
 		},
 		{
 			name: "unregistered module",
-			input: &types.MsgCreateNamespace{
+			input: &types.MsgUpdateNamespaceOwner{
 				Authority: k.GetAuthority(),
 				Module:    "ghostmod",
 				Owner:     owner,
@@ -95,7 +95,7 @@ func TestCreateNamespace(t *testing.T) {
 		},
 		{
 			name: "invalid owner address",
-			input: &types.MsgCreateNamespace{
+			input: &types.MsgUpdateNamespaceOwner{
 				Authority: k.GetAuthority(),
 				Module:    testModule,
 				Owner:     "invalid",
@@ -103,27 +103,18 @@ func TestCreateNamespace(t *testing.T) {
 			expErrMsg: "invalid owner address",
 		},
 		{
-			name: "valid",
-			input: &types.MsgCreateNamespace{
+			name: "upsert: sets the first owner",
+			input: &types.MsgUpdateNamespaceOwner{
 				Authority: k.GetAuthority(),
 				Module:    testModule,
 				Owner:     owner,
 			},
-		},
-		{
-			name: "duplicate namespace",
-			input: &types.MsgCreateNamespace{
-				Authority: k.GetAuthority(),
-				Module:    testModule,
-				Owner:     owner,
-			},
-			expErrMsg: "already exists",
 		},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			_, err := ms.CreateNamespace(ctx, tc.input)
+			_, err := ms.UpdateNamespaceOwner(ctx, tc.input)
 			if tc.expErrMsg != "" {
 				require.Error(t, err)
 				require.Contains(t, err.Error(), tc.expErrMsg)
@@ -137,31 +128,10 @@ func TestCreateNamespace(t *testing.T) {
 			require.Equal(t, owner, ns.Owner)
 		})
 	}
-}
 
-// ---------------------------------------------------------------------------
-// UpdateNamespaceOwner
-// ---------------------------------------------------------------------------
-
-func TestUpdateNamespaceOwner(t *testing.T) {
-	k, ms, ctx, _ := setupWithNamespace(t)
+	// Upsert: rotating an already-set owner works the same way.
 	newOwner := sample.AccAddress()
-
 	_, err := ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
-		Authority: sample.AccAddress(),
-		Module:    testModule,
-		Owner:     newOwner,
-	})
-	require.ErrorContains(t, err, "invalid authority")
-
-	_, err = ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
-		Authority: k.GetAuthority(),
-		Module:    openModule,
-		Owner:     newOwner,
-	})
-	require.ErrorContains(t, err, "not found")
-
-	_, err = ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
 		Authority: k.GetAuthority(),
 		Module:    testModule,
 		Owner:     newOwner,
@@ -186,7 +156,7 @@ func TestTransferOwnership(t *testing.T) {
 		Module:   openModule,
 		NewOwner: newOwner,
 	})
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "no owner is set")
 
 	_, err = ms.TransferOwnership(ctx, &types.MsgTransferOwnership{
 		Owner:    sample.AccAddress(),
@@ -229,14 +199,14 @@ func TestGrantPermissions(t *testing.T) {
 		expErrMsg string
 	}{
 		{
-			name: "namespace not found",
+			name: "no owner set",
 			input: &types.MsgGrantPermissions{
 				Owner:   owner,
 				Module:  openModule,
 				Grantee: grantee,
 				Grants:  []types.PermissionScopes{{Permission: "operate"}},
 			},
-			expErrMsg: "not found",
+			expErrMsg: "no owner is set",
 		},
 		{
 			name: "not the owner",
@@ -352,7 +322,7 @@ func TestGrantPermissionsModuleWide(t *testing.T) {
 	owner := sample.AccAddress()
 	grantee := sample.AccAddress()
 
-	_, err := ms.CreateNamespace(ctx, &types.MsgCreateNamespace{
+	_, err := ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
 		Authority: k.GetAuthority(),
 		Module:    openModule,
 		Owner:     owner,
