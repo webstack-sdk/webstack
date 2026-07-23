@@ -1,0 +1,131 @@
+syntax = "proto3";
+package permission.v1;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "permission/v1/permission.proto";
+
+option go_package = "github.com/webstack-sdk/webstack/x/permission/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // CreateNamespace creates a grant namespace for a module and sets its owner.
+  // Signer must be the module authority (governance).
+  rpc CreateNamespace(MsgCreateNamespace) returns (MsgCreateNamespaceResponse) {
+    option (google.api.http) = {
+      post: "/webstack/permission/tx/create_namespace"
+      body: "*"
+    };
+  }
+
+  // UpdateNamespaceOwner rotates the owner of an existing namespace. Signer
+  // must be the module authority (governance); it exists so a lost or
+  // compromised owner can be recovered without the current owner's key.
+  rpc UpdateNamespaceOwner(MsgUpdateNamespaceOwner) returns (MsgUpdateNamespaceOwnerResponse) {
+    option (google.api.http) = {
+      post: "/webstack/permission/tx/update_namespace_owner"
+      body: "*"
+    };
+  }
+
+  // TransferOwnership hands a namespace to a new owner. Signer must be the
+  // current namespace owner.
+  rpc TransferOwnership(MsgTransferOwnership) returns (MsgTransferOwnershipResponse) {
+    option (google.api.http) = {
+      post: "/webstack/permission/tx/transfer_ownership"
+      body: "*"
+    };
+  }
+
+  // GrantPermissions merges permission grants for a grantee within a
+  // namespace. Signer must be the namespace owner. Existing grants are
+  // preserved; new (permission, scope) pairs are unioned in.
+  rpc GrantPermissions(MsgGrantPermissions) returns (MsgGrantPermissionsResponse) {
+    option (google.api.http) = {
+      post: "/webstack/permission/tx/grant_permissions"
+      body: "*"
+    };
+  }
+
+  // RevokePermissions removes the given (permission, scope) pairs from a
+  // grantee within a namespace. Pairs that are not currently granted are
+  // silently ignored. Signer must be the namespace owner.
+  rpc RevokePermissions(MsgRevokePermissions) returns (MsgRevokePermissionsResponse) {
+    option (google.api.http) = {
+      post: "/webstack/permission/tx/revoke_permissions"
+      body: "*"
+    };
+  }
+}
+
+// MsgCreateNamespace is the Msg/CreateNamespace request type.
+message MsgCreateNamespace {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "webstack/x/permission/MsgCreateNamespace";
+
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string module = 2;
+  string owner = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgCreateNamespaceResponse is the Msg/CreateNamespace response type.
+message MsgCreateNamespaceResponse {}
+
+// MsgUpdateNamespaceOwner is the Msg/UpdateNamespaceOwner request type.
+message MsgUpdateNamespaceOwner {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "webstack/x/permission/MsgUpdateNamespaceOwner";
+
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string module = 2;
+  string owner = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgUpdateNamespaceOwnerResponse is the Msg/UpdateNamespaceOwner response type.
+message MsgUpdateNamespaceOwnerResponse {}
+
+// MsgTransferOwnership is the Msg/TransferOwnership request type.
+message MsgTransferOwnership {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/permission/MsgTransferOwnership";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string module = 2;
+  string new_owner = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgTransferOwnershipResponse is the Msg/TransferOwnership response type.
+message MsgTransferOwnershipResponse {}
+
+// MsgGrantPermissions is the Msg/GrantPermissions request type.
+message MsgGrantPermissions {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/permission/MsgGrantPermissions";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string module = 2;
+  string grantee = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  repeated PermissionScopes grants = 4 [(gogoproto.nullable) = false];
+}
+
+// MsgGrantPermissionsResponse is the Msg/GrantPermissions response type.
+message MsgGrantPermissionsResponse {}
+
+// MsgRevokePermissions is the Msg/RevokePermissions request type.
+message MsgRevokePermissions {
+  option (cosmos.msg.v1.signer) = "owner";
+  option (amino.name) = "webstack/x/permission/MsgRevokePermissions";
+
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string module = 2;
+  string grantee = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  repeated PermissionScope permissions = 4 [(gogoproto.nullable) = false];
+}
+
+// MsgRevokePermissionsResponse is the Msg/RevokePermissions response type.
+message MsgRevokePermissionsResponse {}

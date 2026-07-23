@@ -1,0 +1,123 @@
+syntax = "proto3";
+package permission.v1;
+
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "permission/v1/permission.proto";
+
+option go_package = "github.com/webstack-sdk/webstack/x/permission/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Namespaces queries all namespaces.
+  rpc Namespaces(QueryNamespacesRequest) returns (QueryNamespacesResponse) {
+    option (google.api.http).get = "/webstack/permission/namespaces";
+  }
+
+  // Namespace queries a namespace by module name, including the permission
+  // vocabulary the module registered in this binary.
+  rpc Namespace(QueryNamespaceRequest) returns (QueryNamespaceResponse) {
+    option (google.api.http).get = "/webstack/permission/namespace/{module}";
+  }
+
+  // Grants queries every grant within a namespace.
+  rpc Grants(QueryGrantsRequest) returns (QueryGrantsResponse) {
+    option (google.api.http).get = "/webstack/permission/grants/{module}";
+  }
+
+  // GrantsByGrantee queries the grants held by an address within a namespace.
+  rpc GrantsByGrantee(QueryGrantsByGranteeRequest) returns (QueryGrantsByGranteeResponse) {
+    option (google.api.http).get = "/webstack/permission/grants/{module}/{grantee}";
+  }
+
+  // GrantsByScope queries the grants within a namespace that apply to a scope,
+  // optionally filtered to a single permission.
+  rpc GrantsByScope(QueryGrantsByScopeRequest) returns (QueryGrantsByScopeResponse) {
+    option (google.api.http).get = "/webstack/permission/grants_by_scope/{module}/{scope}";
+  }
+
+  // HasPermission reports whether a grantee holds a (permission, scope) grant
+  // within a namespace.
+  rpc HasPermission(QueryHasPermissionRequest) returns (QueryHasPermissionResponse) {
+    option (google.api.http).get = "/webstack/permission/has_permission/{module}/{grantee}/{permission}";
+  }
+}
+
+// QueryNamespacesRequest is the request type for the Query/Namespaces RPC method.
+message QueryNamespacesRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryNamespacesResponse is the response type for the Query/Namespaces RPC method.
+message QueryNamespacesResponse {
+  repeated Namespace namespaces = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryNamespaceRequest is the request type for the Query/Namespace RPC method.
+message QueryNamespaceRequest {
+  string module = 1;
+}
+
+// QueryNamespaceResponse is the response type for the Query/Namespace RPC method.
+message QueryNamespaceResponse {
+  Namespace namespace = 1 [(gogoproto.nullable) = false];
+  // permissions is the valid permission vocabulary the module registered in
+  // this binary, in ascending order.
+  repeated string permissions = 2;
+}
+
+// QueryGrantsRequest is the request type for the Query/Grants RPC method.
+message QueryGrantsRequest {
+  string module = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryGrantsResponse is the response type for the Query/Grants RPC method.
+message QueryGrantsResponse {
+  repeated Grant grants = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGrantsByGranteeRequest is the request type for the Query/GrantsByGrantee RPC method.
+message QueryGrantsByGranteeRequest {
+  string module = 1;
+  string grantee = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  cosmos.base.query.v1beta1.PageRequest pagination = 3;
+}
+
+// QueryGrantsByGranteeResponse is the response type for the Query/GrantsByGrantee RPC method.
+message QueryGrantsByGranteeResponse {
+  repeated Grant grants = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGrantsByScopeRequest is the request type for the Query/GrantsByScope RPC method.
+message QueryGrantsByScopeRequest {
+  string module = 1;
+  string scope = 2;
+  // permission optionally narrows the result to a single permission.
+  string permission = 3;
+  cosmos.base.query.v1beta1.PageRequest pagination = 4;
+}
+
+// QueryGrantsByScopeResponse is the response type for the Query/GrantsByScope RPC method.
+message QueryGrantsByScopeResponse {
+  repeated Grant grants = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryHasPermissionRequest is the request type for the Query/HasPermission RPC method.
+message QueryHasPermissionRequest {
+  string module = 1;
+  string grantee = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string permission = 3;
+  string scope = 4;
+}
+
+// QueryHasPermissionResponse is the response type for the Query/HasPermission RPC method.
+message QueryHasPermissionResponse {
+  bool has_permission = 1;
+}

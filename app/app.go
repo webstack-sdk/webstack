@@ -134,6 +134,9 @@ import (
 	licensekeeper "github.com/webstack-sdk/webstack/x/license/keeper"
 	licenseprecompile "github.com/webstack-sdk/webstack/x/license/precompile"
 	licensetypes "github.com/webstack-sdk/webstack/x/license/types"
+	permission "github.com/webstack-sdk/webstack/x/permission"
+	permissionkeeper "github.com/webstack-sdk/webstack/x/permission/keeper"
+	permissiontypes "github.com/webstack-sdk/webstack/x/permission/types"
 )
 
 func init() {
@@ -198,7 +201,8 @@ type WebstackApp struct {
 	EVMMempool        *evmmempool.ExperimentalEVMMempool
 
 	// Custom module keepers
-	LicenseKeeper licensekeeper.Keeper
+	LicenseKeeper    licensekeeper.Keeper
+	PermissionKeeper permissionkeeper.Keeper
 
 	// the module manager
 	ModuleManager      *module.Manager
@@ -251,6 +255,7 @@ func NewApp(
 		evmtypes.StoreKey, feemarkettypes.StoreKey, erc20types.StoreKey, precisebanktypes.StoreKey,
 		// Custom module store keys
 		licensetypes.StoreKey,
+		permissiontypes.StoreKey,
 	)
 
 	tkeys := storetypes.NewTransientStoreKeys(evmtypes.TransientKey, feemarkettypes.TransientKey)
@@ -437,6 +442,16 @@ func NewApp(
 		authAddr,
 	)
 
+	// PermissionKeeper hosts per-module grant namespaces. Consuming modules
+	// register their namespace specs (permission vocabulary, scope validator)
+	// here during wiring.
+	app.PermissionKeeper = permissionkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[permissiontypes.StoreKey]),
+		logger,
+		authAddr,
+	)
+
 	// Set up EVM keeper
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
 
@@ -567,6 +582,7 @@ func NewApp(
 		precisebank.NewAppModule(app.PreciseBankKeeper, app.BankKeeper, app.AccountKeeper),
 		// Custom modules
 		license.NewAppModule(appCodec, app.LicenseKeeper),
+		permission.NewAppModule(appCodec, app.PermissionKeeper),
 	)
 
 	app.BasicModuleManager = module.NewBasicManagerFromManager(
@@ -625,8 +641,11 @@ func NewApp(
 		erc20types.ModuleName,
 		precisebanktypes.ModuleName,
 		ibctransfertypes.ModuleName,
-		// Custom modules
+		// Custom modules. The permission module initializes after license so
+		// grant scopes that reference license state (e.g. license type ids)
+		// can be validated against it on import.
 		licensetypes.ModuleName,
+		permissiontypes.ModuleName,
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
 		feegrant.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
 	}
