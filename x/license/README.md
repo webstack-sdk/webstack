@@ -152,10 +152,11 @@ webstackd tx license create-license-type node.license true 1000 --from owner
 ```
 
 ### MsgUpdateLicenseType
-Update an existing license type. Cannot set `max_supply` below `issued_count`.
+Update an existing license type's transferrability. `max_supply` is fixed at
+creation and cannot be changed.
 
 ```bash
-webstackd tx license update-license-type node.license true 2000 --from owner
+webstackd tx license update-license-type node.license true --from owner
 ```
 
 ### MsgIssueLicenses

@@ -57,7 +57,7 @@ func (msg *MsgUpdateLicenseType) ValidateBasic() error {
 	if msg.Id == "" {
 		return ErrEmptyLicenseTypeID
 	}
-	return ValidateMaxSupply(msg.MaxSupply)
+	return nil
 }
 
 func ValidateMaxSupply(v math.Int) error {

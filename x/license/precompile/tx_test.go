@@ -90,17 +90,18 @@ func TestTxUpdateLicenseType(t *testing.T) {
 		f.newContract(f.OwnerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"type.a", false, big.NewInt(200)},
+		[]interface{}{"type.a", false},
 	)
 	require.NoError(t, err)
 	out, err := method.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	require.True(t, out[0].(bool))
 
+	// Transferrability toggled; max_supply keeps its creation-time value.
 	lt, err := f.keeper.LicenseTypes.Get(f.ctx, "type.a")
 	require.NoError(t, err)
 	require.False(t, lt.Transferrable)
-	require.Equal(t, "200", lt.MaxSupply.String())
+	require.Equal(t, "100", lt.MaxSupply.String())
 }
 
 func TestTxIssueLicenses(t *testing.T) {

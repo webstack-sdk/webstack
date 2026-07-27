@@ -53,7 +53,7 @@ Each entry is colon-delimited:
 The end_date is optional. If omitted, the license has no expiry.
 
 Example:
-  webstackd tx licenses issue-licenses \
+  webstackd tx license issue-licenses \
     node.license:webstack1abc...:1:2025-01-01:2026-01-01 \
     validator.license:webstack1def...:3:2025-01-01 \
     --from admin --gas auto --fees 100000aatom -y`,
@@ -132,7 +132,7 @@ The most recently issued active licenses are revoked first. Their status is set 
 and end_date is set to the current block date.
 
 Example:
-  webstackd tx licenses revoke-licenses node.license webstack1abc... 2 \
+  webstackd tx license revoke-licenses node.license webstack1abc... 2 \
     --from admin --gas auto --fees 100000aatom -y`,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {

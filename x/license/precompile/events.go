@@ -57,7 +57,7 @@ func (p Precompile) EmitLicenseTypeCreated(ctx sdk.Context, stateDB vm.StateDB, 
 }
 
 // EmitLicenseTypeUpdated emits the LicenseTypeUpdated event.
-func (p Precompile) EmitLicenseTypeUpdated(ctx sdk.Context, stateDB vm.StateDB, id string, transferrable bool, maxSupply *big.Int) error {
+func (p Precompile) EmitLicenseTypeUpdated(ctx sdk.Context, stateDB vm.StateDB, id string, transferrable bool) error {
 	event := p.Events[EventTypeLicenseTypeUpdated]
 
 	idTopic, err := cmn.MakeTopic(id)
@@ -65,7 +65,7 @@ func (p Precompile) EmitLicenseTypeUpdated(ctx sdk.Context, stateDB vm.StateDB, 
 		return err
 	}
 
-	data, err := packArgs(event, transferrable, maxSupply)
+	data, err := packArgs(event, transferrable)
 	if err != nil {
 		return err
 	}

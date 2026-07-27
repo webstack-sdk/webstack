@@ -79,21 +79,13 @@ func (ms msgServer) UpdateLicenseType(ctx context.Context, msg *types.MsgUpdateL
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the license namespace owner", msg.Owner)
 	}
 
-	if err := types.ValidateMaxSupply(msg.MaxSupply); err != nil {
-		return nil, err
-	}
-
 	lt, err := ms.k.LicenseTypes.Get(ctx, msg.Id)
 	if err != nil {
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", msg.Id)
 	}
 
-	if !msg.MaxSupply.IsZero() && lt.IssuedCount.GT(msg.MaxSupply) {
-		return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "cannot set max_supply to %s: %s licenses already issued", msg.MaxSupply.String(), lt.IssuedCount.String())
-	}
-
+	// Only transferrability is updatable; max_supply is fixed at creation.
 	lt.Transferrable = msg.Transferrable
-	lt.MaxSupply = msg.MaxSupply
 
 	if err := ms.k.LicenseTypes.Set(ctx, msg.Id, lt); err != nil {
 		return nil, err
@@ -236,7 +228,9 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 	// The index holds active licenses only, so no per-entry status check is
 	// needed.
 	rng := collections.NewSuperPrefixedTripleRangeReversed[string, string, uint64](msg.Holder, msg.LicenseTypeId)
-	activeIDs := make([]uint64, 0, count)
+	// Do not preallocate from count: it is raw user input and may vastly
+	// exceed the holder's actual holdings.
+	var activeIDs []uint64
 	err = ms.k.ActiveLicensesByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64]) (bool, error) {
 		activeIDs = append(activeIDs, key.K3())
 		return uint64(len(activeIDs)) >= count, nil

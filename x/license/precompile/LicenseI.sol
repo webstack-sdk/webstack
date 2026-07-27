@@ -53,7 +53,7 @@ interface LicenseI {
     event LicenseTypeCreated(string indexed id, bool transferrable, uint256 maxSupply);
 
     /// @dev Emitted when a license type is updated.
-    event LicenseTypeUpdated(string indexed id, bool transferrable, uint256 maxSupply);
+    event LicenseTypeUpdated(string indexed id, bool transferrable);
 
     /// @dev Emitted when one or more licenses of a single type are issued to a holder.
     event LicenseIssued(
@@ -90,11 +90,11 @@ interface LicenseI {
         uint256 maxSupply
     ) external returns (bool success);
 
-    /// @dev Update an existing license type. Caller must be the license namespace owner.
+    /// @dev Update an existing license type's transferrability. Max supply is
+    ///      fixed at creation. Caller must be the license namespace owner.
     function updateLicenseType(
         string calldata id,
-        bool transferrable,
-        uint256 maxSupply
+        bool transferrable
     ) external returns (bool success);
 
     /// @dev Issue licenses for each entry. Each entry names its own license

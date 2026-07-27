@@ -692,37 +692,19 @@ func TestUpdateLicenseType(t *testing.T) {
 	}{
 		{
 			name:      "non-owner",
-			input:     &types.MsgUpdateLicenseType{Owner: sample.AccAddress(), Id: "lt1", Transferrable: true, MaxSupply: math.NewInt(200)},
+			input:     &types.MsgUpdateLicenseType{Owner: sample.AccAddress(), Id: "lt1", Transferrable: true},
 			expErr:    true,
 			expErrMsg: "not the license namespace owner",
 		},
 		{
 			name:      "not found",
-			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "missing", Transferrable: true, MaxSupply: math.NewInt(200)},
+			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "missing", Transferrable: true},
 			expErr:    true,
 			expErrMsg: "not found",
 		},
 		{
-			name:      "max_supply below issued_count",
-			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true, MaxSupply: math.NewInt(3)},
-			expErr:    true,
-			expErrMsg: "cannot set max_supply",
-		},
-		{
-			name:      "negative max_supply",
-			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true, MaxSupply: math.NewInt(-1)},
-			expErr:    true,
-			expErrMsg: "max_supply must not be negative",
-		},
-		{
-			name:      "nil max_supply",
-			input:     &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true},
-			expErr:    true,
-			expErrMsg: "max_supply must be set",
-		},
-		{
 			name:   "valid update",
-			input:  &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true, MaxSupply: math.NewInt(200)},
+			input:  &types.MsgUpdateLicenseType{Owner: owner, Id: "lt1", Transferrable: true},
 			expErr: false,
 		},
 	}
@@ -738,4 +720,11 @@ func TestUpdateLicenseType(t *testing.T) {
 			}
 		})
 	}
+
+	// The update only toggles transferrability; max_supply keeps its
+	// creation-time value.
+	lt, err := f.Keeper.LicenseTypes.Get(ctx, "lt1")
+	require.NoError(t, err)
+	require.True(t, lt.Transferrable)
+	require.Equal(t, "100", lt.MaxSupply.String())
 }

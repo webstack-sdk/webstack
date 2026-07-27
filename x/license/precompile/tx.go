@@ -81,7 +81,7 @@ func (p Precompile) UpdateLicenseType(
 	method *abi.Method,
 	args []interface{},
 ) ([]byte, error) {
-	if err := argCount(args, 3); err != nil {
+	if err := argCount(args, 2); err != nil {
 		return nil, err
 	}
 	id, err := argToString(args[0], "id")
@@ -89,10 +89,6 @@ func (p Precompile) UpdateLicenseType(
 		return nil, err
 	}
 	transferrable, err := argToBool(args[1], "transferrable")
-	if err != nil {
-		return nil, err
-	}
-	maxSupply, err := argToBigInt(args[2], "maxSupply")
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +102,6 @@ func (p Precompile) UpdateLicenseType(
 		Owner:         owner,
 		Id:            id,
 		Transferrable: transferrable,
-		MaxSupply:     math.NewIntFromBigInt(maxSupply),
 	}
 
 	if err := msg.ValidateBasic(); err != nil {
@@ -117,7 +112,7 @@ func (p Precompile) UpdateLicenseType(
 		return nil, err
 	}
 
-	if err := p.EmitLicenseTypeUpdated(ctx, stateDB, id, transferrable, maxSupply); err != nil {
+	if err := p.EmitLicenseTypeUpdated(ctx, stateDB, id, transferrable); err != nil {
 		return nil, err
 	}
 
