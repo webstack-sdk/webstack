@@ -20,8 +20,9 @@ BASEFEE=10000000
 # (see config/config.go); declared here so the script and downstream tooling agree
 # on it. Update both this var AND the Go side if the prefix ever changes.
 BECH32_PREFIX="webstack"
-# Bech32 address that owns the x/license module in genesis. The owner is the
-# only signer allowed to create license types and grant permissions.
+# Bech32 address that owns the "license" namespace in the x/permission module
+# at genesis. The owner is the only signer allowed to create license types and
+# grant permissions.
 LICENSES_OWNER="webstack1trg2p4ugswx8p0ywqpg2wrhgddknh0jqq6jxta"
 
 CONFIG_TOML="$CHAINDIR/config/config.toml"
@@ -144,8 +145,11 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
     "enabled": true
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
-  # Set license module owner
-  jq '.app_state["license"]["params"]["owner"]="'"$LICENSES_OWNER"'"' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+  # Create the license namespace in the x/permission module and set its owner
+  jq '.app_state["permission"]["namespaces"]=[{
+    "module": "license",
+    "owner": "'"$LICENSES_OWNER"'"
+  }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # Seed the webstack.node license type. max_supply="0" means unlimited.
   jq '.app_state["license"]["license_types"]=[{
@@ -159,13 +163,10 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
 
   # Grant the owner issue+revoke rights over webstack.node so the testnet
   # can mint and revoke licenses from genesis without an extra grant-permissions tx.
-  jq '.app_state["license"]["permissions"]=[{
-    "address": "'"$LICENSES_OWNER"'",
-    "grants": [
-      { "permission": "PERMISSION_ISSUE",  "license_types": ["webstack.node"] },
-      { "permission": "PERMISSION_REVOKE", "license_types": ["webstack.node"] }
-    ]
-  }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+  jq '.app_state["permission"]["grants"]=[
+    { "module": "license", "grantee": "'"$LICENSES_OWNER"'", "permission": "issue",  "scope": "webstack.node" },
+    { "module": "license", "grantee": "'"$LICENSES_OWNER"'", "permission": "revoke", "scope": "webstack.node" }
+  ]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # Block gas limit
   jq '.consensus.params.block.max_gas="10000000"' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"

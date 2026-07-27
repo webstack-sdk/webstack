@@ -11,11 +11,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			Service: modulev1.Query_ServiceDesc.ServiceName,
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
 				{
-					RpcMethod: "Params",
-					Use:       "params",
-					Short:     "Query the licenses module parameters",
-				},
-				{
 					RpcMethod: "LicenseType",
 					Use:       "license-type [id]",
 					Short:     "Query a license type by id",
@@ -67,27 +62,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "type_id"},
 					},
 				},
-				{
-					RpcMethod: "PermissionsByAddress",
-					Use:       "permissions-by-address [address]",
-					Short:     "Query permission grants for an address",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "address"},
-					},
-				},
-				{
-					RpcMethod: "Permissions",
-					Use:       "permissions",
-					Short:     "Query permission grants of every address",
-				},
-				{
-					RpcMethod: "PermissionsByLicenseType",
-					Use:       "permissions-by-license-type [license-type-id]",
-					Short:     "Query permission grants for a license type",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "license_type_id"},
-					},
-				},
 			},
 		},
 		Tx: &autocliv1.ServiceCommandDescriptor{
@@ -99,7 +73,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "create-license-type [id] [transferrable]",
 					Short:     "Create a new license type",
 					Long:      "Create a new license type. Use --max-supply to limit the number of licenses (default 0 = unlimited).",
-					Example:   "webstackd tx licenses create-license-type node.license true --max-supply 1000 --from owner",
+					Example:   "webstackd tx license create-license-type node.license true --max-supply 1000 --from owner",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "id"},
 						{ProtoField: "transferrable"},
@@ -110,16 +84,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "UpdateLicenseType",
-					Use:       "update-license-type [id]",
-					Short:     "Update a license type",
-					Long:      "Update a license type's transferrability and/or max supply.",
-					Example:   "webstackd tx licenses update-license-type node.license --transferrable true --max-supply 2000 --from owner",
+					Use:       "update-license-type [id] [transferrable]",
+					Short:     "Update a license type's transferrability",
+					Long:      "Update whether licenses of a type can be transferred. Max supply is fixed at creation and cannot be changed.",
+					Example:   "webstackd tx license update-license-type node.license true --from owner",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "id"},
-					},
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"transferrable": {Name: "transferrable", Usage: "whether licenses of this type can be transferred"},
-						"max_supply":    {Name: "max-supply", DefaultValue: "0", Usage: "maximum number of licenses (0 = unlimited)"},
+						{ProtoField: "transferrable"},
 					},
 				},
 				{
@@ -141,18 +112,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "id"},
 						{ProtoField: "recipient"},
 					},
-				},
-				{
-					RpcMethod: "UpdateParams",
-					Skip:      true,
-				},
-				{
-					RpcMethod: "GrantPermissions",
-					Skip:      true,
-				},
-				{
-					RpcMethod: "RevokePermissions",
-					Skip:      true,
 				},
 				{
 					// Handled by the custom CmdIssueLicenses command; the

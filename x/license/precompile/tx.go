@@ -17,8 +17,6 @@ import (
 const (
 	CreateLicenseTypeMethod = "createLicenseType"
 	UpdateLicenseTypeMethod = "updateLicenseType"
-	GrantPermissionsMethod  = "grantPermissions"
-	RevokePermissionsMethod = "revokePermissions"
 	IssueLicensesMethod     = "issueLicenses"
 	RevokeLicensesMethod    = "revokeLicenses"
 	TransferLicenseMethod   = "transferLicense"
@@ -83,7 +81,7 @@ func (p Precompile) UpdateLicenseType(
 	method *abi.Method,
 	args []interface{},
 ) ([]byte, error) {
-	if err := argCount(args, 3); err != nil {
+	if err := argCount(args, 2); err != nil {
 		return nil, err
 	}
 	id, err := argToString(args[0], "id")
@@ -91,10 +89,6 @@ func (p Precompile) UpdateLicenseType(
 		return nil, err
 	}
 	transferrable, err := argToBool(args[1], "transferrable")
-	if err != nil {
-		return nil, err
-	}
-	maxSupply, err := argToBigInt(args[2], "maxSupply")
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +102,6 @@ func (p Precompile) UpdateLicenseType(
 		Owner:         owner,
 		Id:            id,
 		Transferrable: transferrable,
-		MaxSupply:     math.NewIntFromBigInt(maxSupply),
 	}
 
 	if err := msg.ValidateBasic(); err != nil {
@@ -119,133 +112,7 @@ func (p Precompile) UpdateLicenseType(
 		return nil, err
 	}
 
-	if err := p.EmitLicenseTypeUpdated(ctx, stateDB, id, transferrable, maxSupply); err != nil {
-		return nil, err
-	}
-
-	return method.Outputs.Pack(true)
-}
-
-// GrantPermissions handles the grantPermissions ABI method.
-func (p Precompile) GrantPermissions(
-	ctx sdk.Context,
-	contract *vm.Contract,
-	stateDB vm.StateDB,
-	method *abi.Method,
-	args []interface{},
-) ([]byte, error) {
-	if err := argCount(args, 2); err != nil {
-		return nil, err
-	}
-	adminHex, err := argToAddress(args[0], "admin")
-	if err != nil {
-		return nil, err
-	}
-
-	rawGrants, ok := args[1].([]PermissionGrantArg)
-	if !ok {
-		return nil, fmt.Errorf("invalid type for grants: expected PermissionGrant[], got %T", args[1])
-	}
-
-	owner, err := hexToBech32(p.addrCdc, contract.Caller())
-	if err != nil {
-		return nil, err
-	}
-	adminBech, err := hexToBech32(p.addrCdc, adminHex)
-	if err != nil {
-		return nil, err
-	}
-
-	grants := make([]licensetypes.PermissionGrant, 0, len(rawGrants))
-	for i, g := range rawGrants {
-		perm, err := licensetypes.ParsePermission(g.Permission)
-		if err != nil {
-			return nil, fmt.Errorf("grant %d: %w", i, err)
-		}
-		grants = append(grants, licensetypes.PermissionGrant{
-			Permission:   perm,
-			LicenseTypes: append([]string{}, g.LicenseTypes...),
-		})
-	}
-
-	msg := &licensetypes.MsgGrantPermissions{
-		Owner:   owner,
-		Address: adminBech,
-		Grants:  grants,
-	}
-
-	if err := msg.ValidateBasic(); err != nil {
-		return nil, err
-	}
-
-	if _, err := p.msgServer.GrantPermissions(ctx, msg); err != nil {
-		return nil, err
-	}
-
-	if err := p.EmitPermissionsGranted(ctx, stateDB, adminHex); err != nil {
-		return nil, err
-	}
-
-	return method.Outputs.Pack(true)
-}
-
-// RevokePermissions handles the revokePermissions ABI method.
-func (p Precompile) RevokePermissions(
-	ctx sdk.Context,
-	contract *vm.Contract,
-	stateDB vm.StateDB,
-	method *abi.Method,
-	args []interface{},
-) ([]byte, error) {
-	if err := argCount(args, 2); err != nil {
-		return nil, err
-	}
-	adminHex, err := argToAddress(args[0], "admin")
-	if err != nil {
-		return nil, err
-	}
-
-	rawPerms, ok := args[1].([]PermissionPairArg)
-	if !ok {
-		return nil, fmt.Errorf("invalid type for permissions: expected PermissionPair[], got %T", args[1])
-	}
-
-	owner, err := hexToBech32(p.addrCdc, contract.Caller())
-	if err != nil {
-		return nil, err
-	}
-	adminBech, err := hexToBech32(p.addrCdc, adminHex)
-	if err != nil {
-		return nil, err
-	}
-
-	perms := make([]licensetypes.PermissionPair, 0, len(rawPerms))
-	for i, pp := range rawPerms {
-		perm, err := licensetypes.ParsePermission(pp.Permission)
-		if err != nil {
-			return nil, fmt.Errorf("pair %d: %w", i, err)
-		}
-		perms = append(perms, licensetypes.PermissionPair{
-			LicenseTypeId: pp.LicenseTypeId,
-			Permission:    perm,
-		})
-	}
-
-	msg := &licensetypes.MsgRevokePermissions{
-		Owner:       owner,
-		Address:     adminBech,
-		Permissions: perms,
-	}
-
-	if err := msg.ValidateBasic(); err != nil {
-		return nil, err
-	}
-
-	if _, err := p.msgServer.RevokePermissions(ctx, msg); err != nil {
-		return nil, err
-	}
-
-	if err := p.EmitPermissionsRevoked(ctx, stateDB, adminHex); err != nil {
+	if err := p.EmitLicenseTypeUpdated(ctx, stateDB, id, transferrable); err != nil {
 		return nil, err
 	}
 

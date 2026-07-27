@@ -1,0 +1,14 @@
+syntax = "proto3";
+package permission.v1;
+
+import "gogoproto/gogo.proto";
+import "permission/v1/permission.proto";
+
+option go_package = "github.com/webstack-sdk/webstack/x/permission/types";
+
+// GenesisState defines the permission module's genesis state. The module has
+// no params: ownership lives on each namespace.
+message GenesisState {
+  repeated Namespace namespaces = 1 [(gogoproto.nullable) = false];
+  repeated Grant grants = 2 [(gogoproto.nullable) = false];
+}

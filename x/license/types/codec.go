@@ -8,10 +8,7 @@ import (
 )
 
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgUpdateParams{}, "webstack/x/license/MsgUpdateParams", nil)
 	cdc.RegisterConcrete(&MsgCreateLicenseType{}, "webstack/x/license/MsgCreateLicenseType", nil)
-	cdc.RegisterConcrete(&MsgGrantPermissions{}, "webstack/x/license/MsgGrantPermissions", nil)
-	cdc.RegisterConcrete(&MsgRevokePermissions{}, "webstack/x/license/MsgRevokePermissions", nil)
 	cdc.RegisterConcrete(&MsgIssueLicenses{}, "webstack/x/license/MsgIssueLicenses", nil)
 	cdc.RegisterConcrete(&MsgRevokeLicenses{}, "webstack/x/license/MsgRevokeLicenses", nil)
 	cdc.RegisterConcrete(&MsgTransferLicense{}, "webstack/x/license/MsgTransferLicense", nil)
@@ -20,10 +17,7 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgUpdateParams{},
 		&MsgCreateLicenseType{},
-		&MsgGrantPermissions{},
-		&MsgRevokePermissions{},
 		&MsgIssueLicenses{},
 		&MsgRevokeLicenses{},
 		&MsgTransferLicense{},

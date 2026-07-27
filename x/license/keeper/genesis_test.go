@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"cosmossdk.io/math"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
@@ -20,10 +19,8 @@ import (
 // AppModule.ValidateGenesis.
 func TestInitGenesisRunsFullValidation(t *testing.T) {
 	k, ctx := keepertest.LicenseKeeper(t)
-	owner := k.GetParams(ctx).Owner
 
 	bad := &types.GenesisState{
-		Params: types.Params{Owner: owner},
 		LicenseTypes: []types.LicenseType{
 			{
 				Id:           "neg",
@@ -40,30 +37,24 @@ func TestInitGenesisRunsFullValidation(t *testing.T) {
 	require.Contains(t, err.Error(), "max_supply must not be negative")
 }
 
-// TestGenesisRoundTripPermissionsAndActiveIndex verifies that admin grants
-// survive a genesis export/import through the flat Permissions keyset, and
-// that the holder index is rebuilt for active licenses only.
-func TestGenesisRoundTripPermissionsAndActiveIndex(t *testing.T) {
-	src, srcGoCtx := keepertest.LicenseKeeper(t)
+// TestGenesisRoundTripActiveIndex verifies that the holder index is rebuilt
+// for active licenses only, and that revoked licenses keep their status and
+// revoked_date through an export/import cycle.
+func TestGenesisRoundTripActiveIndex(t *testing.T) {
+	src := keepertest.NewLicenseFixture(t)
 	// Revocation stamps revoked_date with the block date; use a realistic
 	// block time so the exported dates are meaningful.
-	srcCtx := sdk.UnwrapSDKContext(srcGoCtx).WithBlockTime(time.Date(2026, 7, 1, 0, 0, 0, 0, time.UTC))
-	owner := src.GetParams(srcCtx).Owner
+	srcCtx := src.Ctx.WithBlockTime(time.Date(2026, 7, 1, 0, 0, 0, 0, time.UTC))
+	owner := src.Owner
 	holder := sample.AccAddress()
-	ms := keeper.NewMsgServerImpl(src)
+	ms := keeper.NewMsgServerImpl(src.Keeper)
 
 	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
 		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantPermissions(srcCtx, &types.MsgGrantPermissions{
-		Owner: owner, Address: owner,
-		Grants: []types.PermissionGrant{
-			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
-			{Permission: types.PermissionRevoke, LicenseTypes: []string{"node"}},
-		},
-	})
-	require.NoError(t, err)
+	src.Grant(t, owner, types.PermissionIssue, "node")
+	src.Grant(t, owner, types.PermissionRevoke, "node")
 
 	resp, err := ms.IssueLicenses(srcCtx, &types.MsgIssueLicenses{
 		Issuer: owner, Entries: []types.IssueLicenseEntry{
@@ -79,18 +70,10 @@ func TestGenesisRoundTripPermissionsAndActiveIndex(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, []uint64{3}, revResp.Ids, "most recently issued license is revoked first")
 
-	exported := src.ExportGenesis(srcCtx)
+	exported := src.Keeper.ExportGenesis(srcCtx)
 
 	dst, dstCtx := keepertest.LicenseKeeper(t)
 	require.NoError(t, dst.InitGenesis(dstCtx, exported))
-
-	// Admin grants survive the flat round-trip.
-	require.True(t, dst.HasPermission(dstCtx, owner, types.PermissionIssue, "node"))
-	require.True(t, dst.HasPermission(dstCtx, owner, types.PermissionRevoke, "node"))
-	ak, found, err := dst.GetPermissionsByAddress(dstCtx, owner)
-	require.NoError(t, err)
-	require.True(t, found)
-	require.Len(t, ak.Grants, 2)
 
 	// The holder index is rebuilt for active licenses only.
 	q := setupQuerier(dst)
@@ -113,22 +96,17 @@ func TestGenesisRoundTripPermissionsAndActiveIndex(t *testing.T) {
 // issued_count must survive export/import unchanged instead of being
 // re-derived from the stats counter.
 func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
-	src, srcCtx := keepertest.LicenseKeeper(t)
-	owner := src.GetParams(srcCtx).Owner
+	src := keepertest.NewLicenseFixture(t)
+	srcCtx := src.Ctx
+	owner := src.Owner
 	holder := sample.AccAddress()
-	ms := keeper.NewMsgServerImpl(src)
+	ms := keeper.NewMsgServerImpl(src.Keeper)
 
 	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
 		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
-	_, err = ms.GrantPermissions(srcCtx, &types.MsgGrantPermissions{
-		Owner: owner, Address: owner,
-		Grants: []types.PermissionGrant{
-			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
-		},
-	})
-	require.NoError(t, err)
+	src.Grant(t, owner, types.PermissionIssue, "node")
 	_, err = ms.IssueLicenses(srcCtx, &types.MsgIssueLicenses{
 		Issuer: owner, Entries: []types.IssueLicenseEntry{
 			{LicenseTypeId: "node", Holder: holder, StartDate: "2026-01-01", Count: 2},
@@ -138,18 +116,21 @@ func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
 
 	// Bump the sequence past issued_count (2) to simulate the concepts
 	// diverging.
-	require.NoError(t, src.LicenseCounts.Set(srcCtx, "node", 10))
+	require.NoError(t, src.Keeper.LicenseCounts.Set(srcCtx, "node", 10))
 
-	exported := src.ExportGenesis(srcCtx)
+	exported := src.Keeper.ExportGenesis(srcCtx)
 	require.Equal(t, []types.LicenseCount{{LicenseTypeId: "node", Count: 10}}, exported.LicenseCounts)
 
-	dst, dstCtx := keepertest.LicenseKeeper(t)
-	require.NoError(t, dst.InitGenesis(dstCtx, exported))
+	dst := keepertest.NewLicenseFixture(t)
+	require.NoError(t, dst.Keeper.InitGenesis(dst.Ctx, exported))
+	// License grants live in the permission module, not license genesis; the
+	// destination chain needs its own grant for the issuer.
+	dst.Grant(t, owner, types.PermissionIssue, "node")
 
 	// The next issued id continues from the explicit counter, not from
 	// issued_count.
-	dstMs := keeper.NewMsgServerImpl(dst)
-	resp, err := dstMs.IssueLicenses(dstCtx, &types.MsgIssueLicenses{
+	dstMs := keeper.NewMsgServerImpl(dst.Keeper)
+	resp, err := dstMs.IssueLicenses(dst.Ctx, &types.MsgIssueLicenses{
 		Issuer: owner, Entries: []types.IssueLicenseEntry{
 			{LicenseTypeId: "node", Holder: holder, StartDate: "2026-02-01", Count: 1},
 		},
@@ -164,11 +145,12 @@ func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
 func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	// Source keeper: create a license type, issue a handful of licenses,
 	// then export the genesis state.
-	src, srcCtx := keepertest.LicenseKeeper(t)
-	owner := src.GetParams(srcCtx).Owner
+	src := keepertest.NewLicenseFixture(t)
+	srcCtx := src.Ctx
+	owner := src.Owner
 	holder := sample.AccAddress()
 
-	ms := keeper.NewMsgServerImpl(src)
+	ms := keeper.NewMsgServerImpl(src.Keeper)
 
 	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
 		Owner:         owner,
@@ -178,14 +160,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	_, err = ms.GrantPermissions(srcCtx, &types.MsgGrantPermissions{
-		Owner:   owner,
-		Address: owner,
-		Grants: []types.PermissionGrant{
-			{Permission: types.PermissionIssue, LicenseTypes: []string{"node"}},
-		},
-	})
-	require.NoError(t, err)
+	src.Grant(t, owner, types.PermissionIssue, "node")
 
 	resp, err := ms.IssueLicenses(srcCtx, &types.MsgIssueLicenses{
 		Issuer: owner,
@@ -196,23 +171,25 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, []uint64{1, 2, 3, 4, 5}, resp.Ids)
 
-	exported := src.ExportGenesis(srcCtx)
+	exported := src.Keeper.ExportGenesis(srcCtx)
 
 	// Destination keeper: a fresh store, then InitGenesis with the exported
 	// state. The genesis must include the existing license type and its
 	// counters, so the next issued ID is 6, not 1.
-	dst, dstCtx := keepertest.LicenseKeeper(t)
-	require.NoError(t, dst.InitGenesis(dstCtx, exported))
+	dst := keepertest.NewLicenseFixture(t)
+	dstCtx := dst.Ctx
+	require.NoError(t, dst.Keeper.InitGenesis(dstCtx, exported))
+	dst.Grant(t, owner, types.PermissionIssue, "node")
 
 	// Sanity: the imported license type's IssuedCount survived.
-	lt, found, err := dst.GetLicenseType(dstCtx, "node")
+	lt, found, err := dst.Keeper.GetLicenseType(dstCtx, "node")
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, math.NewInt(5), lt.IssuedCount, "IssuedCount must survive genesis import")
 
 	// Sanity: the imported licenses survived.
 	for _, id := range resp.Ids {
-		l, ok, err := dst.GetLicense(dstCtx, "node", id)
+		l, ok, err := dst.Keeper.GetLicense(dstCtx, "node", id)
 		require.NoError(t, err)
 		require.True(t, ok, "license id %d must exist after import", id)
 		require.Equal(t, holder, l.Holder)
@@ -220,7 +197,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 
 	// The bug: nextLicenseID resets to 0 because LicenseCounts isn't
 	// restored, so issuing returns id=1 and overwrites the existing one.
-	dstMs := keeper.NewMsgServerImpl(dst)
+	dstMs := keeper.NewMsgServerImpl(dst.Keeper)
 	newHolder := sample.AccAddress()
 	issueResp, err := dstMs.IssueLicenses(dstCtx, &types.MsgIssueLicenses{
 		Issuer: owner,
@@ -236,7 +213,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 
 	// And the imported holder's licenses must still all be theirs (i.e., the
 	// new issuance didn't overwrite license 1).
-	l1, ok, err := dst.GetLicense(dstCtx, "node", 1)
+	l1, ok, err := dst.Keeper.GetLicense(dstCtx, "node", 1)
 	require.NoError(t, err)
 	require.True(t, ok)
 	require.Equal(t, holder, l1.Holder, "imported license 1 must not have been overwritten")

@@ -1,0 +1,41 @@
+syntax = "proto3";
+package permission.v1;
+
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "github.com/webstack-sdk/webstack/x/permission/types";
+
+// Namespace is the per-module grant domain. Each consuming module owns exactly
+// one namespace, keyed by its module name; the namespace owner is the address
+// allowed to grant and revoke permissions within it.
+message Namespace {
+  // module is the consuming module's name (e.g. "license").
+  string module = 1;
+  // owner is the address that controls grants within this namespace.
+  string owner = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// Grant is a single (module, grantee, permission, scope) entry — the flat form
+// stored in state and served by queries and genesis. The permission vocabulary
+// is registered in-process by the consuming module; scope is an opaque
+// resource identifier owned by that module (e.g. a license type id) and may be
+// empty for namespaces that do not scope their permissions.
+message Grant {
+  string module = 1;
+  string grantee = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string permission = 3;
+  string scope = 4;
+}
+
+// PermissionScopes is one grant entry within a MsgGrantPermissions: a single
+// permission applied to a set of scopes.
+message PermissionScopes {
+  string permission = 1;
+  repeated string scopes = 2;
+}
+
+// PermissionScope identifies a single (permission, scope) pair to revoke.
+message PermissionScope {
+  string permission = 1;
+  string scope = 2;
+}

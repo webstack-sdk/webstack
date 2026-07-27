@@ -106,31 +106,6 @@ func TestLicenseToOutput(t *testing.T) {
 	require.Equal(t, "active", out.Status)
 }
 
-// TestAddressPermissionsToOutput copies grants and converts the admin bech32 to its EVM form.
-func TestAddressPermissionsToOutput(t *testing.T) {
-	cdc := addrCodec(t)
-	hex := common.HexToAddress("0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-	bech, err := hexToBech32(cdc, hex)
-	require.NoError(t, err)
-
-	ak := licensetypes.AddressPermissions{
-		Address: bech,
-		Grants: []licensetypes.PermissionGrant{
-			{Permission: licensetypes.PermissionIssue, LicenseTypes: []string{"a", "b"}},
-			{Permission: licensetypes.PermissionRevoke, LicenseTypes: []string{"a"}},
-		},
-	}
-
-	out, err := addressPermissionsToOutput(ak)
-	require.NoError(t, err)
-	require.Equal(t, hex, out.Grantee)
-	require.Len(t, out.Grants, 2)
-	require.Equal(t, "issue", out.Grants[0].Permission)
-	require.Equal(t, []string{"a", "b"}, out.Grants[0].LicenseTypes)
-	require.Equal(t, "revoke", out.Grants[1].Permission)
-	require.Equal(t, []string{"a"}, out.Grants[1].LicenseTypes)
-}
-
 // TestArgCount accepts the exact count and rejects everything else.
 func TestArgCount(t *testing.T) {
 	require.NoError(t, argCount([]interface{}{}, 0))

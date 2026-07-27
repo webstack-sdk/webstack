@@ -8,7 +8,6 @@ import (
 	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
 	query "github.com/cosmos/cosmos-sdk/types/query"
-	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/cosmos/gogoproto/proto"
@@ -32,88 +31,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// QueryParamsRequest is the request type for the Query/Params RPC method.
-type QueryParamsRequest struct {
-}
-
-func (m *QueryParamsRequest) Reset()         { *m = QueryParamsRequest{} }
-func (m *QueryParamsRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryParamsRequest) ProtoMessage()    {}
-func (*QueryParamsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{0}
-}
-func (m *QueryParamsRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryParamsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryParamsRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryParamsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryParamsRequest.Merge(m, src)
-}
-func (m *QueryParamsRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryParamsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryParamsRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryParamsRequest proto.InternalMessageInfo
-
-// QueryParamsResponse is the response type for the Query/Params RPC method.
-type QueryParamsResponse struct {
-	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
-}
-
-func (m *QueryParamsResponse) Reset()         { *m = QueryParamsResponse{} }
-func (m *QueryParamsResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryParamsResponse) ProtoMessage()    {}
-func (*QueryParamsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{1}
-}
-func (m *QueryParamsResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryParamsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryParamsResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryParamsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryParamsResponse.Merge(m, src)
-}
-func (m *QueryParamsResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryParamsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryParamsResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryParamsResponse proto.InternalMessageInfo
-
-func (m *QueryParamsResponse) GetParams() Params {
-	if m != nil {
-		return m.Params
-	}
-	return Params{}
-}
-
 // QueryLicenseTypeRequest is the request type for the Query/LicenseType RPC method.
 type QueryLicenseTypeRequest struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -123,7 +40,7 @@ func (m *QueryLicenseTypeRequest) Reset()         { *m = QueryLicenseTypeRequest
 func (m *QueryLicenseTypeRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicenseTypeRequest) ProtoMessage()    {}
 func (*QueryLicenseTypeRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{2}
+	return fileDescriptor_123a6d691ebc3102, []int{0}
 }
 func (m *QueryLicenseTypeRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -168,7 +85,7 @@ func (m *QueryLicenseTypeResponse) Reset()         { *m = QueryLicenseTypeRespon
 func (m *QueryLicenseTypeResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicenseTypeResponse) ProtoMessage()    {}
 func (*QueryLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{3}
+	return fileDescriptor_123a6d691ebc3102, []int{1}
 }
 func (m *QueryLicenseTypeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -213,7 +130,7 @@ func (m *QueryLicenseTypesRequest) Reset()         { *m = QueryLicenseTypesReque
 func (m *QueryLicenseTypesRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicenseTypesRequest) ProtoMessage()    {}
 func (*QueryLicenseTypesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{4}
+	return fileDescriptor_123a6d691ebc3102, []int{2}
 }
 func (m *QueryLicenseTypesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -259,7 +176,7 @@ func (m *QueryLicenseTypesResponse) Reset()         { *m = QueryLicenseTypesResp
 func (m *QueryLicenseTypesResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicenseTypesResponse) ProtoMessage()    {}
 func (*QueryLicenseTypesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{5}
+	return fileDescriptor_123a6d691ebc3102, []int{3}
 }
 func (m *QueryLicenseTypesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -312,7 +229,7 @@ func (m *QueryLicenseRequest) Reset()         { *m = QueryLicenseRequest{} }
 func (m *QueryLicenseRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicenseRequest) ProtoMessage()    {}
 func (*QueryLicenseRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{6}
+	return fileDescriptor_123a6d691ebc3102, []int{4}
 }
 func (m *QueryLicenseRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -364,7 +281,7 @@ func (m *QueryLicenseResponse) Reset()         { *m = QueryLicenseResponse{} }
 func (m *QueryLicenseResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicenseResponse) ProtoMessage()    {}
 func (*QueryLicenseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{7}
+	return fileDescriptor_123a6d691ebc3102, []int{5}
 }
 func (m *QueryLicenseResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -409,7 +326,7 @@ func (m *QueryLicensesRequest) Reset()         { *m = QueryLicensesRequest{} }
 func (m *QueryLicensesRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesRequest) ProtoMessage()    {}
 func (*QueryLicensesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{8}
+	return fileDescriptor_123a6d691ebc3102, []int{6}
 }
 func (m *QueryLicensesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -455,7 +372,7 @@ func (m *QueryLicensesResponse) Reset()         { *m = QueryLicensesResponse{} }
 func (m *QueryLicensesResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesResponse) ProtoMessage()    {}
 func (*QueryLicensesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{9}
+	return fileDescriptor_123a6d691ebc3102, []int{7}
 }
 func (m *QueryLicensesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -508,7 +425,7 @@ func (m *QueryLicensesByTypeRequest) Reset()         { *m = QueryLicensesByTypeR
 func (m *QueryLicensesByTypeRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesByTypeRequest) ProtoMessage()    {}
 func (*QueryLicensesByTypeRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{10}
+	return fileDescriptor_123a6d691ebc3102, []int{8}
 }
 func (m *QueryLicensesByTypeRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -561,7 +478,7 @@ func (m *QueryLicensesByTypeResponse) Reset()         { *m = QueryLicensesByType
 func (m *QueryLicensesByTypeResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesByTypeResponse) ProtoMessage()    {}
 func (*QueryLicensesByTypeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{11}
+	return fileDescriptor_123a6d691ebc3102, []int{9}
 }
 func (m *QueryLicensesByTypeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -614,7 +531,7 @@ func (m *QueryLicensesByHolderRequest) Reset()         { *m = QueryLicensesByHol
 func (m *QueryLicensesByHolderRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesByHolderRequest) ProtoMessage()    {}
 func (*QueryLicensesByHolderRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{12}
+	return fileDescriptor_123a6d691ebc3102, []int{10}
 }
 func (m *QueryLicensesByHolderRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -667,7 +584,7 @@ func (m *QueryLicensesByHolderResponse) Reset()         { *m = QueryLicensesByHo
 func (m *QueryLicensesByHolderResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesByHolderResponse) ProtoMessage()    {}
 func (*QueryLicensesByHolderResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{13}
+	return fileDescriptor_123a6d691ebc3102, []int{11}
 }
 func (m *QueryLicensesByHolderResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -721,7 +638,7 @@ func (m *QueryLicensesByHolderAndTypeRequest) Reset()         { *m = QueryLicens
 func (m *QueryLicensesByHolderAndTypeRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesByHolderAndTypeRequest) ProtoMessage()    {}
 func (*QueryLicensesByHolderAndTypeRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{14}
+	return fileDescriptor_123a6d691ebc3102, []int{12}
 }
 func (m *QueryLicensesByHolderAndTypeRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -781,7 +698,7 @@ func (m *QueryLicensesByHolderAndTypeResponse) Reset()         { *m = QueryLicen
 func (m *QueryLicensesByHolderAndTypeResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryLicensesByHolderAndTypeResponse) ProtoMessage()    {}
 func (*QueryLicensesByHolderAndTypeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{15}
+	return fileDescriptor_123a6d691ebc3102, []int{13}
 }
 func (m *QueryLicensesByHolderAndTypeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -824,311 +741,7 @@ func (m *QueryLicensesByHolderAndTypeResponse) GetPagination() *query.PageRespon
 	return nil
 }
 
-// QueryPermissionsByAddressRequest is the request type for the Query/PermissionsByAddress RPC method.
-type QueryPermissionsByAddressRequest struct {
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-}
-
-func (m *QueryPermissionsByAddressRequest) Reset()         { *m = QueryPermissionsByAddressRequest{} }
-func (m *QueryPermissionsByAddressRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryPermissionsByAddressRequest) ProtoMessage()    {}
-func (*QueryPermissionsByAddressRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{16}
-}
-func (m *QueryPermissionsByAddressRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryPermissionsByAddressRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryPermissionsByAddressRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryPermissionsByAddressRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryPermissionsByAddressRequest.Merge(m, src)
-}
-func (m *QueryPermissionsByAddressRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryPermissionsByAddressRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryPermissionsByAddressRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryPermissionsByAddressRequest proto.InternalMessageInfo
-
-func (m *QueryPermissionsByAddressRequest) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-// QueryPermissionsByAddressResponse is the response type for the Query/PermissionsByAddress RPC method.
-type QueryPermissionsByAddressResponse struct {
-	Permissions AddressPermissions `protobuf:"bytes,1,opt,name=permissions,proto3" json:"permissions"`
-}
-
-func (m *QueryPermissionsByAddressResponse) Reset()         { *m = QueryPermissionsByAddressResponse{} }
-func (m *QueryPermissionsByAddressResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryPermissionsByAddressResponse) ProtoMessage()    {}
-func (*QueryPermissionsByAddressResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{17}
-}
-func (m *QueryPermissionsByAddressResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryPermissionsByAddressResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryPermissionsByAddressResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryPermissionsByAddressResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryPermissionsByAddressResponse.Merge(m, src)
-}
-func (m *QueryPermissionsByAddressResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryPermissionsByAddressResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryPermissionsByAddressResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryPermissionsByAddressResponse proto.InternalMessageInfo
-
-func (m *QueryPermissionsByAddressResponse) GetPermissions() AddressPermissions {
-	if m != nil {
-		return m.Permissions
-	}
-	return AddressPermissions{}
-}
-
-// QueryPermissionsRequest is the request type for the Query/Permissions RPC method.
-type QueryPermissionsRequest struct {
-	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (m *QueryPermissionsRequest) Reset()         { *m = QueryPermissionsRequest{} }
-func (m *QueryPermissionsRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryPermissionsRequest) ProtoMessage()    {}
-func (*QueryPermissionsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{18}
-}
-func (m *QueryPermissionsRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryPermissionsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryPermissionsRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryPermissionsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryPermissionsRequest.Merge(m, src)
-}
-func (m *QueryPermissionsRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryPermissionsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryPermissionsRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryPermissionsRequest proto.InternalMessageInfo
-
-func (m *QueryPermissionsRequest) GetPagination() *query.PageRequest {
-	if m != nil {
-		return m.Pagination
-	}
-	return nil
-}
-
-// QueryPermissionsResponse is the response type for the Query/Permissions RPC method.
-type QueryPermissionsResponse struct {
-	Permissions []AddressPermissions `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions"`
-	Pagination  *query.PageResponse  `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (m *QueryPermissionsResponse) Reset()         { *m = QueryPermissionsResponse{} }
-func (m *QueryPermissionsResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryPermissionsResponse) ProtoMessage()    {}
-func (*QueryPermissionsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{19}
-}
-func (m *QueryPermissionsResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryPermissionsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryPermissionsResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryPermissionsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryPermissionsResponse.Merge(m, src)
-}
-func (m *QueryPermissionsResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryPermissionsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryPermissionsResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryPermissionsResponse proto.InternalMessageInfo
-
-func (m *QueryPermissionsResponse) GetPermissions() []AddressPermissions {
-	if m != nil {
-		return m.Permissions
-	}
-	return nil
-}
-
-func (m *QueryPermissionsResponse) GetPagination() *query.PageResponse {
-	if m != nil {
-		return m.Pagination
-	}
-	return nil
-}
-
-// QueryPermissionsByLicenseTypeRequest is the request type for the Query/PermissionsByLicenseType RPC method.
-type QueryPermissionsByLicenseTypeRequest struct {
-	LicenseTypeId string             `protobuf:"bytes,1,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
-	Permission    string             `protobuf:"bytes,2,opt,name=permission,proto3" json:"permission,omitempty"`
-	Pagination    *query.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) Reset()         { *m = QueryPermissionsByLicenseTypeRequest{} }
-func (m *QueryPermissionsByLicenseTypeRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryPermissionsByLicenseTypeRequest) ProtoMessage()    {}
-func (*QueryPermissionsByLicenseTypeRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{20}
-}
-func (m *QueryPermissionsByLicenseTypeRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryPermissionsByLicenseTypeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryPermissionsByLicenseTypeRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryPermissionsByLicenseTypeRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryPermissionsByLicenseTypeRequest.Merge(m, src)
-}
-func (m *QueryPermissionsByLicenseTypeRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryPermissionsByLicenseTypeRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryPermissionsByLicenseTypeRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryPermissionsByLicenseTypeRequest proto.InternalMessageInfo
-
-func (m *QueryPermissionsByLicenseTypeRequest) GetLicenseTypeId() string {
-	if m != nil {
-		return m.LicenseTypeId
-	}
-	return ""
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) GetPermission() string {
-	if m != nil {
-		return m.Permission
-	}
-	return ""
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) GetPagination() *query.PageRequest {
-	if m != nil {
-		return m.Pagination
-	}
-	return nil
-}
-
-// QueryPermissionsByLicenseTypeResponse is the response type for the Query/PermissionsByLicenseType RPC method.
-type QueryPermissionsByLicenseTypeResponse struct {
-	Permissions []AddressPermissions `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions"`
-	Pagination  *query.PageResponse  `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
-}
-
-func (m *QueryPermissionsByLicenseTypeResponse) Reset()         { *m = QueryPermissionsByLicenseTypeResponse{} }
-func (m *QueryPermissionsByLicenseTypeResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryPermissionsByLicenseTypeResponse) ProtoMessage()    {}
-func (*QueryPermissionsByLicenseTypeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_123a6d691ebc3102, []int{21}
-}
-func (m *QueryPermissionsByLicenseTypeResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *QueryPermissionsByLicenseTypeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_QueryPermissionsByLicenseTypeResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *QueryPermissionsByLicenseTypeResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryPermissionsByLicenseTypeResponse.Merge(m, src)
-}
-func (m *QueryPermissionsByLicenseTypeResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *QueryPermissionsByLicenseTypeResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryPermissionsByLicenseTypeResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryPermissionsByLicenseTypeResponse proto.InternalMessageInfo
-
-func (m *QueryPermissionsByLicenseTypeResponse) GetPermissions() []AddressPermissions {
-	if m != nil {
-		return m.Permissions
-	}
-	return nil
-}
-
-func (m *QueryPermissionsByLicenseTypeResponse) GetPagination() *query.PageResponse {
-	if m != nil {
-		return m.Pagination
-	}
-	return nil
-}
-
 func init() {
-	proto.RegisterType((*QueryParamsRequest)(nil), "license.v1.QueryParamsRequest")
-	proto.RegisterType((*QueryParamsResponse)(nil), "license.v1.QueryParamsResponse")
 	proto.RegisterType((*QueryLicenseTypeRequest)(nil), "license.v1.QueryLicenseTypeRequest")
 	proto.RegisterType((*QueryLicenseTypeResponse)(nil), "license.v1.QueryLicenseTypeResponse")
 	proto.RegisterType((*QueryLicenseTypesRequest)(nil), "license.v1.QueryLicenseTypesRequest")
@@ -1143,88 +756,63 @@ func init() {
 	proto.RegisterType((*QueryLicensesByHolderResponse)(nil), "license.v1.QueryLicensesByHolderResponse")
 	proto.RegisterType((*QueryLicensesByHolderAndTypeRequest)(nil), "license.v1.QueryLicensesByHolderAndTypeRequest")
 	proto.RegisterType((*QueryLicensesByHolderAndTypeResponse)(nil), "license.v1.QueryLicensesByHolderAndTypeResponse")
-	proto.RegisterType((*QueryPermissionsByAddressRequest)(nil), "license.v1.QueryPermissionsByAddressRequest")
-	proto.RegisterType((*QueryPermissionsByAddressResponse)(nil), "license.v1.QueryPermissionsByAddressResponse")
-	proto.RegisterType((*QueryPermissionsRequest)(nil), "license.v1.QueryPermissionsRequest")
-	proto.RegisterType((*QueryPermissionsResponse)(nil), "license.v1.QueryPermissionsResponse")
-	proto.RegisterType((*QueryPermissionsByLicenseTypeRequest)(nil), "license.v1.QueryPermissionsByLicenseTypeRequest")
-	proto.RegisterType((*QueryPermissionsByLicenseTypeResponse)(nil), "license.v1.QueryPermissionsByLicenseTypeResponse")
 }
 
 func init() { proto.RegisterFile("license/v1/query.proto", fileDescriptor_123a6d691ebc3102) }
 
 var fileDescriptor_123a6d691ebc3102 = []byte{
-	// 1105 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x58, 0xcf, 0x6f, 0x1b, 0x55,
-	0x10, 0xce, 0x73, 0x8a, 0xd3, 0x8e, 0xd3, 0x02, 0x53, 0x83, 0xdd, 0x25, 0xb1, 0x93, 0x4d, 0xf3,
-	0xa3, 0xa1, 0xf1, 0xda, 0x69, 0x2b, 0x04, 0x07, 0x4a, 0x7c, 0x48, 0x29, 0xf4, 0x50, 0x0c, 0xe2,
-	0x80, 0x10, 0xd1, 0x3a, 0xbb, 0x72, 0x57, 0x89, 0xbd, 0xae, 0x77, 0x13, 0xb0, 0x22, 0x83, 0x84,
-	0xe0, 0x8e, 0xc4, 0xa1, 0x5c, 0x80, 0x1b, 0xaa, 0xc4, 0x01, 0x0e, 0x08, 0xf5, 0xc2, 0x3d, 0xc7,
-	0x0a, 0x2e, 0x9c, 0x10, 0x4a, 0x90, 0x38, 0xf3, 0x1f, 0xa0, 0x7d, 0x6f, 0xd6, 0x7e, 0x9b, 0xfd,
-	0xe1, 0x24, 0xf2, 0x21, 0x97, 0x64, 0xf7, 0xbd, 0x79, 0xf3, 0x7d, 0xf3, 0xcd, 0xdb, 0x99, 0x91,
-	0xe1, 0xc5, 0x6d, 0x6b, 0xd3, 0x6c, 0x39, 0xa6, 0xb6, 0x5b, 0xd1, 0x1e, 0xee, 0x98, 0x9d, 0x6e,
-	0xa9, 0xdd, 0xb1, 0x5d, 0x1b, 0x81, 0xd6, 0x4b, 0xbb, 0x15, 0xe5, 0x79, 0xbd, 0x69, 0xb5, 0x6c,
-	0x8d, 0xff, 0x15, 0xdb, 0xca, 0xf2, 0xa6, 0xed, 0x34, 0x6d, 0x47, 0xab, 0xeb, 0x8e, 0x29, 0xce,
-	0x69, 0xbb, 0x95, 0xba, 0xe9, 0xea, 0x15, 0xad, 0xad, 0x37, 0xac, 0x96, 0xee, 0x5a, 0x76, 0x8b,
-	0x6c, 0xaf, 0x08, 0xdb, 0x0d, 0xfe, 0xa6, 0x89, 0x17, 0xda, 0xca, 0x36, 0xec, 0x86, 0x2d, 0xd6,
-	0xbd, 0x27, 0x5a, 0x9d, 0x6a, 0xd8, 0x76, 0x63, 0xdb, 0xd4, 0xf4, 0xb6, 0xa5, 0xe9, 0xad, 0x96,
-	0xed, 0x72, 0x6f, 0xfe, 0x99, 0xbc, 0xc4, 0xd8, 0x27, 0x29, 0x76, 0xa6, 0xc3, 0x3b, 0x1b, 0x6e,
-	0xb7, 0xed, 0x6f, 0xe7, 0xa4, 0xed, 0xb6, 0xde, 0xd1, 0x9b, 0xe4, 0x51, 0xcd, 0x02, 0xbe, 0xe3,
-	0x85, 0x70, 0x9f, 0x2f, 0xd6, 0xcc, 0x87, 0x3b, 0xa6, 0xe3, 0xaa, 0xf7, 0xe0, 0x72, 0x60, 0xd5,
-	0x69, 0xdb, 0x2d, 0xc7, 0xc4, 0x5b, 0x90, 0x16, 0x87, 0xf3, 0x6c, 0x86, 0x2d, 0x65, 0x56, 0xb1,
-	0x34, 0x50, 0xaa, 0x24, 0x6c, 0xab, 0x17, 0xf6, 0xff, 0x2a, 0x8e, 0x3d, 0xfe, 0xf7, 0xe7, 0x65,
-	0x56, 0x23, 0x63, 0xf5, 0x1a, 0xe4, 0xb8, 0xb7, 0x7b, 0xc2, 0xf8, 0xbd, 0x6e, 0xdb, 0x24, 0x20,
-	0xbc, 0x04, 0x29, 0xcb, 0xe0, 0xde, 0x2e, 0xd4, 0x52, 0x96, 0xa1, 0x7e, 0x08, 0xf9, 0xb0, 0x29,
-	0xa1, 0xbf, 0x01, 0x93, 0x72, 0x64, 0xc4, 0x21, 0x27, 0x73, 0x90, 0x8e, 0x55, 0xcf, 0x79, 0x44,
-	0x6a, 0x99, 0xed, 0xc1, 0x92, 0x5a, 0x0f, 0x7b, 0xf7, 0x43, 0xc6, 0x75, 0x80, 0x41, 0xf6, 0xc8,
-	0xf7, 0x42, 0x89, 0x32, 0xe6, 0xa5, 0xba, 0x24, 0xae, 0x08, 0xa5, 0xba, 0x74, 0x5f, 0x6f, 0xf8,
-	0x51, 0xd4, 0xa4, 0x93, 0xea, 0x63, 0x06, 0x57, 0x22, 0x40, 0x28, 0x86, 0x2a, 0x5c, 0x94, 0x63,
-	0xf0, 0x84, 0x1c, 0x1f, 0x1e, 0xc4, 0xa4, 0x14, 0x84, 0x83, 0x77, 0x02, 0x4c, 0x53, 0x9c, 0xe9,
-	0xe2, 0x50, 0xa6, 0x82, 0x40, 0x80, 0xea, 0xeb, 0x94, 0x65, 0x02, 0xf4, 0x95, 0xc8, 0xc1, 0x84,
-	0xc7, 0x6d, 0xa3, 0x9f, 0x98, 0xb4, 0xf7, 0x7a, 0xd7, 0xa0, 0x64, 0x79, 0x80, 0xe7, 0x78, 0xb2,
-	0xde, 0x86, 0x6c, 0xf0, 0x3c, 0x05, 0x79, 0x03, 0x26, 0x88, 0x30, 0xe9, 0x78, 0x39, 0x22, 0x3c,
-	0x0a, 0xcd, 0xb7, 0x54, 0x3f, 0x0a, 0x3a, 0x1b, 0x79, 0x5e, 0x1e, 0x31, 0x78, 0xe1, 0x08, 0x40,
-	0xff, 0x56, 0x9f, 0x27, 0x12, 0x7e, 0x3a, 0x12, 0xf8, 0xf6, 0x4d, 0x47, 0x97, 0x86, 0x1e, 0x28,
-	0x01, 0x62, 0xd5, 0xae, 0xfc, 0x85, 0xc4, 0x66, 0x63, 0x3d, 0x02, 0xff, 0x34, 0xc2, 0x7c, 0xcb,
-	0xe0, 0xa5, 0x48, 0xfc, 0x33, 0x22, 0xcf, 0x37, 0x0c, 0xa6, 0x8e, 0xf0, 0x7b, 0xd3, 0xde, 0x36,
-	0xcc, 0x8e, 0xaf, 0x50, 0x19, 0xd2, 0x0f, 0xf8, 0x82, 0x10, 0xa8, 0x9a, 0xff, 0xfd, 0x97, 0x95,
-	0x2c, 0x01, 0xad, 0x19, 0x46, 0xc7, 0x74, 0x9c, 0x77, 0xdd, 0x8e, 0xd5, 0x6a, 0xd4, 0xc8, 0x6e,
-	0x64, 0xd2, 0x7d, 0xcf, 0x60, 0x3a, 0x86, 0xda, 0x19, 0x11, 0xef, 0x09, 0x83, 0xb9, 0x48, 0x86,
-	0x6b, 0x2d, 0x43, 0xbe, 0x65, 0x27, 0xd7, 0x50, 0xba, 0x97, 0xa9, 0x84, 0x7b, 0x39, 0x7e, 0x6a,
-	0x71, 0x7f, 0x60, 0x70, 0x35, 0x99, 0xfa, 0x19, 0xd1, 0xf8, 0x7d, 0x98, 0x11, 0xcd, 0xd2, 0xec,
-	0x34, 0x2d, 0xc7, 0xf1, 0xda, 0x75, 0xb5, 0x4b, 0xa2, 0xf9, 0xfa, 0xae, 0xc2, 0x84, 0x2e, 0x56,
-	0x86, 0x0a, 0xec, 0x1b, 0xaa, 0x5b, 0x30, 0x9b, 0xe0, 0x97, 0x82, 0x5f, 0x87, 0x4c, 0x7b, 0xb0,
-	0x4f, 0xf5, 0xb1, 0x20, 0xc7, 0x4f, 0x27, 0x64, 0x2f, 0xd4, 0x1a, 0xa5, 0x83, 0xaa, 0x4e, 0x3d,
-	0x5a, 0x32, 0x1b, 0x75, 0x05, 0xfe, 0x91, 0x51, 0xfb, 0x0d, 0x60, 0xc4, 0xc5, 0x31, 0x7e, 0xaa,
-	0x38, 0x46, 0x97, 0xd5, 0x5f, 0xfd, 0xeb, 0x17, 0x90, 0x3f, 0x62, 0x84, 0x59, 0x80, 0x67, 0xe5,
-	0x96, 0x3e, 0x28, 0xd4, 0x17, 0xa5, 0xae, 0x7d, 0xd7, 0xc0, 0x02, 0xc0, 0x80, 0x28, 0x7d, 0x33,
-	0xd2, 0xca, 0xc8, 0xbe, 0x9b, 0x27, 0x0c, 0xe6, 0x87, 0x10, 0x3f, 0xa3, 0x9a, 0xaf, 0xfe, 0x37,
-	0x09, 0xcf, 0x70, 0xea, 0xb8, 0x05, 0x69, 0x31, 0x4f, 0x62, 0x80, 0x4f, 0x78, 0x54, 0x55, 0x8a,
-	0xb1, 0xfb, 0x02, 0x40, 0x9d, 0xf9, 0xfc, 0x8f, 0x7f, 0xbe, 0x4e, 0x29, 0x98, 0xd7, 0x3e, 0x36,
-	0xeb, 0x8e, 0xab, 0x6f, 0x6e, 0xf9, 0x03, 0x32, 0x4d, 0xc2, 0xf8, 0x25, 0x83, 0x8c, 0xa4, 0x0f,
-	0xce, 0x85, 0x5c, 0x86, 0xd3, 0xae, 0x5c, 0x4d, 0x36, 0x22, 0xf0, 0x97, 0x39, 0xf8, 0x3c, 0xce,
-	0x85, 0xc1, 0xe5, 0x4b, 0xa3, 0xed, 0x59, 0x46, 0x0f, 0xbf, 0x60, 0x30, 0x29, 0x4f, 0x8d, 0x98,
-	0x88, 0xd1, 0x57, 0x60, 0x7e, 0x88, 0x15, 0x51, 0x59, 0xe4, 0x54, 0x66, 0xb1, 0x98, 0x4c, 0xc5,
-	0xc1, 0x4f, 0x61, 0x82, 0x1c, 0x60, 0x31, 0xce, 0xb5, 0x8f, 0x3d, 0x13, 0x6f, 0x40, 0xb0, 0x65,
-	0x0e, 0xbb, 0x8c, 0x4b, 0xb1, 0xb0, 0xda, 0x1e, 0x7d, 0x37, 0x3d, 0x21, 0x83, 0x03, 0xe7, 0xfd,
-	0x92, 0x8f, 0xb1, 0xfe, 0xfb, 0xd1, 0xcf, 0x26, 0x58, 0x10, 0x05, 0x95, 0x53, 0x98, 0x42, 0x25,
-	0x96, 0x82, 0x83, 0x8f, 0x18, 0x5c, 0x0a, 0x0e, 0x40, 0xb8, 0x10, 0xeb, 0x39, 0x30, 0xa1, 0x29,
-	0x8b, 0x43, 0xed, 0x88, 0xc7, 0x4d, 0xce, 0xa3, 0x84, 0xd7, 0xe3, 0x79, 0x6c, 0xd4, 0xbb, 0x74,
-	0x21, 0x7c, 0x4d, 0xf0, 0x3b, 0x06, 0xcf, 0x1d, 0x6d, 0x81, 0xb8, 0x94, 0x80, 0x19, 0x98, 0x8e,
-	0x94, 0x6b, 0xc7, 0xb0, 0x24, 0x7e, 0xb7, 0x38, 0x3f, 0x0d, 0x57, 0x92, 0xf9, 0x89, 0x01, 0x40,
-	0xdb, 0x13, 0xff, 0x7b, 0xf8, 0x1b, 0x83, 0x5c, 0x4c, 0x8f, 0x46, 0x6d, 0x28, 0x7a, 0x70, 0x10,
-	0x51, 0xca, 0xc7, 0x3f, 0x40, 0xac, 0x6f, 0x73, 0xd6, 0xaf, 0xe2, 0x2b, 0x27, 0x62, 0x2d, 0x09,
-	0xfc, 0x13, 0x83, 0x6c, 0x54, 0x8f, 0xc5, 0xeb, 0xe1, 0xd2, 0x12, 0xdf, 0xe2, 0x95, 0x95, 0x63,
-	0x5a, 0x13, 0xed, 0xd7, 0x38, 0xed, 0x9b, 0xb8, 0x1a, 0x51, 0x96, 0x06, 0xe7, 0x3c, 0xe6, 0x34,
-	0x0f, 0x68, 0x7b, 0xf4, 0xd0, 0xc3, 0xcf, 0x20, 0x23, 0xf9, 0x8e, 0xa8, 0x57, 0xe1, 0x2e, 0x1e,
-	0x51, 0xaf, 0x22, 0xda, 0xb0, 0x3a, 0xcf, 0x59, 0x15, 0x71, 0x3a, 0x91, 0x15, 0xee, 0x33, 0xc8,
-	0xc7, 0xb5, 0x17, 0x2c, 0x27, 0x0b, 0x11, 0x51, 0x4b, 0x2b, 0x27, 0x38, 0x41, 0x44, 0xef, 0x70,
-	0xa2, 0x6b, 0x78, 0x7b, 0xa8, 0x7c, 0xc1, 0x3a, 0x7b, 0xa4, 0x55, 0xf7, 0xaa, 0x6f, 0xed, 0x1f,
-	0x14, 0xd8, 0xd3, 0x83, 0x02, 0xfb, 0xfb, 0xa0, 0xc0, 0xbe, 0x3a, 0x2c, 0x8c, 0x3d, 0x3d, 0x2c,
-	0x8c, 0xfd, 0x79, 0x58, 0x18, 0xfb, 0xa0, 0xdc, 0xb0, 0xdc, 0x07, 0x3b, 0xf5, 0xd2, 0xa6, 0xdd,
-	0xec, 0x83, 0xac, 0x38, 0xc6, 0xd6, 0x00, 0xf1, 0x93, 0x3e, 0x26, 0xaf, 0x9c, 0xf5, 0x34, 0xff,
-	0x4d, 0xe5, 0xc6, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff, 0x22, 0x43, 0xf9, 0xb1, 0x59, 0x12, 0x00,
-	0x00,
+	// 803 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x96, 0xcf, 0x4f, 0x13, 0x4d,
+	0x18, 0xc7, 0x3b, 0x85, 0x17, 0x78, 0x1f, 0x78, 0xc9, 0x9b, 0x81, 0xf7, 0x6d, 0x59, 0xa1, 0xc0,
+	0xf2, 0x1b, 0x65, 0xa7, 0x05, 0x89, 0xf1, 0xa2, 0xd2, 0x03, 0xfe, 0x3c, 0x68, 0xf5, 0x64, 0x8c,
+	0xcd, 0x6e, 0x77, 0xb3, 0x6c, 0x28, 0xbb, 0xa5, 0xb3, 0xa0, 0x0d, 0xa9, 0x07, 0xa3, 0x9e, 0x4d,
+	0x3c, 0xe0, 0x45, 0xbd, 0x19, 0xff, 0x00, 0x0f, 0x5e, 0xbc, 0x73, 0x24, 0x7a, 0xf1, 0x64, 0x0c,
+	0xf8, 0x87, 0x98, 0xce, 0xcc, 0xb6, 0xbb, 0xd0, 0xdd, 0x02, 0xe1, 0xc0, 0x09, 0x76, 0xe6, 0x99,
+	0xe7, 0xfb, 0x79, 0xbe, 0xcf, 0xfc, 0x28, 0xfc, 0x5f, 0xb4, 0x0a, 0x86, 0x4d, 0x0d, 0xb2, 0x99,
+	0x21, 0xeb, 0x1b, 0x46, 0xb9, 0xa2, 0x94, 0xca, 0x8e, 0xeb, 0x60, 0x10, 0xe3, 0xca, 0x66, 0x46,
+	0x9a, 0x2d, 0x38, 0x74, 0xcd, 0xa1, 0x44, 0x53, 0xa9, 0xc1, 0x83, 0xc8, 0x66, 0x46, 0x33, 0x5c,
+	0x35, 0x43, 0x4a, 0xaa, 0x69, 0xd9, 0xaa, 0x6b, 0x39, 0x36, 0x5f, 0x27, 0x0d, 0xf0, 0xd8, 0x3c,
+	0xfb, 0x22, 0xfc, 0x43, 0x4c, 0xf5, 0x9b, 0x8e, 0xe9, 0xf0, 0xf1, 0xda, 0x7f, 0x62, 0x74, 0xd0,
+	0x74, 0x1c, 0xb3, 0x68, 0x10, 0xb5, 0x64, 0x11, 0xd5, 0xb6, 0x1d, 0x97, 0x65, 0xf3, 0xd6, 0x24,
+	0x7d, 0x78, 0x1e, 0x11, 0x9f, 0x19, 0x3a, 0x3c, 0x93, 0x77, 0x2b, 0x25, 0x31, 0x2d, 0xcf, 0x40,
+	0xe2, 0x5e, 0x8d, 0xf4, 0x0e, 0x9f, 0x7a, 0x50, 0x29, 0x19, 0x39, 0x63, 0x7d, 0xc3, 0xa0, 0x2e,
+	0xee, 0x85, 0xb8, 0xa5, 0x27, 0xd1, 0x08, 0x9a, 0xfe, 0x3b, 0x17, 0xb7, 0x74, 0xf9, 0x11, 0x24,
+	0x0f, 0x87, 0xd2, 0x92, 0x63, 0x53, 0x03, 0x5f, 0x83, 0x1e, 0x7f, 0x72, 0xb6, 0xaa, 0x7b, 0x3e,
+	0xa1, 0x34, 0xdc, 0x51, 0x7c, 0xcb, 0xb2, 0xed, 0x3b, 0x3f, 0x87, 0x63, 0xb9, 0xee, 0x62, 0x63,
+	0x48, 0xd6, 0x0e, 0x67, 0xa7, 0x1e, 0xc9, 0x32, 0x40, 0xc3, 0x40, 0x91, 0x7b, 0x52, 0x11, 0xa6,
+	0xd5, 0xdc, 0x56, 0x78, 0x4b, 0x84, 0xdb, 0xca, 0x5d, 0xd5, 0xf4, 0xaa, 0xc8, 0xf9, 0x56, 0xca,
+	0x9f, 0x10, 0x0c, 0x34, 0x11, 0x11, 0x35, 0x64, 0xe1, 0x1f, 0x7f, 0x0d, 0x34, 0x89, 0x46, 0xda,
+	0x5a, 0x17, 0xd1, 0xe3, 0x2b, 0x82, 0xe2, 0xeb, 0x01, 0xd2, 0x38, 0x23, 0x9d, 0x6a, 0x49, 0xca,
+	0x01, 0x02, 0xa8, 0x57, 0xa0, 0xcf, 0x4f, 0xea, 0x39, 0x91, 0x80, 0xce, 0x1a, 0x5b, 0xbe, 0xde,
+	0x98, 0x8e, 0xda, 0xe7, 0x4d, 0x5d, 0x34, 0xab, 0x26, 0xd8, 0xce, 0x9a, 0x75, 0x1b, 0xfa, 0x83,
+	0xeb, 0x45, 0x91, 0x0b, 0xd0, 0x29, 0x80, 0x85, 0x8f, 0x7d, 0x4d, 0xca, 0x13, 0xa5, 0x79, 0x91,
+	0xf2, 0xe3, 0x60, 0xb2, 0x53, 0xef, 0xcb, 0x36, 0x82, 0xff, 0x0e, 0x08, 0x08, 0xdc, 0x45, 0xe8,
+	0x12, 0x10, 0x5e, 0x3b, 0x22, 0x78, 0xeb, 0xa1, 0xa7, 0xd7, 0x86, 0x2a, 0x48, 0x01, 0xb0, 0x6c,
+	0xc5, 0x7f, 0x42, 0x42, 0xbb, 0xb1, 0xdc, 0x44, 0xff, 0x24, 0xc6, 0xbc, 0x43, 0x70, 0xae, 0xa9,
+	0xfe, 0x19, 0xb1, 0xe7, 0x2d, 0x82, 0xc1, 0x03, 0x7c, 0x37, 0x9c, 0xa2, 0x6e, 0x94, 0x3d, 0x87,
+	0xd2, 0xd0, 0xb1, 0xc2, 0x06, 0xb8, 0x41, 0xd9, 0xe4, 0xb7, 0xcf, 0x73, 0xfd, 0x42, 0x68, 0x49,
+	0xd7, 0xcb, 0x06, 0xa5, 0xf7, 0xdd, 0xb2, 0x65, 0x9b, 0x39, 0x11, 0x77, 0x6a, 0xd6, 0x7d, 0x40,
+	0x30, 0x14, 0x82, 0x76, 0x46, 0xcc, 0xfb, 0x82, 0x60, 0xac, 0x29, 0xe1, 0x92, 0xad, 0xfb, 0x77,
+	0xd9, 0xf1, 0x3d, 0xf4, 0xed, 0xcb, 0x78, 0xc4, 0xbe, 0x6c, 0x3b, 0xb1, 0xb9, 0x1f, 0x11, 0x8c,
+	0x47, 0xa3, 0x9f, 0x0d, 0x8f, 0xe7, 0x5f, 0x75, 0xc1, 0x5f, 0x0c, 0x14, 0xbf, 0x44, 0xd0, 0xed,
+	0xbb, 0xbd, 0xf1, 0x98, 0x9f, 0x23, 0xe4, 0x09, 0x94, 0xc6, 0xa3, 0x83, 0xb8, 0xa0, 0x7c, 0xfe,
+	0xf9, 0xf7, 0xdf, 0x6f, 0xe2, 0x13, 0x78, 0x8c, 0x3c, 0x31, 0x34, 0xea, 0xaa, 0x85, 0x55, 0xef,
+	0xa5, 0x0d, 0xbc, 0xb8, 0x64, 0xcb, 0xd2, 0xab, 0xf8, 0x05, 0x82, 0x1e, 0xff, 0xf3, 0x83, 0x23,
+	0x35, 0xbc, 0xab, 0x56, 0x9a, 0x68, 0x11, 0x25, 0x50, 0xa6, 0x18, 0xca, 0x28, 0x1e, 0x8e, 0x46,
+	0xa1, 0xf8, 0x19, 0x74, 0x8a, 0x04, 0x78, 0x38, 0x2c, 0xb5, 0xa7, 0x3d, 0x12, 0x1e, 0x20, 0x64,
+	0xd3, 0x4c, 0x76, 0x16, 0x4f, 0x87, 0xca, 0x92, 0x2d, 0xb1, 0x23, 0xab, 0xdc, 0x06, 0x0a, 0x5d,
+	0xde, 0xde, 0xc1, 0xa1, 0xf9, 0xeb, 0xd5, 0x8f, 0x46, 0x44, 0x08, 0x04, 0x99, 0x21, 0x0c, 0x62,
+	0x29, 0x14, 0x81, 0xe2, 0x6d, 0x04, 0xbd, 0xc1, 0x9b, 0x14, 0x4f, 0x86, 0x66, 0x0e, 0x5c, 0xf5,
+	0xd2, 0x54, 0xcb, 0x38, 0xc1, 0x71, 0x91, 0x71, 0x28, 0xf8, 0x42, 0x38, 0x47, 0x5e, 0xab, 0x88,
+	0x0d, 0xe1, 0x79, 0x82, 0xdf, 0x23, 0xf8, 0xf7, 0xe0, 0x59, 0xc2, 0xd3, 0x11, 0x9a, 0x81, 0x6b,
+	0x56, 0x9a, 0x39, 0x42, 0xa4, 0xe0, 0x5b, 0x64, 0x7c, 0x04, 0xcf, 0x45, 0xf3, 0xf1, 0x9b, 0x84,
+	0x6c, 0xf1, 0xbf, 0x55, 0xfc, 0x15, 0x41, 0x22, 0xe4, 0xb0, 0x63, 0xd2, 0x52, 0x3d, 0x78, 0xa3,
+	0x49, 0xe9, 0xa3, 0x2f, 0x10, 0xd4, 0x57, 0x19, 0xf5, 0x65, 0x7c, 0xe9, 0x58, 0xd4, 0x0d, 0x83,
+	0xb3, 0xb7, 0x76, 0xf6, 0x52, 0x68, 0x77, 0x2f, 0x85, 0x7e, 0xed, 0xa5, 0xd0, 0xeb, 0xfd, 0x54,
+	0x6c, 0x77, 0x3f, 0x15, 0xfb, 0xb1, 0x9f, 0x8a, 0x3d, 0x4c, 0x9b, 0x96, 0xbb, 0xb2, 0xa1, 0x29,
+	0x05, 0x67, 0xad, 0x9e, 0x7c, 0x8e, 0xea, 0xab, 0x0d, 0xa5, 0xa7, 0x75, 0x2d, 0x76, 0x76, 0xb4,
+	0x0e, 0xf6, 0xd3, 0x79, 0xe1, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x41, 0x8d, 0xff, 0x07, 0x14,
+	0x0c, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1239,8 +827,6 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	// Params queries the module parameters.
-	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// LicenseType queries a license type by id.
 	LicenseType(ctx context.Context, in *QueryLicenseTypeRequest, opts ...grpc.CallOption) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
@@ -1259,12 +845,6 @@ type QueryClient interface {
 	// address for a specific type. Revoked licenses are not indexed by holder;
 	// use License or LicensesByType to look them up.
 	LicensesByHolderAndType(ctx context.Context, in *QueryLicensesByHolderAndTypeRequest, opts ...grpc.CallOption) (*QueryLicensesByHolderAndTypeResponse, error)
-	// PermissionsByAddress queries the permission grants for a given address.
-	PermissionsByAddress(ctx context.Context, in *QueryPermissionsByAddressRequest, opts ...grpc.CallOption) (*QueryPermissionsByAddressResponse, error)
-	// Permissions queries the permission grants of every address.
-	Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error)
-	// PermissionsByLicenseType queries addresses that have grants for a given license type.
-	PermissionsByLicenseType(ctx context.Context, in *QueryPermissionsByLicenseTypeRequest, opts ...grpc.CallOption) (*QueryPermissionsByLicenseTypeResponse, error)
 }
 
 type queryClient struct {
@@ -1273,15 +853,6 @@ type queryClient struct {
 
 func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
-}
-
-func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error) {
-	out := new(QueryParamsResponse)
-	err := c.cc.Invoke(ctx, "/license.v1.Query/Params", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *queryClient) LicenseType(ctx context.Context, in *QueryLicenseTypeRequest, opts ...grpc.CallOption) (*QueryLicenseTypeResponse, error) {
@@ -1347,37 +918,8 @@ func (c *queryClient) LicensesByHolderAndType(ctx context.Context, in *QueryLice
 	return out, nil
 }
 
-func (c *queryClient) PermissionsByAddress(ctx context.Context, in *QueryPermissionsByAddressRequest, opts ...grpc.CallOption) (*QueryPermissionsByAddressResponse, error) {
-	out := new(QueryPermissionsByAddressResponse)
-	err := c.cc.Invoke(ctx, "/license.v1.Query/PermissionsByAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) Permissions(ctx context.Context, in *QueryPermissionsRequest, opts ...grpc.CallOption) (*QueryPermissionsResponse, error) {
-	out := new(QueryPermissionsResponse)
-	err := c.cc.Invoke(ctx, "/license.v1.Query/Permissions", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) PermissionsByLicenseType(ctx context.Context, in *QueryPermissionsByLicenseTypeRequest, opts ...grpc.CallOption) (*QueryPermissionsByLicenseTypeResponse, error) {
-	out := new(QueryPermissionsByLicenseTypeResponse)
-	err := c.cc.Invoke(ctx, "/license.v1.Query/PermissionsByLicenseType", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	// Params queries the module parameters.
-	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// LicenseType queries a license type by id.
 	LicenseType(context.Context, *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
@@ -1396,21 +938,12 @@ type QueryServer interface {
 	// address for a specific type. Revoked licenses are not indexed by holder;
 	// use License or LicensesByType to look them up.
 	LicensesByHolderAndType(context.Context, *QueryLicensesByHolderAndTypeRequest) (*QueryLicensesByHolderAndTypeResponse, error)
-	// PermissionsByAddress queries the permission grants for a given address.
-	PermissionsByAddress(context.Context, *QueryPermissionsByAddressRequest) (*QueryPermissionsByAddressResponse, error)
-	// Permissions queries the permission grants of every address.
-	Permissions(context.Context, *QueryPermissionsRequest) (*QueryPermissionsResponse, error)
-	// PermissionsByLicenseType queries addresses that have grants for a given license type.
-	PermissionsByLicenseType(context.Context, *QueryPermissionsByLicenseTypeRequest) (*QueryPermissionsByLicenseTypeResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsRequest) (*QueryParamsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
-}
 func (*UnimplementedQueryServer) LicenseType(ctx context.Context, req *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LicenseType not implemented")
 }
@@ -1432,36 +965,9 @@ func (*UnimplementedQueryServer) LicensesByHolder(ctx context.Context, req *Quer
 func (*UnimplementedQueryServer) LicensesByHolderAndType(ctx context.Context, req *QueryLicensesByHolderAndTypeRequest) (*QueryLicensesByHolderAndTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LicensesByHolderAndType not implemented")
 }
-func (*UnimplementedQueryServer) PermissionsByAddress(ctx context.Context, req *QueryPermissionsByAddressRequest) (*QueryPermissionsByAddressResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PermissionsByAddress not implemented")
-}
-func (*UnimplementedQueryServer) Permissions(ctx context.Context, req *QueryPermissionsRequest) (*QueryPermissionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Permissions not implemented")
-}
-func (*UnimplementedQueryServer) PermissionsByLicenseType(ctx context.Context, req *QueryPermissionsByLicenseTypeRequest) (*QueryPermissionsByLicenseTypeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PermissionsByLicenseType not implemented")
-}
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
-}
-
-func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryParamsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).Params(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/license.v1.Query/Params",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Params(ctx, req.(*QueryParamsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Query_LicenseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1590,68 +1096,10 @@ func _Query_LicensesByHolderAndType_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_PermissionsByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryPermissionsByAddressRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).PermissionsByAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/license.v1.Query/PermissionsByAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).PermissionsByAddress(ctx, req.(*QueryPermissionsByAddressRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_Permissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryPermissionsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).Permissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/license.v1.Query/Permissions",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).Permissions(ctx, req.(*QueryPermissionsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_PermissionsByLicenseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryPermissionsByLicenseTypeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).PermissionsByLicenseType(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/license.v1.Query/PermissionsByLicenseType",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).PermissionsByLicenseType(ctx, req.(*QueryPermissionsByLicenseTypeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "license.v1.Query",
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Params",
-			Handler:    _Query_Params_Handler,
-		},
 		{
 			MethodName: "LicenseType",
 			Handler:    _Query_LicenseType_Handler,
@@ -1680,77 +1128,9 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 			MethodName: "LicensesByHolderAndType",
 			Handler:    _Query_LicensesByHolderAndType_Handler,
 		},
-		{
-			MethodName: "PermissionsByAddress",
-			Handler:    _Query_PermissionsByAddress_Handler,
-		},
-		{
-			MethodName: "Permissions",
-			Handler:    _Query_Permissions_Handler,
-		},
-		{
-			MethodName: "PermissionsByLicenseType",
-			Handler:    _Query_PermissionsByLicenseType_Handler,
-		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "license/v1/query.proto",
-}
-
-func (m *QueryParamsRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryParamsRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryParamsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *QueryParamsResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryParamsResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryParamsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	{
-		size, err := m.Params.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintQuery(dAtA, i, uint64(size))
-	}
-	i--
-	dAtA[i] = 0xa
-	return len(dAtA) - i, nil
 }
 
 func (m *QueryLicenseTypeRequest) Marshal() (dAtA []byte, err error) {
@@ -2332,251 +1712,6 @@ func (m *QueryLicensesByHolderAndTypeResponse) MarshalToSizedBuffer(dAtA []byte)
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryPermissionsByAddressRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryPermissionsByAddressRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryPermissionsByAddressRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintQuery(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *QueryPermissionsByAddressResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryPermissionsByAddressResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryPermissionsByAddressResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	{
-		size, err := m.Permissions.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintQuery(dAtA, i, uint64(size))
-	}
-	i--
-	dAtA[i] = 0xa
-	return len(dAtA) - i, nil
-}
-
-func (m *QueryPermissionsRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryPermissionsRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryPermissionsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintQuery(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *QueryPermissionsResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryPermissionsResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryPermissionsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintQuery(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Permissions) > 0 {
-		for iNdEx := len(m.Permissions) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Permissions[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintQuery(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintQuery(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.Permission) > 0 {
-		i -= len(m.Permission)
-		copy(dAtA[i:], m.Permission)
-		i = encodeVarintQuery(dAtA, i, uint64(len(m.Permission)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.LicenseTypeId) > 0 {
-		i -= len(m.LicenseTypeId)
-		copy(dAtA[i:], m.LicenseTypeId)
-		i = encodeVarintQuery(dAtA, i, uint64(len(m.LicenseTypeId)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *QueryPermissionsByLicenseTypeResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *QueryPermissionsByLicenseTypeResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *QueryPermissionsByLicenseTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintQuery(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Permissions) > 0 {
-		for iNdEx := len(m.Permissions) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Permissions[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintQuery(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -2588,26 +1723,6 @@ func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *QueryParamsRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *QueryParamsResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = m.Params.Size()
-	n += 1 + l + sovQuery(uint64(l))
-	return n
-}
-
 func (m *QueryLicenseTypeRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -2835,240 +1950,11 @@ func (m *QueryLicensesByHolderAndTypeResponse) Size() (n int) {
 	return n
 }
 
-func (m *QueryPermissionsByAddressRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	return n
-}
-
-func (m *QueryPermissionsByAddressResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = m.Permissions.Size()
-	n += 1 + l + sovQuery(uint64(l))
-	return n
-}
-
-func (m *QueryPermissionsRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	return n
-}
-
-func (m *QueryPermissionsResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Permissions) > 0 {
-		for _, e := range m.Permissions {
-			l = e.Size()
-			n += 1 + l + sovQuery(uint64(l))
-		}
-	}
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	return n
-}
-
-func (m *QueryPermissionsByLicenseTypeRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.LicenseTypeId)
-	if l > 0 {
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	l = len(m.Permission)
-	if l > 0 {
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	return n
-}
-
-func (m *QueryPermissionsByLicenseTypeResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Permissions) > 0 {
-		for _, e := range m.Permissions {
-			l = e.Size()
-			n += 1 + l + sovQuery(uint64(l))
-		}
-	}
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
-		n += 1 + l + sovQuery(uint64(l))
-	}
-	return n
-}
-
 func sovQuery(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozQuery(x uint64) (n int) {
 	return sovQuery(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (m *QueryParamsRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryParamsRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryParamsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryParamsResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryParamsResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryParamsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Params", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Params.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
 }
 func (m *QueryLicenseTypeRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -4517,647 +3403,6 @@ func (m *QueryLicensesByHolderAndTypeResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Licenses = append(m.Licenses, License{})
 			if err := m.Licenses[len(m.Licenses)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageResponse{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryPermissionsByAddressRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryPermissionsByAddressRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryPermissionsByAddressRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryPermissionsByAddressResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryPermissionsByAddressResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryPermissionsByAddressResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Permissions.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryPermissionsRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryPermissionsRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryPermissionsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageRequest{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryPermissionsResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryPermissionsResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryPermissionsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Permissions = append(m.Permissions, AddressPermissions{})
-			if err := m.Permissions[len(m.Permissions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageResponse{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryPermissionsByLicenseTypeRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryPermissionsByLicenseTypeRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryPermissionsByLicenseTypeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.LicenseTypeId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Permission", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Permission = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageRequest{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipQuery(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *QueryPermissionsByLicenseTypeResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowQuery
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: QueryPermissionsByLicenseTypeResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryPermissionsByLicenseTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Permissions", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Permissions = append(m.Permissions, AddressPermissions{})
-			if err := m.Permissions[len(m.Permissions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

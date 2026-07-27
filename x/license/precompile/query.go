@@ -1,8 +1,6 @@
 package licenseprecompile
 
 import (
-	"slices"
-
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
 	"cosmossdk.io/collections"
@@ -14,36 +12,14 @@ import (
 
 // Query method names. Must match the function names in LicenseI.sol / abi.json.
 const (
-	ParamsMethod                   = "params"
-	LicenseTypeMethod              = "licenseType"
-	LicenseTypesMethod             = "licenseTypes"
-	LicenseMethod                  = "license"
-	LicensesMethod                 = "licenses"
-	LicensesByTypeMethod           = "licensesByType"
-	LicensesByHolderMethod         = "licensesByHolder"
-	LicensesByHolderAndTypeMethod  = "licensesByHolderAndType"
-	PermissionsByAddressMethod     = "permissionsByAddress"
-	PermissionsMethod              = "permissions"
-	PermissionsByLicenseTypeMethod = "permissionsByLicenseType"
+	LicenseTypeMethod             = "licenseType"
+	LicenseTypesMethod            = "licenseTypes"
+	LicenseMethod                 = "license"
+	LicensesMethod                = "licenses"
+	LicensesByTypeMethod          = "licensesByType"
+	LicensesByHolderMethod        = "licensesByHolder"
+	LicensesByHolderAndTypeMethod = "licensesByHolderAndType"
 )
-
-// Params returns module params as a LicenseParams tuple.
-func (p Precompile) Params(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
-	if err := argCount(args, 0); err != nil {
-		return nil, err
-	}
-
-	res, err := p.queryServer.Params(ctx, &licensetypes.QueryParamsRequest{})
-	if err != nil {
-		return nil, err
-	}
-
-	owner, err := bech32ToHex(res.Params.Owner)
-	if err != nil {
-		return nil, err
-	}
-	return method.Outputs.Pack(LicenseParamsOutput{Owner: owner})
-}
 
 // LicenseType returns a single license type by id.
 func (p Precompile) LicenseType(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
@@ -228,93 +204,6 @@ func (p Precompile) LicensesByHolderAndType(ctx sdk.Context, method *abi.Method,
 	}
 
 	out, err := licensesToOutputs(licenses)
-	if err != nil {
-		return nil, err
-	}
-	return method.Outputs.Pack(out)
-}
-
-// AddressPermissions returns the permissions entry for an address.
-func (p Precompile) PermissionsByAddress(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
-	if err := argCount(args, 1); err != nil {
-		return nil, err
-	}
-	adminHex, err := argToAddress(args[0], "admin")
-	if err != nil {
-		return nil, err
-	}
-	admin, err := hexToBech32(p.addrCdc, adminHex)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := p.queryServer.PermissionsByAddress(ctx, &licensetypes.QueryPermissionsByAddressRequest{Address: admin})
-	if err != nil {
-		return nil, err
-	}
-
-	out, err := addressPermissionsToOutput(res.Permissions)
-	if err != nil {
-		return nil, err
-	}
-	return method.Outputs.Pack(out)
-}
-
-// Permissions returns all permission entries. It reads the keeper directly:
-// the gRPC handler paginates with a default page limit an EVM call cannot
-// page through.
-func (p Precompile) Permissions(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
-	if err := argCount(args, 0); err != nil {
-		return nil, err
-	}
-
-	all, err := p.keeper.GetAllPermissions(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	out, err := addressPermissionsListToOutputs(all)
-	if err != nil {
-		return nil, err
-	}
-	return method.Outputs.Pack(out)
-}
-
-// PermissionsByLicenseType returns permission entries that have `permission` over `licenseTypeId`.
-func (p Precompile) PermissionsByLicenseType(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
-	if err := argCount(args, 2); err != nil {
-		return nil, err
-	}
-	licenseTypeID, err := argToString(args[0], "licenseTypeId")
-	if err != nil {
-		return nil, err
-	}
-	permission, err := argToString(args[1], "permission")
-	if err != nil {
-		return nil, err
-	}
-
-	all, err := p.keeper.GetAllPermissions(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var filtered []licensetypes.AddressPermissions
-	for _, ap := range all {
-		for _, grant := range ap.Grants {
-			// The Solidity argument carries the lowercase boundary form
-			// ("issue"); empty matches any permission.
-			if permission != "" && grant.Permission.Short() != permission {
-				continue
-			}
-			if slices.Contains(grant.LicenseTypes, licenseTypeID) {
-				filtered = append(filtered, ap)
-				break
-			}
-		}
-	}
-
-	out, err := addressPermissionsListToOutputs(filtered)
 	if err != nil {
 		return nil, err
 	}
