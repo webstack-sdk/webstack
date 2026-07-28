@@ -2,8 +2,6 @@ package types
 
 import (
 	"fmt"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func DefaultGenesis() *GenesisState {
@@ -30,11 +28,13 @@ func (gs GenesisState) Validate() error {
 		if _, dup := keyOperators[key.Address]; dup {
 			return fmt.Errorf("duplicate activation key %s", key.Address)
 		}
-		if _, err := sdk.AccAddressFromBech32(key.Address); err != nil {
-			return fmt.Errorf("activation key %s: invalid address: %w", key.Address, err)
+		// Canonical form, not merely decodable: these strings are the store
+		// keys, so two encodings of one account would be two identities.
+		if err := ValidateCanonicalAddress("activation", key.Address); err != nil {
+			return fmt.Errorf("activation key %s: %w", key.Address, err)
 		}
-		if _, err := sdk.AccAddressFromBech32(key.Operator); err != nil {
-			return fmt.Errorf("activation key %s: invalid operator address %q: %w", key.Address, key.Operator, err)
+		if err := ValidateCanonicalAddress("operator", key.Operator); err != nil {
+			return fmt.Errorf("activation key %s: %w", key.Address, err)
 		}
 		if key.Address == key.Operator {
 			return fmt.Errorf("activation key %s: address equals its operator", key.Address)
@@ -53,11 +53,11 @@ func (gs GenesisState) Validate() error {
 		if _, dup := nodeAddrs[node.Address]; dup {
 			return fmt.Errorf("duplicate node %s", node.Address)
 		}
-		if _, err := sdk.AccAddressFromBech32(node.Address); err != nil {
-			return fmt.Errorf("node %s: invalid address: %w", node.Address, err)
+		if err := ValidateCanonicalAddress("node", node.Address); err != nil {
+			return fmt.Errorf("node %s: %w", node.Address, err)
 		}
-		if _, err := sdk.AccAddressFromBech32(node.Operator); err != nil {
-			return fmt.Errorf("node %s: invalid operator address %q: %w", node.Address, node.Operator, err)
+		if err := ValidateCanonicalAddress("operator", node.Operator); err != nil {
+			return fmt.Errorf("node %s: %w", node.Address, err)
 		}
 		if node.Status != NodeActive && node.Status != NodeDeactivated {
 			return fmt.Errorf("node %s: invalid status %q", node.Address, node.Status.String())

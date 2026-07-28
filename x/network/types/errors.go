@@ -21,4 +21,5 @@ var (
 	ErrAccountExists         = errors.Register(ModuleName, 1115, "account already exists")
 	ErrQuotaExceeded         = errors.Register(ModuleName, 1116, "daily gasless quota exceeded")
 	ErrInvalidStatusPayload  = errors.Register(ModuleName, 1117, "invalid node status payload")
+	ErrInvalidAddress        = errors.Register(ModuleName, 1118, "invalid address")
 )

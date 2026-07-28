@@ -26,22 +26,24 @@ func GaslessMessages() []string {
 	}
 }
 
+// Every address field is validated in its canonical encoding, not merely as
+// decodable bech32: these strings become store keys, and a non-canonical
+// alias would mint a second identity for the same account (see
+// ValidateCanonicalAddress).
+
 func (msg *MsgCreateOperatorAccount) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Admin); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid admin address: %s", err)
+	if err := ValidateCanonicalAddress("admin", msg.Admin); err != nil {
+		return err
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.Wallet); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid wallet address: %s", err)
-	}
-	return nil
+	return ValidateCanonicalAddress("wallet", msg.Wallet)
 }
 
 func (msg *MsgAuthorizeActivationKey) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Operator); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid operator address: %s", err)
+	if err := ValidateCanonicalAddress("operator", msg.Operator); err != nil {
+		return err
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.ActivationAddress); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid activation address: %s", err)
+	if err := ValidateCanonicalAddress("activation", msg.ActivationAddress); err != nil {
+		return err
 	}
 	if msg.ActivationAddress == msg.Operator {
 		return ErrSelfAuthorization
@@ -50,24 +52,21 @@ func (msg *MsgAuthorizeActivationKey) ValidateBasic() error {
 }
 
 func (msg *MsgDeauthorizeActivationKey) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Operator); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid operator address: %s", err)
+	if err := ValidateCanonicalAddress("operator", msg.Operator); err != nil {
+		return err
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.ActivationAddress); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid activation address: %s", err)
-	}
-	return nil
+	return ValidateCanonicalAddress("activation", msg.ActivationAddress)
 }
 
 func (msg *MsgActivateNode) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.ActivationAddress); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid activation address: %s", err)
+	if err := ValidateCanonicalAddress("activation", msg.ActivationAddress); err != nil {
+		return err
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.Operator); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid operator address: %s", err)
+	if err := ValidateCanonicalAddress("operator", msg.Operator); err != nil {
+		return err
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.NodeAddress); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid node address: %s", err)
+	if err := ValidateCanonicalAddress("node", msg.NodeAddress); err != nil {
+		return err
 	}
 	if msg.NodeType == "" {
 		return ErrInvalidNodeType.Wrap("node type must not be empty")
@@ -76,18 +75,15 @@ func (msg *MsgActivateNode) ValidateBasic() error {
 }
 
 func (msg *MsgDeactivateNode) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Signer); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid signer address: %s", err)
+	if err := ValidateCanonicalAddress("signer", msg.Signer); err != nil {
+		return err
 	}
-	if _, err := sdk.AccAddressFromBech32(msg.NodeAddress); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid node address: %s", err)
-	}
-	return nil
+	return ValidateCanonicalAddress("node", msg.NodeAddress)
 }
 
 func (msg *MsgUpdateNodeStatus) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.NodeAddress); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid node address: %s", err)
+	if err := ValidateCanonicalAddress("node", msg.NodeAddress); err != nil {
+		return err
 	}
 	return msg.Payload.Validate()
 }
