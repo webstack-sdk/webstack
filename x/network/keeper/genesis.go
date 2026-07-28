@@ -1,0 +1,128 @@
+package keeper
+
+import (
+	"context"
+
+	"cosmossdk.io/collections"
+
+	"github.com/webstack-sdk/webstack/x/network/types"
+)
+
+// InitGenesis initializes the module's state from a genesis state. The
+// denormalized structures (operator set, operator indexes, node counts, and
+// the recent-activity index) are derived from the primary records here, so
+// they can never disagree with them.
+func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) error {
+	if err := data.Validate(); err != nil {
+		return err
+	}
+
+	if err := k.Params.Set(ctx, data.Params); err != nil {
+		return err
+	}
+
+	for _, key := range data.ActivationKeys {
+		if err := k.ActivationKeys.Set(ctx, key.Address, key); err != nil {
+			return err
+		}
+		if err := k.OperatorActivationKeys.Set(ctx, collections.Join(key.Operator, key.Address)); err != nil {
+			return err
+		}
+		if err := k.Operators.Set(ctx, key.Operator); err != nil {
+			return err
+		}
+	}
+
+	counts := make(map[string]types.OperatorNodeCounts)
+	for _, node := range data.Nodes {
+		if err := k.Nodes.Set(ctx, node.Address, node); err != nil {
+			return err
+		}
+		if err := k.OperatorNodes.Set(ctx, collections.Join(node.Operator, node.Address)); err != nil {
+			return err
+		}
+		// Exactly one recent-activity entry per node, in the day bucket of
+		// its last counted activity.
+		if err := k.RecentNodeActivity.Set(ctx, collections.Join3(node.Operator, types.DayEpoch(node.LastActiveTime), node.Address)); err != nil {
+			return err
+		}
+		if err := k.Operators.Set(ctx, node.Operator); err != nil {
+			return err
+		}
+
+		c := counts[node.Operator]
+		c.Total++
+		if node.Status == types.NodeActive {
+			c.Active++
+		}
+		counts[node.Operator] = c
+	}
+	for operator, c := range counts {
+		if err := k.OperatorNodeCounts.Set(ctx, operator, c); err != nil {
+			return err
+		}
+	}
+
+	for _, nsc := range data.NodeStatusCounters {
+		if err := k.NodeStatusCounters.Set(ctx, nsc.NodeAddress, nsc.Counter); err != nil {
+			return err
+		}
+	}
+
+	for _, gc := range data.GaslessCounters {
+		if err := k.GaslessCounters.Set(ctx, collections.Join(gc.Kind, gc.Signer), gc.Counter); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ExportGenesis exports the module's state to a genesis state. Derived
+// structures are not exported; InitGenesis rebuilds them.
+func (k *Keeper) ExportGenesis(ctx context.Context) *types.GenesisState {
+	params, err := k.Params.Get(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	var nodes []types.Node
+	if err := k.Nodes.Walk(ctx, nil, func(_ string, node types.Node) (bool, error) {
+		nodes = append(nodes, node)
+		return false, nil
+	}); err != nil {
+		panic(err)
+	}
+
+	var keys []types.ActivationKey
+	if err := k.ActivationKeys.Walk(ctx, nil, func(_ string, key types.ActivationKey) (bool, error) {
+		keys = append(keys, key)
+		return false, nil
+	}); err != nil {
+		panic(err)
+	}
+
+	var statusCounters []types.NodeStatusCounter
+	if err := k.NodeStatusCounters.Walk(ctx, nil, func(addr string, counter types.ActivityCounter) (bool, error) {
+		statusCounters = append(statusCounters, types.NodeStatusCounter{NodeAddress: addr, Counter: counter})
+		return false, nil
+	}); err != nil {
+		panic(err)
+	}
+
+	var gaslessCounters []types.GaslessCounter
+	if err := k.GaslessCounters.Walk(ctx, nil, func(key collections.Pair[string, string], counter types.ActivityCounter) (bool, error) {
+		gaslessCounters = append(gaslessCounters, types.GaslessCounter{Kind: key.K1(), Signer: key.K2(), Counter: counter})
+		return false, nil
+	}); err != nil {
+		panic(err)
+	}
+
+	return &types.GenesisState{
+		Params:             params,
+		Nodes:              nodes,
+		ActivationKeys:     keys,
+		NodeStatusCounters: statusCounters,
+		GaslessCounters:    gaslessCounters,
+	}
+}

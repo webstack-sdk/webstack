@@ -1,0 +1,294 @@
+package keeper
+
+import (
+	"context"
+	"strings"
+
+	"cosmossdk.io/collections"
+	errorsmod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+
+	"github.com/webstack-sdk/webstack/x/network/types"
+)
+
+type msgServer struct {
+	k Keeper
+}
+
+var _ types.MsgServer = msgServer{}
+
+func NewMsgServerImpl(keeper Keeper) types.MsgServer {
+	return &msgServer{k: keeper}
+}
+
+// CreateOperatorAccount creates an on-chain account for an operator wallet.
+// The admin fallback for wallets that predate account creation on license
+// issuance or hold no licenses yet.
+func (ms msgServer) CreateOperatorAccount(ctx context.Context, msg *types.MsgCreateOperatorAccount) (*types.MsgCreateOperatorAccountResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+
+	hasPerm, err := ms.k.hasPermission(ctx, msg.Admin, types.PermissionWalletCreate)
+	if err != nil {
+		return nil, err
+	}
+	if !hasPerm {
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have the %s permission", msg.Admin, types.PermissionWalletCreate)
+	}
+
+	wallet, err := sdk.AccAddressFromBech32(msg.Wallet)
+	if err != nil {
+		return nil, errorsmod.Wrapf(types.ErrInvalidSigner, "invalid wallet address %q: %s", msg.Wallet, err)
+	}
+	if ms.k.accountKeeper.HasAccount(ctx, wallet) {
+		return nil, errorsmod.Wrapf(types.ErrAccountExists, "wallet %s", msg.Wallet)
+	}
+
+	ms.k.CreateAccountIfNotExists(ctx, wallet)
+
+	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+		types.EventTypeCreateOperatorAccount,
+		sdk.NewAttribute(types.AttributeKeyWallet, msg.Wallet),
+		sdk.NewAttribute(types.AttributeKeySigner, msg.Admin),
+	))
+
+	return &types.MsgCreateOperatorAccountResponse{}, nil
+}
+
+// AuthorizeActivationKey authorizes a new activation key for the signing
+// operator. Activation addresses are globally unique and permanently bound
+// to the first operator that authorizes them; disabled records also block
+// re-authorization (the address is burned).
+func (ms msgServer) AuthorizeActivationKey(ctx context.Context, msg *types.MsgAuthorizeActivationKey) (*types.MsgAuthorizeActivationKeyResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+
+	if msg.ActivationAddress == msg.Operator {
+		return nil, types.ErrSelfAuthorization
+	}
+
+	has, err := ms.k.ActivationKeys.Has(ctx, msg.ActivationAddress)
+	if err != nil {
+		return nil, err
+	}
+	if has {
+		return nil, errorsmod.Wrapf(types.ErrKeyExists, "activation address %s", msg.ActivationAddress)
+	}
+
+	params, err := ms.k.GetParams(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	active, recent, err := ms.k.countOperatorKeys(ctx, msg.Operator, params.RecentKeyWindow, sdkCtx.BlockTime())
+	if err != nil {
+		return nil, err
+	}
+	if active >= params.MaxActivationKeys {
+		return nil, errorsmod.Wrapf(types.ErrTooManyActivationKeys, "operator %s has %d active keys (limit %d)", msg.Operator, active, params.MaxActivationKeys)
+	}
+	if recent >= params.RecentKeyLimit {
+		return nil, errorsmod.Wrapf(types.ErrRecentKeyLimit, "operator %s created %d keys in the last %s (limit %d)", msg.Operator, recent, params.RecentKeyWindow, params.RecentKeyLimit)
+	}
+
+	key := types.ActivationKey{
+		Address:   msg.ActivationAddress,
+		Operator:  msg.Operator,
+		CreatedAt: sdkCtx.BlockTime(),
+		Status:    types.KeyActive,
+	}
+	if err := ms.k.ActivationKeys.Set(ctx, msg.ActivationAddress, key); err != nil {
+		return nil, err
+	}
+	if err := ms.k.OperatorActivationKeys.Set(ctx, collections.Join(msg.Operator, msg.ActivationAddress)); err != nil {
+		return nil, err
+	}
+	if err := ms.k.registerOperator(ctx, msg.Operator); err != nil {
+		return nil, err
+	}
+
+	activationAddr, err := sdk.AccAddressFromBech32(msg.ActivationAddress)
+	if err != nil {
+		return nil, errorsmod.Wrapf(types.ErrInvalidSigner, "invalid activation address %q: %s", msg.ActivationAddress, err)
+	}
+	ms.k.CreateAccountIfNotExists(ctx, activationAddr)
+
+	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+		types.EventTypeAuthorizeActivationKey,
+		sdk.NewAttribute(types.AttributeKeyOperator, msg.Operator),
+		sdk.NewAttribute(types.AttributeKeyActivationAddress, msg.ActivationAddress),
+	))
+
+	return &types.MsgAuthorizeActivationKeyResponse{}, nil
+}
+
+// DeauthorizeActivationKey disables an activation key. The record is
+// retained for the recent-creation count and to keep the address burned. On
+// top of regular gas, the handler charges the deauthorize_fee param as a
+// bank transfer to the fee collector — a fee-checker-immune cost (an ante
+// check against the declared fee is bypassable under dynamic-fee semantics).
+func (ms msgServer) DeauthorizeActivationKey(ctx context.Context, msg *types.MsgDeauthorizeActivationKey) (*types.MsgDeauthorizeActivationKeyResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+
+	key, err := ms.k.ActivationKeys.Get(ctx, msg.ActivationAddress)
+	if err != nil {
+		return nil, errorsmod.Wrapf(types.ErrKeyNotFound, "activation address %s", msg.ActivationAddress)
+	}
+	if key.Operator != msg.Operator {
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "activation key %s is not bound to operator %s", msg.ActivationAddress, msg.Operator)
+	}
+	if key.Status != types.KeyActive {
+		return nil, errorsmod.Wrapf(types.ErrKeyDisabled, "activation key %s is already disabled", msg.ActivationAddress)
+	}
+
+	params, err := ms.k.GetParams(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if !params.DeauthorizeFee.IsZero() {
+		operator, err := sdk.AccAddressFromBech32(msg.Operator)
+		if err != nil {
+			return nil, errorsmod.Wrapf(types.ErrInvalidSigner, "invalid operator address %q: %s", msg.Operator, err)
+		}
+		if err := ms.k.bankKeeper.SendCoinsFromAccountToModule(ctx, operator, authtypes.FeeCollectorName, params.DeauthorizeFee); err != nil {
+			return nil, errorsmod.Wrapf(err, "charging deauthorize fee %s", params.DeauthorizeFee)
+		}
+	}
+
+	key.Status = types.KeyDisabled
+	if err := ms.k.ActivationKeys.Set(ctx, msg.ActivationAddress, key); err != nil {
+		return nil, err
+	}
+
+	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+		types.EventTypeDeauthorizeActivationKey,
+		sdk.NewAttribute(types.AttributeKeyOperator, msg.Operator),
+		sdk.NewAttribute(types.AttributeKeyActivationAddress, msg.ActivationAddress),
+		sdk.NewAttribute(types.AttributeKeyFee, params.DeauthorizeFee.String()),
+	))
+
+	return &types.MsgDeauthorizeActivationKeyResponse{}, nil
+}
+
+// DeactivateNode deactivates a node. Valid signers are the operator, the
+// node's original activation key — only while that key is still active, so
+// deauthorizing a provider fully revokes its power over already-activated
+// nodes — or the node itself. Deactivation is irreversible and deliberately
+// does not touch last_active_time or the recent-activity index: deactivated
+// nodes keep counting in the recent window.
+func (ms msgServer) DeactivateNode(ctx context.Context, msg *types.MsgDeactivateNode) (*types.MsgDeactivateNodeResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+
+	node, err := ms.k.Nodes.Get(ctx, msg.NodeAddress)
+	if err != nil {
+		return nil, errorsmod.Wrapf(types.ErrNodeNotFound, "node %s", msg.NodeAddress)
+	}
+	if node.Status != types.NodeActive {
+		return nil, errorsmod.Wrapf(types.ErrNodeDeactivated, "node %s is already deactivated", msg.NodeAddress)
+	}
+
+	switch msg.Signer {
+	case node.Operator, node.Address:
+		// authorized
+	case node.ActivatedBy:
+		key, err := ms.k.ActivationKeys.Get(ctx, msg.Signer)
+		if err != nil {
+			return nil, errorsmod.Wrapf(types.ErrKeyNotFound, "activation key %s", msg.Signer)
+		}
+		if key.Status != types.KeyActive {
+			return nil, errorsmod.Wrapf(types.ErrKeyDisabled, "activation key %s has been deauthorized and cannot deactivate nodes", msg.Signer)
+		}
+	default:
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s is not the node's operator, original activation key, or the node itself", msg.Signer)
+	}
+
+	node.Status = types.NodeDeactivated
+	if err := ms.k.Nodes.Set(ctx, msg.NodeAddress, node); err != nil {
+		return nil, err
+	}
+
+	counts, err := ms.k.GetOperatorNodeCounts(ctx, node.Operator)
+	if err != nil {
+		return nil, err
+	}
+	if counts.Active > 0 {
+		counts.Active--
+	}
+	if err := ms.k.OperatorNodeCounts.Set(ctx, node.Operator, counts); err != nil {
+		return nil, err
+	}
+
+	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+		types.EventTypeDeactivateNode,
+		sdk.NewAttribute(types.AttributeKeyOperator, node.Operator),
+		sdk.NewAttribute(types.AttributeKeyNodeAddress, msg.NodeAddress),
+		sdk.NewAttribute(types.AttributeKeySigner, msg.Signer),
+	))
+
+	return &types.MsgDeactivateNodeResponse{}, nil
+}
+
+// UpdateNodeStatus records a node's status heartbeat. The daily quota is
+// consumed in the ante handler (so failing txs still burn it and over-limit
+// spam is rejected at mempool admission); the handler re-reads the counter
+// and never increments it. The payload is emitted as an event, not stored.
+func (ms msgServer) UpdateNodeStatus(ctx context.Context, msg *types.MsgUpdateNodeStatus) (*types.MsgUpdateNodeStatusResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+
+	node, active, err := ms.k.IsActiveNode(ctx, msg.NodeAddress)
+	if err != nil {
+		return nil, err
+	}
+	if node.Address == "" {
+		return nil, errorsmod.Wrapf(types.ErrNodeNotFound, "node %s", msg.NodeAddress)
+	}
+	if !active {
+		return nil, errorsmod.Wrapf(types.ErrNodeDeactivated, "node %s", msg.NodeAddress)
+	}
+
+	params, err := ms.k.GetParams(ctx)
+	if err != nil {
+		return nil, err
+	}
+	counter, err := ms.k.NodeStatusCounters.Get(ctx, msg.NodeAddress)
+	if err == nil && types.SameDay(counter.LatestTime, sdkCtx.BlockTime()) && counter.DailyCount > params.StatusDailyLimit {
+		return nil, errorsmod.Wrapf(types.ErrQuotaExceeded, "node %s exceeded %d status updates today", msg.NodeAddress, params.StatusDailyLimit)
+	}
+
+	if err := ms.k.TouchNodeActivity(ctx, msg.NodeAddress); err != nil {
+		return nil, err
+	}
+
+	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
+		types.EventTypeNodeStatus,
+		sdk.NewAttribute(types.AttributeKeyNodeAddress, msg.NodeAddress),
+		sdk.NewAttribute(types.AttributeKeyOperator, node.Operator),
+		sdk.NewAttribute(types.AttributeKeyNodeType, node.Type),
+		sdk.NewAttribute(types.AttributeKeyDevice, msg.Payload.Device),
+		sdk.NewAttribute(types.AttributeKeyOS, msg.Payload.Os),
+		sdk.NewAttribute(types.AttributeKeyHostname, msg.Payload.Hostname),
+		sdk.NewAttribute(types.AttributeKeyNodeInfo, msg.Payload.NodeInfo),
+		sdk.NewAttribute(types.AttributeKeyWorkloads, strings.Join(msg.Payload.Workloads, ",")),
+		sdk.NewAttribute(types.AttributeKeyMemory, msg.Payload.Memory),
+		sdk.NewAttribute(types.AttributeKeyCPU, msg.Payload.Cpu),
+		sdk.NewAttribute(types.AttributeKeyStorage, msg.Payload.Storage),
+	))
+
+	return &types.MsgUpdateNodeStatusResponse{}, nil
+}
+
+// UpdateParams updates the module parameters. Signer must be the module
+// authority (x/gov by default).
+func (ms msgServer) UpdateParams(ctx context.Context, msg *types.MsgUpdateParams) (*types.MsgUpdateParamsResponse, error) {
+	if ms.k.authority != msg.Authority {
+		return nil, errorsmod.Wrapf(govtypes.ErrInvalidSigner, "invalid authority; expected %s, got %s", ms.k.authority, msg.Authority)
+	}
+	if err := msg.Params.Validate(); err != nil {
+		return nil, err
+	}
+	if err := ms.k.Params.Set(ctx, msg.Params); err != nil {
+		return nil, err
+	}
+	return &types.MsgUpdateParamsResponse{}, nil
+}

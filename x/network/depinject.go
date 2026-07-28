@@ -1,12 +1,12 @@
-package license
+package network
 
 import (
-	"context"
 	"os"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	"cosmossdk.io/core/appmodule"
@@ -14,9 +14,10 @@ import (
 	"cosmossdk.io/depinject"
 	"cosmossdk.io/log"
 
-	modulev1 "github.com/webstack-sdk/webstack/api/license/module/v1"
-	"github.com/webstack-sdk/webstack/x/license/keeper"
-	"github.com/webstack-sdk/webstack/x/license/types"
+	modulev1 "github.com/webstack-sdk/webstack/api/network/module/v1"
+	licensekeeper "github.com/webstack-sdk/webstack/x/license/keeper"
+	"github.com/webstack-sdk/webstack/x/network/keeper"
+	"github.com/webstack-sdk/webstack/x/network/types"
 	permissionkeeper "github.com/webstack-sdk/webstack/x/permission/keeper"
 	permissiontypes "github.com/webstack-sdk/webstack/x/permission/types"
 )
@@ -35,8 +36,10 @@ type ModuleInputs struct {
 
 	Cdc              codec.Codec
 	StoreService     store.KVStoreService
+	LicenseKeeper    licensekeeper.Keeper
 	PermissionKeeper permissionkeeper.Keeper
 	AccountKeeper    authkeeper.AccountKeeper
+	BankKeeper       bankkeeper.Keeper
 }
 
 type ModuleOutputs struct {
@@ -49,24 +52,19 @@ type ModuleOutputs struct {
 func ProvideModule(in ModuleInputs) ModuleOutputs {
 	govAddr := authtypes.NewModuleAddress(govtypes.ModuleName).String()
 
-	k := keeper.NewKeeper(in.Cdc, in.StoreService, log.NewLogger(os.Stderr), govAddr, in.PermissionKeeper, in.AccountKeeper)
+	k := keeper.NewKeeper(in.Cdc, in.StoreService, log.NewLogger(os.Stderr), govAddr, in.LicenseKeeper, in.PermissionKeeper, in.AccountKeeper, in.BankKeeper)
 	RegisterNamespace(in.PermissionKeeper, k)
 	m := NewAppModule(in.Cdc, k)
 
 	return ModuleOutputs{Module: m, Keeper: k}
 }
 
-// RegisterNamespace registers the license module's permission vocabulary and
-// scope validator with the x/permission keeper. It must be called exactly once
-// during app wiring, after the license keeper is constructed.
-func RegisterNamespace(pk permissionkeeper.Keeper, k keeper.Keeper) {
+// RegisterNamespace registers the network module's permission vocabulary
+// with the x/permission keeper. It must be called exactly once during app
+// wiring, after the network keeper is constructed. Grants are module-wide:
+// the namespace has no scope function, and grant scopes are empty strings.
+func RegisterNamespace(pk permissionkeeper.Keeper, _ keeper.Keeper) {
 	pk.RegisterNamespace(types.ModuleName, permissiontypes.NamespaceSpec{
 		Permissions: types.ValidPermissions,
-		// Grant scopes are license type ids; a grant may only reference an
-		// existing type.
-		ScopeExists: func(ctx context.Context, scope string) (bool, error) {
-			_, found, err := k.GetLicenseType(ctx, scope)
-			return found, err
-		},
 	})
 }

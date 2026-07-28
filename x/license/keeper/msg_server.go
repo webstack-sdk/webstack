@@ -165,6 +165,14 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 		}
 		countInt := math.NewIntFromUint64(entry.Count)
 
+		// Issuance creates the holder's account if absent, so a wallet
+		// holding only a license can sign its first transaction.
+		holderAddr, err := sdk.AccAddressFromBech32(entry.Holder)
+		if err != nil {
+			return nil, fmt.Errorf("invalid holder address %q: %w", entry.Holder, err)
+		}
+		ms.k.createAccountIfNotExists(ctx, holderAddr)
+
 		for j := uint64(0); j < entry.Count; j++ {
 			id, err := ms.k.nextLicenseID(ctx, entry.LicenseTypeId)
 			if err != nil {

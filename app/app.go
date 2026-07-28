@@ -128,12 +128,17 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	cosmosevmserver "github.com/cosmos/evm/server"
 
+	webstackante "github.com/webstack-sdk/webstack/app/ante"
 	appconfig "github.com/webstack-sdk/webstack/config"
 	"github.com/webstack-sdk/webstack/docs"
 	license "github.com/webstack-sdk/webstack/x/license"
 	licensekeeper "github.com/webstack-sdk/webstack/x/license/keeper"
 	licenseprecompile "github.com/webstack-sdk/webstack/x/license/precompile"
 	licensetypes "github.com/webstack-sdk/webstack/x/license/types"
+	network "github.com/webstack-sdk/webstack/x/network"
+	networkante "github.com/webstack-sdk/webstack/x/network/ante"
+	networkkeeper "github.com/webstack-sdk/webstack/x/network/keeper"
+	networktypes "github.com/webstack-sdk/webstack/x/network/types"
 	permission "github.com/webstack-sdk/webstack/x/permission"
 	permissionkeeper "github.com/webstack-sdk/webstack/x/permission/keeper"
 	permissiontypes "github.com/webstack-sdk/webstack/x/permission/types"
@@ -203,6 +208,7 @@ type WebstackApp struct {
 	// Custom module keepers
 	LicenseKeeper    licensekeeper.Keeper
 	PermissionKeeper permissionkeeper.Keeper
+	NetworkKeeper    networkkeeper.Keeper
 
 	// the module manager
 	ModuleManager      *module.Manager
@@ -256,6 +262,7 @@ func NewApp(
 		// Custom module store keys
 		licensetypes.StoreKey,
 		permissiontypes.StoreKey,
+		networktypes.StoreKey,
 	)
 
 	tkeys := storetypes.NewTransientStoreKeys(evmtypes.TransientKey, feemarkettypes.TransientKey)
@@ -452,8 +459,23 @@ func NewApp(
 		logger,
 		authAddr,
 		app.PermissionKeeper,
+		app.AccountKeeper,
 	)
 	license.RegisterNamespace(app.PermissionKeeper, app.LicenseKeeper)
+
+	// NetworkKeeper consumes the license keeper (activation limits count
+	// active licenses) and the permission keeper's "network" namespace.
+	app.NetworkKeeper = networkkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[networktypes.StoreKey]),
+		logger,
+		authAddr,
+		app.LicenseKeeper,
+		app.PermissionKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+	)
+	network.RegisterNamespace(app.PermissionKeeper, app.NetworkKeeper)
 
 	// Set up EVM keeper
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
@@ -586,6 +608,7 @@ func NewApp(
 		// Custom modules
 		license.NewAppModule(appCodec, app.LicenseKeeper),
 		permission.NewAppModule(appCodec, app.PermissionKeeper),
+		network.NewAppModule(appCodec, app.NetworkKeeper),
 	)
 
 	app.BasicModuleManager = module.NewBasicManagerFromManager(
@@ -646,9 +669,12 @@ func NewApp(
 		ibctransfertypes.ModuleName,
 		// Custom modules. The permission module initializes after license so
 		// grant scopes that reference license state (e.g. license type ids)
-		// can be validated against it on import.
+		// can be validated against it on import. The network module comes
+		// after both: it consumes the license keeper and the permission
+		// namespace.
 		licensetypes.ModuleName,
 		permissiontypes.ModuleName,
+		networktypes.ModuleName,
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
 		feegrant.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
 	}
@@ -723,7 +749,12 @@ func NewApp(
 }
 
 func (app *WebstackApp) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
-	options := evmante.HandlerOptions{
+	// The x/network gasless msgs ride the cosmos ante path with a zero fee,
+	// subject to hard resource caps and the module's admission checks.
+	gaslessAllowlist := networkante.NewAllowlist(networktypes.GaslessMessages())
+	admissionRouter := networkante.NewAdmissionRouter(app.NetworkKeeper, networktypes.GaslessMessages())
+
+	options := webstackante.HandlerOptions{
 		Cdc:                    app.appCodec,
 		AccountKeeper:          app.AccountKeeper,
 		BankKeeper:             app.BankKeeper,
@@ -737,12 +768,16 @@ func (app *WebstackApp) setAnteHandler(txConfig client.TxConfig, maxGasWanted ui
 		MaxTxGasWanted:         maxGasWanted,
 		DynamicFeeChecker:      true,
 		PendingTxListener:      app.onPendingTx,
+
+		NetworkKeeper:    app.NetworkKeeper,
+		GaslessAllowlist: gaslessAllowlist,
+		AdmissionRouter:  admissionRouter,
 	}
 	if err := options.Validate(); err != nil {
 		panic(err)
 	}
 
-	app.SetAnteHandler(evmante.NewAnteHandler(options))
+	app.SetAnteHandler(webstackante.NewAnteHandler(options))
 }
 
 func (app *WebstackApp) onPendingTx(hash common.Hash) {

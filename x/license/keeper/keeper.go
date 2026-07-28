@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
@@ -33,6 +34,9 @@ type Keeper struct {
 	// for the license module under the "license" namespace.
 	permissionKeeper types.PermissionKeeper
 
+	// accountKeeper creates holder accounts on issuance.
+	accountKeeper types.AccountKeeper
+
 	authority string
 }
 
@@ -42,6 +46,7 @@ func NewKeeper(
 	logger log.Logger,
 	authority string,
 	permissionKeeper types.PermissionKeeper,
+	accountKeeper types.AccountKeeper,
 ) Keeper {
 	logger = logger.With(log.ModuleKey, "x/"+types.ModuleName)
 
@@ -62,6 +67,7 @@ func NewKeeper(
 		ActiveLicensesByHolder: collections.NewKeySet(sb, types.ActiveLicensesByHolderPrefix, "active_licenses_by_holder", collections.TripleKeyCodec(collections.StringKey, collections.StringKey, collections.Uint64Key)),
 
 		permissionKeeper: permissionKeeper,
+		accountKeeper:    accountKeeper,
 
 		authority: authority,
 	}
@@ -185,6 +191,45 @@ func (k *Keeper) ExportGenesis(ctx context.Context) *types.GenesisState {
 		Licenses:      licenses,
 		LicenseCounts: licenseCounts,
 	}
+}
+
+// createAccountIfNotExists creates a BaseAccount for addr if none exists,
+// so license holders can sign transactions (e.g. the gasless activation-key
+// authorization) without a prior funding transfer. Pubkeys are set lazily by
+// the stock SetPubKeyDecorator on the account's first signed tx.
+func (k Keeper) createAccountIfNotExists(ctx context.Context, addr sdk.AccAddress) {
+	if k.accountKeeper.HasAccount(ctx, addr) {
+		return
+	}
+	acc := k.accountKeeper.NewAccountWithAddress(ctx, addr)
+	k.accountKeeper.SetAccount(ctx, acc)
+}
+
+// CountActiveLicenses returns the number of active licenses holder holds
+// across the given license types, via prefix walks over the
+// ActiveLicensesByHolder index. When stopAt is non-zero the walk stops as
+// soon as the count reaches it, so gas is bounded by the check being made
+// rather than by the holder's holdings; stopAt zero counts everything.
+//
+// "Active" means "not revoked": the module never enforces EndDate, so an
+// expired-but-unrevoked license still counts. License types meant for
+// counting should be issued with an empty end_date (revocation-only
+// lifecycle).
+func (k Keeper) CountActiveLicenses(ctx context.Context, holder string, licenseTypes []string, stopAt uint64) (uint64, error) {
+	var count uint64
+	for _, typeID := range licenseTypes {
+		rng := collections.NewSuperPrefixedTripleRange[string, string, uint64](holder, typeID)
+		if err := k.ActiveLicensesByHolder.Walk(ctx, rng, func(_ collections.Triple[string, string, uint64]) (bool, error) {
+			count++
+			return stopAt != 0 && count >= stopAt, nil
+		}); err != nil {
+			return 0, err
+		}
+		if stopAt != 0 && count >= stopAt {
+			break
+		}
+	}
+	return count, nil
 }
 
 // nextLicenseID returns the next license ID for a given type and increments the counter.

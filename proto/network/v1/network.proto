@@ -1,0 +1,151 @@
+syntax = "proto3";
+package network.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/webstack-sdk/webstack/x/network/types";
+
+// NodeStatus enumerates the lifecycle states of a node.
+enum NodeStatus {
+  // NODE_STATUS_UNSPECIFIED is the zero value and never valid in state.
+  NODE_STATUS_UNSPECIFIED = 0;
+  // NODE_STATUS_ACTIVE marks a node that is activated and in service.
+  NODE_STATUS_ACTIVE = 1;
+  // NODE_STATUS_DEACTIVATED marks a node that has been deactivated.
+  // Deactivation is irreversible; the record is retained so the address can
+  // never be re-activated.
+  NODE_STATUS_DEACTIVATED = 2;
+}
+
+// ActivationKeyStatus enumerates the lifecycle states of an activation key.
+enum ActivationKeyStatus {
+  // ACTIVATION_KEY_STATUS_UNSPECIFIED is the zero value and never valid in state.
+  ACTIVATION_KEY_STATUS_UNSPECIFIED = 0;
+  // ACTIVATION_KEY_STATUS_ACTIVE marks a key that may activate nodes.
+  ACTIVATION_KEY_STATUS_ACTIVE = 1;
+  // ACTIVATION_KEY_STATUS_DISABLED marks a deauthorized key. The record is
+  // retained: the address is permanently bound to its operator and can never
+  // be re-authorized, and it still counts toward the recent-creation window.
+  ACTIVATION_KEY_STATUS_DISABLED = 2;
+}
+
+// Node is an activated node record.
+message Node {
+  // address is the node's account address.
+  string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // operator is the wallet that owns this node's licenses.
+  string operator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // activated_by is the activation key address that activated this node.
+  string activated_by = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // type is an opaque node type identifier (e.g. a chain-specific node
+  // class). It is validated against the allowed_node_types param when that
+  // list is non-empty; type-conditional business rules live in consuming
+  // modules.
+  string type = 4;
+  // status is the node lifecycle state.
+  NodeStatus status = 5;
+  // last_active_time is the block time of the node's most recent counted
+  // activity (activation, status update, or attestation). It determines the
+  // node's bucket in the recent-activity index; deactivation does not touch
+  // it.
+  google.protobuf.Timestamp last_active_time = 6 [
+    (gogoproto.stdtime) = true,
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// ActivationKey is an activation key record. The address is permanently bound
+// to the first operator that authorizes it, even after deauthorization.
+message ActivationKey {
+  // address is the activation key's account address.
+  string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // operator is the wallet that authorized this key.
+  string operator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // created_at is the block time the key was authorized, used for the
+  // recent-creation window check.
+  google.protobuf.Timestamp created_at = 3 [
+    (gogoproto.stdtime) = true,
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  // status is the key lifecycle state.
+  ActivationKeyStatus status = 4;
+}
+
+// ActivityCounter is a rolling daily counter. The count resets when the UTC
+// day of the block time differs from the UTC day of latest_time.
+message ActivityCounter {
+  // latest_time is the block time of the most recent counted action.
+  google.protobuf.Timestamp latest_time = 1 [
+    (gogoproto.stdtime) = true,
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  // latest_height is the block height of the most recent counted action.
+  int64 latest_height = 2;
+  // daily_count is the number of counted actions in the current UTC day.
+  uint64 daily_count = 3;
+}
+
+// OperatorNodeCounts is the denormalized per-operator node tally consulted by
+// the activation-limit algorithm.
+message OperatorNodeCounts {
+  // total is the number of nodes ever activated by the operator, active and
+  // deactivated.
+  uint64 total = 1;
+  // active is the number of currently active nodes.
+  uint64 active = 2;
+}
+
+// Params defines the parameters for the network module. Defaults are
+// deliberately neutral (fail-closed where counting is involved); chains seed
+// their real values in an upgrade handler or genesis.
+message Params {
+  // license_types are the license type ids counted toward activation limits.
+  // An empty list means no licenses count, so no node can ever activate.
+  repeated string license_types = 1;
+  // allowed_node_types restricts Node.type values on activation. An empty
+  // list accepts any non-empty type.
+  repeated string allowed_node_types = 2;
+  // activation_limit_multiplier scales the active license count into the
+  // node activation limit.
+  uint64 activation_limit_multiplier = 3;
+  // spam_limit_multiplier scales the active license count into the
+  // recent-activity ceiling that hard-stops activation bursts.
+  uint64 spam_limit_multiplier = 4;
+  // max_activation_keys is the maximum number of active activation keys per
+  // operator.
+  uint64 max_activation_keys = 5;
+  // recent_key_limit is the maximum number of activation keys an operator may
+  // create within recent_key_window.
+  uint64 recent_key_limit = 6;
+  // recent_key_window is the sliding window for recent_key_limit.
+  google.protobuf.Duration recent_key_window = 7 [
+    (gogoproto.stdduration) = true,
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  // status_daily_limit is the maximum number of MsgUpdateNodeStatus per node
+  // per UTC day.
+  uint64 status_daily_limit = 8;
+  // deauthorize_fee is charged by the MsgDeauthorizeActivationKey handler as
+  // a bank transfer to the fee collector, on top of regular gas. Empty
+  // disables the charge; chains that want it seed a denominated value.
+  repeated cosmos.base.v1beta1.Coin deauthorize_fee = 9 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+  ];
+  // max_gasless_gas caps the declared gas wanted of a gasless transaction.
+  uint64 max_gasless_gas = 10;
+  // max_gasless_msgs caps the number of messages in a gasless transaction.
+  uint64 max_gasless_msgs = 11;
+  // max_gasless_tx_bytes caps the encoded size of a gasless transaction.
+  uint64 max_gasless_tx_bytes = 12;
+}

@@ -28,11 +28,13 @@ import (
 )
 
 // LicenseFixture bundles a license keeper with the permission keeper it
-// consumes. The license namespace is registered and created with Owner as its
-// namespace owner.
+// consumes and a fake account keeper recording holder-account creation. The
+// license namespace is registered and created with Owner as its namespace
+// owner.
 type LicenseFixture struct {
 	Keeper           keeper.Keeper
 	PermissionKeeper permissionkeeper.Keeper
+	AccountKeeper    *FakeAccountKeeper
 	Ctx              sdk.Context
 	Owner            string
 }
@@ -66,12 +68,15 @@ func NewLicenseFixture(t testing.TB) *LicenseFixture {
 		authority,
 	)
 
+	ak := NewFakeAccountKeeper()
+
 	k := keeper.NewKeeper(
 		cdc,
 		runtime.NewKVStoreService(licenseStoreKey),
 		log.NewNopLogger(),
 		authority,
 		pk,
+		ak,
 	)
 
 	license.RegisterNamespace(pk, k)
@@ -86,6 +91,7 @@ func NewLicenseFixture(t testing.TB) *LicenseFixture {
 	return &LicenseFixture{
 		Keeper:           k,
 		PermissionKeeper: pk,
+		AccountKeeper:    ak,
 		Ctx:              ctx,
 		Owner:            owner,
 	}
