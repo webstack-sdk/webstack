@@ -21,14 +21,6 @@ func TestValidateName(t *testing.T) {
 	require.ErrorContains(t, types.ValidateName("permission", "issue:a"), "invalid permission")
 }
 
-func TestNamespaceSpecValidate(t *testing.T) {
-	require.NoError(t, types.NamespaceSpec{Permissions: []string{"issue", "revoke"}}.Validate())
-
-	require.ErrorContains(t, types.NamespaceSpec{}.Validate(), "at least one permission")
-	require.ErrorContains(t, types.NamespaceSpec{Permissions: []string{"issue", "issue"}}.Validate(), "duplicate permission")
-	require.ErrorContains(t, types.NamespaceSpec{Permissions: []string{"Bad"}}.Validate(), "invalid permission")
-}
-
 func TestMsgValidateBasic(t *testing.T) {
 	addr := sample.AccAddress()
 

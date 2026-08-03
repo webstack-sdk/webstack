@@ -354,6 +354,209 @@ func TestGrantPermissionsModuleWide(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
+// Mixed granularity
+// ---------------------------------------------------------------------------
+
+const (
+	// mixedModule scopes "issue" to {scopeA, scopeB} while declaring
+	// createPerm module-wide.
+	mixedModule = "mixedmod"
+	// createPerm is the motivating case for per-permission granularity: the
+	// right to create the very resources the other permissions are scoped to.
+	// It has no scope to name, because the resource does not exist yet.
+	createPerm = "type.create"
+)
+
+// setupMixed returns a keeper whose only namespace is mixedModule, already
+// owned. It builds its own keeper rather than extending setupMsgServer so the
+// registered-module counts asserted in the query tests stay put.
+func setupMixed(t testing.TB) (keeper.Keeper, types.MsgServer, sdk.Context, string) {
+	t.Helper()
+
+	k, ctx := keepertest.PermissionKeeper(t)
+	k.RegisterNamespace(mixedModule, types.NamespaceSpec{
+		Permissions: []string{"issue", createPerm},
+		ScopeExists: func(_ context.Context, scope string) (bool, error) {
+			return scope == scopeA || scope == scopeB, nil
+		},
+		Unscoped: []string{createPerm},
+	})
+
+	ms := keeper.NewMsgServerImpl(k)
+	owner := sample.AccAddress()
+	_, err := ms.UpdateNamespaceOwner(ctx, &types.MsgUpdateNamespaceOwner{
+		Authority: k.GetAuthority(),
+		Module:    mixedModule,
+		Owner:     owner,
+	})
+	require.NoError(t, err)
+
+	return k, ms, ctx, owner
+}
+
+// TestGrantMixedGranularity: within one namespace, a scoped and a module-wide
+// permission are both grantable and land under different key forms.
+func TestGrantMixedGranularity(t *testing.T) {
+	k, ms, ctx, owner := setupMixed(t)
+	grantee := sample.AccAddress()
+
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner:   owner,
+		Module:  mixedModule,
+		Grantee: grantee,
+		Grants: []types.PermissionScopes{
+			{Permission: "issue", Scopes: []string{scopeA}},
+			{Permission: createPerm}, // no scopes: the module-wide form
+		},
+	})
+	require.NoError(t, err)
+
+	require.True(t, k.HasPermission(ctx, mixedModule, grantee, "issue", scopeA))
+	require.True(t, k.HasPermission(ctx, mixedModule, grantee, createPerm, ""))
+
+	// The module-wide grant does not leak into the scoped keyspace.
+	require.False(t, k.HasPermission(ctx, mixedModule, grantee, createPerm, scopeA))
+	require.False(t, k.HasPermission(ctx, mixedModule, grantee, "issue", ""))
+
+	require.Len(t, k.ExportGenesis(ctx).Grants, 2)
+}
+
+// TestGrantUnscopedRejectsScope: an unscoped permission must carry the empty
+// scope. A scope that exists is still rejected — the point is one canonical
+// key form per (grantee, permission), not merely a valid identifier.
+func TestGrantUnscopedRejectsScope(t *testing.T) {
+	k, ms, ctx, owner := setupMixed(t)
+	grantee := sample.AccAddress()
+
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner:   owner,
+		Module:  mixedModule,
+		Grantee: grantee,
+		Grants:  []types.PermissionScopes{{Permission: createPerm, Scopes: []string{scopeA}}},
+	})
+	require.ErrorIs(t, err, types.ErrInvalidScope)
+	require.Contains(t, err.Error(), "is module-wide")
+
+	require.Empty(t, k.ExportGenesis(ctx).Grants)
+}
+
+// TestGrantScopedStillRequiresScope: declaring one permission unscoped does
+// not relax the rest of the namespace.
+func TestGrantScopedStillRequiresScope(t *testing.T) {
+	k, ms, ctx, owner := setupMixed(t)
+	grantee := sample.AccAddress()
+
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner:   owner,
+		Module:  mixedModule,
+		Grantee: grantee,
+		Grants:  []types.PermissionScopes{{Permission: "issue"}},
+	})
+	require.ErrorIs(t, err, types.ErrInvalidScope)
+	require.Contains(t, err.Error(), "scope must not be empty")
+
+	// An unknown scope is still rejected for the scoped permission.
+	_, err = ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner:   owner,
+		Module:  mixedModule,
+		Grantee: grantee,
+		Grants:  []types.PermissionScopes{{Permission: "issue", Scopes: []string{"ghost"}}},
+	})
+	require.ErrorIs(t, err, types.ErrInvalidScope)
+
+	require.Empty(t, k.ExportGenesis(ctx).Grants)
+}
+
+// TestGrantMixedGranularityAtomic: a message whose valid and invalid grants
+// are interleaved writes nothing, matching the all-or-nothing behaviour the
+// single-granularity path already has.
+func TestGrantMixedGranularityAtomic(t *testing.T) {
+	k, ms, ctx, owner := setupMixed(t)
+	grantee := sample.AccAddress()
+
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner:   owner,
+		Module:  mixedModule,
+		Grantee: grantee,
+		Grants: []types.PermissionScopes{
+			{Permission: "issue", Scopes: []string{scopeA}}, // valid
+			{Permission: createPerm, Scopes: []string{scopeB}},
+		},
+	})
+	require.ErrorIs(t, err, types.ErrInvalidScope)
+
+	require.False(t, k.HasPermission(ctx, mixedModule, grantee, "issue", scopeA))
+	require.Empty(t, k.ExportGenesis(ctx).Grants)
+}
+
+// TestRevokeUnscopedPermission: revoking the module-wide form uses the empty
+// scope, the same key the grant wrote.
+func TestRevokeUnscopedPermission(t *testing.T) {
+	k, ms, ctx, owner := setupMixed(t)
+	grantee := sample.AccAddress()
+
+	_, err := ms.GrantPermissions(ctx, &types.MsgGrantPermissions{
+		Owner:   owner,
+		Module:  mixedModule,
+		Grantee: grantee,
+		Grants:  []types.PermissionScopes{{Permission: createPerm}},
+	})
+	require.NoError(t, err)
+	require.True(t, k.HasPermission(ctx, mixedModule, grantee, createPerm, ""))
+
+	_, err = ms.RevokePermissions(ctx, &types.MsgRevokePermissions{
+		Owner:       owner,
+		Module:      mixedModule,
+		Grantee:     grantee,
+		Permissions: []types.PermissionScope{{Permission: createPerm}},
+	})
+	require.NoError(t, err)
+	require.False(t, k.HasPermission(ctx, mixedModule, grantee, createPerm, ""))
+}
+
+// TestInitGenesisMixedGranularity: genesis import runs the same validation, so
+// an unscoped grant round-trips and a scoped one for the same permission does
+// not survive import.
+func TestInitGenesisMixedGranularity(t *testing.T) {
+	k, _, ctx, owner := setupMixed(t)
+	grantee := sample.AccAddress()
+
+	namespaces := []types.Namespace{{Module: mixedModule, Owner: owner}}
+
+	require.NoError(t, k.InitGenesis(ctx, &types.GenesisState{
+		Namespaces: namespaces,
+		Grants: []types.Grant{
+			{Module: mixedModule, Grantee: grantee, Permission: "issue", Scope: scopeA},
+			{Module: mixedModule, Grantee: grantee, Permission: createPerm, Scope: ""},
+		},
+	}))
+	require.True(t, k.HasPermission(ctx, mixedModule, grantee, createPerm, ""))
+
+	k2, _, ctx2, owner2 := setupMixed(t)
+	err := k2.InitGenesis(ctx2, &types.GenesisState{
+		Namespaces: []types.Namespace{{Module: mixedModule, Owner: owner2}},
+		Grants: []types.Grant{
+			{Module: mixedModule, Grantee: grantee, Permission: createPerm, Scope: scopeA},
+		},
+	})
+	require.ErrorIs(t, err, types.ErrInvalidScope)
+}
+
+// TestRegisterNamespaceRejectsBadMixedSpec: a malformed unscoped list is a
+// wiring bug and fails at startup rather than at grant time.
+func TestRegisterNamespaceRejectsBadMixedSpec(t *testing.T) {
+	k, _ := keepertest.PermissionKeeper(t)
+
+	require.Panics(t, func() {
+		k.RegisterNamespace("badmod", types.NamespaceSpec{
+			Permissions: []string{"issue"},
+			ScopeExists: func(_ context.Context, _ string) (bool, error) { return true, nil },
+			Unscoped:    []string{"nonexistent"},
+		})
+	})
+}
+
+// ---------------------------------------------------------------------------
 // RevokePermissions
 // ---------------------------------------------------------------------------
 

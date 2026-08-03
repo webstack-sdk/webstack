@@ -159,16 +159,27 @@ func (k Keeper) HasPermission(ctx context.Context, module, grantee, permission, 
 
 // validateGrantPair checks a (permission, scope) pair against the module's
 // registered spec: the permission must be in the vocabulary and the scope must
-// satisfy the module's scope rules.
+// satisfy the rules for that permission — which may differ from the rest of
+// the namespace, since a spec can declare individual permissions module-wide.
 func (k Keeper) validateGrantPair(ctx context.Context, module string, spec types.NamespaceSpec, permission, scope string) error {
 	if !spec.HasPermission(permission) {
 		return types.ErrInvalidPermission.Wrapf("permission %q is not registered for module %q", permission, module)
+	}
+	// A module-wide permission is required to carry the empty scope, not
+	// merely allowed to. That keeps one key form per (grantee, permission), so
+	// a permission check cannot miss a grant that was stored under a scope the
+	// caller does not think to look up.
+	if spec.IsUnscoped(permission) {
+		if scope != "" {
+			return types.ErrInvalidScope.Wrapf("permission %q in module %q is module-wide: scope must be empty, got %q", permission, module, scope)
+		}
+		return nil
 	}
 	if spec.ScopeExists == nil {
 		return nil
 	}
 	if scope == "" {
-		return types.ErrInvalidScope.Wrapf("module %q scopes its permissions: scope must not be empty", module)
+		return types.ErrInvalidScope.Wrapf("module %q scopes permission %q: scope must not be empty", module, permission)
 	}
 	exists, err := spec.ScopeExists(ctx, scope)
 	if err != nil {

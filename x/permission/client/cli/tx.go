@@ -37,9 +37,9 @@ func GetTxCmd() *cobra.Command {
 //
 // Where [permissions] is a comma-delimited list (e.g. "issue,revoke") and
 // [scopes] is a comma-delimited list of scope identifiers, or "-" for a
-// module-wide grant in namespaces that don't scope their permissions.
-// One grant entry is created per permission, each sharing the same scopes.
-// The namespace owner is taken from --from.
+// module-wide grant. One grant entry is created per permission, each sharing
+// the same scopes, so scoped and module-wide permissions cannot be granted in
+// the same invocation. The namespace owner is taken from --from.
 func CmdGrantPermissions() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "grant-permissions [module] [grantee] [permissions] [scopes]",
@@ -54,9 +54,13 @@ namespace owner (--from) must sign.
                webstackd query permission module [module]
 [scopes]       Comma-delimited list of scope identifiers these permissions
                apply to (e.g. license type IDs), or "-" for a module-wide
-               grant in namespaces that don't scope their permissions.
+               grant. Use "-" both for namespaces that don't scope their
+               permissions at all and for individual permissions the module
+               declares module-wide; those reject a non-empty scope.
 
 One grant entry is created per permission, each covering all specified scopes.
+Granting a mix of scoped and module-wide permissions therefore takes two
+invocations — one with scopes, one with "-".
 
 Grants are MERGED with any existing grants for the grantee — previously
 granted permissions and scopes are preserved. To remove specific
