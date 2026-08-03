@@ -136,6 +136,13 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 
 	// Check supply caps up front, aggregating requested counts per license
 	// type, so no licenses are issued if any entry would exceed a cap.
+	//
+	// max_supply bounds licenses *outstanding*, not licenses ever issued: the
+	// check is against active_count, which revocation decrements. Revoking
+	// therefore returns a slot to the pool, which is what a chargeback on a
+	// purchased license needs — the sale is undone, so it must stop consuming
+	// supply. issued_count keeps counting lifetime issuance for audit and can
+	// exceed max_supply over time; it is deliberately not the cap.
 	totals := make(map[string]math.Int)
 	for i, entry := range msg.Entries {
 		lt, err := ms.k.LicenseTypes.Get(ctx, entry.LicenseTypeId)
@@ -150,8 +157,8 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 		total = total.Add(math.NewIntFromUint64(entry.Count))
 		totals[entry.LicenseTypeId] = total
 
-		if !lt.MaxSupply.IsZero() && lt.IssuedCount.Add(total).GT(lt.MaxSupply) {
-			return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "entry %d: license type %s: issuing %d would exceed max supply of %s (current: %s)", i, entry.LicenseTypeId, entry.Count, lt.MaxSupply.String(), lt.IssuedCount.String())
+		if !lt.MaxSupply.IsZero() && lt.ActiveCount.Add(total).GT(lt.MaxSupply) {
+			return nil, errorsmod.Wrapf(types.ErrMaxSupplyReached, "entry %d: license type %s: issuing %d would exceed max supply of %s (outstanding: %s)", i, entry.LicenseTypeId, entry.Count, lt.MaxSupply.String(), lt.ActiveCount.String())
 		}
 	}
 

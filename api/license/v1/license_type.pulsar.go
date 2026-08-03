@@ -768,7 +768,9 @@ type LicenseType struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// transferrable indicates whether holders may transfer this license type.
 	Transferrable bool `protobuf:"varint,2,opt,name=transferrable,proto3" json:"transferrable,omitempty"`
-	// max_supply is the maximum number of licenses that can be issued. 0 = unlimited.
+	// max_supply is the maximum number of licenses outstanding at once, checked
+	// against active_count. Revoking frees a slot, so lifetime issued_count may
+	// exceed it. 0 = unlimited.
 	MaxSupply string `protobuf:"bytes,3,opt,name=max_supply,json=maxSupply,proto3" json:"max_supply,omitempty"`
 	// issued_count tracks the total number of licenses issued (used for ID generation).
 	IssuedCount string `protobuf:"bytes,4,opt,name=issued_count,json=issuedCount,proto3" json:"issued_count,omitempty"`

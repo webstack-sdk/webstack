@@ -257,6 +257,77 @@ func TestIssueLicenses(t *testing.T) {
 	require.Equal(t, math.NewInt(4), lt.IssuedCount)
 }
 
+// TestMaxSupplyBoundsOutstandingNotLifetime pins the supply semantic that a
+// chargeback depends on: max_supply caps licenses currently outstanding, so
+// revoking one returns its slot to the pool. A license sold and then charged
+// back must stop consuming supply — under a lifetime cap it would burn a slot
+// permanently, and a type would run out of supply while holding none.
+//
+// The trade-off this encodes: lifetime issued_count is allowed to exceed
+// max_supply, so the cap is not a promise about how many were ever sold.
+func TestMaxSupplyBoundsOutstandingNotLifetime(t *testing.T) {
+	f, ms, ctx, owner := setupWithOwner(t)
+	issuer := sample.AccAddress()
+	revoker := sample.AccAddress()
+	holder := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Owner: owner, Id: "capped", MaxSupply: math.NewInt(2),
+	})
+	require.NoError(t, err)
+	f.Grant(t, issuer, types.PermissionIssue, "capped")
+	f.Grant(t, revoker, types.PermissionRevoke, "capped")
+
+	issue := func(count uint64) error {
+		_, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+			Issuer: issuer, Entries: []types.IssueLicenseEntry{
+				{LicenseTypeId: "capped", Holder: holder, StartDate: "2026-01-01", Count: count},
+			},
+		})
+		return err
+	}
+
+	// Fill the cap, then confirm it binds.
+	require.NoError(t, issue(2))
+	require.ErrorIs(t, issue(1), types.ErrMaxSupplyReached)
+
+	lt, _, err := f.Keeper.GetLicenseType(ctx, "capped")
+	require.NoError(t, err)
+	require.Equal(t, math.NewInt(2), lt.ActiveCount)
+	require.Equal(t, math.NewInt(2), lt.IssuedCount)
+
+	// Chargeback: revoking one frees exactly one slot.
+	_, err = ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
+		Revoker: revoker, LicenseTypeId: "capped", Holder: holder, Count: 1,
+	})
+	require.NoError(t, err)
+
+	lt, _, err = f.Keeper.GetLicenseType(ctx, "capped")
+	require.NoError(t, err)
+	require.Equal(t, math.NewInt(1), lt.ActiveCount)
+	require.Equal(t, math.NewInt(1), lt.RevokedCount)
+	require.Equal(t, math.NewInt(2), lt.IssuedCount, "issued_count must keep counting lifetime issuance")
+
+	// One slot free, not two: reissuing 2 still exceeds, reissuing 1 succeeds.
+	require.ErrorIs(t, issue(2), types.ErrMaxSupplyReached)
+	require.NoError(t, issue(1))
+
+	lt, _, err = f.Keeper.GetLicenseType(ctx, "capped")
+	require.NoError(t, err)
+	require.Equal(t, math.NewInt(2), lt.ActiveCount, "outstanding is back at the cap")
+	require.Equal(t, math.NewInt(3), lt.IssuedCount, "lifetime issuance exceeds max_supply by design")
+
+	// And the cap binds again now that the freed slot is used.
+	require.ErrorIs(t, issue(1), types.ErrMaxSupplyReached)
+
+	// The reissued license got a fresh id rather than reusing the revoked
+	// one's — ids come from a separate monotonic counter, so freeing supply
+	// never recycles an id.
+	highestID, err := f.Keeper.LicenseCounts.Get(ctx, "capped")
+	require.NoError(t, err)
+	require.Equal(t, uint64(3), highestID, "3 licenses issued over the lifetime, ids 1..3")
+}
+
 // TestIssueLicensesMultipleEntries covers the multi-entry behavior: entries
 // can target different holders and license types, per-entry counts accumulate
 // against the supply cap, and the signer needs the "issue" grant for every
