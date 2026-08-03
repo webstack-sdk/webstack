@@ -56,11 +56,16 @@ func newTestFixture(t *testing.T) *testFixture {
 	ownerBech, err := cdc.BytesToString(ownerHex.Bytes())
 	require.NoError(t, err)
 
-	// Replace the fixture's random namespace owner with the EVM-derived one.
+	// Replace the fixture's random namespace owner with the EVM-derived one,
+	// moving the self-granted type.create along with it so the new owner can
+	// create license types.
 	require.NoError(t, fx.PermissionKeeper.Namespaces.Set(fx.Ctx, licensetypes.ModuleName, permissiontypes.Namespace{
 		Module: licensetypes.ModuleName,
 		Owner:  ownerBech,
 	}))
+	fx.Ungrant(t, fx.Owner, licensetypes.PermissionCreateType, "")
+	fx.Grant(t, ownerBech, licensetypes.PermissionCreateType, "")
+	fx.Owner = ownerBech
 
 	p := NewPrecompile(fx.Keeper, cdc, common.HexToAddress(licensetypes.PrecompileAddress))
 

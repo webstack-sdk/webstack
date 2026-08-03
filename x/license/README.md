@@ -6,7 +6,7 @@ The `x/license` module provides on-chain license management for Cosmos SDK chain
 
 - **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and transferrability
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
-- **Ownership and permissions** live in the [`x/permission`](../permission/README.md) module under the `license` namespace: the namespace owner controls license type creation, and per-type `issue`/`revoke` grants delegate rights to other addresses
+- **Ownership and permissions** live in the [`x/permission`](../permission/README.md) module under the `license` namespace: per-type `issue`/`revoke` grants delegate rights over existing types, and a module-wide `type.create` grant delegates the creation of new ones. The owner grants these rights rather than holding them implicitly
 
 ## Installation
 
@@ -79,11 +79,16 @@ The `init()` function in `depinject.go` automatically registers the module. The 
 ### Namespace Owner
 
 The license module registers the `license` namespace with the `x/permission`
-module at wiring time, declaring the `issue`/`revoke` vocabulary and a scope
-validator that checks license type ids exist. The namespace owner is the only
-address that can:
-- Create and update license types
+module at wiring time, declaring the `issue`/`revoke`/`type.create` vocabulary
+and a scope validator that checks license type ids exist. The namespace owner
+is the only address that can:
+- Update license types
 - Grant and revoke permissions (via `x/permission` messages)
+
+Ownership confers no other rights. Creating license types is gated on the
+`type.create` grant exactly as issuing is gated on `issue`, so a new chain's
+first step after setting the namespace owner is for that owner to grant
+`type.create` — to itself, to a separate admin address, or both.
 
 The namespace itself exists by virtue of the registration — it is never
 created by a transaction. Its owner is set in the permission module's genesis
@@ -142,13 +147,32 @@ explicitly name each license type. The license keeper answers "may X issue Y?"
 with a single point-read via `permissionKeeper.Has(ctx, "license", addr,
 "issue", licenseTypeID)`.
 
+`type.create` is the exception. It authorizes creating license types, so there
+is no existing id to scope it to — the namespace declares it module-wide
+(`Unscoped` on the registered `NamespaceSpec`), and it is granted with `-` in
+place of a scope list:
+
+```bash
+webstackd tx permission grant-permissions license webstack1admin... type.create - --from owner
+```
+
+Because one invocation applies the same scopes to every permission it names,
+`type.create` cannot be granted in the same command as `issue`/`revoke`.
+Supplying a scope for it is rejected at grant time, so the grant only ever
+exists under the empty scope and the keeper checks it as
+`permissionKeeper.Has(ctx, "license", addr, "type.create", "")`.
+
 ## Messages
 
 ### MsgCreateLicenseType
-Create a new license type. Signer must be the license namespace owner.
+Create a new license type. Signer must hold the module-wide `type.create`
+permission; owning the namespace is not sufficient on its own.
 
 ```bash
-webstackd tx license create-license-type node.license true 1000 --from owner
+# One-time, from the namespace owner:
+webstackd tx permission grant-permissions license webstack1admin... type.create - --from owner
+
+webstackd tx license create-license-type node.license true 1000 --from admin
 ```
 
 ### MsgUpdateLicenseType
@@ -242,6 +266,7 @@ Example genesis configuration:
       { "module": "license", "owner": "webstack1owneraddress..." }
     ],
     "grants": [
+      { "module": "license", "grantee": "webstack1adminaddress...", "permission": "type.create", "scope": "" },
       { "module": "license", "grantee": "webstack1adminaddress...", "permission": "issue", "scope": "node.license" }
     ]
   }
@@ -250,6 +275,11 @@ Example genesis configuration:
 
 The permission module initializes after the license module, so genesis grants
 can be validated against the license types declared above.
+
+License types listed in genesis are written directly and need no `type.create`
+grant — that permission gates the `MsgCreateLicenseType` handler, which genesis
+import does not go through. The grant is what lets types be added once the
+chain is running.
 
 ## Events
 

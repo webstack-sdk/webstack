@@ -22,7 +22,7 @@ func TestQueryLicenseType(t *testing.T) {
 	q := setupQuerier(f.Keeper)
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "node", Transferrable: true, MaxSupply: math.NewInt(50),
+		Creator: owner, Id: "node", Transferrable: true, MaxSupply: math.NewInt(50),
 	})
 	require.NoError(t, err)
 
@@ -43,7 +43,7 @@ func TestQueryLicenseTypes(t *testing.T) {
 
 	for _, id := range []string{"a", "b", "c"} {
 		_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-			Owner: owner, Id: id, MaxSupply: math.ZeroInt(),
+			Creator: owner, Id: id, MaxSupply: math.ZeroInt(),
 		})
 		require.NoError(t, err)
 	}
@@ -60,7 +60,7 @@ func TestQueryLicense(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "ql", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "ql", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "ql")
@@ -92,7 +92,7 @@ func TestQueryLicenses(t *testing.T) {
 
 	for _, id := range []string{"a1", "b2"} {
 		_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-			Owner: owner, Id: id, MaxSupply: math.ZeroInt(),
+			Creator: owner, Id: id, MaxSupply: math.ZeroInt(),
 		})
 		require.NoError(t, err)
 	}
@@ -151,11 +151,11 @@ func TestQueryLicensesByHolder(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "h1", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "h1", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "h2", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "h2", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "h1")
@@ -228,7 +228,7 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "rvq", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "rvq", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	f.Grant(t, admin, types.PermissionIssue, "rvq")

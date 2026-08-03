@@ -68,5 +68,8 @@ func RegisterNamespace(pk permissionkeeper.Keeper, k keeper.Keeper) {
 			_, found, err := k.GetLicenseType(ctx, scope)
 			return found, err
 		},
+		// type.create is exempt: it authorizes creating the types the other
+		// permissions are scoped to, so it has no existing id to name.
+		Unscoped: types.UnscopedPermissions,
 	})
 }

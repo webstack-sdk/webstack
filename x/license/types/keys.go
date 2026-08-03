@@ -18,15 +18,26 @@ const (
 )
 
 // Permission names the license module registers with the x/permission module
-// under the "license" namespace. Grants are scoped per license type id.
+// under the "license" namespace. Grants are scoped per license type id, except
+// for the permissions listed in UnscopedPermissions.
 const (
 	PermissionIssue  = "issue"
 	PermissionRevoke = "revoke"
+
+	// PermissionCreateType authorizes creating new license types. It is
+	// module-wide rather than scoped to a type id: the type it would name does
+	// not exist at the time the grant is made.
+	PermissionCreateType = "type.create"
 )
 
 // ValidPermissions is the full permission vocabulary registered with the
 // x/permission module.
-var ValidPermissions = []string{PermissionIssue, PermissionRevoke}
+var ValidPermissions = []string{PermissionIssue, PermissionRevoke, PermissionCreateType}
+
+// UnscopedPermissions are the entries in ValidPermissions granted module-wide.
+// Grants for these carry the empty scope; every other permission must name an
+// existing license type id.
+var UnscopedPermissions = []string{PermissionCreateType}
 
 // Short returns the lowercase boundary form of a license status ("active",
 // "revoked"), or the raw enum name for unknown values.

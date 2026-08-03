@@ -88,6 +88,13 @@ func NewLicenseFixture(t testing.TB) *LicenseFixture {
 		Owner:  owner,
 	}))
 
+	// Creating license types is grant-gated, not owner-gated, so the owner
+	// grants it to itself — the step a real chain takes once the namespace has
+	// an owner. Tests that exercise the authorization rule itself call Ungrant
+	// to take it back.
+	require.NoError(t, pk.Grants.Set(ctx,
+		collections.Join4(types.ModuleName, owner, types.PermissionCreateType, "")))
+
 	return &LicenseFixture{
 		Keeper:           k,
 		PermissionKeeper: pk,
@@ -102,6 +109,14 @@ func NewLicenseFixture(t testing.TB) *LicenseFixture {
 func (f *LicenseFixture) Grant(t testing.TB, grantee, permission, licenseType string) {
 	t.Helper()
 	require.NoError(t, f.PermissionKeeper.Grants.Set(f.Ctx,
+		collections.Join4(types.ModuleName, grantee, permission, licenseType)))
+}
+
+// Ungrant removes a (grantee, permission, licenseType) grant, the inverse of
+// Grant. Removal is idempotent, so revoking an absent grant is a no-op.
+func (f *LicenseFixture) Ungrant(t testing.TB, grantee, permission, licenseType string) {
+	t.Helper()
+	require.NoError(t, f.PermissionKeeper.Grants.Remove(f.Ctx,
 		collections.Join4(types.ModuleName, grantee, permission, licenseType)))
 }
 

@@ -11,6 +11,8 @@ import (
 	"github.com/webstack-sdk/webstack/testutil/sample"
 	"github.com/webstack-sdk/webstack/x/license/keeper"
 	"github.com/webstack-sdk/webstack/x/license/types"
+	permissionkeeper "github.com/webstack-sdk/webstack/x/permission/keeper"
+	permissiontypes "github.com/webstack-sdk/webstack/x/permission/types"
 )
 
 // setupWithOwner returns a license fixture, its msg server, context, and the
@@ -44,19 +46,19 @@ func TestCreateLicenseType(t *testing.T) {
 		expErrMsg string
 	}{
 		{
-			name: "non-owner",
+			name: "no grant",
 			input: &types.MsgCreateLicenseType{
-				Owner: sample.AccAddress(),
-				Id:    "test.type",
+				Creator: sample.AccAddress(),
+				Id:      "test.type",
 			},
 			expErr:    true,
-			expErrMsg: "not the license namespace owner",
+			expErrMsg: "does not have type.create permission",
 		},
 		{
 			name: "empty id",
 			input: &types.MsgCreateLicenseType{
-				Owner: owner,
-				Id:    "",
+				Creator: owner,
+				Id:      "",
 			},
 			expErr:    true,
 			expErrMsg: "cannot be empty",
@@ -64,7 +66,7 @@ func TestCreateLicenseType(t *testing.T) {
 		{
 			name: "valid",
 			input: &types.MsgCreateLicenseType{
-				Owner:         owner,
+				Creator:       owner,
 				Id:            "test.type",
 				Transferrable: true,
 				MaxSupply:     math.NewInt(100),
@@ -74,7 +76,7 @@ func TestCreateLicenseType(t *testing.T) {
 		{
 			name: "duplicate",
 			input: &types.MsgCreateLicenseType{
-				Owner:     owner,
+				Creator:   owner,
 				Id:        "test.type",
 				MaxSupply: math.ZeroInt(),
 			},
@@ -84,7 +86,7 @@ func TestCreateLicenseType(t *testing.T) {
 		{
 			name: "negative max_supply",
 			input: &types.MsgCreateLicenseType{
-				Owner:     owner,
+				Creator:   owner,
 				Id:        "neg.type",
 				MaxSupply: math.NewInt(-1),
 			},
@@ -94,8 +96,8 @@ func TestCreateLicenseType(t *testing.T) {
 		{
 			name: "nil max_supply",
 			input: &types.MsgCreateLicenseType{
-				Owner: owner,
-				Id:    "nil.type",
+				Creator: owner,
+				Id:      "nil.type",
 			},
 			expErr:    true,
 			expErrMsg: "max_supply must be set",
@@ -115,6 +117,173 @@ func TestCreateLicenseType(t *testing.T) {
 	}
 }
 
+// TestCreateLicenseTypeByGrant: a grantee holding the module-wide type.create
+// permission can create types without owning the namespace.
+func TestCreateLicenseTypeByGrant(t *testing.T) {
+	f, ms, ctx, _ := setupWithOwner(t)
+	creator := sample.AccAddress()
+
+	// The module-wide grant is stored under the empty scope.
+	f.Grant(t, creator, types.PermissionCreateType, "")
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:       creator,
+		Id:            "delegated.type",
+		Transferrable: true,
+		MaxSupply:     math.NewInt(10),
+	})
+	require.NoError(t, err)
+
+	lt, found, err := f.Keeper.GetLicenseType(ctx, "delegated.type")
+	require.NoError(t, err)
+	require.True(t, found)
+	require.True(t, lt.Transferrable)
+	require.Equal(t, math.NewInt(10), lt.MaxSupply)
+}
+
+// TestCreateLicenseTypeOwnershipAloneIsNotEnough: the namespace owner creates
+// types by holding the grant like anyone else. Strip the grant the fixture
+// gives it and creation is refused, even though it still owns the namespace
+// and can grant the right back to itself at will.
+func TestCreateLicenseTypeOwnershipAloneIsNotEnough(t *testing.T) {
+	f, ms, ctx, owner := setupWithOwner(t)
+
+	f.Ungrant(t, owner, types.PermissionCreateType, "")
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   owner,
+		Id:        "owned.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.ErrorIs(t, err, types.ErrUnauthorized)
+
+	// Still the owner: re-granting restores the ability.
+	f.Grant(t, owner, types.PermissionCreateType, "")
+
+	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   owner,
+		Id:        "owned.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+}
+
+// TestCreateLicenseTypeGrantIsModuleWide: the grant only authorizes under the
+// empty scope. A grant written against a type id does not carry over, which is
+// why x/permission refuses to store one in the first place.
+func TestCreateLicenseTypeGrantIsModuleWide(t *testing.T) {
+	f, ms, ctx, owner := setupWithOwner(t)
+	creator := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   owner,
+		Id:        "existing.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+
+	// Bypasses the msg path to write the grant x/permission would reject.
+	f.Grant(t, creator, types.PermissionCreateType, "existing.type")
+
+	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   creator,
+		Id:        "another.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.ErrorIs(t, err, types.ErrUnauthorized)
+}
+
+// TestCreateLicenseTypeOtherGrantsDoNotAuthorize: holding issue or revoke on
+// every existing type does not confer the right to create new ones.
+func TestCreateLicenseTypeOtherGrantsDoNotAuthorize(t *testing.T) {
+	f, ms, ctx, owner := setupWithOwner(t)
+	issuer := sample.AccAddress()
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   owner,
+		Id:        "existing.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+
+	f.Grant(t, issuer, types.PermissionIssue, "existing.type")
+	f.Grant(t, issuer, types.PermissionRevoke, "existing.type")
+
+	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   issuer,
+		Id:        "another.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.ErrorIs(t, err, types.ErrUnauthorized)
+}
+
+// TestGrantCreateTypeThroughPermissionMsgServer covers the wiring rather than
+// the handler: the spec registered by RegisterNamespace must declare
+// type.create module-wide, so the real owner-gated grant path accepts it with
+// no scope and refuses it with one.
+func TestGrantCreateTypeThroughPermissionMsgServer(t *testing.T) {
+	f, ms, ctx, owner := setupWithOwner(t)
+	pms := permissionkeeper.NewMsgServerImpl(f.PermissionKeeper)
+	creator := sample.AccAddress()
+
+	grant := func(permission string, scopes ...string) error {
+		_, err := pms.GrantPermissions(ctx, &permissiontypes.MsgGrantPermissions{
+			Owner:   owner,
+			Module:  types.ModuleName,
+			Grantee: creator,
+			Grants:  []permissiontypes.PermissionScopes{{Permission: permission, Scopes: scopes}},
+		})
+		return err
+	}
+
+	require.NoError(t, grant(types.PermissionCreateType))
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   creator,
+		Id:        "delegated.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+
+	// Scoping type.create is refused even to a type that now exists.
+	require.ErrorIs(t, grant(types.PermissionCreateType, "delegated.type"), permissiontypes.ErrInvalidScope)
+
+	// The exemption does not leak to the scoped permissions.
+	require.ErrorIs(t, grant(types.PermissionIssue), permissiontypes.ErrInvalidScope)
+	require.NoError(t, grant(types.PermissionIssue, "delegated.type"))
+}
+
+// TestUpdateLicenseTypeStillOwnerOnly: type.create authorizes creation only.
+// Updating a type remains the namespace owner's alone.
+func TestUpdateLicenseTypeStillOwnerOnly(t *testing.T) {
+	f, ms, ctx, owner := setupWithOwner(t)
+	creator := sample.AccAddress()
+
+	f.Grant(t, creator, types.PermissionCreateType, "")
+
+	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+		Creator:   creator,
+		Id:        "delegated.type",
+		MaxSupply: math.ZeroInt(),
+	})
+	require.NoError(t, err)
+
+	// Not even over the type it just created.
+	_, err = ms.UpdateLicenseType(ctx, &types.MsgUpdateLicenseType{
+		Owner:         creator,
+		Id:            "delegated.type",
+		Transferrable: true,
+	})
+	require.ErrorIs(t, err, types.ErrUnauthorized)
+
+	_, err = ms.UpdateLicenseType(ctx, &types.MsgUpdateLicenseType{
+		Owner:         owner,
+		Id:            "delegated.type",
+		Transferrable: true,
+	})
+	require.NoError(t, err)
+}
+
 // ---------------------------------------------------------------------------
 // IssueLicenses
 // ---------------------------------------------------------------------------
@@ -125,7 +294,7 @@ func TestIssueLicenses(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "node", MaxSupply: math.NewInt(10),
+		Creator: owner, Id: "node", MaxSupply: math.NewInt(10),
 	})
 	require.NoError(t, err)
 
@@ -272,7 +441,7 @@ func TestMaxSupplyBoundsOutstandingNotLifetime(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "capped", MaxSupply: math.NewInt(2),
+		Creator: owner, Id: "capped", MaxSupply: math.NewInt(2),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "capped")
@@ -339,15 +508,15 @@ func TestIssueLicensesMultipleEntries(t *testing.T) {
 	holder2 := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "capped", MaxSupply: math.NewInt(5),
+		Creator: owner, Id: "capped", MaxSupply: math.NewInt(5),
 	})
 	require.NoError(t, err)
 	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "open", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "open", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "ungranted", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "ungranted", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 
@@ -426,7 +595,7 @@ func TestRevokeLicenses(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "rev", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "rev", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "rev")
@@ -512,7 +681,7 @@ func TestRevokeLicensesPreservesEndDate(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "ed", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "ed", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	f.Grant(t, admin, types.PermissionIssue, "ed")
@@ -549,12 +718,12 @@ func TestTransferLicense(t *testing.T) {
 	recipient := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "xfer", Transferrable: true, MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "xfer", Transferrable: true, MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 
 	_, err = ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "noxfer", Transferrable: false, MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "noxfer", Transferrable: false, MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 
@@ -645,7 +814,7 @@ func TestIssueLicensesSupplyCheckIsUnsigned(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "lim", Transferrable: false, MaxSupply: math.NewInt(100),
+		Creator: owner, Id: "lim", Transferrable: false, MaxSupply: math.NewInt(100),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "lim")
@@ -668,7 +837,7 @@ func TestIssueLicensesEntriesCap(t *testing.T) {
 	holder := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "cap", Transferrable: false, MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "cap", Transferrable: false, MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "cap")
@@ -695,7 +864,7 @@ func TestTransferLicenseRejectsRevoked(t *testing.T) {
 	recipient := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "xfer", Transferrable: true, MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "xfer", Transferrable: true, MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 
@@ -744,7 +913,7 @@ func TestUpdateLicenseType(t *testing.T) {
 	issuer := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "lt1", Transferrable: false, MaxSupply: math.NewInt(100),
+		Creator: owner, Id: "lt1", Transferrable: false, MaxSupply: math.NewInt(100),
 	})
 	require.NoError(t, err)
 	f.Grant(t, issuer, types.PermissionIssue, "lt1")

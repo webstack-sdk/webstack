@@ -7,7 +7,7 @@ The `x/permission` module provides generic, capability-style permission grants f
 - **Namespaces** — each consuming module owns one namespace, keyed by its module name. Namespaces are never created by transactions: they exist for exactly the modules registered with the permission keeper at app wiring, and state only carries each namespace's **owner** — the one address that can grant and revoke permissions within it.
 - **Grants** — flat `(module, grantee, permission, scope)` keys, so a permission check is a single point-read.
 - **Permissions** are strings (e.g. `issue`, `revoke`) registered in-process by the consuming module at wiring time — not an enum, so each module brings its own vocabulary.
-- **Scopes** are opaque resource identifiers owned by the consuming module (e.g. a license type id). Modules that don't scope their permissions use the empty scope (module-wide grants).
+- **Scopes** are opaque resource identifiers owned by the consuming module (e.g. a license type id). Modules that don't scope their permissions use the empty scope (module-wide grants), and a module that does scope can still exempt individual permissions.
 
 Owners are set in genesis or by governance (`MsgUpdateNamespaceOwner`, an upsert that also serves as recovery); the current owner can also hand off directly (`MsgTransferOwnership`).
 
@@ -17,17 +17,30 @@ Owners are set in genesis or by governance (`MsgUpdateNamespaceOwner`, an upsert
 
 ```go
 app.PermissionKeeper.RegisterNamespace(licensetypes.ModuleName, permissiontypes.NamespaceSpec{
-    Permissions: []string{"issue", "revoke"},
+    Permissions: []string{"issue", "revoke", "type.create"},
     // Optional: validate scope identifiers against module state. When nil,
     // scopes are unconstrained and may be empty (module-wide grants).
     ScopeExists: func(ctx context.Context, scope string) (bool, error) {
         _, found, err := app.LicenseKeeper.GetLicenseType(ctx, scope)
         return found, err
     },
+    // Optional: permissions exempt from ScopeExists, granted module-wide.
+    Unscoped: []string{"type.create"},
 })
 ```
 
 Registration is static wiring — every node registers the same specs during app construction, so consulting them is deterministic. Grants for unregistered modules are rejected, at both msg handling and genesis import.
+
+`Unscoped` exists for permissions with no resource to point at — the right to
+create the very resources the other permissions are scoped to cannot name one,
+since it does not exist yet. Grants for these must carry the **empty** scope; a
+non-empty one is rejected even if it identifies a real resource, so each
+`(grantee, permission)` has exactly one key form and a permission check cannot
+miss a grant filed under a scope it did not think to look up.
+
+Malformed specs are wiring bugs and panic at startup: `Unscoped` without a
+`ScopeExists`, a name outside the vocabulary, duplicates, or every permission
+listed (drop `ScopeExists` instead).
 
 ### 2. Check permissions from your keeper
 
@@ -66,8 +79,12 @@ All list queries are paginated. `GrantsByScope` is a filtered walk (scope is the
 # Grant: one entry per permission, each covering all listed scopes.
 webstackd tx permission grant-permissions license webstack1abc... issue,revoke node.license,validator.license --from owner
 
-# Module-wide grant (unscoped namespaces): "-" as the scopes argument.
+# Module-wide grant: "-" as the scopes argument. Used both for namespaces that
+# don't scope at all and for individual permissions declared Unscoped. Since
+# every permission in one invocation shares the same scopes, a mix of scoped
+# and module-wide permissions takes two commands.
 webstackd tx permission grant-permissions mymod webstack1abc... operate - --from owner
+webstackd tx permission grant-permissions license webstack1abc... type.create - --from owner
 
 # Revoke specific pairs (permission:scope; bare permission = module-wide grant).
 webstackd tx permission revoke-permissions license webstack1abc... issue:node.license --from owner

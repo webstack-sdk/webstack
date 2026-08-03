@@ -41,8 +41,8 @@ var (
 )
 
 func (msg *MsgCreateLicenseType) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid owner address: %s", err)
+	if _, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
+		return ErrInvalidSigner.Wrapf("invalid creator address: %s", err)
 	}
 	if msg.Id == "" {
 		return ErrEmptyLicenseTypeID

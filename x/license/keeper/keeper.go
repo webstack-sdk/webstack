@@ -108,10 +108,13 @@ func (k Keeper) GetLicense(ctx context.Context, typeID string, id uint64) (types
 	return l, true, nil
 }
 
-// hasPermission checks whether an address holds a permission ("issue",
-// "revoke") for a license type, via the x/permission module's "license"
-// namespace. A missing grant returns (false, nil); a store error is surfaced
-// so the caller can fail the tx instead of silently denying the action.
+// hasPermission checks whether an address holds a permission for a license
+// type, via the x/permission module's "license" namespace. Scoped permissions
+// ("issue", "revoke") pass the type id; module-wide ones (see
+// types.UnscopedPermissions) pass the empty string, which is the only scope
+// x/permission lets them be granted under. A missing grant returns
+// (false, nil); a store error is surfaced so the caller can fail the tx
+// instead of silently denying the action.
 func (k Keeper) hasPermission(ctx context.Context, address, permission, licenseTypeID string) (bool, error) {
 	return k.permissionKeeper.Has(ctx, types.ModuleName, address, permission, licenseTypeID)
 }

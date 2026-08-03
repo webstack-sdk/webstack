@@ -72,8 +72,8 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "CreateLicenseType",
 					Use:       "create-license-type [id] [transferrable]",
 					Short:     "Create a new license type",
-					Long:      "Create a new license type. Use --max-supply to limit the number of licenses (default 0 = unlimited).",
-					Example:   "webstackd tx license create-license-type node.license true --max-supply 1000 --from owner",
+					Long:      "Create a new license type. The signer must hold the module-wide \"type.create\" permission; owning the license namespace is not sufficient on its own. Use --max-supply to limit the number of licenses (default 0 = unlimited).",
+					Example:   "webstackd tx license create-license-type node.license true --max-supply 1000 --from admin",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "id"},
 						{ProtoField: "transferrable"},

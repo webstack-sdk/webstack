@@ -23,15 +23,21 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 	return &msgServer{k: keeper}
 }
 
+// CreateLicenseType registers a new license type. The signer must hold the
+// module-wide "type.create" grant. Namespace ownership alone does not
+// authorize creation: as with "issue" and "revoke", the owner's role is to
+// grant the right, including to itself, not to exercise it implicitly.
 func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateLicenseType) (*types.MsgCreateLicenseTypeResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	isOwner, err := ms.k.isOwner(ctx, msg.Owner)
+	// The empty scope is the only key form a module-wide grant is stored
+	// under; x/permission rejects any other at grant time.
+	hasPerm, err := ms.k.hasPermission(ctx, msg.Creator, types.PermissionCreateType, "")
 	if err != nil {
 		return nil, err
 	}
-	if !isOwner {
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "signer %s is not the license namespace owner", msg.Owner)
+	if !hasPerm {
+		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s does not have %s permission", msg.Creator, types.PermissionCreateType)
 	}
 
 	if msg.Id == "" {

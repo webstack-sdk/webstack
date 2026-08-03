@@ -25,7 +25,7 @@ func TestIssueLicensesCreatesHolderAccount(t *testing.T) {
 	existing := sample.AccAddress()
 
 	_, err := ms.CreateLicenseType(f.Ctx, &types.MsgCreateLicenseType{
-		Owner:     f.Owner,
+		Creator:   f.Owner,
 		Id:        "node.license",
 		MaxSupply: math.ZeroInt(),
 	})

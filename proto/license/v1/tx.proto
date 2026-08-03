@@ -60,10 +60,12 @@ service Msg {
 
 // MsgCreateLicenseType is the Msg/CreateLicenseType request type.
 message MsgCreateLicenseType {
-  option (cosmos.msg.v1.signer) = "owner";
+  option (cosmos.msg.v1.signer) = "creator";
   option (amino.name) = "webstack/x/license/MsgCreateLicenseType";
 
-  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // creator must hold the module-wide "type.create" permission. It is not the
+  // license namespace owner: ownership grants the right, it does not carry it.
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   string id = 2;
   bool transferrable = 3;
   string max_supply = 4 [

@@ -46,13 +46,13 @@ func (p Precompile) CreateLicenseType(
 		return nil, err
 	}
 
-	owner, err := hexToBech32(p.addrCdc, contract.Caller())
+	creator, err := hexToBech32(p.addrCdc, contract.Caller())
 	if err != nil {
 		return nil, err
 	}
 
 	msg := &licensetypes.MsgCreateLicenseType{
-		Owner:         owner,
+		Creator:       creator,
 		Id:            id,
 		Transferrable: transferrable,
 		MaxSupply:     math.NewIntFromBigInt(maxSupply),

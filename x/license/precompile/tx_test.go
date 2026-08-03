@@ -42,7 +42,7 @@ func TestTxCreateLicenseType(t *testing.T) {
 	f := newTestFixture(t)
 	method := ABI.Methods[CreateLicenseTypeMethod]
 
-	// happy path — caller is the module owner
+	// happy path — caller holds the type.create grant
 	bz, err := f.precompile.CreateLicenseType(
 		f.ctx,
 		f.newContract(f.OwnerHex),
@@ -68,7 +68,7 @@ func TestTxCreateLicenseType(t *testing.T) {
 	require.Equal(t, ABI.Events[EventTypeLicenseTypeCreated].ID, f.stateDB.logs[0].Topics[0])
 	require.Equal(t, f.precompile.Address(), f.stateDB.logs[0].Address)
 
-	// non-owner caller is rejected by the keeper
+	// caller without the grant is rejected by the keeper
 	notOwner := common.HexToAddress("0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef")
 	_, err = f.precompile.CreateLicenseType(
 		f.ctx,

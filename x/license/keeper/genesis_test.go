@@ -50,7 +50,7 @@ func TestGenesisRoundTripActiveIndex(t *testing.T) {
 	ms := keeper.NewMsgServerImpl(src.Keeper)
 
 	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "node", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	src.Grant(t, owner, types.PermissionIssue, "node")
@@ -103,7 +103,7 @@ func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
 	ms := keeper.NewMsgServerImpl(src.Keeper)
 
 	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
-		Owner: owner, Id: "node", MaxSupply: math.ZeroInt(),
+		Creator: owner, Id: "node", MaxSupply: math.ZeroInt(),
 	})
 	require.NoError(t, err)
 	src.Grant(t, owner, types.PermissionIssue, "node")
@@ -153,7 +153,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 	ms := keeper.NewMsgServerImpl(src.Keeper)
 
 	_, err := ms.CreateLicenseType(srcCtx, &types.MsgCreateLicenseType{
-		Owner:         owner,
+		Creator:       owner,
 		Id:            "node",
 		Transferrable: false,
 		MaxSupply:     math.NewInt(100),
