@@ -36,7 +36,8 @@ type QueryClient interface {
 	LicenseType(ctx context.Context, in *QueryLicenseTypeRequest, opts ...grpc.CallOption) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
 	LicenseTypes(ctx context.Context, in *QueryLicenseTypesRequest, opts ...grpc.CallOption) (*QueryLicenseTypesResponse, error)
-	// License queries a license by type id and license id.
+	// License queries a license by id. Ids are unique chain-wide, so no license
+	// type is needed to resolve one.
 	License(ctx context.Context, in *QueryLicenseRequest, opts ...grpc.CallOption) (*QueryLicenseResponse, error)
 	// Licenses queries all licenses across all license types, active and revoked.
 	Licenses(ctx context.Context, in *QueryLicensesRequest, opts ...grpc.CallOption) (*QueryLicensesResponse, error)
@@ -131,7 +132,8 @@ type QueryServer interface {
 	LicenseType(context.Context, *QueryLicenseTypeRequest) (*QueryLicenseTypeResponse, error)
 	// LicenseTypes queries all license types.
 	LicenseTypes(context.Context, *QueryLicenseTypesRequest) (*QueryLicenseTypesResponse, error)
-	// License queries a license by type id and license id.
+	// License queries a license by id. Ids are unique chain-wide, so no license
+	// type is needed to resolve one.
 	License(context.Context, *QueryLicenseRequest) (*QueryLicenseResponse, error)
 	// Licenses queries all licenses across all license types, active and revoked.
 	Licenses(context.Context, *QueryLicensesRequest) (*QueryLicensesResponse, error)

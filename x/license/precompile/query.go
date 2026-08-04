@@ -57,21 +57,18 @@ func (p Precompile) LicenseTypes(ctx sdk.Context, method *abi.Method, args []int
 	return method.Outputs.Pack(out)
 }
 
-// License returns a single license by type+id.
+// License returns a single license by id. Ids are unique chain-wide, so no
+// license type is needed to resolve one.
 func (p Precompile) License(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
-	if err := argCount(args, 2); err != nil {
+	if err := argCount(args, 1); err != nil {
 		return nil, err
 	}
-	typeID, err := argToString(args[0], "typeId")
-	if err != nil {
-		return nil, err
-	}
-	id, err := argToUint64(args[1], "id")
+	id, err := argToUint64(args[0], "id")
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := p.queryServer.License(ctx, &licensetypes.QueryLicenseRequest{TypeId: typeID, Id: id})
+	res, err := p.queryServer.License(ctx, &licensetypes.QueryLicenseRequest{Id: id})
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +89,7 @@ func (p Precompile) Licenses(ctx sdk.Context, method *abi.Method, args []interfa
 	}
 
 	var licenses []licensetypes.License
-	if err := p.keeper.Licenses.Walk(ctx, nil, func(_ collections.Pair[string, uint64], l licensetypes.License) (bool, error) {
+	if err := p.keeper.Licenses.Walk(ctx, nil, func(_ uint64, l licensetypes.License) (bool, error) {
 		licenses = append(licenses, l)
 		return false, nil
 	}); err != nil {
@@ -116,11 +113,15 @@ func (p Precompile) LicensesByType(ctx sdk.Context, method *abi.Method, args []i
 		return nil, err
 	}
 
-	// Walk the keeper directly: the gRPC handler paginates with a default
-	// page limit, which an EVM call cannot page through.
+	// Walk the by-type index directly: the gRPC handler paginates with a
+	// default page limit, which an EVM call cannot page through.
 	var licenses []licensetypes.License
 	rng := collections.NewPrefixedPairRange[string, uint64](typeID)
-	if err := p.keeper.Licenses.Walk(ctx, rng, func(_ collections.Pair[string, uint64], l licensetypes.License) (bool, error) {
+	if err := p.keeper.LicensesByType.Walk(ctx, rng, func(key collections.Pair[string, uint64]) (bool, error) {
+		l, err := p.keeper.Licenses.Get(ctx, key.K2())
+		if err != nil {
+			return true, err
+		}
 		licenses = append(licenses, l)
 		return false, nil
 	}); err != nil {
@@ -167,7 +168,7 @@ func (p Precompile) LicensesByHolder(ctx sdk.Context, method *abi.Method, args [
 func (p Precompile) activeLicensesForHolder(ctx sdk.Context, rng collections.Ranger[collections.Triple[string, string, uint64]]) ([]licensetypes.License, error) {
 	var licenses []licensetypes.License
 	err := p.keeper.ActiveLicensesByHolder.Walk(ctx, rng, func(key collections.Triple[string, string, uint64]) (bool, error) {
-		l, err := p.keeper.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
+		l, err := p.keeper.Licenses.Get(ctx, key.K3())
 		if err != nil {
 			return true, err
 		}

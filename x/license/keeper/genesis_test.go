@@ -68,7 +68,7 @@ func TestGenesisRoundTripActiveIndex(t *testing.T) {
 		Revoker: owner, LicenseTypeId: "node", Holder: holder, Count: 1,
 	})
 	require.NoError(t, err)
-	require.Equal(t, []uint64{3}, revResp.Ids, "most recently issued license is revoked first")
+	require.Equal(t, []uint64{resp.Ids[2]}, revResp.Ids, "most recently issued license is revoked first")
 
 	exported := src.Keeper.ExportGenesis(srcCtx)
 
@@ -83,7 +83,7 @@ func TestGenesisRoundTripActiveIndex(t *testing.T) {
 
 	// The revoked license itself survives with its status and revoked_date,
 	// and its end_date is untouched by revocation.
-	l, found, err := dst.GetLicense(dstCtx, "node", 3)
+	l, found, err := dst.GetLicense(dstCtx, resp.Ids[2])
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, types.StatusRevoked, l.Status)
@@ -115,11 +115,11 @@ func TestGenesisRoundTripPreservesExplicitCounter(t *testing.T) {
 	require.NoError(t, err)
 
 	// Bump the sequence past issued_count (2) to simulate the concepts
-	// diverging.
-	require.NoError(t, src.Keeper.LicenseCounts.Set(srcCtx, "node", 10))
+	// diverging. The stored value is the id to assign next.
+	require.NoError(t, src.Keeper.NextLicenseID.Set(srcCtx, 11))
 
 	exported := src.Keeper.ExportGenesis(srcCtx)
-	require.Equal(t, []types.LicenseCount{{LicenseTypeId: "node", Count: 10}}, exported.LicenseCounts)
+	require.Equal(t, uint64(11), exported.NextLicenseId)
 
 	dst := keepertest.NewLicenseFixture(t)
 	require.NoError(t, dst.Keeper.InitGenesis(dst.Ctx, exported))
@@ -189,7 +189,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 
 	// Sanity: the imported licenses survived.
 	for _, id := range resp.Ids {
-		l, ok, err := dst.Keeper.GetLicense(dstCtx, "node", id)
+		l, ok, err := dst.Keeper.GetLicense(dstCtx, id)
 		require.NoError(t, err)
 		require.True(t, ok, "license id %d must exist after import", id)
 		require.Equal(t, holder, l.Holder)
@@ -213,7 +213,7 @@ func TestGenesisRoundTripPreservesLicenseIDs(t *testing.T) {
 
 	// And the imported holder's licenses must still all be theirs (i.e., the
 	// new issuance didn't overwrite license 1).
-	l1, ok, err := dst.Keeper.GetLicense(dstCtx, "node", 1)
+	l1, ok, err := dst.Keeper.GetLicense(dstCtx, 1)
 	require.NoError(t, err)
 	require.True(t, ok)
 	require.Equal(t, holder, l1.Holder, "imported license 1 must not have been overwritten")

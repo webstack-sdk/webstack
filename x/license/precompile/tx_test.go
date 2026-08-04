@@ -228,16 +228,17 @@ func TestTxTransferLicense(t *testing.T) {
 		f.newContract(holderHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"type.a", ids[0], recipientHex},
+		[]interface{}{ids[0], recipientHex},
 	)
 	require.NoError(t, err)
 	out, err := method.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	require.True(t, out[0].(bool))
 
-	// Verify the on-chain license now points at the recipient.
+	// Verify the on-chain license now points at the recipient, looked up by
+	// id alone.
 	licM := ABI.Methods[LicenseMethod]
-	bz, err = f.precompile.License(f.ctx, &licM, []interface{}{"type.a", ids[0]})
+	bz, err = f.precompile.License(f.ctx, &licM, []interface{}{ids[0]})
 	require.NoError(t, err)
 	licOut, err := licM.Outputs.Unpack(bz)
 	require.NoError(t, err)
@@ -269,7 +270,7 @@ func TestTxTransferLicenseNonHolderRejected(t *testing.T) {
 		f.newContract(attackerHex),
 		f.stateDB,
 		&method,
-		[]interface{}{"type.a", ids[0], recipientHex},
+		[]interface{}{ids[0], recipientHex},
 	)
 	require.Error(t, err, "non-holder should not be able to transfer")
 }
@@ -305,7 +306,10 @@ func TestTxIssueLicensesMultipleEntries(t *testing.T) {
 	out, err := method.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	ids := out[0].([]uint64)
-	require.Len(t, ids, 4, "ids flattened in entry order")
+	// Entry order is type.a(1), type.a(2), type.b(1). Ids come from one
+	// chain-wide sequence, so type.b's license continues the run rather than
+	// restarting — under per-type counters this was [1,2,3,1].
+	require.Equal(t, []uint64{1, 2, 3, 4}, ids, "ids are globally sequential, flattened in entry order")
 
 	lt, err := f.keeper.LicenseTypes.Get(f.ctx, "type.a")
 	require.NoError(t, err)

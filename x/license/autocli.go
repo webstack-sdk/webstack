@@ -25,10 +25,10 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "License",
-					Use:       "license [type-id] [id]",
-					Short:     "Query a license by type and id",
+					Use:       "license [id]",
+					Short:     "Query a license by id",
+					Long:      "Query a license by id. Ids are unique chain-wide, so no license type is needed.",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "type_id"},
 						{ProtoField: "id"},
 					},
 				},
@@ -105,10 +105,10 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "TransferLicense",
-					Use:       "transfer-license [license-type-id] [id] [recipient]",
+					Use:       "transfer-license [id] [recipient]",
 					Short:     "Transfer a license to a new holder",
+					Long:      "Transfer a license to a new holder. Ids are unique chain-wide, so no license type is needed. Signer must be the current holder and the type must be transferrable.",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "license_type_id"},
 						{ProtoField: "id"},
 						{ProtoField: "recipient"},
 					},

@@ -447,18 +447,23 @@ func TestMaxSupplyBoundsOutstandingNotLifetime(t *testing.T) {
 	f.Grant(t, issuer, types.PermissionIssue, "capped")
 	f.Grant(t, revoker, types.PermissionRevoke, "capped")
 
-	issue := func(count uint64) error {
-		_, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+	issue := func(count uint64) ([]uint64, error) {
+		resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
 			Issuer: issuer, Entries: []types.IssueLicenseEntry{
 				{LicenseTypeId: "capped", Holder: holder, StartDate: "2026-01-01", Count: count},
 			},
 		})
-		return err
+		if err != nil {
+			return nil, err
+		}
+		return resp.Ids, nil
 	}
 
 	// Fill the cap, then confirm it binds.
-	require.NoError(t, issue(2))
-	require.ErrorIs(t, issue(1), types.ErrMaxSupplyReached)
+	issuedIDs, err := issue(2)
+	require.NoError(t, err)
+	_, err = issue(1)
+	require.ErrorIs(t, err, types.ErrMaxSupplyReached)
 
 	lt, _, err := f.Keeper.GetLicenseType(ctx, "capped")
 	require.NoError(t, err)
@@ -466,7 +471,7 @@ func TestMaxSupplyBoundsOutstandingNotLifetime(t *testing.T) {
 	require.Equal(t, math.NewInt(2), lt.IssuedCount)
 
 	// Chargeback: revoking one frees exactly one slot.
-	_, err = ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
+	revResp, err := ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
 		Revoker: revoker, LicenseTypeId: "capped", Holder: holder, Count: 1,
 	})
 	require.NoError(t, err)
@@ -478,8 +483,10 @@ func TestMaxSupplyBoundsOutstandingNotLifetime(t *testing.T) {
 	require.Equal(t, math.NewInt(2), lt.IssuedCount, "issued_count must keep counting lifetime issuance")
 
 	// One slot free, not two: reissuing 2 still exceeds, reissuing 1 succeeds.
-	require.ErrorIs(t, issue(2), types.ErrMaxSupplyReached)
-	require.NoError(t, issue(1))
+	_, err = issue(2)
+	require.ErrorIs(t, err, types.ErrMaxSupplyReached)
+	reissuedIDs, err := issue(1)
+	require.NoError(t, err)
 
 	lt, _, err = f.Keeper.GetLicenseType(ctx, "capped")
 	require.NoError(t, err)
@@ -487,14 +494,16 @@ func TestMaxSupplyBoundsOutstandingNotLifetime(t *testing.T) {
 	require.Equal(t, math.NewInt(3), lt.IssuedCount, "lifetime issuance exceeds max_supply by design")
 
 	// And the cap binds again now that the freed slot is used.
-	require.ErrorIs(t, issue(1), types.ErrMaxSupplyReached)
+	_, err = issue(1)
+	require.ErrorIs(t, err, types.ErrMaxSupplyReached)
 
 	// The reissued license got a fresh id rather than reusing the revoked
-	// one's — ids come from a separate monotonic counter, so freeing supply
-	// never recycles an id.
-	highestID, err := f.Keeper.LicenseCounts.Get(ctx, "capped")
-	require.NoError(t, err)
-	require.Equal(t, uint64(3), highestID, "3 licenses issued over the lifetime, ids 1..3")
+	// one's — ids come from a monotonic sequence, so freeing supply never
+	// recycles an id.
+	require.Len(t, reissuedIDs, 1)
+	require.NotContains(t, issuedIDs, reissuedIDs[0], "reissue must not reuse an original id")
+	require.NotContains(t, revResp.Ids, reissuedIDs[0], "reissue must not reuse the revoked id")
+	require.Greater(t, reissuedIDs[0], issuedIDs[len(issuedIDs)-1], "ids only ever climb")
 }
 
 // TestIssueLicensesMultipleEntries covers the multi-entry behavior: entries
@@ -570,15 +579,15 @@ func TestIssueLicensesMultipleEntries(t *testing.T) {
 	require.Equal(t, math.NewInt(1), lt.IssuedCount)
 
 	// Each holder got the licenses from their entries.
-	l, found, err := f.Keeper.GetLicense(ctx, "capped", resp.Ids[0])
+	l, found, err := f.Keeper.GetLicense(ctx, resp.Ids[0])
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, holder1, l.Holder)
-	l, found, err = f.Keeper.GetLicense(ctx, "capped", resp.Ids[2])
+	l, found, err = f.Keeper.GetLicense(ctx, resp.Ids[2])
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, holder2, l.Holder)
-	l, found, err = f.Keeper.GetLicense(ctx, "open", resp.Ids[5])
+	l, found, err = f.Keeper.GetLicense(ctx, resp.Ids[5])
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, holder2, l.Holder)
@@ -651,7 +660,7 @@ func TestRevokeLicenses(t *testing.T) {
 				// Verify revoked licenses record revoked_date and keep their
 				// issued end_date (empty here — none was set at issuance).
 				for _, id := range revokeResp.Ids {
-					license, found, _ := f.Keeper.GetLicense(ctx, "rev", id)
+					license, found, _ := f.Keeper.GetLicense(ctx, id)
 					require.True(t, found)
 					require.Equal(t, types.StatusRevoked, license.Status)
 					require.NotEmpty(t, license.RevokedDate)
@@ -659,7 +668,7 @@ func TestRevokeLicenses(t *testing.T) {
 				}
 
 				// Verify the remaining license is still active.
-				license, found, _ := f.Keeper.GetLicense(ctx, "rev", resp.Ids[0])
+				license, found, _ := f.Keeper.GetLicense(ctx, resp.Ids[0])
 				require.True(t, found)
 				require.Equal(t, types.StatusActive, license.Status)
 
@@ -699,12 +708,149 @@ func TestRevokeLicensesPreservesEndDate(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	l, found, err := f.Keeper.GetLicense(ctx, "ed", resp.Ids[0])
+	l, found, err := f.Keeper.GetLicense(ctx, resp.Ids[0])
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, types.StatusRevoked, l.Status)
 	require.Equal(t, "2027-01-01", l.EndDate, "issued end_date must survive revocation")
 	require.NotEmpty(t, l.RevokedDate)
+}
+
+// ---------------------------------------------------------------------------
+// Global license ids
+// ---------------------------------------------------------------------------
+
+// setupTwoTypes creates two transferrable license types and grants the owner
+// issue rights on both.
+func setupTwoTypes(t testing.TB) (*keepertest.LicenseFixture, types.MsgServer, sdk.Context, string) {
+	t.Helper()
+	f, ms, ctx, owner := setupWithOwner(t)
+
+	for _, id := range []string{"type.a", "type.b"} {
+		_, err := ms.CreateLicenseType(ctx, &types.MsgCreateLicenseType{
+			Creator: owner, Id: id, Transferrable: true, MaxSupply: math.ZeroInt(),
+		})
+		require.NoError(t, err)
+		f.Grant(t, owner, types.PermissionIssue, id)
+	}
+	return f, ms, ctx, owner
+}
+
+// TestLicenseIDsAreGlobalAcrossTxs: the sequence spans license types and
+// transactions. Under per-type counters this would be {1,2}, {1,2}, {3}.
+func TestLicenseIDsAreGlobalAcrossTxs(t *testing.T) {
+	f, ms, ctx, owner := setupTwoTypes(t)
+	holder := sample.AccAddress()
+
+	issue := func(typeID string, count uint64) []uint64 {
+		t.Helper()
+		resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+			Issuer: owner, Entries: []types.IssueLicenseEntry{
+				{LicenseTypeId: typeID, Holder: holder, StartDate: "2026-01-01", Count: count},
+			},
+		})
+		require.NoError(t, err)
+		return resp.Ids
+	}
+
+	require.Equal(t, []uint64{1, 2}, issue("type.a", 2))
+	require.Equal(t, []uint64{3, 4}, issue("type.b", 2))
+	require.Equal(t, []uint64{5}, issue("type.a", 1))
+
+	// The id alone resolves the type — no type argument anywhere here.
+	for id, wantType := range map[uint64]string{1: "type.a", 3: "type.b", 5: "type.a"} {
+		l, found, err := f.Keeper.GetLicense(ctx, id)
+		require.NoError(t, err)
+		require.True(t, found)
+		require.Equal(t, wantType, l.Type, "license %d", id)
+	}
+}
+
+// TestLicenseIDsAreGlobalWithinOneBatch: entries in a single message draw from
+// the same sequence, so ids stay unique when a batch spans types.
+func TestLicenseIDsAreGlobalWithinOneBatch(t *testing.T) {
+	f, ms, ctx, owner := setupTwoTypes(t)
+	holder := sample.AccAddress()
+
+	resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: owner, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "type.a", Holder: holder, StartDate: "2026-01-01", Count: 1},
+			{LicenseTypeId: "type.b", Holder: holder, StartDate: "2026-01-01", Count: 2},
+			{LicenseTypeId: "type.a", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, []uint64{1, 2, 3, 4}, resp.Ids, "flattened in entry order, one sequence")
+
+	wantTypes := []string{"type.a", "type.b", "type.b", "type.a"}
+	for i, id := range resp.Ids {
+		l, found, err := f.Keeper.GetLicense(ctx, id)
+		require.NoError(t, err)
+		require.True(t, found)
+		require.Equal(t, wantTypes[i], l.Type, "license %d", id)
+	}
+}
+
+// TestTransferLicenseByIDDoesNotAlias: transferring by id alone moves exactly
+// the intended license. Under per-type ids both licenses here would have been
+// id 1, so a lost type argument would have hit the wrong one.
+func TestTransferLicenseByIDDoesNotAlias(t *testing.T) {
+	f, ms, ctx, owner := setupTwoTypes(t)
+	holder := sample.AccAddress()
+	recipient := sample.AccAddress()
+
+	resp, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: owner, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "type.a", Holder: holder, StartDate: "2026-01-01", Count: 1},
+			{LicenseTypeId: "type.b", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
+	})
+	require.NoError(t, err)
+	aID, bID := resp.Ids[0], resp.Ids[1]
+	require.NotEqual(t, aID, bID)
+
+	_, err = ms.TransferLicense(ctx, &types.MsgTransferLicense{
+		Holder: holder, Id: bID, Recipient: recipient,
+	})
+	require.NoError(t, err)
+
+	moved, _, err := f.Keeper.GetLicense(ctx, bID)
+	require.NoError(t, err)
+	require.Equal(t, recipient, moved.Holder)
+	require.Equal(t, "type.b", moved.Type)
+
+	untouched, _, err := f.Keeper.GetLicense(ctx, aID)
+	require.NoError(t, err)
+	require.Equal(t, holder, untouched.Holder, "the other type's license must be untouched")
+}
+
+// TestRevokedLicenseStaysListedByType: LicensesByType covers active and
+// revoked alike, so the by-type index must survive revocation.
+func TestRevokedLicenseStaysListedByType(t *testing.T) {
+	f, ms, ctx, owner := setupTwoTypes(t)
+	holder := sample.AccAddress()
+	f.Grant(t, owner, types.PermissionRevoke, "type.a")
+	q := keeper.NewQuerier(f.Keeper)
+
+	_, err := ms.IssueLicenses(ctx, &types.MsgIssueLicenses{
+		Issuer: owner, Entries: []types.IssueLicenseEntry{
+			{LicenseTypeId: "type.a", Holder: holder, StartDate: "2026-01-01", Count: 2},
+			{LicenseTypeId: "type.b", Holder: holder, StartDate: "2026-01-01", Count: 1},
+		},
+	})
+	require.NoError(t, err)
+
+	_, err = ms.RevokeLicenses(ctx, &types.MsgRevokeLicenses{
+		Revoker: owner, LicenseTypeId: "type.a", Holder: holder, Count: 1,
+	})
+	require.NoError(t, err)
+
+	byType, err := q.LicensesByType(ctx, &types.QueryLicensesByTypeRequest{TypeId: "type.a"})
+	require.NoError(t, err)
+	require.Len(t, byType.Licenses, 2, "revoked licenses stay listed by type")
+	for _, l := range byType.Licenses {
+		require.Equal(t, "type.a", l.Type, "the index must not leak other types")
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -754,37 +900,37 @@ func TestTransferLicense(t *testing.T) {
 	}{
 		{
 			name:      "invalid recipient",
-			input:     &types.MsgTransferLicense{Holder: holder, LicenseTypeId: "xfer", Id: xferID, Recipient: "bad"},
+			input:     &types.MsgTransferLicense{Holder: holder, Id: xferID, Recipient: "bad"},
 			expErr:    true,
 			expErrMsg: "invalid recipient address",
 		},
 		{
 			name:      "transfer to self",
-			input:     &types.MsgTransferLicense{Holder: holder, LicenseTypeId: "xfer", Id: xferID, Recipient: holder},
+			input:     &types.MsgTransferLicense{Holder: holder, Id: xferID, Recipient: holder},
 			expErr:    true,
 			expErrMsg: "cannot transfer license to the current holder",
 		},
 		{
 			name:      "not found",
-			input:     &types.MsgTransferLicense{Holder: holder, LicenseTypeId: "xfer", Id: 999, Recipient: recipient},
+			input:     &types.MsgTransferLicense{Holder: holder, Id: 999, Recipient: recipient},
 			expErr:    true,
 			expErrMsg: "not found",
 		},
 		{
 			name:      "not holder",
-			input:     &types.MsgTransferLicense{Holder: sample.AccAddress(), LicenseTypeId: "xfer", Id: xferID, Recipient: recipient},
+			input:     &types.MsgTransferLicense{Holder: sample.AccAddress(), Id: xferID, Recipient: recipient},
 			expErr:    true,
 			expErrMsg: "not the holder",
 		},
 		{
 			name:      "not transferrable",
-			input:     &types.MsgTransferLicense{Holder: holder, LicenseTypeId: "noxfer", Id: noxferID, Recipient: recipient},
+			input:     &types.MsgTransferLicense{Holder: holder, Id: noxferID, Recipient: recipient},
 			expErr:    true,
 			expErrMsg: "not transferrable",
 		},
 		{
 			name:   "valid",
-			input:  &types.MsgTransferLicense{Holder: holder, LicenseTypeId: "xfer", Id: xferID, Recipient: recipient},
+			input:  &types.MsgTransferLicense{Holder: holder, Id: xferID, Recipient: recipient},
 			expErr: false,
 		},
 	}
@@ -797,7 +943,7 @@ func TestTransferLicense(t *testing.T) {
 				require.Contains(t, err.Error(), tc.expErrMsg)
 			} else {
 				require.NoError(t, err)
-				l, found, _ := f.Keeper.GetLicense(ctx, "xfer", xferID)
+				l, found, _ := f.Keeper.GetLicense(ctx, xferID)
 				require.True(t, found)
 				require.Equal(t, recipient, l.Holder)
 			}
@@ -885,7 +1031,7 @@ func TestTransferLicenseRejectsRevoked(t *testing.T) {
 	require.NoError(t, err)
 
 	// Sanity: the license entry still exists with status=revoked.
-	l, found, err := f.Keeper.GetLicense(ctx, "xfer", id)
+	l, found, err := f.Keeper.GetLicense(ctx, id)
 	require.NoError(t, err)
 	require.True(t, found)
 	require.Equal(t, types.StatusRevoked, l.Status)
@@ -893,13 +1039,13 @@ func TestTransferLicenseRejectsRevoked(t *testing.T) {
 
 	// Attempting to transfer the revoked license must fail.
 	_, err = ms.TransferLicense(ctx, &types.MsgTransferLicense{
-		Holder: holder, LicenseTypeId: "xfer", Id: id, Recipient: recipient,
+		Holder: holder, Id: id, Recipient: recipient,
 	})
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "revoked")
 
 	// And the holder must not have changed.
-	l, _, err = f.Keeper.GetLicense(ctx, "xfer", id)
+	l, _, err = f.Keeper.GetLicense(ctx, id)
 	require.NoError(t, err)
 	require.Equal(t, holder, l.Holder)
 }

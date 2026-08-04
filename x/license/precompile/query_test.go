@@ -95,11 +95,12 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 	grantIssue(t, f, f.OwnerBech, "type.a")
 
 	holderHex := common.HexToAddress("0x2222222222222222222222222222222222222222")
-	issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
+	ids := issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
+	require.Len(t, ids, 1)
 
-	// License(typeId, id) ---------------------------------------------
+	// License(id) — no license type needed ----------------------------
 	licM := ABI.Methods[LicenseMethod]
-	bz, err := f.precompile.License(f.ctx, &licM, []interface{}{"type.a", uint64(1)})
+	bz, err := f.precompile.License(f.ctx, &licM, []interface{}{ids[0]})
 	require.NoError(t, err)
 
 	licOut, err := licM.Outputs.Unpack(bz)
@@ -113,7 +114,7 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 		Status      string         `json:"status"`
 		RevokedDate string         `json:"revokedDate"`
 	})
-	require.Equal(t, uint64(1), got.Id)
+	require.Equal(t, ids[0], got.Id)
 	require.Equal(t, "type.a", got.TypeId)
 	require.Equal(t, holderHex, got.Holder)
 	require.Equal(t, "active", got.Status)
@@ -134,7 +135,7 @@ func TestQueryLicenseAndByHolder(t *testing.T) {
 		RevokedDate string         `json:"revokedDate"`
 	})
 	require.Len(t, holderList, 1)
-	require.Equal(t, uint64(1), holderList[0].Id)
+	require.Equal(t, ids[0], holderList[0].Id)
 
 	// LicensesByHolderAndType(holder, typeId) -----------------------
 	htM := ABI.Methods[LicensesByHolderAndTypeMethod]

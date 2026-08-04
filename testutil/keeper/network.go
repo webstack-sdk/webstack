@@ -9,7 +9,6 @@ import (
 
 	"cosmossdk.io/collections"
 	"cosmossdk.io/log"
-	"cosmossdk.io/math"
 	"cosmossdk.io/store"
 	"cosmossdk.io/store/metrics"
 	storetypes "cosmossdk.io/store/types"
@@ -216,39 +215,7 @@ func (f *NetworkFixture) IssueLicenses(t testing.TB, holder string, count uint64
 // IssueLicensesOfType is IssueLicenses for an arbitrary license type id.
 func (f *NetworkFixture) IssueLicensesOfType(t testing.TB, holder, typeID string, count uint64) {
 	t.Helper()
-
-	lt, found, err := f.LicenseKeeper.GetLicenseType(f.Ctx, typeID)
-	require.NoError(t, err)
-	if !found {
-		lt = licensetypes.LicenseType{
-			Id:            typeID,
-			Transferrable: false,
-			MaxSupply:     math.ZeroInt(),
-			IssuedCount:   math.ZeroInt(),
-			ActiveCount:   math.ZeroInt(),
-			RevokedCount:  math.ZeroInt(),
-		}
-	}
-
-	for i := uint64(0); i < count; i++ {
-		id, err := f.LicenseKeeper.LicenseCounts.Get(f.Ctx, typeID)
-		if err != nil {
-			id = 0
-		}
-		id++
-		require.NoError(t, f.LicenseKeeper.LicenseCounts.Set(f.Ctx, typeID, id))
-		require.NoError(t, f.LicenseKeeper.Licenses.Set(f.Ctx, collections.Join(typeID, id), licensetypes.License{
-			Id:        id,
-			Type:      typeID,
-			Holder:    holder,
-			StartDate: "2025-01-01",
-			Status:    licensetypes.StatusActive,
-		}))
-		require.NoError(t, f.LicenseKeeper.ActiveLicensesByHolder.Set(f.Ctx, collections.Join3(holder, typeID, id)))
-		lt.IssuedCount = lt.IssuedCount.AddRaw(1)
-		lt.ActiveCount = lt.ActiveCount.AddRaw(1)
-	}
-	require.NoError(t, f.LicenseKeeper.LicenseTypes.Set(f.Ctx, typeID, lt))
+	SeedActiveLicenses(t, f.LicenseKeeper, f.Ctx, holder, typeID, count)
 }
 
 // RevokeLicenses revokes count of holder's active licenses of the fixture's

@@ -1,7 +1,6 @@
 package keeper_test
 
 import (
-	"fmt"
 	"testing"
 
 	"cosmossdk.io/math"
@@ -72,13 +71,13 @@ func TestQueryLicense(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	resp, err := q.License(ctx, &types.QueryLicenseRequest{TypeId: "ql", Id: issueResp.Ids[0]})
+	resp, err := q.License(ctx, &types.QueryLicenseRequest{Id: issueResp.Ids[0]})
 	require.NoError(t, err)
 	require.Equal(t, holder, resp.License.Holder)
 	require.Equal(t, types.StatusActive, resp.License.Status)
 
 	// Not found
-	_, err = q.License(ctx, &types.QueryLicenseRequest{TypeId: "ql", Id: 999})
+	_, err = q.License(ctx, &types.QueryLicenseRequest{Id: 999})
 	require.Error(t, err)
 }
 
@@ -135,13 +134,20 @@ func TestQueryLicenses(t *testing.T) {
 	}
 	require.Equal(t, 3, pages)
 	require.Len(t, all, 5)
-	seen := make(map[string]struct{})
+
+	// Dedup on the id alone: ids are unique chain-wide, so this catches two
+	// types colliding on an id as well as a paging bug repeating a record.
+	seen := make(map[uint64]struct{}, len(all))
+	ids := make([]uint64, 0, len(all))
 	for _, l := range all {
-		key := fmt.Sprintf("%s/%d", l.Type, l.Id)
-		_, dup := seen[key]
-		require.False(t, dup, "no duplicates across pages")
-		seen[key] = struct{}{}
+		_, dup := seen[l.Id]
+		require.False(t, dup, "no duplicate ids across pages or types")
+		seen[l.Id] = struct{}{}
+		ids = append(ids, l.Id)
 	}
+
+	// Three of a1 then two of b2, from one sequence, walked in id order.
+	require.Equal(t, []uint64{1, 2, 3, 4, 5}, ids)
 }
 
 func TestQueryLicensesByHolder(t *testing.T) {
@@ -260,7 +266,7 @@ func TestQueryLicensesByHolderExcludesRevoked(t *testing.T) {
 	require.Len(t, respBoth.Licenses, 2)
 
 	// The revoked license is still reachable by direct lookup.
-	lresp, err := q.License(ctx, &types.QueryLicenseRequest{TypeId: "rvq", Id: issueResp.Ids[2]})
+	lresp, err := q.License(ctx, &types.QueryLicenseRequest{Id: issueResp.Ids[2]})
 	require.NoError(t, err)
 	require.Equal(t, types.StatusRevoked, lresp.License.Status)
 }

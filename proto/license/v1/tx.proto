@@ -98,7 +98,8 @@ message MsgIssueLicenses {
 }
 
 // MsgIssueLicensesResponse is the Msg/IssueLicenses response type.
-// Ids are the issued license ids, flattened in entry order.
+// Ids are the issued license ids, flattened in entry order. Ids are unique
+// chain-wide, so each one identifies its license without its type.
 message MsgIssueLicensesResponse {
   repeated uint64 ids = 1;
 }
@@ -115,17 +116,26 @@ message MsgRevokeLicenses {
 }
 
 // MsgRevokeLicensesResponse is the Msg/RevokeLicenses response type.
+// Ids are unique chain-wide, so each one identifies its license without its
+// type.
 message MsgRevokeLicensesResponse {
   repeated uint64 ids = 1;
 }
 
-// MsgTransferLicense is the Msg/TransferLicense request type.
+// MsgTransferLicense is the Msg/TransferLicense request type. The license id
+// is a chain-wide unique handle; the license type is derived from it.
 message MsgTransferLicense {
   option (cosmos.msg.v1.signer) = "holder";
   option (amino.name) = "webstack/x/license/MsgTransferLicense";
 
+  // Field 2 was `string license_type_id`, needed when ids were only unique
+  // within a license type. Reserved rather than reused: field 2 would
+  // otherwise change from string to uint64 and mis-decode stale txs instead
+  // of rejecting them.
+  reserved 2;
+  reserved "license_type_id";
+
   string holder = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string license_type_id = 2;
   uint64 id = 3;
   string recipient = 4 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }

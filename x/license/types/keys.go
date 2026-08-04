@@ -52,6 +52,12 @@ func (s LicenseStatus) Short() string {
 	}
 }
 
+// FirstLicenseID is the id assigned to the first license issued on a chain,
+// and so the lowest valid license id. Ids start at 1 rather than 0 so that a
+// zero id is always invalid rather than being indistinguishable from an unset
+// field in a message, an ABI call, or a REST path.
+const FirstLicenseID uint64 = 1
+
 // MaxIssueBatchSize bounds the number of entries in a single
 // MsgIssueLicenses. Per-tx work is otherwise only bounded by the
 // CometBFT tx-size limit; this gives a clean error before the keeper
@@ -59,10 +65,13 @@ func (s LicenseStatus) Short() string {
 const MaxIssueBatchSize = 100
 
 var (
-	LicenseTypePrefix  = collections.NewPrefix(1)
-	LicensePrefix      = collections.NewPrefix(2)
-	LicenseCountPrefix = collections.NewPrefix(3)
+	LicenseTypePrefix = collections.NewPrefix(1)
+	LicensePrefix     = collections.NewPrefix(2)
+	// NextLicenseIDPrefix holds the single chain-wide id sequence. It was a
+	// per-license-type map under the same prefix.
+	NextLicenseIDPrefix = collections.NewPrefix(3)
 
 	// Index prefixes
 	ActiveLicensesByHolderPrefix = collections.NewPrefix(10)
+	LicensesByTypePrefix         = collections.NewPrefix(11)
 )

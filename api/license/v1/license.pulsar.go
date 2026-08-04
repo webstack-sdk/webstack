@@ -857,7 +857,8 @@ type License struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// id is the auto-incremented identifier, unique within the license type.
+	// id is the auto-incremented identifier, unique chain-wide across all
+	// license types. A bare id is a complete handle to a license.
 	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	// type is the LicenseType.id this license was issued from.
 	Type_ string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`

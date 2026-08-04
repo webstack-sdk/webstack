@@ -7,19 +7,21 @@ import "license/v1/license_type.proto";
 
 option go_package = "github.com/webstack-sdk/webstack/x/license/types";
 
-// LicenseCount is the next-id sequence entry for one license type. It is
-// exported explicitly rather than derived from LicenseType.issued_count so
-// the id sequence and the stats counter remain independent concepts.
-message LicenseCount {
-  string license_type_id = 1;
-  uint64 count = 2;
-}
-
 // GenesisState defines the licenses module's genesis state. Ownership and
 // permission grants live in the x/permission module's genesis, under the
 // "license" namespace.
 message GenesisState {
+  // Field 3 was `repeated LicenseCount license_counts`, a per-license-type
+  // id sequence. Ids are now allocated from one chain-wide sequence.
+  reserved 3;
+  reserved "license_counts";
+
   repeated LicenseType license_types = 1 [(gogoproto.nullable) = false];
   repeated License licenses = 2 [(gogoproto.nullable) = false];
-  repeated LicenseCount license_counts = 3 [(gogoproto.nullable) = false];
+  // next_license_id is the id that will be assigned to the next issued
+  // license. It is exported explicitly rather than derived from the licenses
+  // above or from LicenseType.issued_count, so the id sequence and the stats
+  // counters remain independent concepts. It must be at least 1 and greater
+  // than every license id in this genesis.
+  uint64 next_license_id = 4;
 }

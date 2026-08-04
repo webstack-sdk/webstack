@@ -48,6 +48,27 @@ func TestMsgSignerAnnotations(t *testing.T) {
 	require.Equal(t, [][]byte{want}, signers)
 }
 
+func TestMsgTransferLicenseValidateBasic(t *testing.T) {
+	holder := sample.AccAddress()
+	recipient := sample.AccAddress()
+
+	require.NoError(t, (&types.MsgTransferLicense{Holder: holder, Id: 1, Recipient: recipient}).ValidateBasic())
+
+	// Zero is what an omitted id decodes to, and ids start at 1, so it is
+	// always invalid — this is the check that replaced the license-type-id
+	// check when transfers stopped carrying a type.
+	require.ErrorIs(t,
+		(&types.MsgTransferLicense{Holder: holder, Id: 0, Recipient: recipient}).ValidateBasic(),
+		types.ErrInvalidLicenseID)
+
+	require.ErrorContains(t,
+		(&types.MsgTransferLicense{Holder: "x", Id: 1, Recipient: recipient}).ValidateBasic(),
+		"invalid holder address")
+	require.ErrorContains(t,
+		(&types.MsgTransferLicense{Holder: holder, Id: 1, Recipient: "x"}).ValidateBasic(),
+		"invalid recipient address")
+}
+
 func TestMsgUpdateLicenseTypeValidateBasic(t *testing.T) {
 	owner := sample.AccAddress()
 

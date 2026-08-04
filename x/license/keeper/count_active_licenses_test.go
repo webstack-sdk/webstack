@@ -3,8 +3,6 @@ package keeper_test
 import (
 	"testing"
 
-	"cosmossdk.io/collections"
-	"cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
@@ -13,43 +11,20 @@ import (
 	"github.com/webstack-sdk/webstack/x/license/types"
 )
 
-// seedLicenses writes count active licenses of typeID for holder straight
-// into license state and the holder index.
-func seedLicenses(t testing.TB, f *keepertest.LicenseFixture, holder, typeID string, count uint64) {
-	t.Helper()
-
-	lt, found, err := f.Keeper.GetLicenseType(f.Ctx, typeID)
-	require.NoError(t, err)
-	if !found {
-		lt = types.LicenseType{Id: typeID, MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()}
-	}
-
-	for i := uint64(0); i < count; i++ {
-		id, err := f.Keeper.LicenseCounts.Get(f.Ctx, typeID)
-		if err != nil {
-			id = 0
-		}
-		id++
-		require.NoError(t, f.Keeper.LicenseCounts.Set(f.Ctx, typeID, id))
-		require.NoError(t, f.Keeper.Licenses.Set(f.Ctx, collections.Join(typeID, id), types.License{
-			Id: id, Type: typeID, Holder: holder, StartDate: "2025-01-01", Status: types.StatusActive,
-		}))
-		require.NoError(t, f.Keeper.ActiveLicensesByHolder.Set(f.Ctx, collections.Join3(holder, typeID, id)))
-		lt.IssuedCount = lt.IssuedCount.AddRaw(1)
-		lt.ActiveCount = lt.ActiveCount.AddRaw(1)
-	}
-	require.NoError(t, f.Keeper.LicenseTypes.Set(f.Ctx, typeID, lt))
-}
-
 func TestCountActiveLicenses(t *testing.T) {
 	f := keepertest.NewLicenseFixture(t)
 	holder := sample.AccAddress()
 	other := sample.AccAddress()
 
-	seedLicenses(t, f, holder, "type.a", 3)
-	seedLicenses(t, f, holder, "type.b", 2)
-	seedLicenses(t, f, holder, "type.uncounted", 4)
-	seedLicenses(t, f, other, "type.a", 5)
+	seed := func(holder, typeID string, count uint64) {
+		t.Helper()
+		keepertest.SeedActiveLicenses(t, f.Keeper, f.Ctx, holder, typeID, count)
+	}
+
+	seed(holder, "type.a", 3)
+	seed(holder, "type.b", 2)
+	seed(holder, "type.uncounted", 4)
+	seed(other, "type.a", 5)
 
 	counted := []string{"type.a", "type.b"}
 

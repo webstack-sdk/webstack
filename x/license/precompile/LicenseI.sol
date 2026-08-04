@@ -113,9 +113,10 @@ interface LicenseI {
         uint64 count
     ) external returns (uint64[] memory ids);
 
-    /// @dev Transfer a license to a new holder. Caller must be the current holder.
+    /// @dev Transfer a license to a new holder. The license id is unique
+    ///      chain-wide, so no license type is needed. Caller must be the
+    ///      current holder.
     function transferLicense(
-        string calldata licenseTypeId,
         uint64 id,
         address recipient
     ) external returns (bool success);
@@ -130,8 +131,9 @@ interface LicenseI {
     /// @dev Returns all license types.
     function licenseTypes() external view returns (LicenseType[] memory);
 
-    /// @dev Returns a single license by type+id. Reverts if not found.
-    function license(string calldata typeId, uint64 id) external view returns (License memory);
+    /// @dev Returns a single license by id. Ids are unique chain-wide across
+    ///      license types. Reverts if not found.
+    function license(uint64 id) external view returns (License memory);
 
     /// @dev Returns every license across all license types, active and revoked.
     function licenses() external view returns (License[] memory);

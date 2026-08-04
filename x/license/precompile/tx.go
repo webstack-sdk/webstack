@@ -247,18 +247,14 @@ func (p Precompile) TransferLicense(
 	method *abi.Method,
 	args []interface{},
 ) ([]byte, error) {
-	if err := argCount(args, 3); err != nil {
+	if err := argCount(args, 2); err != nil {
 		return nil, err
 	}
-	licenseTypeID, err := argToString(args[0], "licenseTypeId")
+	id, err := argToUint64(args[0], "id")
 	if err != nil {
 		return nil, err
 	}
-	id, err := argToUint64(args[1], "id")
-	if err != nil {
-		return nil, err
-	}
-	recipientHex, err := argToAddress(args[2], "recipient")
+	recipientHex, err := argToAddress(args[1], "recipient")
 	if err != nil {
 		return nil, err
 	}
@@ -273,10 +269,9 @@ func (p Precompile) TransferLicense(
 	}
 
 	msg := &licensetypes.MsgTransferLicense{
-		Holder:        holder,
-		LicenseTypeId: licenseTypeID,
-		Id:            id,
-		Recipient:     recipient,
+		Holder:    holder,
+		Id:        id,
+		Recipient: recipient,
 	}
 
 	if err := msg.ValidateBasic(); err != nil {
@@ -287,7 +282,18 @@ func (p Precompile) TransferLicense(
 		return nil, err
 	}
 
-	if err := p.EmitLicenseTransferred(ctx, stateDB, contract.Caller(), recipientHex, licenseTypeID, id); err != nil {
+	// LicenseTransferred still carries the license type, so consumers keep the
+	// context and the event's topic0 is unchanged — but the type no longer
+	// arrives as an argument, so read it back from state. Read through the
+	// collection rather than keeper.GetLicense: the latter reports a store
+	// failure as "not found", which would emit an empty type instead of
+	// failing the call.
+	l, err := p.keeper.Licenses.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := p.EmitLicenseTransferred(ctx, stateDB, contract.Caller(), recipientHex, l.Type, id); err != nil {
 		return nil, err
 	}
 

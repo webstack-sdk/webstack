@@ -17,7 +17,8 @@ enum LicenseStatus {
 
 // License represents an issued license instance.
 message License {
-  // id is the auto-incremented identifier, unique within the license type.
+  // id is the auto-incremented identifier, unique chain-wide across all
+  // license types. A bare id is a complete handle to a license.
   uint64 id = 1;
   // type is the LicenseType.id this license was issued from.
   string type = 2;

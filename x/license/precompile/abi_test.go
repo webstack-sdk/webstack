@@ -6,42 +6,87 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TestABIMethodsPresent asserts that every method/event the dispatcher references
-// is declared in abi.json. If this fires the embedded ABI has drifted out of sync
-// with the Go code (or vice versa).
-func TestABIMethodsPresent(t *testing.T) {
-	wantMethods := []string{
-		// transactions
-		CreateLicenseTypeMethod,
-		UpdateLicenseTypeMethod,
-		IssueLicensesMethod,
-		RevokeLicensesMethod,
-		TransferLicenseMethod,
-		// queries
-		LicenseTypeMethod,
-		LicenseTypesMethod,
-		LicenseMethod,
-		LicensesMethod,
-		LicensesByTypeMethod,
-		LicensesByHolderMethod,
-		LicensesByHolderAndTypeMethod,
-	}
-	for _, name := range wantMethods {
-		_, ok := ABI.Methods[name]
-		require.Truef(t, ok, "method %q missing from ABI", name)
-	}
+// licenseTuple is the ABI shape of the License struct, mirroring LicenseOutput.
+const licenseTuple = "(uint64,string,address,string,string,string,string)"
 
-	wantEvents := []string{
-		EventTypeLicenseTypeCreated,
-		EventTypeLicenseTypeUpdated,
-		EventTypeLicenseIssued,
-		EventTypeLicenseRevoked,
-		EventTypeLicenseTransferred,
+// licenseTypeTuple is the ABI shape of the LicenseType struct, mirroring
+// LicenseTypeOutput.
+const licenseTypeTuple = "(string,bool,uint256,uint256,uint256,uint256)"
+
+// wantMethodSigs pins the full canonical signature of every ABI method, not
+// just its name. abi.json is hand-maintained alongside LicenseI.sol with no
+// codegen between them, so a name-only check would pass even if abi.json were
+// never updated — the drift this is here to catch. go-ethereum derives the
+// 4-byte selector from Sig, so pinning Sig pins the selector too.
+var wantMethodSigs = map[string]string{
+	// transactions
+	CreateLicenseTypeMethod: "createLicenseType(string,bool,uint256)",
+	UpdateLicenseTypeMethod: "updateLicenseType(string,bool)",
+	IssueLicensesMethod:     "issueLicenses((string,address,string,string,uint64)[])",
+	RevokeLicensesMethod:    "revokeLicenses(string,address,uint64)",
+	TransferLicenseMethod:   "transferLicense(uint64,address)",
+	// queries
+	LicenseTypeMethod:             "licenseType(string)",
+	LicenseTypesMethod:            "licenseTypes()",
+	LicenseMethod:                 "license(uint64)",
+	LicensesMethod:                "licenses()",
+	LicensesByTypeMethod:          "licensesByType(string)",
+	LicensesByHolderMethod:        "licensesByHolder(address)",
+	LicensesByHolderAndTypeMethod: "licensesByHolderAndType(address,string)",
+}
+
+// wantMethodOutputs pins return shapes, which Sig does not cover. These are
+// what licenseToOutput / licenseTypeToOutput must keep packing into.
+var wantMethodOutputs = map[string][]string{
+	CreateLicenseTypeMethod:       {"bool"},
+	UpdateLicenseTypeMethod:       {"bool"},
+	IssueLicensesMethod:           {"uint64[]"},
+	RevokeLicensesMethod:          {"uint64[]"},
+	TransferLicenseMethod:         {"bool"},
+	LicenseTypeMethod:             {licenseTypeTuple},
+	LicenseTypesMethod:            {licenseTypeTuple + "[]"},
+	LicenseMethod:                 {licenseTuple},
+	LicensesMethod:                {licenseTuple + "[]"},
+	LicensesByTypeMethod:          {licenseTuple + "[]"},
+	LicensesByHolderMethod:        {licenseTuple + "[]"},
+	LicensesByHolderAndTypeMethod: {licenseTuple + "[]"},
+}
+
+// wantEventSigs pins event signatures, and so topic0. LicenseTransferred keeps
+// its licenseTypeId even though transferLicense no longer takes one, so its
+// topic0 is unchanged and existing log filters keep matching.
+var wantEventSigs = map[string]string{
+	EventTypeLicenseTypeCreated: "LicenseTypeCreated(string,bool,uint256)",
+	EventTypeLicenseTypeUpdated: "LicenseTypeUpdated(string,bool)",
+	EventTypeLicenseIssued:      "LicenseIssued(address,address,string,uint64)",
+	EventTypeLicenseRevoked:     "LicenseRevoked(address,address,string,uint64)",
+	EventTypeLicenseTransferred: "LicenseTransferred(address,address,string,uint64)",
+}
+
+// TestABISignatures asserts that every method and event in abi.json has
+// exactly the expected signature and return shape, and that abi.json declares
+// nothing beyond them. An extra method here is calldata the dispatcher does
+// not handle; a changed signature is a broken client.
+func TestABISignatures(t *testing.T) {
+	for name, wantSig := range wantMethodSigs {
+		m, ok := ABI.Methods[name]
+		require.Truef(t, ok, "method %q missing from ABI", name)
+		require.Equalf(t, wantSig, m.Sig, "signature drift for method %q", name)
+
+		gotOutputs := make([]string, 0, len(m.Outputs))
+		for _, o := range m.Outputs {
+			gotOutputs = append(gotOutputs, o.Type.String())
+		}
+		require.Equalf(t, wantMethodOutputs[name], gotOutputs, "output drift for method %q", name)
 	}
-	for _, name := range wantEvents {
-		_, ok := ABI.Events[name]
+	require.Len(t, ABI.Methods, len(wantMethodSigs), "abi.json declares a method the dispatcher does not handle")
+
+	for name, wantSig := range wantEventSigs {
+		e, ok := ABI.Events[name]
 		require.Truef(t, ok, "event %q missing from ABI", name)
+		require.Equalf(t, wantSig, e.Sig, "signature drift for event %q", name)
 	}
+	require.Len(t, ABI.Events, len(wantEventSigs), "abi.json declares an unexpected event")
 }
 
 // TestIsTransaction asserts that write methods are classified as transactions

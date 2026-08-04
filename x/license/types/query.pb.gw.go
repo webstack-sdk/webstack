@@ -134,17 +134,6 @@ func request_Query_License_0(ctx context.Context, marshaler runtime.Marshaler, c
 		_   = err
 	)
 
-	val, ok = pathParams["type_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "type_id")
-	}
-
-	protoReq.TypeId, err = runtime.String(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "type_id", err)
-	}
-
 	val, ok = pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
@@ -171,17 +160,6 @@ func local_request_Query_License_0(ctx context.Context, marshaler runtime.Marsha
 		err error
 		_   = err
 	)
-
-	val, ok = pathParams["type_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "type_id")
-	}
-
-	protoReq.TypeId, err = runtime.String(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "type_id", err)
-	}
 
 	val, ok = pathParams["id"]
 	if !ok {
@@ -829,7 +807,7 @@ var (
 
 	pattern_Query_LicenseTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"webstack", "license", "license_types"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_License_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 1, 0, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3}, []string{"webstack", "license", "type_id", "id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_License_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"webstack", "license", "id"}, "", runtime.AssumeColonVerbOpt(false)))
 
 	pattern_Query_Licenses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"webstack", "license", "licenses"}, "", runtime.AssumeColonVerbOpt(false)))
 

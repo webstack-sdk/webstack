@@ -15,7 +15,7 @@ func TestDefaultGenesis(t *testing.T) {
 	require.NoError(t, gs.Validate())
 	require.Empty(t, gs.LicenseTypes)
 	require.Empty(t, gs.Licenses)
-	require.Empty(t, gs.LicenseCounts)
+	require.Equal(t, types.FirstLicenseID, gs.NextLicenseId)
 }
 
 func TestGenesisValidation(t *testing.T) {
@@ -41,9 +41,7 @@ func TestGenesisValidation(t *testing.T) {
 				Licenses: []types.License{
 					{Id: 1, Type: "node", Holder: holder, StartDate: "2026-01-01", Status: types.StatusActive},
 				},
-				LicenseCounts: []types.LicenseCount{
-					{LicenseTypeId: "node", Count: 1},
-				},
+				NextLicenseId: 2,
 			},
 			expErr: false,
 		},
@@ -59,7 +57,7 @@ func TestGenesisValidation(t *testing.T) {
 			expErrMsg: "duplicate license type",
 		},
 		{
-			name: "duplicate license",
+			name: "duplicate license id in one type",
 			genesis: types.GenesisState{
 				LicenseTypes: []types.LicenseType{
 					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
@@ -70,7 +68,24 @@ func TestGenesisValidation(t *testing.T) {
 				},
 			},
 			expErr:    true,
-			expErrMsg: "duplicate license",
+			expErrMsg: "duplicate license id",
+		},
+		{
+			// Ids are unique chain-wide, so the same id under two different
+			// types collides. This was legal when ids were per-type.
+			name: "duplicate license id across types",
+			genesis: types.GenesisState{
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+					{Id: "t2", MaxSupply: math.ZeroInt(), IssuedCount: math.ZeroInt(), ActiveCount: math.ZeroInt(), RevokedCount: math.ZeroInt()},
+				},
+				Licenses: []types.License{
+					{Id: 1, Type: "t1", Holder: holder, Status: types.StatusActive},
+					{Id: 1, Type: "t2", Holder: holder, Status: types.StatusActive},
+				},
+			},
+			expErr:    true,
+			expErrMsg: "duplicate license id",
 		},
 		{
 			name: "license references unknown type",
@@ -212,9 +227,7 @@ func TestGenesisValidation(t *testing.T) {
 				Licenses: []types.License{
 					{Id: 1, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: types.StatusRevoked},
 				},
-				LicenseCounts: []types.LicenseCount{
-					{LicenseTypeId: "t1", Count: 1},
-				},
+				NextLicenseId: 2,
 			},
 			expErr:    true,
 			expErrMsg: "no revoked_date",
@@ -228,15 +241,15 @@ func TestGenesisValidation(t *testing.T) {
 				Licenses: []types.License{
 					{Id: 1, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: types.StatusActive, RevokedDate: "2026-02-01"},
 				},
-				LicenseCounts: []types.LicenseCount{
-					{LicenseTypeId: "t1", Count: 1},
-				},
+				NextLicenseId: 2,
 			},
 			expErr:    true,
 			expErrMsg: "is active but has revoked_date",
 		},
 		{
-			name: "license count below max id",
+			// Equal is not enough: next_license_id is the id to *assign*, so
+			// reusing 5 would overwrite the imported license.
+			name: "next_license_id not above highest id",
 			genesis: types.GenesisState{
 				LicenseTypes: []types.LicenseType{
 					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
@@ -244,15 +257,31 @@ func TestGenesisValidation(t *testing.T) {
 				Licenses: []types.License{
 					{Id: 5, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: types.StatusActive},
 				},
-				LicenseCounts: []types.LicenseCount{
-					{LicenseTypeId: "t1", Count: 4},
-				},
+				NextLicenseId: 5,
 			},
 			expErr:    true,
-			expErrMsg: "below the highest license id",
+			expErrMsg: "not above the highest license id",
 		},
 		{
-			name: "licenses without a license count entry",
+			// The sequence spans every type, so it must clear the highest id
+			// anywhere in genesis, not just the highest within one type.
+			name: "next_license_id above one type but not another",
+			genesis: types.GenesisState{
+				LicenseTypes: []types.LicenseType{
+					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
+					{Id: "t2", MaxSupply: math.ZeroInt(), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
+				},
+				Licenses: []types.License{
+					{Id: 3, Type: "t1", Holder: holder, StartDate: "2026-01-01", Status: types.StatusActive},
+					{Id: 7, Type: "t2", Holder: holder, StartDate: "2026-01-01", Status: types.StatusActive},
+				},
+				NextLicenseId: 4,
+			},
+			expErr:    true,
+			expErrMsg: "not above the highest license id",
+		},
+		{
+			name: "next_license_id unset",
 			genesis: types.GenesisState{
 				LicenseTypes: []types.LicenseType{
 					{Id: "t1", MaxSupply: math.ZeroInt(), IssuedCount: math.NewInt(1), ActiveCount: math.NewInt(1), RevokedCount: math.ZeroInt()},
@@ -262,17 +291,15 @@ func TestGenesisValidation(t *testing.T) {
 				},
 			},
 			expErr:    true,
-			expErrMsg: "no license count entry",
+			expErrMsg: "next_license_id must be at least 1",
 		},
 		{
-			name: "license count references unknown type",
-			genesis: types.GenesisState{
-				LicenseCounts: []types.LicenseCount{
-					{LicenseTypeId: "missing", Count: 1},
-				},
-			},
+			// A chain with no licenses still needs a seeded sequence, so the
+			// zero GenesisState is invalid.
+			name:      "empty genesis has no sequence",
+			genesis:   types.GenesisState{},
 			expErr:    true,
-			expErrMsg: "license count references unknown license type",
+			expErrMsg: "next_license_id must be at least 1",
 		},
 	}
 

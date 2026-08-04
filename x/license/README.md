@@ -112,7 +112,7 @@ Each license is an instance of a license type:
 
 | Field | Description |
 |-------|-------------|
-| `id` | Auto-incremented uint64, unique within the license type |
+| `id` | Auto-incremented uint64, unique chain-wide across all license types |
 | `type` | The license type ID this belongs to |
 | `holder` | Bech32 address of the current holder |
 | `start_date` | Start date in `YYYY-MM-DD` format |
@@ -120,15 +120,26 @@ Each license is an instance of a license type:
 | `status` | `LicenseStatus` enum: `active` or `revoked` |
 | `revoked_date` | Block date of revocation in `YYYY-MM-DD` format; empty unless revoked |
 
-Licenses are stored under `(type, id)` and never deleted; revocation flips
-`status` and stamps `revoked_date`, leaving the issued `end_date` intact. A
-secondary index keyed `(holder, type, id)` tracks **active** licenses only —
-it is written on issue, moved on transfer, and removed on revoke — which is
-what powers the holder queries and the revoke-most-recent-first walk.
+Licenses are stored under their `id` alone and never deleted; revocation flips
+`status` and stamps `revoked_date`, leaving the issued `end_date` intact.
+Because ids are unique chain-wide, **a bare id is a complete handle** — the
+single-license query and `MsgTransferLicense` take only an id, and the type
+comes off the stored record.
 
-The per-type next-id sequence is its own piece of state (exported in genesis
-as `license_counts`), independent of the `issued_count` stats counter on the
-license type.
+Two secondary indexes support the listing queries:
+
+- `(type, id)` lists a type's licenses, active and revoked alike. A license's
+  type never changes, so entries are written once at issuance and never moved
+  or removed.
+- `(holder, type, id)` tracks **active** licenses only — written on issue,
+  moved on transfer, removed on revoke. This powers the holder queries and the
+  revoke-most-recent-first walk.
+
+The next-id sequence is a single chain-wide counter and is its own piece of
+state (exported in genesis as `next_license_id`), independent of the
+`issued_count` stats counter on the license type. Ids start at 1, so `0` is
+never a valid license id. Ids are never reused: revoking frees a `max_supply`
+slot but not an id, so a reissued license always gets a fresh number.
 
 ### Permissions
 
@@ -206,10 +217,10 @@ webstackd tx license revoke-licenses node.license webstack1abc... 2 --from admin
 ```
 
 ### MsgTransferLicense
-Transfer a license to a new holder. Signer must be the current holder and the license type must be transferrable.
+Transfer a license to a new holder, identified by id alone. Signer must be the current holder and the license type must be transferrable.
 
 ```bash
-webstackd tx license transfer-license node.license 1 webstack1recipient... --from holder
+webstackd tx license transfer-license 1 webstack1recipient... --from holder
 ```
 
 ## Queries
@@ -220,7 +231,7 @@ All queries are available via gRPC, REST, and CLI (auto-generated via autocli).
 |-------|-------------|-----|
 | `LicenseType` | Single license type by ID | `webstackd q license license-type node.license` |
 | `LicenseTypes` | All license types (paginated) | `webstackd q license license-types` |
-| `License` | Single license by type + ID | `webstackd q license license node.license 1` |
+| `License` | Single license by ID | `webstackd q license license 1` |
 | `Licenses` | All licenses across all types (paginated) | `webstackd q license licenses` |
 | `LicensesByType` | All licenses for a type (paginated) | `webstackd q license licenses-by-type node.license` |
 | `LicensesByHolder` | Active licenses for a holder (paginated) | `webstackd q license licenses-by-holder webstack1...` |
@@ -236,7 +247,7 @@ All queries are available at `http://localhost:1317/webstack/license/...`:
 ```
 GET /webstack/license/license_type/{id}
 GET /webstack/license/license_types
-GET /webstack/license/license/{type_id}/{id}
+GET /webstack/license/license/{id}
 GET /webstack/license/licenses
 GET /webstack/license/licenses_by_type/{type_id}
 GET /webstack/license/licenses_by_holder/{holder}
@@ -259,7 +270,7 @@ Example genesis configuration:
       }
     ],
     "licenses": [],
-    "license_counts": []
+    "next_license_id": "1"
   },
   "permission": {
     "namespaces": [
@@ -300,8 +311,9 @@ The module uses the `cosmossdk.io/collections` framework for type-safe state man
 | Collection | Key | Value |
 |------------|-----|-------|
 | `LicenseTypes` | `string` (type ID) | `LicenseType` |
-| `Licenses` | `(string, uint64)` (type ID, license ID) | `License` |
-| `LicenseCounts` | `string` (type ID) | `uint64` (next-id sequence, exported in genesis as `license_counts`) |
+| `Licenses` | `uint64` (license ID) | `License` |
+| `NextLicenseID` | (item) | `uint64` (chain-wide next-id sequence, exported in genesis as `next_license_id`) |
+| `LicensesByType` | `(string, uint64)` (type ID, license ID) | (keyset, no value; active and revoked) |
 | `ActiveLicensesByHolder` | `(string, string, uint64)` (holder, type ID, license ID) | (keyset, no value; active licenses only) |
 
 Permission grants are stored in the `x/permission` module under the `license`

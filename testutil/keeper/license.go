@@ -1,12 +1,14 @@
 package keeper
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	"cosmossdk.io/collections"
 	"cosmossdk.io/log"
+	"cosmossdk.io/math"
 	"cosmossdk.io/store"
 	"cosmossdk.io/store/metrics"
 	storetypes "cosmossdk.io/store/types"
@@ -118,6 +120,53 @@ func (f *LicenseFixture) Ungrant(t testing.TB, grantee, permission, licenseType 
 	t.Helper()
 	require.NoError(t, f.PermissionKeeper.Grants.Remove(f.Ctx,
 		collections.Join4(types.ModuleName, grantee, permission, licenseType)))
+}
+
+// SeedActiveLicenses writes count active licenses of typeID for holder
+// straight into license state, creating the license type on first use and
+// keeping every index and counter consistent.
+//
+// It takes the keeper rather than a fixture so both the license and network
+// fixtures can share it. This is the ONLY place test code allocates license
+// ids: the id scheme and the set of indexes a license must appear in live in
+// one place, so they cannot drift apart from the keeper's own issuance path.
+func SeedActiveLicenses(t testing.TB, k keeper.Keeper, ctx sdk.Context, holder, typeID string, count uint64) {
+	t.Helper()
+
+	lt, found, err := k.GetLicenseType(ctx, typeID)
+	require.NoError(t, err)
+	if !found {
+		lt = types.LicenseType{
+			Id:           typeID,
+			MaxSupply:    math.ZeroInt(),
+			IssuedCount:  math.ZeroInt(),
+			ActiveCount:  math.ZeroInt(),
+			RevokedCount: math.ZeroInt(),
+		}
+	}
+
+	for i := uint64(0); i < count; i++ {
+		id, err := k.NextLicenseID.Get(ctx)
+		if errors.Is(err, collections.ErrNotFound) {
+			id = types.FirstLicenseID
+		} else {
+			require.NoError(t, err)
+		}
+		require.NoError(t, k.NextLicenseID.Set(ctx, id+1))
+
+		require.NoError(t, k.Licenses.Set(ctx, id, types.License{
+			Id:        id,
+			Type:      typeID,
+			Holder:    holder,
+			StartDate: "2025-01-01",
+			Status:    types.StatusActive,
+		}))
+		require.NoError(t, k.LicensesByType.Set(ctx, collections.Join(typeID, id)))
+		require.NoError(t, k.ActiveLicensesByHolder.Set(ctx, collections.Join3(holder, typeID, id)))
+		lt.IssuedCount = lt.IssuedCount.AddRaw(1)
+		lt.ActiveCount = lt.ActiveCount.AddRaw(1)
+	}
+	require.NoError(t, k.LicenseTypes.Set(ctx, typeID, lt))
 }
 
 // LicenseKeeper returns a licenses keeper and context for testing.

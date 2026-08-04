@@ -13,7 +13,7 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		LicenseTypes:  []LicenseType{},
 		Licenses:      []License{},
-		LicenseCounts: []LicenseCount{},
+		NextLicenseId: FirstLicenseID,
 	}
 }
 
@@ -39,23 +39,23 @@ func (gs GenesisState) Validate() error {
 		}
 	}
 
-	// Pass 1: detect duplicate licenses. Done before per-license validation so
-	// the duplicate error fires regardless of the offending record's date or
-	// holder fields.
-	licenseKeys := make(map[string]struct{})
+	// Pass 1: detect duplicate license ids. Ids are unique chain-wide, so two
+	// licenses of *different* types may not share one either. Done before
+	// per-license validation so the duplicate error fires regardless of the
+	// offending record's date or holder fields.
+	licenseIDs := make(map[uint64]struct{}, len(gs.Licenses))
 	for _, l := range gs.Licenses {
-		key := fmt.Sprintf("%s/%d", l.Type, l.Id)
-		if _, exists := licenseKeys[key]; exists {
-			return fmt.Errorf("duplicate license (type=%s, id=%d)", l.Type, l.Id)
+		if _, exists := licenseIDs[l.Id]; exists {
+			return fmt.Errorf("duplicate license id %d", l.Id)
 		}
-		licenseKeys[key] = struct{}{}
+		licenseIDs[l.Id] = struct{}{}
 	}
 
 	// Pass 2: per-license validation + per-type tally of active/revoked and
-	// the highest id seen per type (for the counter invariant below).
+	// the highest id seen anywhere (for the sequence invariant below).
 	activeByType := make(map[string]uint64)
 	revokedByType := make(map[string]uint64)
-	maxIDByType := make(map[string]uint64)
+	var maxID uint64
 	for _, l := range gs.Licenses {
 		if _, exists := typeIDs[l.Type]; !exists {
 			return fmt.Errorf("license (type=%s, id=%d) references unknown license type", l.Type, l.Id)
@@ -79,8 +79,8 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("license (type=%s, id=%d) has invalid status %q", l.Type, l.Id, l.Status.String())
 		}
 
-		if l.Id > maxIDByType[l.Type] {
-			maxIDByType[l.Type] = l.Id
+		if l.Id > maxID {
+			maxID = l.Id
 		}
 
 		if _, err := sdk.AccAddressFromBech32(l.Holder); err != nil {
@@ -109,27 +109,14 @@ func (gs GenesisState) Validate() error {
 		}
 	}
 
-	// Pass 4: the per-type id sequence must exist for every type that has
-	// licenses and must never be below the highest existing id — otherwise
-	// the next issuance would overwrite an imported license.
-	countByType := make(map[string]uint64)
-	for _, lc := range gs.LicenseCounts {
-		if _, exists := typeIDs[lc.LicenseTypeId]; !exists {
-			return fmt.Errorf("license count references unknown license type %q", lc.LicenseTypeId)
-		}
-		if _, dup := countByType[lc.LicenseTypeId]; dup {
-			return fmt.Errorf("duplicate license count for license type %q", lc.LicenseTypeId)
-		}
-		countByType[lc.LicenseTypeId] = lc.Count
+	// Pass 4: the chain-wide id sequence must be set and must be past every
+	// imported id — otherwise the next issuance would overwrite an existing
+	// license. Kept last so the more specific errors above fire first.
+	if gs.NextLicenseId < FirstLicenseID {
+		return fmt.Errorf("next_license_id must be at least %d, got %d", FirstLicenseID, gs.NextLicenseId)
 	}
-	for typeID, maxID := range maxIDByType {
-		count, ok := countByType[typeID]
-		if !ok {
-			return fmt.Errorf("license type %s has licenses but no license count entry", typeID)
-		}
-		if count < maxID {
-			return fmt.Errorf("license type %s: license count %d is below the highest license id %d", typeID, count, maxID)
-		}
+	if gs.NextLicenseId <= maxID {
+		return fmt.Errorf("next_license_id %d is not above the highest license id %d", gs.NextLicenseId, maxID)
 	}
 
 	return nil

@@ -17,4 +17,5 @@ var (
 	ErrLicenseRevoked         = errors.Register(ModuleName, 1114, "license is already revoked")
 	ErrInvalidMaxSupply       = errors.Register(ModuleName, 1115, "invalid max_supply")
 	ErrInvalidCount           = errors.Register(ModuleName, 1116, "invalid count")
+	ErrInvalidLicenseID       = errors.Register(ModuleName, 1117, "invalid license id")
 )

@@ -187,7 +187,7 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 		ms.k.createAccountIfNotExists(ctx, holderAddr)
 
 		for j := uint64(0); j < entry.Count; j++ {
-			id, err := ms.k.nextLicenseID(ctx, entry.LicenseTypeId)
+			id, err := ms.k.nextLicenseID(ctx)
 			if err != nil {
 				return nil, err
 			}
@@ -201,7 +201,12 @@ func (ms msgServer) IssueLicenses(ctx context.Context, msg *types.MsgIssueLicens
 				Status:    types.StatusActive,
 			}
 
-			if err := ms.k.Licenses.Set(ctx, collections.Join(entry.LicenseTypeId, id), license); err != nil {
+			if err := ms.k.Licenses.Set(ctx, id, license); err != nil {
+				return nil, err
+			}
+			// Written once here and never moved: a license's type is fixed,
+			// and this index covers revoked licenses too.
+			if err := ms.k.LicensesByType.Set(ctx, collections.Join(entry.LicenseTypeId, id)); err != nil {
 				return nil, err
 			}
 			if err := ms.k.ActiveLicensesByHolder.Set(ctx, collections.Join3(entry.Holder, entry.LicenseTypeId, id)); err != nil {
@@ -268,7 +273,7 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 	revokedIDs := make([]uint64, 0, count)
 
 	for _, id := range activeIDs {
-		license, err := ms.k.Licenses.Get(ctx, collections.Join(msg.LicenseTypeId, id))
+		license, err := ms.k.Licenses.Get(ctx, id)
 		if err != nil {
 			return nil, err
 		}
@@ -278,7 +283,8 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 		license.Status = types.StatusRevoked
 		license.RevokedDate = revokedDate
 
-		if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, id), license); err != nil {
+		// LicensesByType is left alone: it lists revoked licenses too.
+		if err := ms.k.Licenses.Set(ctx, id, license); err != nil {
 			return nil, err
 		}
 		if err := ms.k.ActiveLicensesByHolder.Remove(ctx, collections.Join3(msg.Holder, msg.LicenseTypeId, id)); err != nil {
@@ -320,17 +326,18 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 		return nil, fmt.Errorf("cannot transfer license to the current holder")
 	}
 
-	license, err := ms.k.Licenses.Get(ctx, collections.Join(msg.LicenseTypeId, msg.Id))
+	// The id alone resolves the license; its type comes off the value.
+	license, err := ms.k.Licenses.Get(ctx, msg.Id)
 	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "license (type=%s, id=%d) not found", msg.LicenseTypeId, msg.Id)
+		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "license %d not found", msg.Id)
 	}
 
 	if license.Holder != msg.Holder {
-		return nil, errorsmod.Wrapf(types.ErrNotLicenseHolder, "signer %s is not the holder of license (type=%s, id=%d)", msg.Holder, msg.LicenseTypeId, msg.Id)
+		return nil, errorsmod.Wrapf(types.ErrNotLicenseHolder, "signer %s is not the holder of license %d", msg.Holder, msg.Id)
 	}
 
 	if license.Status != types.StatusActive {
-		return nil, errorsmod.Wrapf(types.ErrLicenseRevoked, "license (type=%s, id=%d) is %s and cannot be transferred", msg.LicenseTypeId, msg.Id, license.Status.Short())
+		return nil, errorsmod.Wrapf(types.ErrLicenseRevoked, "license %d is %s and cannot be transferred", msg.Id, license.Status.Short())
 	}
 
 	lt, err := ms.k.LicenseTypes.Get(ctx, license.Type)
@@ -342,24 +349,25 @@ func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferL
 	}
 
 	// Remove old holder index
-	if err := ms.k.ActiveLicensesByHolder.Remove(ctx, collections.Join3(license.Holder, msg.LicenseTypeId, msg.Id)); err != nil {
+	if err := ms.k.ActiveLicensesByHolder.Remove(ctx, collections.Join3(license.Holder, license.Type, msg.Id)); err != nil {
 		return nil, err
 	}
 
 	license.Holder = msg.Recipient
 
-	if err := ms.k.Licenses.Set(ctx, collections.Join(msg.LicenseTypeId, msg.Id), license); err != nil {
+	// LicensesByType is untouched: the type has not changed.
+	if err := ms.k.Licenses.Set(ctx, msg.Id, license); err != nil {
 		return nil, err
 	}
 
 	// Add new holder index
-	if err := ms.k.ActiveLicensesByHolder.Set(ctx, collections.Join3(msg.Recipient, msg.LicenseTypeId, msg.Id)); err != nil {
+	if err := ms.k.ActiveLicensesByHolder.Set(ctx, collections.Join3(msg.Recipient, license.Type, msg.Id)); err != nil {
 		return nil, err
 	}
 
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
 		types.EventTypeTransferLicense,
-		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
+		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, license.Type),
 		sdk.NewAttribute(types.AttributeKeyLicenseID, fmt.Sprintf("%d", msg.Id)),
 		sdk.NewAttribute(types.AttributeKeyHolder, msg.Holder),
 		sdk.NewAttribute(types.AttributeKeyRecipient, msg.Recipient),

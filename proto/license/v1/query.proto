@@ -23,9 +23,10 @@ service Query {
     option (google.api.http).get = "/webstack/license/license_types";
   }
 
-  // License queries a license by type id and license id.
+  // License queries a license by id. Ids are unique chain-wide, so no license
+  // type is needed to resolve one.
   rpc License(QueryLicenseRequest) returns (QueryLicenseResponse) {
-    option (google.api.http).get = "/webstack/license/license/{type_id}/{id}";
+    option (google.api.http).get = "/webstack/license/license/{id}";
   }
 
   // Licenses queries all licenses across all license types, active and revoked.
@@ -76,7 +77,12 @@ message QueryLicenseTypesResponse {
 
 // QueryLicenseRequest is the request type for the Query/License RPC method.
 message QueryLicenseRequest {
-  string type_id = 1;
+  // Field 1 was `string type_id`, needed when ids were only unique within a
+  // license type.
+  reserved 1;
+  reserved "type_id";
+
+  // id is the chain-wide unique license id.
   uint64 id = 2;
 }
 

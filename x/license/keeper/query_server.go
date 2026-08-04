@@ -41,18 +41,18 @@ func (q Querier) LicenseTypes(ctx context.Context, req *types.QueryLicenseTypesR
 }
 
 func (q Querier) License(ctx context.Context, req *types.QueryLicenseRequest) (*types.QueryLicenseResponse, error) {
-	l, err := q.Keeper.Licenses.Get(ctx, collections.Join(req.TypeId, req.Id))
+	l, err := q.Keeper.Licenses.Get(ctx, req.Id)
 	if err != nil {
-		return nil, types.ErrLicenseNotFound.Wrapf("license %d of type %s not found", req.Id, req.TypeId)
+		return nil, types.ErrLicenseNotFound.Wrapf("license %d not found", req.Id)
 	}
 	return &types.QueryLicenseResponse{License: l}, nil
 }
 
 // Licenses returns every license across all license types, active and
-// revoked, paginated over the (type_id, id) key space.
+// revoked, paginated over the id key space in ascending id order.
 func (q Querier) Licenses(ctx context.Context, req *types.QueryLicensesRequest) (*types.QueryLicensesResponse, error) {
 	licenses, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.Licenses, req.Pagination,
-		func(_ collections.Pair[string, uint64], l types.License) (types.License, error) {
+		func(_ uint64, l types.License) (types.License, error) {
 			return l, nil
 		},
 	)
@@ -80,10 +80,12 @@ func withTripleSuperPrefix[K1, K2, K3 any](k1 K1, k2 K2) func(o *query.Collectio
 	}
 }
 
+// LicensesByType returns every license of one type, active and revoked,
+// resolved through the by-type index since licenses are keyed by id alone.
 func (q Querier) LicensesByType(ctx context.Context, req *types.QueryLicensesByTypeRequest) (*types.QueryLicensesByTypeResponse, error) {
-	licenses, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.Licenses, req.Pagination,
-		func(_ collections.Pair[string, uint64], l types.License) (types.License, error) {
-			return l, nil
+	licenses, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.LicensesByType, req.Pagination,
+		func(key collections.Pair[string, uint64], _ collections.NoValue) (types.License, error) {
+			return q.Keeper.Licenses.Get(ctx, key.K2())
 		},
 		query.WithCollectionPaginationPairPrefix[string, uint64](req.TypeId),
 	)
@@ -98,7 +100,7 @@ func (q Querier) LicensesByType(ctx context.Context, req *types.QueryLicensesByT
 func (q Querier) LicensesByHolder(ctx context.Context, req *types.QueryLicensesByHolderRequest) (*types.QueryLicensesByHolderResponse, error) {
 	licenses, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.ActiveLicensesByHolder, req.Pagination,
 		func(key collections.Triple[string, string, uint64], _ collections.NoValue) (types.License, error) {
-			return q.Keeper.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
+			return q.Keeper.Licenses.Get(ctx, key.K3())
 		},
 		withTriplePrefix[string, string, uint64](req.Holder),
 	)
@@ -114,7 +116,7 @@ func (q Querier) LicensesByHolder(ctx context.Context, req *types.QueryLicensesB
 func (q Querier) LicensesByHolderAndType(ctx context.Context, req *types.QueryLicensesByHolderAndTypeRequest) (*types.QueryLicensesByHolderAndTypeResponse, error) {
 	licenses, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.ActiveLicensesByHolder, req.Pagination,
 		func(key collections.Triple[string, string, uint64], _ collections.NoValue) (types.License, error) {
-			return q.Keeper.Licenses.Get(ctx, collections.Join(key.K2(), key.K3()))
+			return q.Keeper.Licenses.Get(ctx, key.K3())
 		},
 		withTripleSuperPrefix[string, string, uint64](req.Holder, req.TypeId),
 	)
