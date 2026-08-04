@@ -755,38 +755,6 @@
         ]
       }
     },
-    "/webstack/license/tx/transfer_license": {
-      "post": {
-        "operationId": "Msg_TransferLicense",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/MsgTransferLicenseResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MsgTransferLicense"
-            }
-          }
-        ],
-        "tags": [
-          "Msg"
-        ]
-      }
-    },
     "/webstack/license/tx/update_license_type": {
       "post": {
         "operationId": "Msg_UpdateLicenseType",
@@ -1206,27 +1174,6 @@
       }
     },
     "MsgUpdateLicenseResponse": {
-      "type": "object"
-    },
-    "MsgTransferLicense": {
-      "type": "object",
-      "properties": {
-        "holder": {
-          "type": "string"
-        },
-        "license_type_id": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string",
-          "format": "uint64"
-        },
-        "recipient": {
-          "type": "string"
-        }
-      }
-    },
-    "MsgTransferLicenseResponse": {
       "type": "object"
     },
     "MsgUpdateLicenseType": {

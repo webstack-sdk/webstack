@@ -15,7 +15,6 @@ import (
 func DefaultParams() Params {
 	return Params{
 		LicenseTypes:              []string{},
-		AllowedNodeTypes:          []string{},
 		ActivationLimitMultiplier: 3,
 		SpamLimitMultiplier:       9,
 		MaxActivationKeys:         5,
@@ -32,9 +31,6 @@ func DefaultParams() Params {
 // Validate checks the parameter set is well-formed.
 func (p Params) Validate() error {
 	if err := validateTypeList("license_types", p.LicenseTypes); err != nil {
-		return err
-	}
-	if err := validateTypeList("allowed_node_types", p.AllowedNodeTypes); err != nil {
 		return err
 	}
 	if p.ActivationLimitMultiplier == 0 {
@@ -68,21 +64,6 @@ func (p Params) Validate() error {
 		return fmt.Errorf("max_gasless_tx_bytes must be positive")
 	}
 	return nil
-}
-
-// NodeTypeAllowed reports whether a node type passes the allowed_node_types
-// param. An empty list accepts any type; the type itself must still be
-// non-empty (enforced in ValidateBasic and the handler).
-func (p Params) NodeTypeAllowed(nodeType string) bool {
-	if len(p.AllowedNodeTypes) == 0 {
-		return true
-	}
-	for _, t := range p.AllowedNodeTypes {
-		if t == nodeType {
-			return true
-		}
-	}
-	return false
 }
 
 func validateTypeList(name string, list []string) error {

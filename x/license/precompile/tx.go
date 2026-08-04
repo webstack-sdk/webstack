@@ -19,7 +19,6 @@ const (
 	UpdateLicenseTypeMethod = "updateLicenseType"
 	IssueLicensesMethod     = "issueLicenses"
 	RevokeLicensesMethod    = "revokeLicenses"
-	TransferLicenseMethod   = "transferLicense"
 )
 
 // CreateLicenseType handles the createLicenseType ABI method.
@@ -237,65 +236,4 @@ func (p Precompile) RevokeLicenses(
 	}
 
 	return method.Outputs.Pack(res.Ids)
-}
-
-// TransferLicense handles the transferLicense ABI method.
-func (p Precompile) TransferLicense(
-	ctx sdk.Context,
-	contract *vm.Contract,
-	stateDB vm.StateDB,
-	method *abi.Method,
-	args []interface{},
-) ([]byte, error) {
-	if err := argCount(args, 2); err != nil {
-		return nil, err
-	}
-	id, err := argToUint64(args[0], "id")
-	if err != nil {
-		return nil, err
-	}
-	recipientHex, err := argToAddress(args[1], "recipient")
-	if err != nil {
-		return nil, err
-	}
-
-	holder, err := hexToBech32(p.addrCdc, contract.Caller())
-	if err != nil {
-		return nil, err
-	}
-	recipient, err := hexToBech32(p.addrCdc, recipientHex)
-	if err != nil {
-		return nil, err
-	}
-
-	msg := &licensetypes.MsgTransferLicense{
-		Holder:    holder,
-		Id:        id,
-		Recipient: recipient,
-	}
-
-	if err := msg.ValidateBasic(); err != nil {
-		return nil, err
-	}
-
-	if _, err := p.msgServer.TransferLicense(ctx, msg); err != nil {
-		return nil, err
-	}
-
-	// LicenseTransferred still carries the license type, so consumers keep the
-	// context and the event's topic0 is unchanged — but the type no longer
-	// arrives as an argument, so read it back from state. Read through the
-	// collection rather than keeper.GetLicense: the latter reports a store
-	// failure as "not found", which would emit an empty type instead of
-	// failing the call.
-	l, err := p.keeper.Licenses.Get(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := p.EmitLicenseTransferred(ctx, stateDB, contract.Caller(), recipientHex, l.Type, id); err != nil {
-		return nil, err
-	}
-
-	return method.Outputs.Pack(true)
 }

@@ -11,7 +11,7 @@ const licenseTuple = "(uint64,string,address,string,string,string,string)"
 
 // licenseTypeTuple is the ABI shape of the LicenseType struct, mirroring
 // LicenseTypeOutput.
-const licenseTypeTuple = "(string,bool,uint256,uint256,uint256,uint256)"
+const licenseTypeTuple = "(string,bool,uint256,uint256,uint256,uint256,address)"
 
 // wantMethodSigs pins the full canonical signature of every ABI method, not
 // just its name. abi.json is hand-maintained alongside LicenseI.sol with no
@@ -24,7 +24,6 @@ var wantMethodSigs = map[string]string{
 	UpdateLicenseTypeMethod: "updateLicenseType(string,bool)",
 	IssueLicensesMethod:     "issueLicenses((string,address,string,string,uint64)[])",
 	RevokeLicensesMethod:    "revokeLicenses(string,address,uint64)",
-	TransferLicenseMethod:   "transferLicense(uint64,address)",
 	// queries
 	LicenseTypeMethod:             "licenseType(string)",
 	LicenseTypesMethod:            "licenseTypes()",
@@ -42,7 +41,6 @@ var wantMethodOutputs = map[string][]string{
 	UpdateLicenseTypeMethod:       {"bool"},
 	IssueLicensesMethod:           {"uint64[]"},
 	RevokeLicensesMethod:          {"uint64[]"},
-	TransferLicenseMethod:         {"bool"},
 	LicenseTypeMethod:             {licenseTypeTuple},
 	LicenseTypesMethod:            {licenseTypeTuple + "[]"},
 	LicenseMethod:                 {licenseTuple},
@@ -52,15 +50,12 @@ var wantMethodOutputs = map[string][]string{
 	LicensesByHolderAndTypeMethod: {licenseTuple + "[]"},
 }
 
-// wantEventSigs pins event signatures, and so topic0. LicenseTransferred keeps
-// its licenseTypeId even though transferLicense no longer takes one, so its
-// topic0 is unchanged and existing log filters keep matching.
+// wantEventSigs pins event signatures, and so topic0.
 var wantEventSigs = map[string]string{
 	EventTypeLicenseTypeCreated: "LicenseTypeCreated(string,bool,uint256)",
 	EventTypeLicenseTypeUpdated: "LicenseTypeUpdated(string,bool)",
 	EventTypeLicenseIssued:      "LicenseIssued(address,address,string,uint64)",
 	EventTypeLicenseRevoked:     "LicenseRevoked(address,address,string,uint64)",
-	EventTypeLicenseTransferred: "LicenseTransferred(address,address,string,uint64)",
 }
 
 // TestABISignatures asserts that every method and event in abi.json has
@@ -97,7 +92,6 @@ func TestIsTransaction(t *testing.T) {
 	txMethods := []string{
 		CreateLicenseTypeMethod, UpdateLicenseTypeMethod,
 		IssueLicensesMethod, RevokeLicensesMethod,
-		TransferLicenseMethod,
 	}
 	for _, name := range txMethods {
 		m := ABI.Methods[name]

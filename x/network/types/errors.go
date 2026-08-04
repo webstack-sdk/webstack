@@ -22,4 +22,7 @@ var (
 	ErrQuotaExceeded         = errors.Register(ModuleName, 1116, "daily gasless quota exceeded")
 	ErrInvalidStatusPayload  = errors.Register(ModuleName, 1117, "invalid node status payload")
 	ErrInvalidAddress        = errors.Register(ModuleName, 1118, "invalid address")
+	ErrNodeTypeExists        = errors.Register(ModuleName, 1119, "node type already registered")
+	ErrNodeTypeNotFound      = errors.Register(ModuleName, 1120, "node type not found")
+	ErrLicenseTypeNotFound   = errors.Register(ModuleName, 1121, "license type not found")
 )

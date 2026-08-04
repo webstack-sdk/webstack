@@ -40,14 +40,6 @@ service Msg {
     };
   }
 
-  // TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
-  rpc TransferLicense(MsgTransferLicense) returns (MsgTransferLicenseResponse) {
-    option (google.api.http) = {
-      post: "/webstack/license/tx/transfer_license"
-      body: "*"
-    };
-  }
-
   // UpdateLicenseType updates an existing license type. Signer must be the license namespace owner.
   rpc UpdateLicenseType(MsgUpdateLicenseType) returns (MsgUpdateLicenseTypeResponse) {
     option (google.api.http) = {
@@ -121,27 +113,6 @@ message MsgRevokeLicenses {
 message MsgRevokeLicensesResponse {
   repeated uint64 ids = 1;
 }
-
-// MsgTransferLicense is the Msg/TransferLicense request type. The license id
-// is a chain-wide unique handle; the license type is derived from it.
-message MsgTransferLicense {
-  option (cosmos.msg.v1.signer) = "holder";
-  option (amino.name) = "webstack/x/license/MsgTransferLicense";
-
-  // Field 2 was `string license_type_id`, needed when ids were only unique
-  // within a license type. Reserved rather than reused: field 2 would
-  // otherwise change from string to uint64 and mis-decode stale txs instead
-  // of rejecting them.
-  reserved 2;
-  reserved "license_type_id";
-
-  string holder = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  uint64 id = 3;
-  string recipient = 4 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-}
-
-// MsgTransferLicenseResponse is the Msg/TransferLicense response type.
-message MsgTransferLicenseResponse {}
 
 // MsgUpdateLicenseType is the Msg/UpdateLicenseType request type. Only the
 // transferrable flag can be updated; max_supply is fixed at creation.

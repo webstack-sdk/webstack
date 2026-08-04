@@ -28,6 +28,16 @@ service Msg {
     };
   }
 
+  // CreateNodeType registers a node type bound to a license type. Signer must
+  // hold the "nodetype.create" grant in the network permission namespace and
+  // be the creator of the named license type. Regular gas tx.
+  rpc CreateNodeType(MsgCreateNodeType) returns (MsgCreateNodeTypeResponse) {
+    option (google.api.http) = {
+      post: "/webstack/network/tx/create_node_type"
+      body: "*"
+    };
+  }
+
   // AuthorizeActivationKey authorizes a new activation key for the signing
   // operator wallet. Gasless.
   rpc AuthorizeActivationKey(MsgAuthorizeActivationKey) returns (MsgAuthorizeActivationKeyResponse) {
@@ -98,6 +108,29 @@ message MsgCreateOperatorAccount {
 // MsgCreateOperatorAccountResponse is the Msg/CreateOperatorAccount response type.
 message MsgCreateOperatorAccountResponse {}
 
+// MsgCreateNodeType is the Msg/CreateNodeType request type. Registration is
+// gated twice: the signer must hold the module-wide "nodetype.create" grant,
+// and must be the recorded creator of license_type_id. The grant confers the
+// ability to define node types at all; the creator match decides which license
+// types they may be defined against.
+message MsgCreateNodeType {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "webstack/x/network/MsgCreateNodeType";
+
+  // creator is the signer. It must hold "nodetype.create" and be the creator
+  // of license_type_id.
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // id is the node type identifier to register. Node type ids are single-use:
+  // records are never removed and cannot be re-registered.
+  string id = 2;
+  // license_type_id is the license type this node type is bound to. The
+  // binding is fixed at creation.
+  string license_type_id = 3;
+}
+
+// MsgCreateNodeTypeResponse is the Msg/CreateNodeType response type.
+message MsgCreateNodeTypeResponse {}
+
 // MsgAuthorizeActivationKey is the Msg/AuthorizeActivationKey request type.
 message MsgAuthorizeActivationKey {
   option (cosmos.msg.v1.signer) = "operator";
@@ -141,7 +174,8 @@ message MsgActivateNode {
   // node_address is the node account address to activate. The node does not
   // sign, so delayed activation works by construction.
   string node_address = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  // node_type is the opaque node type recorded on the node.
+  // node_type is the node type recorded on the node. It must name a
+  // registered NodeType.
   string node_type = 4;
 }
 

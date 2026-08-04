@@ -60,6 +60,9 @@ func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateL
 		IssuedCount:   math.ZeroInt(),
 		ActiveCount:   math.ZeroInt(),
 		RevokedCount:  math.ZeroInt(),
+		// Recorded so downstream modules can gate on it: x/network only lets
+		// this address define node types bound to this license type.
+		Creator: msg.Creator,
 	}
 
 	if err := ms.k.LicenseTypes.Set(ctx, msg.Id, lt); err != nil {
@@ -313,65 +316,4 @@ func (ms msgServer) RevokeLicenses(ctx context.Context, msg *types.MsgRevokeLice
 	))
 
 	return &types.MsgRevokeLicensesResponse{Ids: revokedIDs}, nil
-}
-
-func (ms msgServer) TransferLicense(ctx context.Context, msg *types.MsgTransferLicense) (*types.MsgTransferLicenseResponse, error) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	if _, err := sdk.AccAddressFromBech32(msg.Recipient); err != nil {
-		return nil, fmt.Errorf("invalid recipient address %q: %w", msg.Recipient, err)
-	}
-
-	if msg.Holder == msg.Recipient {
-		return nil, fmt.Errorf("cannot transfer license to the current holder")
-	}
-
-	// The id alone resolves the license; its type comes off the value.
-	license, err := ms.k.Licenses.Get(ctx, msg.Id)
-	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseNotFound, "license %d not found", msg.Id)
-	}
-
-	if license.Holder != msg.Holder {
-		return nil, errorsmod.Wrapf(types.ErrNotLicenseHolder, "signer %s is not the holder of license %d", msg.Holder, msg.Id)
-	}
-
-	if license.Status != types.StatusActive {
-		return nil, errorsmod.Wrapf(types.ErrLicenseRevoked, "license %d is %s and cannot be transferred", msg.Id, license.Status.Short())
-	}
-
-	lt, err := ms.k.LicenseTypes.Get(ctx, license.Type)
-	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s not found", license.Type)
-	}
-	if !lt.Transferrable {
-		return nil, errorsmod.Wrapf(types.ErrLicenseNotTransferable, "license type %s is not transferrable", license.Type)
-	}
-
-	// Remove old holder index
-	if err := ms.k.ActiveLicensesByHolder.Remove(ctx, collections.Join3(license.Holder, license.Type, msg.Id)); err != nil {
-		return nil, err
-	}
-
-	license.Holder = msg.Recipient
-
-	// LicensesByType is untouched: the type has not changed.
-	if err := ms.k.Licenses.Set(ctx, msg.Id, license); err != nil {
-		return nil, err
-	}
-
-	// Add new holder index
-	if err := ms.k.ActiveLicensesByHolder.Set(ctx, collections.Join3(msg.Recipient, license.Type, msg.Id)); err != nil {
-		return nil, err
-	}
-
-	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
-		types.EventTypeTransferLicense,
-		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, license.Type),
-		sdk.NewAttribute(types.AttributeKeyLicenseID, fmt.Sprintf("%d", msg.Id)),
-		sdk.NewAttribute(types.AttributeKeyHolder, msg.Holder),
-		sdk.NewAttribute(types.AttributeKeyRecipient, msg.Recipient),
-	))
-
-	return &types.MsgTransferLicenseResponse{}, nil
 }

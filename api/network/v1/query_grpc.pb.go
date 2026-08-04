@@ -23,6 +23,8 @@ const (
 	Query_Node_FullMethodName            = "/network.v1.Query/Node"
 	Query_Nodes_FullMethodName           = "/network.v1.Query/Nodes"
 	Query_NodesByOperator_FullMethodName = "/network.v1.Query/NodesByOperator"
+	Query_NodeType_FullMethodName        = "/network.v1.Query/NodeType"
+	Query_NodeTypes_FullMethodName       = "/network.v1.Query/NodeTypes"
 	Query_ActivationKey_FullMethodName   = "/network.v1.Query/ActivationKey"
 	Query_ActivationKeys_FullMethodName  = "/network.v1.Query/ActivationKeys"
 	Query_NodeCounts_FullMethodName      = "/network.v1.Query/NodeCounts"
@@ -40,6 +42,11 @@ type QueryClient interface {
 	Nodes(ctx context.Context, in *QueryNodesRequest, opts ...grpc.CallOption) (*QueryNodesResponse, error)
 	// NodesByOperator queries all nodes activated under an operator.
 	NodesByOperator(ctx context.Context, in *QueryNodesByOperatorRequest, opts ...grpc.CallOption) (*QueryNodesByOperatorResponse, error)
+	// NodeType queries a registered node type by id.
+	NodeType(ctx context.Context, in *QueryNodeTypeRequest, opts ...grpc.CallOption) (*QueryNodeTypeResponse, error)
+	// NodeTypes queries registered node types, optionally only those bound to
+	// one license type.
+	NodeTypes(ctx context.Context, in *QueryNodeTypesRequest, opts ...grpc.CallOption) (*QueryNodeTypesResponse, error)
 	// ActivationKey queries an activation key by address.
 	ActivationKey(ctx context.Context, in *QueryActivationKeyRequest, opts ...grpc.CallOption) (*QueryActivationKeyResponse, error)
 	// ActivationKeys queries the activation keys authorized by an operator.
@@ -93,6 +100,24 @@ func (c *queryClient) NodesByOperator(ctx context.Context, in *QueryNodesByOpera
 	return out, nil
 }
 
+func (c *queryClient) NodeType(ctx context.Context, in *QueryNodeTypeRequest, opts ...grpc.CallOption) (*QueryNodeTypeResponse, error) {
+	out := new(QueryNodeTypeResponse)
+	err := c.cc.Invoke(ctx, Query_NodeType_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) NodeTypes(ctx context.Context, in *QueryNodeTypesRequest, opts ...grpc.CallOption) (*QueryNodeTypesResponse, error) {
+	out := new(QueryNodeTypesResponse)
+	err := c.cc.Invoke(ctx, Query_NodeTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *queryClient) ActivationKey(ctx context.Context, in *QueryActivationKeyRequest, opts ...grpc.CallOption) (*QueryActivationKeyResponse, error) {
 	out := new(QueryActivationKeyResponse)
 	err := c.cc.Invoke(ctx, Query_ActivationKey_FullMethodName, in, out, opts...)
@@ -132,6 +157,11 @@ type QueryServer interface {
 	Nodes(context.Context, *QueryNodesRequest) (*QueryNodesResponse, error)
 	// NodesByOperator queries all nodes activated under an operator.
 	NodesByOperator(context.Context, *QueryNodesByOperatorRequest) (*QueryNodesByOperatorResponse, error)
+	// NodeType queries a registered node type by id.
+	NodeType(context.Context, *QueryNodeTypeRequest) (*QueryNodeTypeResponse, error)
+	// NodeTypes queries registered node types, optionally only those bound to
+	// one license type.
+	NodeTypes(context.Context, *QueryNodeTypesRequest) (*QueryNodeTypesResponse, error)
 	// ActivationKey queries an activation key by address.
 	ActivationKey(context.Context, *QueryActivationKeyRequest) (*QueryActivationKeyResponse, error)
 	// ActivationKeys queries the activation keys authorized by an operator.
@@ -157,6 +187,12 @@ func (UnimplementedQueryServer) Nodes(context.Context, *QueryNodesRequest) (*Que
 }
 func (UnimplementedQueryServer) NodesByOperator(context.Context, *QueryNodesByOperatorRequest) (*QueryNodesByOperatorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NodesByOperator not implemented")
+}
+func (UnimplementedQueryServer) NodeType(context.Context, *QueryNodeTypeRequest) (*QueryNodeTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NodeType not implemented")
+}
+func (UnimplementedQueryServer) NodeTypes(context.Context, *QueryNodeTypesRequest) (*QueryNodeTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NodeTypes not implemented")
 }
 func (UnimplementedQueryServer) ActivationKey(context.Context, *QueryActivationKeyRequest) (*QueryActivationKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActivationKey not implemented")
@@ -252,6 +288,42 @@ func _Query_NodesByOperator_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_NodeType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryNodeTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).NodeType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_NodeType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).NodeType(ctx, req.(*QueryNodeTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_NodeTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryNodeTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).NodeTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_NodeTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).NodeTypes(ctx, req.(*QueryNodeTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Query_ActivationKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryActivationKeyRequest)
 	if err := dec(in); err != nil {
@@ -328,6 +400,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "NodesByOperator",
 			Handler:    _Query_NodesByOperator_Handler,
+		},
+		{
+			MethodName: "NodeType",
+			Handler:    _Query_NodeType_Handler,
+		},
+		{
+			MethodName: "NodeTypes",
+			Handler:    _Query_NodeTypes_Handler,
 		},
 		{
 			MethodName: "ActivationKey",

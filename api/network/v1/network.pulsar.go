@@ -758,6 +758,554 @@ func (x *fastReflection_Node) ProtoMethods() *protoiface.Methods {
 }
 
 var (
+	md_NodeType                 protoreflect.MessageDescriptor
+	fd_NodeType_id              protoreflect.FieldDescriptor
+	fd_NodeType_creator         protoreflect.FieldDescriptor
+	fd_NodeType_license_type_id protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_network_v1_network_proto_init()
+	md_NodeType = File_network_v1_network_proto.Messages().ByName("NodeType")
+	fd_NodeType_id = md_NodeType.Fields().ByName("id")
+	fd_NodeType_creator = md_NodeType.Fields().ByName("creator")
+	fd_NodeType_license_type_id = md_NodeType.Fields().ByName("license_type_id")
+}
+
+var _ protoreflect.Message = (*fastReflection_NodeType)(nil)
+
+type fastReflection_NodeType NodeType
+
+func (x *NodeType) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_NodeType)(x)
+}
+
+func (x *NodeType) slowProtoReflect() protoreflect.Message {
+	mi := &file_network_v1_network_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_NodeType_messageType fastReflection_NodeType_messageType
+var _ protoreflect.MessageType = fastReflection_NodeType_messageType{}
+
+type fastReflection_NodeType_messageType struct{}
+
+func (x fastReflection_NodeType_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_NodeType)(nil)
+}
+func (x fastReflection_NodeType_messageType) New() protoreflect.Message {
+	return new(fastReflection_NodeType)
+}
+func (x fastReflection_NodeType_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_NodeType
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_NodeType) Descriptor() protoreflect.MessageDescriptor {
+	return md_NodeType
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_NodeType) Type() protoreflect.MessageType {
+	return _fastReflection_NodeType_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_NodeType) New() protoreflect.Message {
+	return new(fastReflection_NodeType)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_NodeType) Interface() protoreflect.ProtoMessage {
+	return (*NodeType)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_NodeType) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Id != "" {
+		value := protoreflect.ValueOfString(x.Id)
+		if !f(fd_NodeType_id, value) {
+			return
+		}
+	}
+	if x.Creator != "" {
+		value := protoreflect.ValueOfString(x.Creator)
+		if !f(fd_NodeType_creator, value) {
+			return
+		}
+	}
+	if x.LicenseTypeId != "" {
+		value := protoreflect.ValueOfString(x.LicenseTypeId)
+		if !f(fd_NodeType_license_type_id, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_NodeType) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "network.v1.NodeType.id":
+		return x.Id != ""
+	case "network.v1.NodeType.creator":
+		return x.Creator != ""
+	case "network.v1.NodeType.license_type_id":
+		return x.LicenseTypeId != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeType"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeType does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeType) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "network.v1.NodeType.id":
+		x.Id = ""
+	case "network.v1.NodeType.creator":
+		x.Creator = ""
+	case "network.v1.NodeType.license_type_id":
+		x.LicenseTypeId = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeType"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeType does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_NodeType) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "network.v1.NodeType.id":
+		value := x.Id
+		return protoreflect.ValueOfString(value)
+	case "network.v1.NodeType.creator":
+		value := x.Creator
+		return protoreflect.ValueOfString(value)
+	case "network.v1.NodeType.license_type_id":
+		value := x.LicenseTypeId
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeType"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeType does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeType) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "network.v1.NodeType.id":
+		x.Id = value.Interface().(string)
+	case "network.v1.NodeType.creator":
+		x.Creator = value.Interface().(string)
+	case "network.v1.NodeType.license_type_id":
+		x.LicenseTypeId = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeType"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeType does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeType) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "network.v1.NodeType.id":
+		panic(fmt.Errorf("field id of message network.v1.NodeType is not mutable"))
+	case "network.v1.NodeType.creator":
+		panic(fmt.Errorf("field creator of message network.v1.NodeType is not mutable"))
+	case "network.v1.NodeType.license_type_id":
+		panic(fmt.Errorf("field license_type_id of message network.v1.NodeType is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeType"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeType does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_NodeType) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "network.v1.NodeType.id":
+		return protoreflect.ValueOfString("")
+	case "network.v1.NodeType.creator":
+		return protoreflect.ValueOfString("")
+	case "network.v1.NodeType.license_type_id":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeType"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeType does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_NodeType) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in network.v1.NodeType", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_NodeType) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeType) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_NodeType) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_NodeType) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*NodeType)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.Id)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Creator)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.LicenseTypeId)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*NodeType)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.LicenseTypeId) > 0 {
+			i -= len(x.LicenseTypeId)
+			copy(dAtA[i:], x.LicenseTypeId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.LicenseTypeId)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if len(x.Creator) > 0 {
+			i -= len(x.Creator)
+			copy(dAtA[i:], x.Creator)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Creator)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Id) > 0 {
+			i -= len(x.Id)
+			copy(dAtA[i:], x.Id)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Id)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*NodeType)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: NodeType: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: NodeType: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Id = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Creator = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.LicenseTypeId = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
 	md_ActivationKey            protoreflect.MessageDescriptor
 	fd_ActivationKey_address    protoreflect.FieldDescriptor
 	fd_ActivationKey_operator   protoreflect.FieldDescriptor
@@ -783,7 +1331,7 @@ func (x *ActivationKey) ProtoReflect() protoreflect.Message {
 }
 
 func (x *ActivationKey) slowProtoReflect() protoreflect.Message {
-	mi := &file_network_v1_network_proto_msgTypes[1]
+	mi := &file_network_v1_network_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1392,7 +1940,7 @@ func (x *ActivityCounter) ProtoReflect() protoreflect.Message {
 }
 
 func (x *ActivityCounter) slowProtoReflect() protoreflect.Message {
-	mi := &file_network_v1_network_proto_msgTypes[2]
+	mi := &file_network_v1_network_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1921,7 +2469,7 @@ func (x *OperatorNodeCounts) ProtoReflect() protoreflect.Message {
 }
 
 func (x *OperatorNodeCounts) slowProtoReflect() protoreflect.Message {
-	mi := &file_network_v1_network_proto_msgTypes[3]
+	mi := &file_network_v1_network_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2397,107 +2945,60 @@ func (x *_Params_1_list) IsValid() bool {
 	return x.list != nil
 }
 
-var _ protoreflect.List = (*_Params_2_list)(nil)
+var _ protoreflect.List = (*_Params_8_list)(nil)
 
-type _Params_2_list struct {
-	list *[]string
-}
-
-func (x *_Params_2_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_Params_2_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
-}
-
-func (x *_Params_2_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_Params_2_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_Params_2_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message Params at list field AllowedNodeTypes as it is not of Message kind"))
-}
-
-func (x *_Params_2_list) Truncate(n int) {
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_Params_2_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
-}
-
-func (x *_Params_2_list) IsValid() bool {
-	return x.list != nil
-}
-
-var _ protoreflect.List = (*_Params_9_list)(nil)
-
-type _Params_9_list struct {
+type _Params_8_list struct {
 	list *[]*v1beta1.Coin
 }
 
-func (x *_Params_9_list) Len() int {
+func (x *_Params_8_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_Params_9_list) Get(i int) protoreflect.Value {
+func (x *_Params_8_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_Params_9_list) Set(i int, value protoreflect.Value) {
+func (x *_Params_8_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*v1beta1.Coin)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_Params_9_list) Append(value protoreflect.Value) {
+func (x *_Params_8_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*v1beta1.Coin)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_Params_9_list) AppendMutable() protoreflect.Value {
+func (x *_Params_8_list) AppendMutable() protoreflect.Value {
 	v := new(v1beta1.Coin)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_Params_9_list) Truncate(n int) {
+func (x *_Params_8_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_Params_9_list) NewElement() protoreflect.Value {
+func (x *_Params_8_list) NewElement() protoreflect.Value {
 	v := new(v1beta1.Coin)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_Params_9_list) IsValid() bool {
+func (x *_Params_8_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
 	md_Params                             protoreflect.MessageDescriptor
 	fd_Params_license_types               protoreflect.FieldDescriptor
-	fd_Params_allowed_node_types          protoreflect.FieldDescriptor
 	fd_Params_activation_limit_multiplier protoreflect.FieldDescriptor
 	fd_Params_spam_limit_multiplier       protoreflect.FieldDescriptor
 	fd_Params_max_activation_keys         protoreflect.FieldDescriptor
@@ -2514,7 +3015,6 @@ func init() {
 	file_network_v1_network_proto_init()
 	md_Params = File_network_v1_network_proto.Messages().ByName("Params")
 	fd_Params_license_types = md_Params.Fields().ByName("license_types")
-	fd_Params_allowed_node_types = md_Params.Fields().ByName("allowed_node_types")
 	fd_Params_activation_limit_multiplier = md_Params.Fields().ByName("activation_limit_multiplier")
 	fd_Params_spam_limit_multiplier = md_Params.Fields().ByName("spam_limit_multiplier")
 	fd_Params_max_activation_keys = md_Params.Fields().ByName("max_activation_keys")
@@ -2536,7 +3036,7 @@ func (x *Params) ProtoReflect() protoreflect.Message {
 }
 
 func (x *Params) slowProtoReflect() protoreflect.Message {
-	mi := &file_network_v1_network_proto_msgTypes[4]
+	mi := &file_network_v1_network_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2598,12 +3098,6 @@ func (x *fastReflection_Params) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if len(x.AllowedNodeTypes) != 0 {
-		value := protoreflect.ValueOfList(&_Params_2_list{list: &x.AllowedNodeTypes})
-		if !f(fd_Params_allowed_node_types, value) {
-			return
-		}
-	}
 	if x.ActivationLimitMultiplier != uint64(0) {
 		value := protoreflect.ValueOfUint64(x.ActivationLimitMultiplier)
 		if !f(fd_Params_activation_limit_multiplier, value) {
@@ -2641,7 +3135,7 @@ func (x *fastReflection_Params) Range(f func(protoreflect.FieldDescriptor, proto
 		}
 	}
 	if len(x.DeauthorizeFee) != 0 {
-		value := protoreflect.ValueOfList(&_Params_9_list{list: &x.DeauthorizeFee})
+		value := protoreflect.ValueOfList(&_Params_8_list{list: &x.DeauthorizeFee})
 		if !f(fd_Params_deauthorize_fee, value) {
 			return
 		}
@@ -2681,8 +3175,6 @@ func (x *fastReflection_Params) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "network.v1.Params.license_types":
 		return len(x.LicenseTypes) != 0
-	case "network.v1.Params.allowed_node_types":
-		return len(x.AllowedNodeTypes) != 0
 	case "network.v1.Params.activation_limit_multiplier":
 		return x.ActivationLimitMultiplier != uint64(0)
 	case "network.v1.Params.spam_limit_multiplier":
@@ -2721,8 +3213,6 @@ func (x *fastReflection_Params) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "network.v1.Params.license_types":
 		x.LicenseTypes = nil
-	case "network.v1.Params.allowed_node_types":
-		x.AllowedNodeTypes = nil
 	case "network.v1.Params.activation_limit_multiplier":
 		x.ActivationLimitMultiplier = uint64(0)
 	case "network.v1.Params.spam_limit_multiplier":
@@ -2765,12 +3255,6 @@ func (x *fastReflection_Params) Get(descriptor protoreflect.FieldDescriptor) pro
 		}
 		listValue := &_Params_1_list{list: &x.LicenseTypes}
 		return protoreflect.ValueOfList(listValue)
-	case "network.v1.Params.allowed_node_types":
-		if len(x.AllowedNodeTypes) == 0 {
-			return protoreflect.ValueOfList(&_Params_2_list{})
-		}
-		listValue := &_Params_2_list{list: &x.AllowedNodeTypes}
-		return protoreflect.ValueOfList(listValue)
 	case "network.v1.Params.activation_limit_multiplier":
 		value := x.ActivationLimitMultiplier
 		return protoreflect.ValueOfUint64(value)
@@ -2791,9 +3275,9 @@ func (x *fastReflection_Params) Get(descriptor protoreflect.FieldDescriptor) pro
 		return protoreflect.ValueOfUint64(value)
 	case "network.v1.Params.deauthorize_fee":
 		if len(x.DeauthorizeFee) == 0 {
-			return protoreflect.ValueOfList(&_Params_9_list{})
+			return protoreflect.ValueOfList(&_Params_8_list{})
 		}
-		listValue := &_Params_9_list{list: &x.DeauthorizeFee}
+		listValue := &_Params_8_list{list: &x.DeauthorizeFee}
 		return protoreflect.ValueOfList(listValue)
 	case "network.v1.Params.max_gasless_gas":
 		value := x.MaxGaslessGas
@@ -2828,10 +3312,6 @@ func (x *fastReflection_Params) Set(fd protoreflect.FieldDescriptor, value proto
 		lv := value.List()
 		clv := lv.(*_Params_1_list)
 		x.LicenseTypes = *clv.list
-	case "network.v1.Params.allowed_node_types":
-		lv := value.List()
-		clv := lv.(*_Params_2_list)
-		x.AllowedNodeTypes = *clv.list
 	case "network.v1.Params.activation_limit_multiplier":
 		x.ActivationLimitMultiplier = value.Uint()
 	case "network.v1.Params.spam_limit_multiplier":
@@ -2846,7 +3326,7 @@ func (x *fastReflection_Params) Set(fd protoreflect.FieldDescriptor, value proto
 		x.StatusDailyLimit = value.Uint()
 	case "network.v1.Params.deauthorize_fee":
 		lv := value.List()
-		clv := lv.(*_Params_9_list)
+		clv := lv.(*_Params_8_list)
 		x.DeauthorizeFee = *clv.list
 	case "network.v1.Params.max_gasless_gas":
 		x.MaxGaslessGas = value.Uint()
@@ -2880,12 +3360,6 @@ func (x *fastReflection_Params) Mutable(fd protoreflect.FieldDescriptor) protore
 		}
 		value := &_Params_1_list{list: &x.LicenseTypes}
 		return protoreflect.ValueOfList(value)
-	case "network.v1.Params.allowed_node_types":
-		if x.AllowedNodeTypes == nil {
-			x.AllowedNodeTypes = []string{}
-		}
-		value := &_Params_2_list{list: &x.AllowedNodeTypes}
-		return protoreflect.ValueOfList(value)
 	case "network.v1.Params.recent_key_window":
 		if x.RecentKeyWindow == nil {
 			x.RecentKeyWindow = new(durationpb.Duration)
@@ -2895,7 +3369,7 @@ func (x *fastReflection_Params) Mutable(fd protoreflect.FieldDescriptor) protore
 		if x.DeauthorizeFee == nil {
 			x.DeauthorizeFee = []*v1beta1.Coin{}
 		}
-		value := &_Params_9_list{list: &x.DeauthorizeFee}
+		value := &_Params_8_list{list: &x.DeauthorizeFee}
 		return protoreflect.ValueOfList(value)
 	case "network.v1.Params.activation_limit_multiplier":
 		panic(fmt.Errorf("field activation_limit_multiplier of message network.v1.Params is not mutable"))
@@ -2929,9 +3403,6 @@ func (x *fastReflection_Params) NewField(fd protoreflect.FieldDescriptor) protor
 	case "network.v1.Params.license_types":
 		list := []string{}
 		return protoreflect.ValueOfList(&_Params_1_list{list: &list})
-	case "network.v1.Params.allowed_node_types":
-		list := []string{}
-		return protoreflect.ValueOfList(&_Params_2_list{list: &list})
 	case "network.v1.Params.activation_limit_multiplier":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "network.v1.Params.spam_limit_multiplier":
@@ -2947,7 +3418,7 @@ func (x *fastReflection_Params) NewField(fd protoreflect.FieldDescriptor) protor
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "network.v1.Params.deauthorize_fee":
 		list := []*v1beta1.Coin{}
-		return protoreflect.ValueOfList(&_Params_9_list{list: &list})
+		return protoreflect.ValueOfList(&_Params_8_list{list: &list})
 	case "network.v1.Params.max_gasless_gas":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "network.v1.Params.max_gasless_msgs":
@@ -3029,12 +3500,6 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
-		if len(x.AllowedNodeTypes) > 0 {
-			for _, s := range x.AllowedNodeTypes {
-				l = len(s)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
 		if x.ActivationLimitMultiplier != 0 {
 			n += 1 + runtime.Sov(uint64(x.ActivationLimitMultiplier))
 		}
@@ -3101,17 +3566,17 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 		if x.MaxGaslessTxBytes != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxGaslessTxBytes))
 			i--
-			dAtA[i] = 0x60
+			dAtA[i] = 0x58
 		}
 		if x.MaxGaslessMsgs != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxGaslessMsgs))
 			i--
-			dAtA[i] = 0x58
+			dAtA[i] = 0x50
 		}
 		if x.MaxGaslessGas != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxGaslessGas))
 			i--
-			dAtA[i] = 0x50
+			dAtA[i] = 0x48
 		}
 		if len(x.DeauthorizeFee) > 0 {
 			for iNdEx := len(x.DeauthorizeFee) - 1; iNdEx >= 0; iNdEx-- {
@@ -3126,13 +3591,13 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 				copy(dAtA[i:], encoded)
 				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
-				dAtA[i] = 0x4a
+				dAtA[i] = 0x42
 			}
 		}
 		if x.StatusDailyLimit != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.StatusDailyLimit))
 			i--
-			dAtA[i] = 0x40
+			dAtA[i] = 0x38
 		}
 		if x.RecentKeyWindow != nil {
 			encoded, err := options.Marshal(x.RecentKeyWindow)
@@ -3146,36 +3611,27 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], encoded)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x3a
+			dAtA[i] = 0x32
 		}
 		if x.RecentKeyLimit != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.RecentKeyLimit))
 			i--
-			dAtA[i] = 0x30
+			dAtA[i] = 0x28
 		}
 		if x.MaxActivationKeys != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxActivationKeys))
 			i--
-			dAtA[i] = 0x28
+			dAtA[i] = 0x20
 		}
 		if x.SpamLimitMultiplier != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.SpamLimitMultiplier))
 			i--
-			dAtA[i] = 0x20
+			dAtA[i] = 0x18
 		}
 		if x.ActivationLimitMultiplier != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.ActivationLimitMultiplier))
 			i--
-			dAtA[i] = 0x18
-		}
-		if len(x.AllowedNodeTypes) > 0 {
-			for iNdEx := len(x.AllowedNodeTypes) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.AllowedNodeTypes[iNdEx])
-				copy(dAtA[i:], x.AllowedNodeTypes[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AllowedNodeTypes[iNdEx])))
-				i--
-				dAtA[i] = 0x12
-			}
+			dAtA[i] = 0x10
 		}
 		if len(x.LicenseTypes) > 0 {
 			for iNdEx := len(x.LicenseTypes) - 1; iNdEx >= 0; iNdEx-- {
@@ -3268,38 +3724,6 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 				x.LicenseTypes = append(x.LicenseTypes, string(dAtA[iNdEx:postIndex]))
 				iNdEx = postIndex
 			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AllowedNodeTypes", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.AllowedNodeTypes = append(x.AllowedNodeTypes, string(dAtA[iNdEx:postIndex]))
-				iNdEx = postIndex
-			case 3:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivationLimitMultiplier", wireType)
 				}
@@ -3318,7 +3742,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 4:
+			case 3:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SpamLimitMultiplier", wireType)
 				}
@@ -3337,7 +3761,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 5:
+			case 4:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxActivationKeys", wireType)
 				}
@@ -3356,7 +3780,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 6:
+			case 5:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RecentKeyLimit", wireType)
 				}
@@ -3375,7 +3799,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 7:
+			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RecentKeyWindow", wireType)
 				}
@@ -3411,7 +3835,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 8:
+			case 7:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StatusDailyLimit", wireType)
 				}
@@ -3430,7 +3854,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 9:
+			case 8:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DeauthorizeFee", wireType)
 				}
@@ -3464,7 +3888,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 10:
+			case 9:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxGaslessGas", wireType)
 				}
@@ -3483,7 +3907,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 11:
+			case 10:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxGaslessMsgs", wireType)
 				}
@@ -3502,7 +3926,7 @@ func (x *fastReflection_Params) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 12:
+			case 11:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxGaslessTxBytes", wireType)
 				}
@@ -3691,10 +4115,9 @@ type Node struct {
 	Operator string `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"`
 	// activated_by is the activation key address that activated this node.
 	ActivatedBy string `protobuf:"bytes,3,opt,name=activated_by,json=activatedBy,proto3" json:"activated_by,omitempty"`
-	// type is an opaque node type identifier (e.g. a chain-specific node
-	// class). It is validated against the allowed_node_types param when that
-	// list is non-empty; type-conditional business rules live in consuming
-	// modules.
+	// type is the node type identifier (e.g. a chain-specific node class). It
+	// must name a registered NodeType at activation; type-conditional business
+	// rules live in consuming modules.
 	Type_ string `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
 	// status is the node lifecycle state.
 	Status NodeStatus `protobuf:"varint,5,opt,name=status,proto3,enum=network.v1.NodeStatus" json:"status,omitempty"`
@@ -3767,6 +4190,65 @@ func (x *Node) GetLastActiveTime() *timestamppb.Timestamp {
 	return nil
 }
 
+// NodeType is a registered node type. Registration binds the node type to a
+// license type: only that license type's creator may define node types for it.
+// Both the binding and the creator are fixed at creation, and records are never
+// removed, so a node's type stays resolvable for the life of the chain.
+type NodeType struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// id is the creator-supplied identifier, e.g. "webstack.trust".
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// creator is the address that registered this node type. It is also the
+	// creator of license_type_id.
+	Creator string `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
+	// license_type_id is the license type backing this node type.
+	LicenseTypeId string `protobuf:"bytes,3,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
+}
+
+func (x *NodeType) Reset() {
+	*x = NodeType{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_network_v1_network_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NodeType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeType) ProtoMessage() {}
+
+// Deprecated: Use NodeType.ProtoReflect.Descriptor instead.
+func (*NodeType) Descriptor() ([]byte, []int) {
+	return file_network_v1_network_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *NodeType) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *NodeType) GetCreator() string {
+	if x != nil {
+		return x.Creator
+	}
+	return ""
+}
+
+func (x *NodeType) GetLicenseTypeId() string {
+	if x != nil {
+		return x.LicenseTypeId
+	}
+	return ""
+}
+
 // ActivationKey is an activation key record. The address is permanently bound
 // to the first operator that authorizes it, even after deauthorization.
 type ActivationKey struct {
@@ -3788,7 +4270,7 @@ type ActivationKey struct {
 func (x *ActivationKey) Reset() {
 	*x = ActivationKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_v1_network_proto_msgTypes[1]
+		mi := &file_network_v1_network_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3802,7 +4284,7 @@ func (*ActivationKey) ProtoMessage() {}
 
 // Deprecated: Use ActivationKey.ProtoReflect.Descriptor instead.
 func (*ActivationKey) Descriptor() ([]byte, []int) {
-	return file_network_v1_network_proto_rawDescGZIP(), []int{1}
+	return file_network_v1_network_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ActivationKey) GetAddress() string {
@@ -3851,7 +4333,7 @@ type ActivityCounter struct {
 func (x *ActivityCounter) Reset() {
 	*x = ActivityCounter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_v1_network_proto_msgTypes[2]
+		mi := &file_network_v1_network_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3865,7 +4347,7 @@ func (*ActivityCounter) ProtoMessage() {}
 
 // Deprecated: Use ActivityCounter.ProtoReflect.Descriptor instead.
 func (*ActivityCounter) Descriptor() ([]byte, []int) {
-	return file_network_v1_network_proto_rawDescGZIP(), []int{2}
+	return file_network_v1_network_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ActivityCounter) GetLatestTime() *timestamppb.Timestamp {
@@ -3906,7 +4388,7 @@ type OperatorNodeCounts struct {
 func (x *OperatorNodeCounts) Reset() {
 	*x = OperatorNodeCounts{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_v1_network_proto_msgTypes[3]
+		mi := &file_network_v1_network_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3920,7 +4402,7 @@ func (*OperatorNodeCounts) ProtoMessage() {}
 
 // Deprecated: Use OperatorNodeCounts.ProtoReflect.Descriptor instead.
 func (*OperatorNodeCounts) Descriptor() ([]byte, []int) {
-	return file_network_v1_network_proto_rawDescGZIP(), []int{3}
+	return file_network_v1_network_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *OperatorNodeCounts) GetTotal() uint64 {
@@ -3948,42 +4430,39 @@ type Params struct {
 	// license_types are the license type ids counted toward activation limits.
 	// An empty list means no licenses count, so no node can ever activate.
 	LicenseTypes []string `protobuf:"bytes,1,rep,name=license_types,json=licenseTypes,proto3" json:"license_types,omitempty"`
-	// allowed_node_types restricts Node.type values on activation. An empty
-	// list accepts any non-empty type.
-	AllowedNodeTypes []string `protobuf:"bytes,2,rep,name=allowed_node_types,json=allowedNodeTypes,proto3" json:"allowed_node_types,omitempty"`
 	// activation_limit_multiplier scales the active license count into the
 	// node activation limit.
-	ActivationLimitMultiplier uint64 `protobuf:"varint,3,opt,name=activation_limit_multiplier,json=activationLimitMultiplier,proto3" json:"activation_limit_multiplier,omitempty"`
+	ActivationLimitMultiplier uint64 `protobuf:"varint,2,opt,name=activation_limit_multiplier,json=activationLimitMultiplier,proto3" json:"activation_limit_multiplier,omitempty"`
 	// spam_limit_multiplier scales the active license count into the
 	// recent-activity ceiling that hard-stops activation bursts.
-	SpamLimitMultiplier uint64 `protobuf:"varint,4,opt,name=spam_limit_multiplier,json=spamLimitMultiplier,proto3" json:"spam_limit_multiplier,omitempty"`
+	SpamLimitMultiplier uint64 `protobuf:"varint,3,opt,name=spam_limit_multiplier,json=spamLimitMultiplier,proto3" json:"spam_limit_multiplier,omitempty"`
 	// max_activation_keys is the maximum number of active activation keys per
 	// operator.
-	MaxActivationKeys uint64 `protobuf:"varint,5,opt,name=max_activation_keys,json=maxActivationKeys,proto3" json:"max_activation_keys,omitempty"`
+	MaxActivationKeys uint64 `protobuf:"varint,4,opt,name=max_activation_keys,json=maxActivationKeys,proto3" json:"max_activation_keys,omitempty"`
 	// recent_key_limit is the maximum number of activation keys an operator may
 	// create within recent_key_window.
-	RecentKeyLimit uint64 `protobuf:"varint,6,opt,name=recent_key_limit,json=recentKeyLimit,proto3" json:"recent_key_limit,omitempty"`
+	RecentKeyLimit uint64 `protobuf:"varint,5,opt,name=recent_key_limit,json=recentKeyLimit,proto3" json:"recent_key_limit,omitempty"`
 	// recent_key_window is the sliding window for recent_key_limit.
-	RecentKeyWindow *durationpb.Duration `protobuf:"bytes,7,opt,name=recent_key_window,json=recentKeyWindow,proto3" json:"recent_key_window,omitempty"`
+	RecentKeyWindow *durationpb.Duration `protobuf:"bytes,6,opt,name=recent_key_window,json=recentKeyWindow,proto3" json:"recent_key_window,omitempty"`
 	// status_daily_limit is the maximum number of MsgUpdateNodeStatus per node
 	// per UTC day.
-	StatusDailyLimit uint64 `protobuf:"varint,8,opt,name=status_daily_limit,json=statusDailyLimit,proto3" json:"status_daily_limit,omitempty"`
+	StatusDailyLimit uint64 `protobuf:"varint,7,opt,name=status_daily_limit,json=statusDailyLimit,proto3" json:"status_daily_limit,omitempty"`
 	// deauthorize_fee is charged by the MsgDeauthorizeActivationKey handler as
 	// a bank transfer to the fee collector, on top of regular gas. Empty
 	// disables the charge; chains that want it seed a denominated value.
-	DeauthorizeFee []*v1beta1.Coin `protobuf:"bytes,9,rep,name=deauthorize_fee,json=deauthorizeFee,proto3" json:"deauthorize_fee,omitempty"`
+	DeauthorizeFee []*v1beta1.Coin `protobuf:"bytes,8,rep,name=deauthorize_fee,json=deauthorizeFee,proto3" json:"deauthorize_fee,omitempty"`
 	// max_gasless_gas caps the declared gas wanted of a gasless transaction.
-	MaxGaslessGas uint64 `protobuf:"varint,10,opt,name=max_gasless_gas,json=maxGaslessGas,proto3" json:"max_gasless_gas,omitempty"`
+	MaxGaslessGas uint64 `protobuf:"varint,9,opt,name=max_gasless_gas,json=maxGaslessGas,proto3" json:"max_gasless_gas,omitempty"`
 	// max_gasless_msgs caps the number of messages in a gasless transaction.
-	MaxGaslessMsgs uint64 `protobuf:"varint,11,opt,name=max_gasless_msgs,json=maxGaslessMsgs,proto3" json:"max_gasless_msgs,omitempty"`
+	MaxGaslessMsgs uint64 `protobuf:"varint,10,opt,name=max_gasless_msgs,json=maxGaslessMsgs,proto3" json:"max_gasless_msgs,omitempty"`
 	// max_gasless_tx_bytes caps the encoded size of a gasless transaction.
-	MaxGaslessTxBytes uint64 `protobuf:"varint,12,opt,name=max_gasless_tx_bytes,json=maxGaslessTxBytes,proto3" json:"max_gasless_tx_bytes,omitempty"`
+	MaxGaslessTxBytes uint64 `protobuf:"varint,11,opt,name=max_gasless_tx_bytes,json=maxGaslessTxBytes,proto3" json:"max_gasless_tx_bytes,omitempty"`
 }
 
 func (x *Params) Reset() {
 	*x = Params{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_v1_network_proto_msgTypes[4]
+		mi := &file_network_v1_network_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3997,19 +4476,12 @@ func (*Params) ProtoMessage() {}
 
 // Deprecated: Use Params.ProtoReflect.Descriptor instead.
 func (*Params) Descriptor() ([]byte, []int) {
-	return file_network_v1_network_proto_rawDescGZIP(), []int{4}
+	return file_network_v1_network_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Params) GetLicenseTypes() []string {
 	if x != nil {
 		return x.LicenseTypes
-	}
-	return nil
-}
-
-func (x *Params) GetAllowedNodeTypes() []string {
-	if x != nil {
-		return x.AllowedNodeTypes
 	}
 	return nil
 }
@@ -4120,105 +4592,110 @@ var file_network_v1_network_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65,
 	0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x0d, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0xa8,
 	0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x0e, 0x6c, 0x61, 0x73, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65,
-	0x54, 0x69, 0x6d, 0x65, 0x22, 0xfc, 0x01, 0x0a, 0x0d, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x32, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e,
-	0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4,
-	0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
-	0x12, 0x48, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0x03,
+	0x54, 0x69, 0x6d, 0x65, 0x22, 0x76, 0x0a, 0x08, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
+	0x12, 0x32, 0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x63, 0x72, 0x65,
+	0x61, 0x74, 0x6f, 0x72, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f,
+	0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c,
+	0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x64, 0x22, 0xfc, 0x01, 0x0a,
+	0x0d, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x32,
+	0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
+	0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08,
+	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x48, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x0d, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf,
+	0x1f, 0x01, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x41, 0x74, 0x12, 0x37, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x0e, 0x32, 0x1f, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x53, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0xa3, 0x01, 0x0a, 0x0f,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x65, 0x72, 0x12,
+	0x4a, 0x0a, 0x0b, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
 	0x42, 0x0d, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52,
-	0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x37, 0x0a, 0x06, 0x73, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1f, 0x2e, 0x6e, 0x65, 0x74,
-	0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x22, 0xa3, 0x01, 0x0a, 0x0f, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79,
-	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x65, 0x72, 0x12, 0x4a, 0x0a, 0x0b, 0x6c, 0x61, 0x74, 0x65, 0x73,
-	0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
-	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x0d, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf,
-	0x1f, 0x01, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x0a, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x54,
-	0x69, 0x6d, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x68, 0x65,
-	0x69, 0x67, 0x68, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x6c, 0x61, 0x74, 0x65,
-	0x73, 0x74, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x64, 0x61, 0x69, 0x6c,
-	0x79, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x64,
-	0x61, 0x69, 0x6c, 0x79, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x42, 0x0a, 0x12, 0x4f, 0x70, 0x65,
-	0x72, 0x61, 0x74, 0x6f, 0x72, 0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x12,
-	0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05,
-	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x22, 0xab, 0x05,
-	0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65,
-	0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52,
-	0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x2c, 0x0a,
-	0x12, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64, 0x5f, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79,
-	0x70, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x10, 0x61, 0x6c, 0x6c, 0x6f, 0x77,
-	0x65, 0x64, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x3e, 0x0a, 0x1b, 0x61,
-	0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x5f,
-	0x6d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x6c, 0x69, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x19, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x6d, 0x69,
-	0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x6c, 0x69, 0x65, 0x72, 0x12, 0x32, 0x0a, 0x15, 0x73,
-	0x70, 0x61, 0x6d, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x5f, 0x6d, 0x75, 0x6c, 0x74, 0x69, 0x70,
-	0x6c, 0x69, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x13, 0x73, 0x70, 0x61, 0x6d,
-	0x4c, 0x69, 0x6d, 0x69, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x6c, 0x69, 0x65, 0x72, 0x12,
-	0x2e, 0x0a, 0x13, 0x6d, 0x61, 0x78, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x6d, 0x61,
-	0x78, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x12,
-	0x28, 0x0a, 0x10, 0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x6c, 0x69,
-	0x6d, 0x69, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x72, 0x65, 0x63, 0x65, 0x6e,
-	0x74, 0x4b, 0x65, 0x79, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x54, 0x0a, 0x11, 0x72, 0x65, 0x63,
-	0x65, 0x6e, 0x74, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x77, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x18, 0x07,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42,
-	0x0d, 0xc8, 0xde, 0x1f, 0x00, 0x98, 0xdf, 0x1f, 0x01, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x0f,
-	0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x4b, 0x65, 0x79, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12,
-	0x2c, 0x0a, 0x12, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x5f, 0x64, 0x61, 0x69, 0x6c, 0x79, 0x5f,
-	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x10, 0x73, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x44, 0x61, 0x69, 0x6c, 0x79, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x79, 0x0a,
-	0x0f, 0x64, 0x65, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x5f, 0x66, 0x65, 0x65,
-	0x18, 0x09, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
-	0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69,
-	0x6e, 0x42, 0x35, 0xc8, 0xde, 0x1f, 0x00, 0xaa, 0xdf, 0x1f, 0x28, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x43, 0x6f,
-	0x69, 0x6e, 0x73, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x0e, 0x64, 0x65, 0x61, 0x75, 0x74, 0x68,
-	0x6f, 0x72, 0x69, 0x7a, 0x65, 0x46, 0x65, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6d, 0x61, 0x78, 0x5f,
-	0x67, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x5f, 0x67, 0x61, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28,
-	0x04, 0x52, 0x0d, 0x6d, 0x61, 0x78, 0x47, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x47, 0x61, 0x73,
-	0x12, 0x28, 0x0a, 0x10, 0x6d, 0x61, 0x78, 0x5f, 0x67, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x5f,
-	0x6d, 0x73, 0x67, 0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x6d, 0x61, 0x78, 0x47,
-	0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x4d, 0x73, 0x67, 0x73, 0x12, 0x2f, 0x0a, 0x14, 0x6d, 0x61,
-	0x78, 0x5f, 0x67, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x5f, 0x74, 0x78, 0x5f, 0x62, 0x79, 0x74,
-	0x65, 0x73, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x6d, 0x61, 0x78, 0x47, 0x61, 0x73,
-	0x6c, 0x65, 0x73, 0x73, 0x54, 0x78, 0x42, 0x79, 0x74, 0x65, 0x73, 0x2a, 0x5e, 0x0a, 0x0a, 0x4e,
-	0x6f, 0x64, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1b, 0x0a, 0x17, 0x4e, 0x4f, 0x44,
-	0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49,
-	0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x16, 0x0a, 0x12, 0x4e, 0x4f, 0x44, 0x45, 0x5f, 0x53,
-	0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x01, 0x12, 0x1b,
-	0x0a, 0x17, 0x4e, 0x4f, 0x44, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x44, 0x45,
-	0x41, 0x43, 0x54, 0x49, 0x56, 0x41, 0x54, 0x45, 0x44, 0x10, 0x02, 0x2a, 0x82, 0x01, 0x0a, 0x13,
-	0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x53, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x12, 0x25, 0x0a, 0x21, 0x41, 0x43, 0x54, 0x49, 0x56, 0x41, 0x54, 0x49, 0x4f,
-	0x4e, 0x5f, 0x4b, 0x45, 0x59, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53,
-	0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x20, 0x0a, 0x1c, 0x41, 0x43,
-	0x54, 0x49, 0x56, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x4b, 0x45, 0x59, 0x5f, 0x53, 0x54, 0x41,
-	0x54, 0x55, 0x53, 0x5f, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x01, 0x12, 0x22, 0x0a, 0x1e,
-	0x41, 0x43, 0x54, 0x49, 0x56, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x4b, 0x45, 0x59, 0x5f, 0x53,
-	0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x44, 0x49, 0x53, 0x41, 0x42, 0x4c, 0x45, 0x44, 0x10, 0x02,
-	0x42, 0xa2, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
-	0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x50, 0x72, 0x6f, 0x74,
-	0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62,
-	0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x2f, 0x76, 0x31, 0x3b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x76, 0x31, 0xa2, 0x02,
-	0x03, 0x4e, 0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x56,
-	0x31, 0xca, 0x02, 0x0a, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5c, 0x56, 0x31, 0xe2, 0x02,
-	0x16, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d,
-	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x6c,
+	0x61, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x0c, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74,
+	0x12, 0x1f, 0x0a, 0x0b, 0x64, 0x61, 0x69, 0x6c, 0x79, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x64, 0x61, 0x69, 0x6c, 0x79, 0x43, 0x6f, 0x75, 0x6e,
+	0x74, 0x22, 0x42, 0x0a, 0x12, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x4e, 0x6f, 0x64,
+	0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x16, 0x0a,
+	0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x61,
+	0x63, 0x74, 0x69, 0x76, 0x65, 0x22, 0xfd, 0x04, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x12, 0x23, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65,
+	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x3e, 0x0a, 0x1b, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x5f, 0x6d, 0x75, 0x6c, 0x74, 0x69, 0x70,
+	0x6c, 0x69, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x19, 0x61, 0x63, 0x74, 0x69,
+	0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69,
+	0x70, 0x6c, 0x69, 0x65, 0x72, 0x12, 0x32, 0x0a, 0x15, 0x73, 0x70, 0x61, 0x6d, 0x5f, 0x6c, 0x69,
+	0x6d, 0x69, 0x74, 0x5f, 0x6d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x6c, 0x69, 0x65, 0x72, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x13, 0x73, 0x70, 0x61, 0x6d, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x4d,
+	0x75, 0x6c, 0x74, 0x69, 0x70, 0x6c, 0x69, 0x65, 0x72, 0x12, 0x2e, 0x0a, 0x13, 0x6d, 0x61, 0x78,
+	0x5f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x73,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x6d, 0x61, 0x78, 0x41, 0x63, 0x74, 0x69, 0x76,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x28, 0x0a, 0x10, 0x72, 0x65, 0x63,
+	0x65, 0x6e, 0x74, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x0e, 0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x4b, 0x65, 0x79, 0x4c, 0x69,
+	0x6d, 0x69, 0x74, 0x12, 0x54, 0x0a, 0x11, 0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x5f, 0x6b, 0x65,
+	0x79, 0x5f, 0x77, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0d, 0xc8, 0xde, 0x1f, 0x00, 0x98,
+	0xdf, 0x1f, 0x01, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x0f, 0x72, 0x65, 0x63, 0x65, 0x6e, 0x74,
+	0x4b, 0x65, 0x79, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12, 0x2c, 0x0a, 0x12, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x5f, 0x64, 0x61, 0x69, 0x6c, 0x79, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18,
+	0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x10, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x44, 0x61, 0x69,
+	0x6c, 0x79, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x79, 0x0a, 0x0f, 0x64, 0x65, 0x61, 0x75, 0x74,
+	0x68, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x5f, 0x66, 0x65, 0x65, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76,
+	0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x35, 0xc8, 0xde, 0x1f,
+	0x00, 0xaa, 0xdf, 0x1f, 0x28, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2d, 0x73, 0x64,
+	0x6b, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x73, 0xa8, 0xe7, 0xb0,
+	0x2a, 0x01, 0x52, 0x0e, 0x64, 0x65, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x46,
+	0x65, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6d, 0x61, 0x78, 0x5f, 0x67, 0x61, 0x73, 0x6c, 0x65, 0x73,
+	0x73, 0x5f, 0x67, 0x61, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0d, 0x6d, 0x61, 0x78,
+	0x47, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x47, 0x61, 0x73, 0x12, 0x28, 0x0a, 0x10, 0x6d, 0x61,
+	0x78, 0x5f, 0x67, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x5f, 0x6d, 0x73, 0x67, 0x73, 0x18, 0x0a,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x6d, 0x61, 0x78, 0x47, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73,
+	0x4d, 0x73, 0x67, 0x73, 0x12, 0x2f, 0x0a, 0x14, 0x6d, 0x61, 0x78, 0x5f, 0x67, 0x61, 0x73, 0x6c,
+	0x65, 0x73, 0x73, 0x5f, 0x74, 0x78, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x0b, 0x20, 0x01,
+	0x28, 0x04, 0x52, 0x11, 0x6d, 0x61, 0x78, 0x47, 0x61, 0x73, 0x6c, 0x65, 0x73, 0x73, 0x54, 0x78,
+	0x42, 0x79, 0x74, 0x65, 0x73, 0x2a, 0x5e, 0x0a, 0x0a, 0x4e, 0x6f, 0x64, 0x65, 0x53, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x12, 0x1b, 0x0a, 0x17, 0x4e, 0x4f, 0x44, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54,
+	0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00,
+	0x12, 0x16, 0x0a, 0x12, 0x4e, 0x4f, 0x44, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f,
+	0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x01, 0x12, 0x1b, 0x0a, 0x17, 0x4e, 0x4f, 0x44, 0x45,
+	0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x44, 0x45, 0x41, 0x43, 0x54, 0x49, 0x56, 0x41,
+	0x54, 0x45, 0x44, 0x10, 0x02, 0x2a, 0x82, 0x01, 0x0a, 0x13, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x25, 0x0a,
+	0x21, 0x41, 0x43, 0x54, 0x49, 0x56, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x4b, 0x45, 0x59, 0x5f,
+	0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49,
+	0x45, 0x44, 0x10, 0x00, 0x12, 0x20, 0x0a, 0x1c, 0x41, 0x43, 0x54, 0x49, 0x56, 0x41, 0x54, 0x49,
+	0x4f, 0x4e, 0x5f, 0x4b, 0x45, 0x59, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x41, 0x43,
+	0x54, 0x49, 0x56, 0x45, 0x10, 0x01, 0x12, 0x22, 0x0a, 0x1e, 0x41, 0x43, 0x54, 0x49, 0x56, 0x41,
+	0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x4b, 0x45, 0x59, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f,
+	0x44, 0x49, 0x53, 0x41, 0x42, 0x4c, 0x45, 0x44, 0x10, 0x02, 0x42, 0xa2, 0x01, 0x0a, 0x0e, 0x63,
+	0x6f, 0x6d, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x76, 0x31, 0x3b, 0x6e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4e, 0x58, 0x58, 0xaa, 0x02,
+	0x0a, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0a, 0x4e, 0x65,
+	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x16, 0x4e, 0x65, 0x74, 0x77, 0x6f,
+	0x72, 0x6b, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0xea, 0x02, 0x0b, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -4234,32 +4711,33 @@ func file_network_v1_network_proto_rawDescGZIP() []byte {
 }
 
 var file_network_v1_network_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_network_v1_network_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_network_v1_network_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_network_v1_network_proto_goTypes = []interface{}{
 	(NodeStatus)(0),               // 0: network.v1.NodeStatus
 	(ActivationKeyStatus)(0),      // 1: network.v1.ActivationKeyStatus
 	(*Node)(nil),                  // 2: network.v1.Node
-	(*ActivationKey)(nil),         // 3: network.v1.ActivationKey
-	(*ActivityCounter)(nil),       // 4: network.v1.ActivityCounter
-	(*OperatorNodeCounts)(nil),    // 5: network.v1.OperatorNodeCounts
-	(*Params)(nil),                // 6: network.v1.Params
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
-	(*durationpb.Duration)(nil),   // 8: google.protobuf.Duration
-	(*v1beta1.Coin)(nil),          // 9: cosmos.base.v1beta1.Coin
+	(*NodeType)(nil),              // 3: network.v1.NodeType
+	(*ActivationKey)(nil),         // 4: network.v1.ActivationKey
+	(*ActivityCounter)(nil),       // 5: network.v1.ActivityCounter
+	(*OperatorNodeCounts)(nil),    // 6: network.v1.OperatorNodeCounts
+	(*Params)(nil),                // 7: network.v1.Params
+	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),   // 9: google.protobuf.Duration
+	(*v1beta1.Coin)(nil),          // 10: cosmos.base.v1beta1.Coin
 }
 var file_network_v1_network_proto_depIdxs = []int32{
-	0, // 0: network.v1.Node.status:type_name -> network.v1.NodeStatus
-	7, // 1: network.v1.Node.last_active_time:type_name -> google.protobuf.Timestamp
-	7, // 2: network.v1.ActivationKey.created_at:type_name -> google.protobuf.Timestamp
-	1, // 3: network.v1.ActivationKey.status:type_name -> network.v1.ActivationKeyStatus
-	7, // 4: network.v1.ActivityCounter.latest_time:type_name -> google.protobuf.Timestamp
-	8, // 5: network.v1.Params.recent_key_window:type_name -> google.protobuf.Duration
-	9, // 6: network.v1.Params.deauthorize_fee:type_name -> cosmos.base.v1beta1.Coin
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	0,  // 0: network.v1.Node.status:type_name -> network.v1.NodeStatus
+	8,  // 1: network.v1.Node.last_active_time:type_name -> google.protobuf.Timestamp
+	8,  // 2: network.v1.ActivationKey.created_at:type_name -> google.protobuf.Timestamp
+	1,  // 3: network.v1.ActivationKey.status:type_name -> network.v1.ActivationKeyStatus
+	8,  // 4: network.v1.ActivityCounter.latest_time:type_name -> google.protobuf.Timestamp
+	9,  // 5: network.v1.Params.recent_key_window:type_name -> google.protobuf.Duration
+	10, // 6: network.v1.Params.deauthorize_fee:type_name -> cosmos.base.v1beta1.Coin
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_network_v1_network_proto_init() }
@@ -4281,7 +4759,7 @@ func file_network_v1_network_proto_init() {
 			}
 		}
 		file_network_v1_network_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ActivationKey); i {
+			switch v := v.(*NodeType); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4293,7 +4771,7 @@ func file_network_v1_network_proto_init() {
 			}
 		}
 		file_network_v1_network_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ActivityCounter); i {
+			switch v := v.(*ActivationKey); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4305,7 +4783,7 @@ func file_network_v1_network_proto_init() {
 			}
 		}
 		file_network_v1_network_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OperatorNodeCounts); i {
+			switch v := v.(*ActivityCounter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4317,6 +4795,18 @@ func file_network_v1_network_proto_init() {
 			}
 		}
 		file_network_v1_network_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*OperatorNodeCounts); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_network_v1_network_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Params); i {
 			case 0:
 				return &v.state
@@ -4335,7 +4825,7 @@ func file_network_v1_network_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_network_v1_network_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

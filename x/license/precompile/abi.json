@@ -45,17 +45,6 @@
       "type": "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
-        { "indexed": true, "internalType": "address", "name": "to", "type": "address" },
-        { "indexed": false, "internalType": "string", "name": "licenseTypeId", "type": "string" },
-        { "indexed": false, "internalType": "uint64", "name": "id", "type": "uint64" }
-      ],
-      "name": "LicenseTransferred",
-      "type": "event"
-    },
-    {
       "inputs": [
         { "internalType": "string", "name": "id", "type": "string" },
         { "internalType": "bool", "name": "transferrable", "type": "bool" },
@@ -117,18 +106,6 @@
     },
     {
       "inputs": [
-        { "internalType": "uint64", "name": "id", "type": "uint64" },
-        { "internalType": "address", "name": "recipient", "type": "address" }
-      ],
-      "name": "transferLicense",
-      "outputs": [
-        { "internalType": "bool", "name": "success", "type": "bool" }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
         { "internalType": "string", "name": "id", "type": "string" }
       ],
       "name": "licenseType",
@@ -140,7 +117,8 @@
             { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
             { "internalType": "uint256", "name": "issuedCount", "type": "uint256" },
             { "internalType": "uint256", "name": "activeCount", "type": "uint256" },
-            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" }
+            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" },
+            { "internalType": "address", "name": "creator", "type": "address" }
           ],
           "internalType": "struct LicenseType",
           "name": "",
@@ -161,7 +139,8 @@
             { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
             { "internalType": "uint256", "name": "issuedCount", "type": "uint256" },
             { "internalType": "uint256", "name": "activeCount", "type": "uint256" },
-            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" }
+            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" },
+            { "internalType": "address", "name": "creator", "type": "address" }
           ],
           "internalType": "struct LicenseType[]",
           "name": "",

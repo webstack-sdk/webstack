@@ -23,6 +23,10 @@ func seedLicenseType(t *testing.T, f *testFixture, id string, transferrable bool
 		IssuedCount:   math.ZeroInt(),
 		ActiveCount:   math.ZeroInt(),
 		RevokedCount:  math.ZeroInt(),
+		// The fixture owner stands in for the creator so the bech32→hex
+		// conversion in the ABI output is exercised rather than defaulting to
+		// the zero address.
+		Creator: f.OwnerBech,
 	}
 	require.NoError(t, f.keeper.LicenseTypes.Set(f.ctx, id, lt))
 }
@@ -39,17 +43,19 @@ func TestQueryLicenseType(t *testing.T) {
 	require.NoError(t, err)
 
 	got := out[0].(struct {
-		Id            string   `json:"id"`
-		Transferrable bool     `json:"transferrable"`
-		MaxSupply     *big.Int `json:"maxSupply"`
-		IssuedCount   *big.Int `json:"issuedCount"`
-		ActiveCount   *big.Int `json:"activeCount"`
-		RevokedCount  *big.Int `json:"revokedCount"`
+		Id            string         `json:"id"`
+		Transferrable bool           `json:"transferrable"`
+		MaxSupply     *big.Int       `json:"maxSupply"`
+		IssuedCount   *big.Int       `json:"issuedCount"`
+		ActiveCount   *big.Int       `json:"activeCount"`
+		RevokedCount  *big.Int       `json:"revokedCount"`
+		Creator       common.Address `json:"creator"`
 	})
 	require.Equal(t, "type.a", got.Id)
 	require.True(t, got.Transferrable)
 	require.Zero(t, got.MaxSupply.Cmp(big.NewInt(100)))
 	require.Zero(t, got.IssuedCount.Sign())
+	require.Equal(t, f.OwnerHex, got.Creator)
 }
 
 func TestQueryLicenseTypeNotFound(t *testing.T) {
@@ -72,12 +78,13 @@ func TestQueryLicenseTypes(t *testing.T) {
 	out, err := method.Outputs.Unpack(bz)
 	require.NoError(t, err)
 	got := out[0].([]struct {
-		Id            string   `json:"id"`
-		Transferrable bool     `json:"transferrable"`
-		MaxSupply     *big.Int `json:"maxSupply"`
-		IssuedCount   *big.Int `json:"issuedCount"`
-		ActiveCount   *big.Int `json:"activeCount"`
-		RevokedCount  *big.Int `json:"revokedCount"`
+		Id            string         `json:"id"`
+		Transferrable bool           `json:"transferrable"`
+		MaxSupply     *big.Int       `json:"maxSupply"`
+		IssuedCount   *big.Int       `json:"issuedCount"`
+		ActiveCount   *big.Int       `json:"activeCount"`
+		RevokedCount  *big.Int       `json:"revokedCount"`
+		Creator       common.Address `json:"creator"`
 	})
 	require.Len(t, got, 2)
 	ids := []string{got[0].Id, got[1].Id}

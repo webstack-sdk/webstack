@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"cosmossdk.io/collections"
 	"github.com/stretchr/testify/require"
 
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
@@ -18,6 +19,11 @@ func TestGenesisRoundTrip(t *testing.T) {
 	f, ms := setup(t)
 	operator := sample.AccAddress()
 	f.IssueLicenses(t, operator, 1)
+
+	// A second node type on an unrelated license, so the export carries more
+	// than the fixture's own and the by-license index has two prefixes to
+	// rebuild.
+	f.RegisterNodeType(t, "extra.node", "other.license")
 
 	key := authorizeKey(t, f, ms, f.Ctx, operator)
 	disabledKey := authorizeKey(t, f, ms, f.Ctx, operator)
@@ -61,6 +67,16 @@ func TestGenesisRoundTrip(t *testing.T) {
 
 	day0 := types.DayEpoch(keepertest.NetworkFixtureBlockTime)
 	require.Equal(t, map[string]uint64{nodeA: day0 + 1, nodeB: day0}, recentEntries(t, g, operator))
+
+	// Node types survive, and the by-license index is rebuilt rather than
+	// exported — so a missing rebuild would leave the filtered query empty
+	// while the re-export above still matched.
+	require.ElementsMatch(t, []string{f.NodeType, "extra.node"}, idsOf(exported.NodeTypes))
+	for _, nt := range exported.NodeTypes {
+		indexed, err := g.Keeper.NodeTypesByLicense.Has(g.Ctx, collections.Join(nt.LicenseTypeId, nt.Id))
+		require.NoError(t, err)
+		require.True(t, indexed, "index entry missing for %s", nt.Id)
+	}
 }
 
 func TestGenesisValidate(t *testing.T) {
@@ -71,6 +87,7 @@ func TestGenesisValidate(t *testing.T) {
 
 	validKey := types.ActivationKey{Address: keyAddr, Operator: operator, CreatedAt: now, Status: types.KeyActive}
 	validNode := types.Node{Address: nodeAddr, Operator: operator, ActivatedBy: keyAddr, Type: "test.node", Status: types.NodeActive, LastActiveTime: now}
+	validNodeType := types.NodeType{Id: "test.node", Creator: operator, LicenseTypeId: "node.license"}
 
 	tests := []struct {
 		name      string
@@ -135,11 +152,42 @@ func TestGenesisValidate(t *testing.T) {
 			},
 			expErrMsg: "activation_limit_multiplier",
 		},
+		{
+			name: "duplicate node type",
+			mutate: func(gs *types.GenesisState) {
+				gs.NodeTypes = append(gs.NodeTypes, gs.NodeTypes[0])
+			},
+			expErrMsg: "duplicate node type",
+		},
+		{
+			// The registry is what activation resolves a node's type through,
+			// so importing a node whose type is absent would strand it.
+			name: "node with unregistered type",
+			mutate: func(gs *types.GenesisState) {
+				gs.Nodes[0].Type = "never.registered"
+			},
+			expErrMsg: "is not a listed node type",
+		},
+		{
+			name: "node type missing creator",
+			mutate: func(gs *types.GenesisState) {
+				gs.NodeTypes[0].Creator = ""
+			},
+			expErrMsg: "invalid creator address",
+		},
+		{
+			name: "node type missing license type",
+			mutate: func(gs *types.GenesisState) {
+				gs.NodeTypes[0].LicenseTypeId = ""
+			},
+			expErrMsg: "license_type_id must not be empty",
+		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			gs := types.GenesisState{
 				Params:         types.DefaultParams(),
+				NodeTypes:      []types.NodeType{validNodeType},
 				Nodes:          []types.Node{validNode},
 				ActivationKeys: []types.ActivationKey{validKey},
 			}

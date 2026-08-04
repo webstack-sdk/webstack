@@ -8,7 +8,9 @@ address constant LICENSE_PRECOMPILE_ADDRESS = 0x776562737461636B0000000000000000
 /// @dev The LicenseI contract's instance.
 LicenseI constant LICENSE_CONTRACT = LicenseI(LICENSE_PRECOMPILE_ADDRESS);
 
-/// @dev LicenseType describes a class of issuable licenses.
+/// @dev LicenseType describes a class of issuable licenses. creator is the
+///      address that created the type; it is the only address permitted to
+///      define node types bound to it.
 struct LicenseType {
     string id;
     bool transferrable;
@@ -16,6 +18,7 @@ struct LicenseType {
     uint256 issuedCount;
     uint256 activeCount;
     uint256 revokedCount;
+    address creator;
 }
 
 /// @dev License is a single issued license. endDate keeps its issued value;
@@ -71,14 +74,6 @@ interface LicenseI {
         uint64 count
     );
 
-    /// @dev Emitted when a single license is transferred between holders.
-    event LicenseTransferred(
-        address indexed from,
-        address indexed to,
-        string licenseTypeId,
-        uint64 id
-    );
-
     // ---------------------------------------------------------------------
     // Transactions
     // ---------------------------------------------------------------------
@@ -112,14 +107,6 @@ interface LicenseI {
         address holder,
         uint64 count
     ) external returns (uint64[] memory ids);
-
-    /// @dev Transfer a license to a new holder. The license id is unique
-    ///      chain-wide, so no license type is needed. Caller must be the
-    ///      current holder.
-    function transferLicense(
-        uint64 id,
-        address recipient
-    ) external returns (bool success);
 
     // ---------------------------------------------------------------------
     // Queries

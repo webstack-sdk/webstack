@@ -104,16 +104,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
-					RpcMethod: "TransferLicense",
-					Use:       "transfer-license [id] [recipient]",
-					Short:     "Transfer a license to a new holder",
-					Long:      "Transfer a license to a new holder. Ids are unique chain-wide, so no license type is needed. Signer must be the current holder and the type must be transferrable.",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "id"},
-						{ProtoField: "recipient"},
-					},
-				},
-				{
 					// Handled by the custom CmdIssueLicenses command; the
 					// repeated entries field doesn't map to positional args.
 					RpcMethod: "IssueLicenses",

@@ -86,6 +86,43 @@ func (q Querier) NodesByOperator(ctx context.Context, req *types.QueryNodesByOpe
 	return &types.QueryNodesByOperatorResponse{Nodes: nodes, Pagination: pageResp}, nil
 }
 
+// NodeType returns a registered node type by id.
+func (q Querier) NodeType(ctx context.Context, req *types.QueryNodeTypeRequest) (*types.QueryNodeTypeResponse, error) {
+	nt, err := q.Keeper.NodeTypes.Get(ctx, req.Id)
+	if err != nil {
+		return nil, types.ErrNodeTypeNotFound.Wrapf("node type %s not found", req.Id)
+	}
+	return &types.QueryNodeTypeResponse{NodeType: nt}, nil
+}
+
+// NodeTypes returns registered node types. When license_type_id is set the
+// walk runs over the by-license index and touches only that license type's
+// node types; when it is empty every node type is returned.
+func (q Querier) NodeTypes(ctx context.Context, req *types.QueryNodeTypesRequest) (*types.QueryNodeTypesResponse, error) {
+	if req.LicenseTypeId != "" {
+		nodeTypes, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.NodeTypesByLicense, req.Pagination,
+			func(key collections.Pair[string, string], _ collections.NoValue) (types.NodeType, error) {
+				return q.Keeper.NodeTypes.Get(ctx, key.K2())
+			},
+			query.WithCollectionPaginationPairPrefix[string, string](req.LicenseTypeId),
+		)
+		if err != nil {
+			return nil, err
+		}
+		return &types.QueryNodeTypesResponse{NodeTypes: nodeTypes, Pagination: pageResp}, nil
+	}
+
+	nodeTypes, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.NodeTypes, req.Pagination,
+		func(_ string, nt types.NodeType) (types.NodeType, error) {
+			return nt, nil
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &types.QueryNodeTypesResponse{NodeTypes: nodeTypes, Pagination: pageResp}, nil
+}
+
 func (q Querier) ActivationKey(ctx context.Context, req *types.QueryActivationKeyRequest) (*types.QueryActivationKeyResponse, error) {
 	key, err := q.Keeper.ActivationKeys.Get(ctx, req.Address)
 	if err != nil {

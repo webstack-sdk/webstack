@@ -489,7 +489,6 @@ func TestUpdateParams(t *testing.T) {
 	// unmarshals empty repeated fields as nil).
 	valid := types.DefaultParams()
 	valid.LicenseTypes = []string{"a", "b"}
-	valid.AllowedNodeTypes = []string{"trust"}
 	valid.DeauthorizeFee = sdk.NewCoins(sdk.NewInt64Coin("stake", 1))
 
 	_, err := ms.UpdateParams(f.Ctx, &types.MsgUpdateParams{

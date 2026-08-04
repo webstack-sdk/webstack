@@ -180,3 +180,111 @@ func TestQueryNodesUnknownStatusMatchesNothing(t *testing.T) {
 	require.NoError(t, err)
 	require.Empty(t, resp.Nodes)
 }
+
+// ---------------------------------------------------------------------------
+// NodeType / NodeTypes
+// ---------------------------------------------------------------------------
+
+// idsOf extracts node type ids so assertions read in terms of identity.
+func idsOf(nodeTypes []types.NodeType) []string {
+	out := make([]string, 0, len(nodeTypes))
+	for _, nt := range nodeTypes {
+		out = append(out, nt.Id)
+	}
+	return out
+}
+
+// TestQueryNodeType: a registered type comes back whole; an unregistered one is
+// a typed not-found rather than an empty record.
+func TestQueryNodeType(t *testing.T) {
+	f, _ := setup(t)
+	q := keeper.NewQuerier(f.Keeper)
+
+	resp, err := q.NodeType(f.Ctx, &types.QueryNodeTypeRequest{Id: f.NodeType})
+	require.NoError(t, err)
+	require.Equal(t, types.NodeType{
+		Id:            f.NodeType,
+		Creator:       f.Owner,
+		LicenseTypeId: f.LicenseType,
+	}, resp.NodeType)
+
+	_, err = q.NodeType(f.Ctx, &types.QueryNodeTypeRequest{Id: "never.registered"})
+	require.ErrorIs(t, err, types.ErrNodeTypeNotFound)
+}
+
+// TestQueryNodeTypesLicenseFilter is the query the license/node-type binding
+// exists to serve: given a license type id, return its node types and nothing
+// else, without the caller filtering client-side.
+func TestQueryNodeTypesLicenseFilter(t *testing.T) {
+	f, _ := setup(t)
+	q := keeper.NewQuerier(f.Keeper)
+
+	// Two node types on the fixture's license (one is seeded by the fixture),
+	// and one on an unrelated license that must never leak into its results.
+	f.RegisterNodeType(t, "extra.node", f.LicenseType)
+	f.RegisterNodeType(t, "other.node", "other.license")
+
+	all, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{})
+	require.NoError(t, err)
+	require.ElementsMatch(t, []string{f.NodeType, "extra.node", "other.node"}, idsOf(all.NodeTypes))
+
+	mine, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: f.LicenseType})
+	require.NoError(t, err)
+	require.ElementsMatch(t, []string{f.NodeType, "extra.node"}, idsOf(mine.NodeTypes))
+	require.NotContains(t, idsOf(mine.NodeTypes), "other.node")
+
+	// The filtered walk hydrates full records, not just ids.
+	for _, nt := range mine.NodeTypes {
+		require.Equal(t, f.LicenseType, nt.LicenseTypeId)
+		require.Equal(t, f.Owner, nt.Creator)
+	}
+
+	other, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: "other.license"})
+	require.NoError(t, err)
+	require.Equal(t, []string{"other.node"}, idsOf(other.NodeTypes))
+
+	// A license type nobody bound to is empty, not an error.
+	none, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: "unused.license"})
+	require.NoError(t, err)
+	require.Empty(t, none.NodeTypes)
+}
+
+// TestQueryNodeTypesFilteredPagination: the filtered walk runs over the
+// by-license index, so paging must stay inside the prefix and yield every
+// match exactly once even when a page boundary falls mid-license.
+func TestQueryNodeTypesFilteredPagination(t *testing.T) {
+	f, _ := setup(t)
+	q := keeper.NewQuerier(f.Keeper)
+
+	// Interleave the two licenses' ids in the *global* node type keyspace, so
+	// a walk that ignored the prefix would visibly pick up the decoys.
+	want := []string{"a.one", "b.two", "c.three"}
+	for i, id := range want {
+		f.RegisterNodeType(t, id, "target.license")
+		f.RegisterNodeType(t, string(rune('a'+i))+".decoy", "decoy.license")
+	}
+
+	var got []string
+	var nextKey []byte
+	pages := 0
+	for {
+		page, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{
+			LicenseTypeId: "target.license",
+			Pagination:    &query.PageRequest{Key: nextKey, Limit: 2},
+		})
+		require.NoError(t, err)
+		got = append(got, idsOf(page.NodeTypes)...)
+		pages++
+		require.LessOrEqual(t, pages, 10, "pagination failed to terminate")
+
+		nextKey = page.Pagination.NextKey
+		if len(nextKey) == 0 {
+			break
+		}
+	}
+
+	require.Equal(t, want, got, "every bound node type exactly once, in id order")
+	// 3 matches at 2 per page: the assertion above only means something if the
+	// walk actually crossed a page boundary.
+	require.Equal(t, 2, pages, "expected the filtered result set to span two pages")
+}

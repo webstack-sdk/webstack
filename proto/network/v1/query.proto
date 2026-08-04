@@ -31,6 +31,17 @@ service Query {
     option (google.api.http).get = "/webstack/network/nodes_by_operator/{operator}";
   }
 
+  // NodeType queries a registered node type by id.
+  rpc NodeType(QueryNodeTypeRequest) returns (QueryNodeTypeResponse) {
+    option (google.api.http).get = "/webstack/network/node_type/{id}";
+  }
+
+  // NodeTypes queries registered node types, optionally only those bound to
+  // one license type.
+  rpc NodeTypes(QueryNodeTypesRequest) returns (QueryNodeTypesResponse) {
+    option (google.api.http).get = "/webstack/network/node_types";
+  }
+
   // ActivationKey queries an activation key by address.
   rpc ActivationKey(QueryActivationKeyRequest) returns (QueryActivationKeyResponse) {
     option (google.api.http).get = "/webstack/network/activation_key/{address}";
@@ -104,6 +115,37 @@ message QueryNodesByOperatorRequest {
 message QueryNodesByOperatorResponse {
   // nodes are the operator's node records in address order.
   repeated Node nodes = 1 [(gogoproto.nullable) = false];
+  // pagination is the page response.
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryNodeTypeRequest is the request type for the Query/NodeType RPC method.
+message QueryNodeTypeRequest {
+  // id is the node type identifier.
+  string id = 1;
+}
+
+// QueryNodeTypeResponse is the response type for the Query/NodeType RPC method.
+message QueryNodeTypeResponse {
+  // node_type is the registered node type.
+  NodeType node_type = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryNodeTypesRequest is the request type for the Query/NodeTypes RPC method.
+message QueryNodeTypesRequest {
+  // pagination is an optional page request.
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  // license_type_id optionally restricts the result to the node types bound to
+  // one license type. Leave it empty to return every registered node type. A
+  // node type always names a license type, so the empty string cannot collide
+  // with a real binding.
+  string license_type_id = 2;
+}
+
+// QueryNodeTypesResponse is the response type for the Query/NodeTypes RPC method.
+message QueryNodeTypesResponse {
+  // node_types are the registered node types in id order.
+  repeated NodeType node_types = 1 [(gogoproto.nullable) = false];
   // pagination is the page response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

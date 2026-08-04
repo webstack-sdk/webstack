@@ -36,7 +36,11 @@ func (p Precompile) LicenseType(ctx sdk.Context, method *abi.Method, args []inte
 		return nil, err
 	}
 
-	return method.Outputs.Pack(licenseTypeToOutput(res.LicenseType))
+	out, err := licenseTypeToOutput(res.LicenseType)
+	if err != nil {
+		return nil, err
+	}
+	return method.Outputs.Pack(out)
 }
 
 // LicenseTypes returns all license types. It walks the keeper directly: the
@@ -49,7 +53,11 @@ func (p Precompile) LicenseTypes(ctx sdk.Context, method *abi.Method, args []int
 
 	var out []LicenseTypeOutput
 	if err := p.keeper.LicenseTypes.Walk(ctx, nil, func(_ string, lt licensetypes.LicenseType) (bool, error) {
-		out = append(out, licenseTypeToOutput(lt))
+		converted, err := licenseTypeToOutput(lt)
+		if err != nil {
+			return false, err
+		}
+		out = append(out, converted)
 		return false, nil
 	}); err != nil {
 		return nil, err

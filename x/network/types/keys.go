@@ -25,11 +25,18 @@ const (
 // room is reserved for a future authorize-on-behalf permission.
 const (
 	PermissionWalletCreate = "wallet.create"
+
+	// PermissionNodeTypeCreate authorizes registering node types. It confers
+	// the ability to define node types at all; which license types they may be
+	// bound to is decided separately, by matching the signer against the
+	// license type's recorded creator. Keeping the two apart means the right
+	// can be revoked without disturbing license-type ownership.
+	PermissionNodeTypeCreate = "nodetype.create"
 )
 
 // ValidPermissions is the full permission vocabulary registered with the
 // x/permission module.
-var ValidPermissions = []string{PermissionWalletCreate}
+var ValidPermissions = []string{PermissionWalletCreate, PermissionNodeTypeCreate}
 
 // Bounds on MsgUpdateNodeStatus payloads. The gasless byte cap already bounds
 // the allowlisted path; these give the paid path the same ceiling and a clean
@@ -46,14 +53,16 @@ var (
 	OperatorsPrefix          = collections.NewPrefix(3)
 	ActivationKeysPrefix     = collections.NewPrefix(4)
 	NodeStatusCountersPrefix = collections.NewPrefix(5)
+	NodeTypesPrefix          = collections.NewPrefix(6)
 
-	// Index / denormalized prefixes. All four are derived from the data
-	// records above and rebuilt on genesis import.
+	// Index / denormalized prefixes. All are derived from the data records
+	// above and rebuilt on genesis import.
 	OperatorNodesPrefix          = collections.NewPrefix(10)
 	OperatorActivationKeysPrefix = collections.NewPrefix(11)
 	OperatorNodeCountsPrefix     = collections.NewPrefix(12)
 	RecentNodeActivityPrefix     = collections.NewPrefix(13)
 	GaslessCountersPrefix        = collections.NewPrefix(14)
+	NodeTypesByLicensePrefix     = collections.NewPrefix(15)
 )
 
 // Gasless admission counter kinds, the first key of the GaslessCounters map.

@@ -6,6 +6,7 @@ import (
 
 var (
 	_ sdk.Msg = &MsgCreateOperatorAccount{}
+	_ sdk.Msg = &MsgCreateNodeType{}
 	_ sdk.Msg = &MsgAuthorizeActivationKey{}
 	_ sdk.Msg = &MsgDeauthorizeActivationKey{}
 	_ sdk.Msg = &MsgActivateNode{}
@@ -36,6 +37,22 @@ func (msg *MsgCreateOperatorAccount) ValidateBasic() error {
 		return err
 	}
 	return ValidateCanonicalAddress("wallet", msg.Wallet)
+}
+
+// MsgCreateNodeType is deliberately absent from GaslessMessages: registering a
+// node type is an administrative action by a granted address, not node
+// software running unattended, so it pays gas like any other tx.
+func (msg *MsgCreateNodeType) ValidateBasic() error {
+	if err := ValidateCanonicalAddress("creator", msg.Creator); err != nil {
+		return err
+	}
+	if msg.Id == "" {
+		return ErrInvalidNodeType.Wrap("node type id must not be empty")
+	}
+	if msg.LicenseTypeId == "" {
+		return ErrLicenseTypeNotFound.Wrap("license type id must not be empty")
+	}
+	return nil
 }
 
 func (msg *MsgAuthorizeActivationKey) ValidateBasic() error {

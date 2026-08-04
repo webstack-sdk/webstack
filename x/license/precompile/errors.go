@@ -7,9 +7,6 @@ const (
 	// ErrCallerIsNotRevoker is returned when a revokeLicenses call originates from
 	// an address that is not the revoker declared in the message.
 	ErrCallerIsNotRevoker = "caller %s is not the declared revoker %s"
-	// ErrCallerIsNotHolder is returned when a transferLicense call originates from
-	// an address that is not the current license holder.
-	ErrCallerIsNotHolder = "caller %s is not the current holder %s"
 	// ErrCallerIsNotOwner is returned when an owner-gated call originates from a
 	// non-owner address.
 	ErrCallerIsNotOwner = "caller %s is not the module owner %s"

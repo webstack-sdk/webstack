@@ -152,13 +152,16 @@ if [[ "$overwrite" == "y" || "$overwrite" == "Y" ]]; then
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # Seed the webstack.node license type. max_supply="0" means unlimited.
+  # creator is required (genesis validation rejects a license type without one)
+  # and is what authorizes defining x/network node types bound to this type.
   jq '.app_state["license"]["license_types"]=[{
     "id": "webstack.node",
     "transferrable": false,
     "max_supply": "0",
     "issued_count": "0",
     "active_count": "0",
-    "revoked_count": "0"
+    "revoked_count": "0",
+    "creator": "'"$LICENSES_OWNER"'"
   }]' "$GENESIS" > "$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
   # Grant the owner issue+revoke rights over webstack.node so the testnet

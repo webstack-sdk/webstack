@@ -19,7 +19,6 @@ const (
 	EventTypeLicenseTypeUpdated = "LicenseTypeUpdated"
 	EventTypeLicenseIssued      = "LicenseIssued"
 	EventTypeLicenseRevoked     = "LicenseRevoked"
-	EventTypeLicenseTransferred = "LicenseTransferred"
 )
 
 // emitLog writes an EVM log entry to the stateDB.
@@ -115,27 +114,5 @@ func (p Precompile) EmitLicenseRevoked(ctx sdk.Context, stateDB vm.StateDB, revo
 	}
 
 	p.emitLog(ctx, stateDB, []common.Hash{event.ID, revokerTopic, holderTopic}, data)
-	return nil
-}
-
-// EmitLicenseTransferred emits the LicenseTransferred event.
-func (p Precompile) EmitLicenseTransferred(ctx sdk.Context, stateDB vm.StateDB, from, to common.Address, licenseTypeID string, id uint64) error {
-	event := p.Events[EventTypeLicenseTransferred]
-
-	fromTopic, err := cmn.MakeTopic(from)
-	if err != nil {
-		return err
-	}
-	toTopic, err := cmn.MakeTopic(to)
-	if err != nil {
-		return err
-	}
-
-	data, err := packArgs(event, licenseTypeID, id)
-	if err != nil {
-		return err
-	}
-
-	p.emitLog(ctx, stateDB, []common.Hash{event.ID, fromTopic, toTopic}, data)
 	return nil
 }

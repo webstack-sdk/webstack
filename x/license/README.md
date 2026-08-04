@@ -1,10 +1,10 @@
 # Licenses Module
 
-The `x/license` module provides on-chain license management for Cosmos SDK chains. It allows a namespace owner to define license types and delegated addresses to issue/revoke/transfer licenses.
+The `x/license` module provides on-chain license management for Cosmos SDK chains. It allows a namespace owner to define license types and delegated addresses to issue and revoke licenses.
 
 ## Overview
 
-- **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and transferrability
+- **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and a declarative transferrability flag
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
 - **Ownership and permissions** live in the [`x/permission`](../permission/README.md) module under the `license` namespace: per-type `issue`/`revoke` grants delegate rights over existing types, and a module-wide `type.create` grant delegates the creation of new ones. The owner grants these rights rather than holding them implicitly
 
@@ -102,9 +102,16 @@ A license type is a template with:
 | Field | Description |
 |-------|-------------|
 | `id` | Unique string identifier (e.g. `node.license`) |
-| `transferrable` | Whether licenses of this type can be transferred between holders |
-| `max_supply` | Maximum number of active licenses. `0` = unlimited |
-| `issued_count` | Current number of active licenses (managed automatically) |
+| `transferrable` | Declares whether licenses of this type may change hands. This module has no transfer message, so nothing on chain reads it — it is metadata for consumers to enforce |
+| `max_supply` | Maximum number of *outstanding* licenses, checked against `active_count`. `0` = unlimited |
+| `issued_count` | Lifetime licenses issued. May exceed `max_supply`, since revoking frees a slot |
+| `active_count` | Currently active licenses. This is what `max_supply` caps |
+| `revoked_count` | Licenses revoked to date |
+| `creator` | Address that created the type — the `type.create` grantee that signed `MsgCreateLicenseType`, not the namespace owner |
+
+`creator` is fixed at creation (`MsgUpdateLicenseType` does not touch it) and is
+required: `x/network` lets only this address define node types bound to the
+license type, so genesis rejects a license type without one.
 
 ### Licenses
 
@@ -123,8 +130,8 @@ Each license is an instance of a license type:
 Licenses are stored under their `id` alone and never deleted; revocation flips
 `status` and stamps `revoked_date`, leaving the issued `end_date` intact.
 Because ids are unique chain-wide, **a bare id is a complete handle** — the
-single-license query and `MsgTransferLicense` take only an id, and the type
-comes off the stored record.
+single-license query takes only an id, and the type comes off the stored
+record.
 
 Two secondary indexes support the listing queries:
 
@@ -132,8 +139,8 @@ Two secondary indexes support the listing queries:
   type never changes, so entries are written once at issuance and never moved
   or removed.
 - `(holder, type, id)` tracks **active** licenses only — written on issue,
-  moved on transfer, removed on revoke. This powers the holder queries and the
-  revoke-most-recent-first walk.
+  removed on revoke. A license's holder never changes, so no entry is ever
+  moved. This powers the holder queries and the revoke-most-recent-first walk.
 
 The next-id sequence is a single chain-wide counter and is its own piece of
 state (exported in genesis as `next_license_id`), independent of the
@@ -187,8 +194,10 @@ webstackd tx license create-license-type node.license true 1000 --from admin
 ```
 
 ### MsgUpdateLicenseType
-Update an existing license type's transferrability. `max_supply` is fixed at
-creation and cannot be changed.
+Update an existing license type's `transferrable` flag. `max_supply` and
+`creator` are fixed at creation and cannot be changed. The flag is declarative
+— this module has no transfer message — so changing it signals intent to
+consumers rather than altering any on-chain behaviour.
 
 ```bash
 webstackd tx license update-license-type node.license true --from owner
@@ -214,13 +223,6 @@ Revoke active licenses for a holder, most recently issued first. Sets status to 
 
 ```bash
 webstackd tx license revoke-licenses node.license webstack1abc... 2 --from admin
-```
-
-### MsgTransferLicense
-Transfer a license to a new holder, identified by id alone. Signer must be the current holder and the license type must be transferrable.
-
-```bash
-webstackd tx license transfer-license 1 webstack1recipient... --from holder
 ```
 
 ## Queries
@@ -266,7 +268,10 @@ Example genesis configuration:
         "id": "node.license",
         "transferrable": true,
         "max_supply": "100",
-        "issued_count": "0"
+        "issued_count": "0",
+        "active_count": "0",
+        "revoked_count": "0",
+        "creator": "webstack1adminaddress..."
       }
     ],
     "licenses": [],
@@ -302,7 +307,6 @@ All state-changing operations emit events:
 | `update_license_type` | `license_type_id` |
 | `issue_licenses` | `license_type_id`, `holder`, `count` (one event per entry) |
 | `revoke_licenses` | `license_type_id`, `holder`, `count` |
-| `transfer_license` | `license_type_id`, `license_id`, `holder`, `recipient` |
 
 ## State Storage
 

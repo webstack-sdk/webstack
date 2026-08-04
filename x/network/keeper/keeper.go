@@ -41,6 +41,11 @@ type Keeper struct {
 	// counter, incremented by ante admission and re-read by the handler.
 	NodeStatusCounters collections.Map[string, types.ActivityCounter]
 
+	// NodeTypes holds every registered node type, keyed by id. Records are
+	// never removed: a node's type must stay resolvable for the life of the
+	// chain, and the registry is what gates activation.
+	NodeTypes collections.Map[string, types.NodeType]
+
 	// OperatorNodes indexes (operator, nodeAddress) for all of an operator's
 	// nodes, active and deactivated.
 	OperatorNodes collections.KeySet[collections.Pair[string, string]]
@@ -64,6 +69,11 @@ type Keeper struct {
 	// keyed (kind, signer): authorize per operator, activate per activation
 	// key, deactivate per signer.
 	GaslessCounters collections.Map[collections.Pair[string, string], types.ActivityCounter]
+
+	// NodeTypesByLicense indexes (licenseTypeID, nodeTypeID) so the node types
+	// a license type backs can be listed by walking one prefix, rather than
+	// decoding every node type to filter on its binding.
+	NodeTypesByLicense collections.KeySet[collections.Pair[string, string]]
 
 	licenseKeeper    types.LicenseKeeper
 	permissionKeeper types.PermissionKeeper
@@ -100,12 +110,14 @@ func NewKeeper(
 		Operators:          collections.NewKeySet(sb, types.OperatorsPrefix, "operators", collections.StringKey),
 		ActivationKeys:     collections.NewMap(sb, types.ActivationKeysPrefix, "activation_keys", collections.StringKey, codec.CollValue[types.ActivationKey](cdc)),
 		NodeStatusCounters: collections.NewMap(sb, types.NodeStatusCountersPrefix, "node_status_counters", collections.StringKey, codec.CollValue[types.ActivityCounter](cdc)),
+		NodeTypes:          collections.NewMap(sb, types.NodeTypesPrefix, "node_types", collections.StringKey, codec.CollValue[types.NodeType](cdc)),
 
 		OperatorNodes:          collections.NewKeySet(sb, types.OperatorNodesPrefix, "operator_nodes", collections.PairKeyCodec(collections.StringKey, collections.StringKey)),
 		OperatorActivationKeys: collections.NewKeySet(sb, types.OperatorActivationKeysPrefix, "operator_activation_keys", collections.PairKeyCodec(collections.StringKey, collections.StringKey)),
 		OperatorNodeCounts:     collections.NewMap(sb, types.OperatorNodeCountsPrefix, "operator_node_counts", collections.StringKey, codec.CollValue[types.OperatorNodeCounts](cdc)),
 		RecentNodeActivity:     collections.NewKeySet(sb, types.RecentNodeActivityPrefix, "recent_node_activity", collections.TripleKeyCodec(collections.StringKey, collections.Uint64Key, collections.StringKey)),
 		GaslessCounters:        collections.NewMap(sb, types.GaslessCountersPrefix, "gasless_counters", collections.PairKeyCodec(collections.StringKey, collections.StringKey), codec.CollValue[types.ActivityCounter](cdc)),
+		NodeTypesByLicense:     collections.NewKeySet(sb, types.NodeTypesByLicensePrefix, "node_types_by_license", collections.PairKeyCodec(collections.StringKey, collections.StringKey)),
 
 		licenseKeeper:    licenseKeeper,
 		permissionKeeper: permissionKeeper,

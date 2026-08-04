@@ -44,4 +44,8 @@ message GenesisState {
   // gasless_counters are the ante-admission daily counters, exported so an
   // export/import does not reset gasless quotas.
   repeated GaslessCounter gasless_counters = 5 [(gogoproto.nullable) = false];
+  // node_types are the registered node types. Every node's type must name one
+  // of these; the license-type binding cannot be checked here, because that
+  // record lives in x/license.
+  repeated NodeType node_types = 6 [(gogoproto.nullable) = false];
 }

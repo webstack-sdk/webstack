@@ -36,7 +36,6 @@ var (
 	_ sdk.Msg = &MsgCreateLicenseType{}
 	_ sdk.Msg = &MsgIssueLicenses{}
 	_ sdk.Msg = &MsgRevokeLicenses{}
-	_ sdk.Msg = &MsgTransferLicense{}
 	_ sdk.Msg = &MsgUpdateLicenseType{}
 )
 
@@ -106,21 +105,6 @@ func (msg *MsgRevokeLicenses) ValidateBasic() error {
 	}
 	if msg.Count == 0 {
 		return ErrInvalidCount.Wrap("count must be greater than zero")
-	}
-	return nil
-}
-
-func (msg *MsgTransferLicense) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.Holder); err != nil {
-		return ErrInvalidSigner.Wrapf("invalid holder address: %s", err)
-	}
-	// Ids start at FirstLicenseID, so zero is always invalid — and it is what
-	// an omitted field decodes to.
-	if msg.Id < FirstLicenseID {
-		return ErrInvalidLicenseID.Wrapf("license id must be at least %d, got %d", FirstLicenseID, msg.Id)
-	}
-	if _, err := sdk.AccAddressFromBech32(msg.Recipient); err != nil {
-		return ErrEmptyHolder.Wrapf("invalid recipient address: %s", err)
 	}
 	return nil
 }

@@ -84,6 +84,7 @@ func TestMsgsRejectNonCanonicalAddresses(t *testing.T) {
 	}{
 		{"MsgCreateOperatorAccount.admin", &types.MsgCreateOperatorAccount{Admin: bad, Wallet: other}},
 		{"MsgCreateOperatorAccount.wallet", &types.MsgCreateOperatorAccount{Admin: other, Wallet: bad}},
+		{"MsgCreateNodeType.creator", &types.MsgCreateNodeType{Creator: bad, Id: "t", LicenseTypeId: "l"}},
 		{"MsgAuthorizeActivationKey.operator", &types.MsgAuthorizeActivationKey{Operator: bad, ActivationAddress: other}},
 		{"MsgAuthorizeActivationKey.activation_address", &types.MsgAuthorizeActivationKey{Operator: other, ActivationAddress: bad}},
 		{"MsgDeauthorizeActivationKey.operator", &types.MsgDeauthorizeActivationKey{Operator: bad, ActivationAddress: other}},
@@ -113,6 +114,9 @@ func TestGenesisRejectsNonCanonicalAddresses(t *testing.T) {
 	base := func() types.GenesisState {
 		return types.GenesisState{
 			Params: types.DefaultParams(),
+			NodeTypes: []types.NodeType{{
+				Id: "test.node", Creator: operator, LicenseTypeId: "node.license",
+			}},
 			ActivationKeys: []types.ActivationKey{{
 				Address: keyAddr, Operator: operator, Status: types.KeyActive,
 				CreatedAt: now,
@@ -137,5 +141,12 @@ func TestGenesisRejectsNonCanonicalAddresses(t *testing.T) {
 
 	gs = base()
 	gs.Nodes[0].Operator = strings.ToUpper(operator)
+	require.ErrorContains(t, gs.Validate(), "not in canonical form")
+
+	// A node type's creator is compared against the license type's creator to
+	// authorize registration, so a non-canonical alias here would compare
+	// unequal to the very address it denotes.
+	gs = base()
+	gs.NodeTypes[0].Creator = strings.ToUpper(operator)
 	require.ErrorContains(t, gs.Validate(), "not in canonical form")
 }

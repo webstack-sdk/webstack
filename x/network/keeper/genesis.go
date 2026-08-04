@@ -9,9 +9,9 @@ import (
 )
 
 // InitGenesis initializes the module's state from a genesis state. The
-// denormalized structures (operator set, operator indexes, node counts, and
-// the recent-activity index) are derived from the primary records here, so
-// they can never disagree with them.
+// denormalized structures (operator set, operator indexes, node counts, the
+// recent-activity index, and the node-type-by-license index) are derived from
+// the primary records here, so they can never disagree with them.
 func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) error {
 	if err := data.Validate(); err != nil {
 		return err
@@ -19,6 +19,17 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 
 	if err := k.Params.Set(ctx, data.Params); err != nil {
 		return err
+	}
+
+	// Node types first: nodes reference them, and Validate has already
+	// confirmed every node's type is present here.
+	for _, nt := range data.NodeTypes {
+		if err := k.NodeTypes.Set(ctx, nt.Id, nt); err != nil {
+			return err
+		}
+		if err := k.NodeTypesByLicense.Set(ctx, collections.Join(nt.LicenseTypeId, nt.Id)); err != nil {
+			return err
+		}
 	}
 
 	for _, key := range data.ActivationKeys {
@@ -94,6 +105,14 @@ func (k *Keeper) ExportGenesis(ctx context.Context) *types.GenesisState {
 		panic(err)
 	}
 
+	var nodeTypes []types.NodeType
+	if err := k.NodeTypes.Walk(ctx, nil, func(_ string, nt types.NodeType) (bool, error) {
+		nodeTypes = append(nodeTypes, nt)
+		return false, nil
+	}); err != nil {
+		panic(err)
+	}
+
 	var keys []types.ActivationKey
 	if err := k.ActivationKeys.Walk(ctx, nil, func(_ string, key types.ActivationKey) (bool, error) {
 		keys = append(keys, key)
@@ -120,6 +139,7 @@ func (k *Keeper) ExportGenesis(ctx context.Context) *types.GenesisState {
 
 	return &types.GenesisState{
 		Params:             params,
+		NodeTypes:          nodeTypes,
 		Nodes:              nodes,
 		ActivationKeys:     keys,
 		NodeStatusCounters: statusCounters,

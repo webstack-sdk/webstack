@@ -9,6 +9,7 @@ import (
 
 	"cosmossdk.io/collections"
 	"cosmossdk.io/log"
+	"cosmossdk.io/math"
 	"cosmossdk.io/store"
 	"cosmossdk.io/store/metrics"
 	storetypes "cosmossdk.io/store/types"
@@ -103,7 +104,12 @@ type NetworkFixture struct {
 	Owner            string
 
 	// LicenseType is the counted license type seeded into the network params.
+	// It is created at fixture construction with Owner as its creator.
 	LicenseType string
+
+	// NodeType is the node type registered at fixture construction, bound to
+	// LicenseType. It is the type the shared activateNode helper uses.
+	NodeType string
 }
 
 // NetworkFixtureBlockTime is the fixture context's initial block time; tests
@@ -180,9 +186,34 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 	}))
 
 	const licenseType = "node.license"
+	const nodeType = "test.node"
+
 	params := networktypes.DefaultParams()
 	params.LicenseTypes = []string{licenseType}
 	require.NoError(t, nk.Params.Set(ctx, params))
+
+	// The counted license type is created up front, owned by the fixture
+	// owner, rather than lazily by the first IssueLicenses call: the node type
+	// below is bound to it, and that binding is only legal for its creator.
+	require.NoError(t, lk.LicenseTypes.Set(ctx, licenseType, licensetypes.LicenseType{
+		Id:           licenseType,
+		Creator:      owner,
+		MaxSupply:    math.ZeroInt(),
+		IssuedCount:  math.ZeroInt(),
+		ActiveCount:  math.ZeroInt(),
+		RevokedCount: math.ZeroInt(),
+	}))
+
+	// Activation resolves the node type through the registry, so without a
+	// registered type every ActivateNode in the suite would fail. Seeding the
+	// one the tests already use keeps them exercising activation rather than
+	// registration, which has its own tests.
+	require.NoError(t, nk.NodeTypes.Set(ctx, nodeType, networktypes.NodeType{
+		Id:            nodeType,
+		Creator:       owner,
+		LicenseTypeId: licenseType,
+	}))
+	require.NoError(t, nk.NodeTypesByLicense.Set(ctx, collections.Join(licenseType, nodeType)))
 
 	return &NetworkFixture{
 		Keeper:           nk,
@@ -193,7 +224,21 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 		Ctx:              ctx,
 		Owner:            owner,
 		LicenseType:      licenseType,
+		NodeType:         nodeType,
 	}
+}
+
+// RegisterNodeType writes a node type record and its by-license index entry
+// directly into network state, bypassing the grant- and creator-gated msg
+// path. Tests that exercise those gates drive the msg server instead.
+func (f *NetworkFixture) RegisterNodeType(t testing.TB, id, licenseTypeID string) {
+	t.Helper()
+	require.NoError(t, f.Keeper.NodeTypes.Set(f.Ctx, id, networktypes.NodeType{
+		Id:            id,
+		Creator:       f.Owner,
+		LicenseTypeId: licenseTypeID,
+	}))
+	require.NoError(t, f.Keeper.NodeTypesByLicense.Set(f.Ctx, collections.Join(licenseTypeID, id)))
 }
 
 // GrantNetwork writes a module-wide network-namespace grant directly into
@@ -215,7 +260,7 @@ func (f *NetworkFixture) IssueLicenses(t testing.TB, holder string, count uint64
 // IssueLicensesOfType is IssueLicenses for an arbitrary license type id.
 func (f *NetworkFixture) IssueLicensesOfType(t testing.TB, holder, typeID string, count uint64) {
 	t.Helper()
-	SeedActiveLicenses(t, f.LicenseKeeper, f.Ctx, holder, typeID, count)
+	SeedActiveLicenses(t, f.LicenseKeeper, f.Ctx, f.Owner, holder, typeID, count)
 }
 
 // RevokeLicenses revokes count of holder's active licenses of the fixture's

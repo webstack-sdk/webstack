@@ -264,27 +264,42 @@ func TestActivateNodeAggregatesLicenseTypes(t *testing.T) {
 	require.ErrorContains(t, err, "(6)")
 }
 
+// TestActivateNodeTypeRestriction: the node type registry is the allowlist.
+// Only a registered type activates, and registering one is all it takes.
 func TestActivateNodeTypeRestriction(t *testing.T) {
 	f, ms := setup(t)
 	operator := sample.AccAddress()
-	f.IssueLicenses(t, operator, 1)
+	f.IssueLicenses(t, operator, 2)
 	key := authorizeKey(t, f, ms, f.Ctx, operator)
-
-	setParams(t, f, func(p *types.Params) { p.AllowedNodeTypes = []string{"trust"} })
 
 	_, err := ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "nano",
+		NodeType:          "trust",
 	})
 	require.ErrorIs(t, err, types.ErrInvalidNodeType)
+
+	f.RegisterNodeType(t, "trust", f.LicenseType)
 
 	_, err = ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
 		NodeType:          "trust",
+	})
+	require.NoError(t, err)
+
+	// A node type registered under a different license type is still a valid
+	// activation type: the binding governs who may define the type, not which
+	// licenses satisfy the activation limit (that is the license_types param).
+	f.RegisterNodeType(t, "nano", "some.other.license")
+
+	_, err = ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
+		ActivationAddress: key,
+		Operator:          operator,
+		NodeAddress:       sample.AccAddress(),
+		NodeType:          "nano",
 	})
 	require.NoError(t, err)
 }

@@ -7,6 +7,7 @@ import (
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		Params:             DefaultParams(),
+		NodeTypes:          []NodeType{},
 		Nodes:              []Node{},
 		ActivationKeys:     []ActivationKey{},
 		NodeStatusCounters: []NodeStatusCounter{},
@@ -21,6 +22,30 @@ func DefaultGenesis() *GenesisState {
 func (gs GenesisState) Validate() error {
 	if err := gs.Params.Validate(); err != nil {
 		return fmt.Errorf("params: %w", err)
+	}
+
+	// Node types are validated first: the node loop below cross-references
+	// them, which is only meaningful once the set itself is known good.
+	//
+	// license_type_id is checked for shape only. Whether it names a real
+	// license type, and whether creator actually created it, are facts about
+	// x/license state and are invisible from here; the msg handler is what
+	// enforces them at registration time.
+	nodeTypeIDs := make(map[string]struct{}, len(gs.NodeTypes))
+	for _, nt := range gs.NodeTypes {
+		if _, dup := nodeTypeIDs[nt.Id]; dup {
+			return fmt.Errorf("duplicate node type %s", nt.Id)
+		}
+		if nt.Id == "" {
+			return fmt.Errorf("node type id must not be empty")
+		}
+		if err := ValidateCanonicalAddress("creator", nt.Creator); err != nil {
+			return fmt.Errorf("node type %s: %w", nt.Id, err)
+		}
+		if nt.LicenseTypeId == "" {
+			return fmt.Errorf("node type %s: license_type_id must not be empty", nt.Id)
+		}
+		nodeTypeIDs[nt.Id] = struct{}{}
 	}
 
 	keyOperators := make(map[string]string, len(gs.ActivationKeys))
@@ -62,8 +87,11 @@ func (gs GenesisState) Validate() error {
 		if node.Status != NodeActive && node.Status != NodeDeactivated {
 			return fmt.Errorf("node %s: invalid status %q", node.Address, node.Status.String())
 		}
-		if node.Type == "" {
-			return fmt.Errorf("node %s: type must not be empty", node.Address)
+		// Referential, not merely non-empty: activation now resolves the type
+		// through the registry, and node type records are never removed, so
+		// every node's type is registered by construction.
+		if _, exists := nodeTypeIDs[node.Type]; !exists {
+			return fmt.Errorf("node %s: type %q is not a listed node type", node.Address, node.Type)
 		}
 		if node.LastActiveTime.IsZero() {
 			return fmt.Errorf("node %s: last_active_time must be set", node.Address)

@@ -44,6 +44,23 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
+					RpcMethod: "NodeType",
+					Use:       "node-type [id]",
+					Short:     "Query a registered node type by id",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "id"},
+					},
+				},
+				{
+					RpcMethod: "NodeTypes",
+					Use:       "node-types",
+					Short:     "Query registered node types",
+					Long:      "Query registered node types. Pass --license-type-id to list only the node types bound to one license type.",
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"license_type_id": {Name: "license-type-id", Usage: "list only the node types bound to this license type (default: all node types)"},
+					},
+				},
+				{
 					RpcMethod: "ActivationKey",
 					Use:       "activation-key [address]",
 					Short:     "Query an activation key by address",
@@ -83,6 +100,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					},
 				},
 				{
+					RpcMethod: "CreateNodeType",
+					Use:       "create-node-type [id] [license-type-id]",
+					Short:     "Register a node type bound to a license type",
+					Long:      "Register a node type bound to a license type. The signer must hold the network module's nodetype.create permission and be the creator of the named license type. Node types are permanent: the id and the binding cannot be changed or removed.",
+					Example:   "webstackd tx network create-node-type webstack.trust webstack.node --from admin",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "id"},
+						{ProtoField: "license_type_id"},
+					},
+				},
+				{
 					RpcMethod: "AuthorizeActivationKey",
 					Use:       "authorize-activation-key [activation-address]",
 					Short:     "Authorize an activation key for the signing operator wallet",
@@ -103,7 +131,8 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "ActivateNode",
 					Use:       "activate-node [operator] [node-address] [node-type]",
 					Short:     "Activate a node under an operator, signed by an activation key",
-					Example:   "webstackd tx network activate-node cosmos1op... cosmos1node... node.type --from activation-key",
+					Long:      "Activate a node under an operator, signed by an activation key. The node type must already be registered with create-node-type.",
+					Example:   "webstackd tx network activate-node cosmos1op... cosmos1node... webstack.trust --from activation-key",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "operator"},
 						{ProtoField: "node_address"},

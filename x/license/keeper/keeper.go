@@ -115,6 +115,25 @@ func (k Keeper) GetLicenseType(ctx context.Context, id string) (types.LicenseTyp
 	return lt, true, nil
 }
 
+// LicenseTypeCreator returns the address that created license type id, and
+// whether the type exists. It is the narrow surface consuming modules gate on
+// when they need to know who owns a license type without depending on the
+// record's shape.
+//
+// Unlike GetLicenseType, a store failure is returned as an error rather than
+// flattened into "not found": callers turn not-found into an authorization
+// error, and a read failure must not be reported as a missing license type.
+func (k Keeper) LicenseTypeCreator(ctx context.Context, id string) (string, bool, error) {
+	lt, err := k.LicenseTypes.Get(ctx, id)
+	switch {
+	case errors.Is(err, collections.ErrNotFound):
+		return "", false, nil
+	case err != nil:
+		return "", false, err
+	}
+	return lt.Creator, true, nil
+}
+
 // GetLicense returns a license by id and whether it was found. Ids are unique
 // chain-wide, so no license type is needed; the type is on the returned value.
 func (k Keeper) GetLicense(ctx context.Context, id uint64) (types.License, bool, error) {

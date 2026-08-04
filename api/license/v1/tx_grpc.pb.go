@@ -22,7 +22,6 @@ const (
 	Msg_CreateLicenseType_FullMethodName = "/license.v1.Msg/CreateLicenseType"
 	Msg_IssueLicenses_FullMethodName     = "/license.v1.Msg/IssueLicenses"
 	Msg_RevokeLicenses_FullMethodName    = "/license.v1.Msg/RevokeLicenses"
-	Msg_TransferLicense_FullMethodName   = "/license.v1.Msg/TransferLicense"
 	Msg_UpdateLicenseType_FullMethodName = "/license.v1.Msg/UpdateLicenseType"
 )
 
@@ -37,8 +36,6 @@ type MsgClient interface {
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
 	// Signer must have the "revoke" grant for the license type.
 	RevokeLicenses(ctx context.Context, in *MsgRevokeLicenses, opts ...grpc.CallOption) (*MsgRevokeLicensesResponse, error)
-	// TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
-	TransferLicense(ctx context.Context, in *MsgTransferLicense, opts ...grpc.CallOption) (*MsgTransferLicenseResponse, error)
 	// UpdateLicenseType updates an existing license type. Signer must be the license namespace owner.
 	UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseType, opts ...grpc.CallOption) (*MsgUpdateLicenseTypeResponse, error)
 }
@@ -78,15 +75,6 @@ func (c *msgClient) RevokeLicenses(ctx context.Context, in *MsgRevokeLicenses, o
 	return out, nil
 }
 
-func (c *msgClient) TransferLicense(ctx context.Context, in *MsgTransferLicense, opts ...grpc.CallOption) (*MsgTransferLicenseResponse, error) {
-	out := new(MsgTransferLicenseResponse)
-	err := c.cc.Invoke(ctx, Msg_TransferLicense_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *msgClient) UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseType, opts ...grpc.CallOption) (*MsgUpdateLicenseTypeResponse, error) {
 	out := new(MsgUpdateLicenseTypeResponse)
 	err := c.cc.Invoke(ctx, Msg_UpdateLicenseType_FullMethodName, in, out, opts...)
@@ -107,8 +95,6 @@ type MsgServer interface {
 	// RevokeLicenses revokes licenses for a holder, revoking the most recently issued first.
 	// Signer must have the "revoke" grant for the license type.
 	RevokeLicenses(context.Context, *MsgRevokeLicenses) (*MsgRevokeLicensesResponse, error)
-	// TransferLicense transfers a license to a new holder. Signer must be the current holder and the type must be transferrable.
-	TransferLicense(context.Context, *MsgTransferLicense) (*MsgTransferLicenseResponse, error)
 	// UpdateLicenseType updates an existing license type. Signer must be the license namespace owner.
 	UpdateLicenseType(context.Context, *MsgUpdateLicenseType) (*MsgUpdateLicenseTypeResponse, error)
 	mustEmbedUnimplementedMsgServer()
@@ -126,9 +112,6 @@ func (UnimplementedMsgServer) IssueLicenses(context.Context, *MsgIssueLicenses) 
 }
 func (UnimplementedMsgServer) RevokeLicenses(context.Context, *MsgRevokeLicenses) (*MsgRevokeLicensesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeLicenses not implemented")
-}
-func (UnimplementedMsgServer) TransferLicense(context.Context, *MsgTransferLicense) (*MsgTransferLicenseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TransferLicense not implemented")
 }
 func (UnimplementedMsgServer) UpdateLicenseType(context.Context, *MsgUpdateLicenseType) (*MsgUpdateLicenseTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLicenseType not implemented")
@@ -200,24 +183,6 @@ func _Msg_RevokeLicenses_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_TransferLicense_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgTransferLicense)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).TransferLicense(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_TransferLicense_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).TransferLicense(ctx, req.(*MsgTransferLicense))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Msg_UpdateLicenseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgUpdateLicenseType)
 	if err := dec(in); err != nil {
@@ -254,10 +219,6 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RevokeLicenses",
 			Handler:    _Msg_RevokeLicenses_Handler,
-		},
-		{
-			MethodName: "TransferLicense",
-			Handler:    _Msg_TransferLicense_Handler,
 		},
 		{
 			MethodName: "UpdateLicenseType",

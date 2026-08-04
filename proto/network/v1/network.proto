@@ -42,10 +42,9 @@ message Node {
   string operator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   // activated_by is the activation key address that activated this node.
   string activated_by = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  // type is an opaque node type identifier (e.g. a chain-specific node
-  // class). It is validated against the allowed_node_types param when that
-  // list is non-empty; type-conditional business rules live in consuming
-  // modules.
+  // type is the node type identifier (e.g. a chain-specific node class). It
+  // must name a registered NodeType at activation; type-conditional business
+  // rules live in consuming modules.
   string type = 4;
   // status is the node lifecycle state.
   NodeStatus status = 5;
@@ -58,6 +57,20 @@ message Node {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+}
+
+// NodeType is a registered node type. Registration binds the node type to a
+// license type: only that license type's creator may define node types for it.
+// Both the binding and the creator are fixed at creation, and records are never
+// removed, so a node's type stays resolvable for the life of the chain.
+message NodeType {
+  // id is the creator-supplied identifier, e.g. "webstack.trust".
+  string id = 1;
+  // creator is the address that registered this node type. It is also the
+  // creator of license_type_id.
+  string creator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // license_type_id is the license type backing this node type.
+  string license_type_id = 3;
 }
 
 // ActivationKey is an activation key record. The address is permanently bound
@@ -110,42 +123,39 @@ message Params {
   // license_types are the license type ids counted toward activation limits.
   // An empty list means no licenses count, so no node can ever activate.
   repeated string license_types = 1;
-  // allowed_node_types restricts Node.type values on activation. An empty
-  // list accepts any non-empty type.
-  repeated string allowed_node_types = 2;
   // activation_limit_multiplier scales the active license count into the
   // node activation limit.
-  uint64 activation_limit_multiplier = 3;
+  uint64 activation_limit_multiplier = 2;
   // spam_limit_multiplier scales the active license count into the
   // recent-activity ceiling that hard-stops activation bursts.
-  uint64 spam_limit_multiplier = 4;
+  uint64 spam_limit_multiplier = 3;
   // max_activation_keys is the maximum number of active activation keys per
   // operator.
-  uint64 max_activation_keys = 5;
+  uint64 max_activation_keys = 4;
   // recent_key_limit is the maximum number of activation keys an operator may
   // create within recent_key_window.
-  uint64 recent_key_limit = 6;
+  uint64 recent_key_limit = 5;
   // recent_key_window is the sliding window for recent_key_limit.
-  google.protobuf.Duration recent_key_window = 7 [
+  google.protobuf.Duration recent_key_window = 6 [
     (gogoproto.stdduration) = true,
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
   // status_daily_limit is the maximum number of MsgUpdateNodeStatus per node
   // per UTC day.
-  uint64 status_daily_limit = 8;
+  uint64 status_daily_limit = 7;
   // deauthorize_fee is charged by the MsgDeauthorizeActivationKey handler as
   // a bank transfer to the fee collector, on top of regular gas. Empty
   // disables the charge; chains that want it seed a denominated value.
-  repeated cosmos.base.v1beta1.Coin deauthorize_fee = 9 [
+  repeated cosmos.base.v1beta1.Coin deauthorize_fee = 8 [
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
   ];
   // max_gasless_gas caps the declared gas wanted of a gasless transaction.
-  uint64 max_gasless_gas = 10;
+  uint64 max_gasless_gas = 9;
   // max_gasless_msgs caps the number of messages in a gasless transaction.
-  uint64 max_gasless_msgs = 11;
+  uint64 max_gasless_msgs = 10;
   // max_gasless_tx_bytes caps the encoded size of a gasless transaction.
-  uint64 max_gasless_tx_bytes = 12;
+  uint64 max_gasless_tx_bytes = 11;
 }

@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Msg_CreateOperatorAccount_FullMethodName    = "/network.v1.Msg/CreateOperatorAccount"
+	Msg_CreateNodeType_FullMethodName           = "/network.v1.Msg/CreateNodeType"
 	Msg_AuthorizeActivationKey_FullMethodName   = "/network.v1.Msg/AuthorizeActivationKey"
 	Msg_DeauthorizeActivationKey_FullMethodName = "/network.v1.Msg/DeauthorizeActivationKey"
 	Msg_ActivateNode_FullMethodName             = "/network.v1.Msg/ActivateNode"
@@ -37,6 +38,10 @@ type MsgClient interface {
 	// namespace. Fallback for wallets that predate account creation on license
 	// issuance or hold no licenses yet.
 	CreateOperatorAccount(ctx context.Context, in *MsgCreateOperatorAccount, opts ...grpc.CallOption) (*MsgCreateOperatorAccountResponse, error)
+	// CreateNodeType registers a node type bound to a license type. Signer must
+	// hold the "nodetype.create" grant in the network permission namespace and
+	// be the creator of the named license type. Regular gas tx.
+	CreateNodeType(ctx context.Context, in *MsgCreateNodeType, opts ...grpc.CallOption) (*MsgCreateNodeTypeResponse, error)
 	// AuthorizeActivationKey authorizes a new activation key for the signing
 	// operator wallet. Gasless.
 	AuthorizeActivationKey(ctx context.Context, in *MsgAuthorizeActivationKey, opts ...grpc.CallOption) (*MsgAuthorizeActivationKeyResponse, error)
@@ -69,6 +74,15 @@ func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 func (c *msgClient) CreateOperatorAccount(ctx context.Context, in *MsgCreateOperatorAccount, opts ...grpc.CallOption) (*MsgCreateOperatorAccountResponse, error) {
 	out := new(MsgCreateOperatorAccountResponse)
 	err := c.cc.Invoke(ctx, Msg_CreateOperatorAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) CreateNodeType(ctx context.Context, in *MsgCreateNodeType, opts ...grpc.CallOption) (*MsgCreateNodeTypeResponse, error) {
+	out := new(MsgCreateNodeTypeResponse)
+	err := c.cc.Invoke(ctx, Msg_CreateNodeType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -138,6 +152,10 @@ type MsgServer interface {
 	// namespace. Fallback for wallets that predate account creation on license
 	// issuance or hold no licenses yet.
 	CreateOperatorAccount(context.Context, *MsgCreateOperatorAccount) (*MsgCreateOperatorAccountResponse, error)
+	// CreateNodeType registers a node type bound to a license type. Signer must
+	// hold the "nodetype.create" grant in the network permission namespace and
+	// be the creator of the named license type. Regular gas tx.
+	CreateNodeType(context.Context, *MsgCreateNodeType) (*MsgCreateNodeTypeResponse, error)
 	// AuthorizeActivationKey authorizes a new activation key for the signing
 	// operator wallet. Gasless.
 	AuthorizeActivationKey(context.Context, *MsgAuthorizeActivationKey) (*MsgAuthorizeActivationKeyResponse, error)
@@ -166,6 +184,9 @@ type UnimplementedMsgServer struct {
 
 func (UnimplementedMsgServer) CreateOperatorAccount(context.Context, *MsgCreateOperatorAccount) (*MsgCreateOperatorAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOperatorAccount not implemented")
+}
+func (UnimplementedMsgServer) CreateNodeType(context.Context, *MsgCreateNodeType) (*MsgCreateNodeTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNodeType not implemented")
 }
 func (UnimplementedMsgServer) AuthorizeActivationKey(context.Context, *MsgAuthorizeActivationKey) (*MsgAuthorizeActivationKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AuthorizeActivationKey not implemented")
@@ -212,6 +233,24 @@ func _Msg_CreateOperatorAccount_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreateOperatorAccount(ctx, req.(*MsgCreateOperatorAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_CreateNodeType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateNodeType)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateNodeType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_CreateNodeType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateNodeType(ctx, req.(*MsgCreateNodeType))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -334,6 +373,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateOperatorAccount",
 			Handler:    _Msg_CreateOperatorAccount_Handler,
+		},
+		{
+			MethodName: "CreateNodeType",
+			Handler:    _Msg_CreateNodeType_Handler,
 		},
 		{
 			MethodName: "AuthorizeActivationKey",

@@ -77,13 +77,8 @@ message QueryLicenseTypesResponse {
 
 // QueryLicenseRequest is the request type for the Query/License RPC method.
 message QueryLicenseRequest {
-  // Field 1 was `string type_id`, needed when ids were only unique within a
-  // license type.
-  reserved 1;
-  reserved "type_id";
-
   // id is the chain-wide unique license id.
-  uint64 id = 2;
+  uint64 id = 1;
 }
 
 // QueryLicenseResponse is the response type for the Query/License RPC method.

@@ -440,6 +440,211 @@ func (m *QueryNodesByOperatorResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
+// QueryNodeTypeRequest is the request type for the Query/NodeType RPC method.
+type QueryNodeTypeRequest struct {
+	// id is the node type identifier.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (m *QueryNodeTypeRequest) Reset()         { *m = QueryNodeTypeRequest{} }
+func (m *QueryNodeTypeRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryNodeTypeRequest) ProtoMessage()    {}
+func (*QueryNodeTypeRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b7eb241c070144c3, []int{8}
+}
+func (m *QueryNodeTypeRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryNodeTypeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryNodeTypeRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryNodeTypeRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryNodeTypeRequest.Merge(m, src)
+}
+func (m *QueryNodeTypeRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryNodeTypeRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryNodeTypeRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryNodeTypeRequest proto.InternalMessageInfo
+
+func (m *QueryNodeTypeRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+// QueryNodeTypeResponse is the response type for the Query/NodeType RPC method.
+type QueryNodeTypeResponse struct {
+	// node_type is the registered node type.
+	NodeType NodeType `protobuf:"bytes,1,opt,name=node_type,json=nodeType,proto3" json:"node_type"`
+}
+
+func (m *QueryNodeTypeResponse) Reset()         { *m = QueryNodeTypeResponse{} }
+func (m *QueryNodeTypeResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryNodeTypeResponse) ProtoMessage()    {}
+func (*QueryNodeTypeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b7eb241c070144c3, []int{9}
+}
+func (m *QueryNodeTypeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryNodeTypeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryNodeTypeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryNodeTypeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryNodeTypeResponse.Merge(m, src)
+}
+func (m *QueryNodeTypeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryNodeTypeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryNodeTypeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryNodeTypeResponse proto.InternalMessageInfo
+
+func (m *QueryNodeTypeResponse) GetNodeType() NodeType {
+	if m != nil {
+		return m.NodeType
+	}
+	return NodeType{}
+}
+
+// QueryNodeTypesRequest is the request type for the Query/NodeTypes RPC method.
+type QueryNodeTypesRequest struct {
+	// pagination is an optional page request.
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	// license_type_id optionally restricts the result to the node types bound to
+	// one license type. Leave it empty to return every registered node type. A
+	// node type always names a license type, so the empty string cannot collide
+	// with a real binding.
+	LicenseTypeId string `protobuf:"bytes,2,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
+}
+
+func (m *QueryNodeTypesRequest) Reset()         { *m = QueryNodeTypesRequest{} }
+func (m *QueryNodeTypesRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryNodeTypesRequest) ProtoMessage()    {}
+func (*QueryNodeTypesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b7eb241c070144c3, []int{10}
+}
+func (m *QueryNodeTypesRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryNodeTypesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryNodeTypesRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryNodeTypesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryNodeTypesRequest.Merge(m, src)
+}
+func (m *QueryNodeTypesRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryNodeTypesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryNodeTypesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryNodeTypesRequest proto.InternalMessageInfo
+
+func (m *QueryNodeTypesRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+func (m *QueryNodeTypesRequest) GetLicenseTypeId() string {
+	if m != nil {
+		return m.LicenseTypeId
+	}
+	return ""
+}
+
+// QueryNodeTypesResponse is the response type for the Query/NodeTypes RPC method.
+type QueryNodeTypesResponse struct {
+	// node_types are the registered node types in id order.
+	NodeTypes []NodeType `protobuf:"bytes,1,rep,name=node_types,json=nodeTypes,proto3" json:"node_types"`
+	// pagination is the page response.
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryNodeTypesResponse) Reset()         { *m = QueryNodeTypesResponse{} }
+func (m *QueryNodeTypesResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryNodeTypesResponse) ProtoMessage()    {}
+func (*QueryNodeTypesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b7eb241c070144c3, []int{11}
+}
+func (m *QueryNodeTypesResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryNodeTypesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryNodeTypesResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryNodeTypesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryNodeTypesResponse.Merge(m, src)
+}
+func (m *QueryNodeTypesResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryNodeTypesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryNodeTypesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryNodeTypesResponse proto.InternalMessageInfo
+
+func (m *QueryNodeTypesResponse) GetNodeTypes() []NodeType {
+	if m != nil {
+		return m.NodeTypes
+	}
+	return nil
+}
+
+func (m *QueryNodeTypesResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 // QueryActivationKeyRequest is the request type for the Query/ActivationKey RPC method.
 type QueryActivationKeyRequest struct {
 	// address is the activation key address.
@@ -450,7 +655,7 @@ func (m *QueryActivationKeyRequest) Reset()         { *m = QueryActivationKeyReq
 func (m *QueryActivationKeyRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryActivationKeyRequest) ProtoMessage()    {}
 func (*QueryActivationKeyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b7eb241c070144c3, []int{8}
+	return fileDescriptor_b7eb241c070144c3, []int{12}
 }
 func (m *QueryActivationKeyRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -496,7 +701,7 @@ func (m *QueryActivationKeyResponse) Reset()         { *m = QueryActivationKeyRe
 func (m *QueryActivationKeyResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryActivationKeyResponse) ProtoMessage()    {}
 func (*QueryActivationKeyResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b7eb241c070144c3, []int{9}
+	return fileDescriptor_b7eb241c070144c3, []int{13}
 }
 func (m *QueryActivationKeyResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -544,7 +749,7 @@ func (m *QueryActivationKeysRequest) Reset()         { *m = QueryActivationKeysR
 func (m *QueryActivationKeysRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryActivationKeysRequest) ProtoMessage()    {}
 func (*QueryActivationKeysRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b7eb241c070144c3, []int{10}
+	return fileDescriptor_b7eb241c070144c3, []int{14}
 }
 func (m *QueryActivationKeysRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -599,7 +804,7 @@ func (m *QueryActivationKeysResponse) Reset()         { *m = QueryActivationKeys
 func (m *QueryActivationKeysResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryActivationKeysResponse) ProtoMessage()    {}
 func (*QueryActivationKeysResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b7eb241c070144c3, []int{11}
+	return fileDescriptor_b7eb241c070144c3, []int{15}
 }
 func (m *QueryActivationKeysResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -652,7 +857,7 @@ func (m *QueryNodeCountsRequest) Reset()         { *m = QueryNodeCountsRequest{}
 func (m *QueryNodeCountsRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryNodeCountsRequest) ProtoMessage()    {}
 func (*QueryNodeCountsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b7eb241c070144c3, []int{12}
+	return fileDescriptor_b7eb241c070144c3, []int{16}
 }
 func (m *QueryNodeCountsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -711,7 +916,7 @@ func (m *QueryNodeCountsResponse) Reset()         { *m = QueryNodeCountsResponse
 func (m *QueryNodeCountsResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryNodeCountsResponse) ProtoMessage()    {}
 func (*QueryNodeCountsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b7eb241c070144c3, []int{13}
+	return fileDescriptor_b7eb241c070144c3, []int{17}
 }
 func (m *QueryNodeCountsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -791,6 +996,10 @@ func init() {
 	proto.RegisterType((*QueryNodesResponse)(nil), "network.v1.QueryNodesResponse")
 	proto.RegisterType((*QueryNodesByOperatorRequest)(nil), "network.v1.QueryNodesByOperatorRequest")
 	proto.RegisterType((*QueryNodesByOperatorResponse)(nil), "network.v1.QueryNodesByOperatorResponse")
+	proto.RegisterType((*QueryNodeTypeRequest)(nil), "network.v1.QueryNodeTypeRequest")
+	proto.RegisterType((*QueryNodeTypeResponse)(nil), "network.v1.QueryNodeTypeResponse")
+	proto.RegisterType((*QueryNodeTypesRequest)(nil), "network.v1.QueryNodeTypesRequest")
+	proto.RegisterType((*QueryNodeTypesResponse)(nil), "network.v1.QueryNodeTypesResponse")
 	proto.RegisterType((*QueryActivationKeyRequest)(nil), "network.v1.QueryActivationKeyRequest")
 	proto.RegisterType((*QueryActivationKeyResponse)(nil), "network.v1.QueryActivationKeyResponse")
 	proto.RegisterType((*QueryActivationKeysRequest)(nil), "network.v1.QueryActivationKeysRequest")
@@ -802,64 +1011,73 @@ func init() {
 func init() { proto.RegisterFile("network/v1/query.proto", fileDescriptor_b7eb241c070144c3) }
 
 var fileDescriptor_b7eb241c070144c3 = []byte{
-	// 908 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x96, 0xcf, 0x6f, 0x1b, 0x45,
-	0x14, 0xc7, 0xb3, 0x89, 0xed, 0xd2, 0x07, 0x49, 0xc3, 0x23, 0x4a, 0x9d, 0x25, 0xdd, 0x44, 0x5b,
-	0xd1, 0x98, 0x28, 0xdd, 0x4d, 0x4c, 0xc5, 0x15, 0x25, 0x48, 0x29, 0x02, 0xd4, 0x16, 0xf7, 0xc6,
-	0xc5, 0x1a, 0xdb, 0xa3, 0x65, 0xe5, 0x78, 0x67, 0xbb, 0x33, 0x4e, 0xb1, 0xaa, 0x5e, 0xb8, 0x70,
-	0xe0, 0x82, 0x40, 0x08, 0x09, 0x71, 0xe4, 0x0f, 0xe0, 0xc0, 0x1f, 0x51, 0x89, 0x4b, 0x05, 0x17,
-	0x24, 0x24, 0x84, 0x12, 0xfe, 0x10, 0xb4, 0x33, 0xb3, 0xeb, 0xd9, 0x78, 0xdd, 0x45, 0x6a, 0x25,
-	0x7a, 0xf3, 0xbe, 0xf7, 0x9d, 0xf7, 0x3e, 0xef, 0xbd, 0xf9, 0x61, 0x58, 0x8f, 0xa8, 0x78, 0xc8,
-	0x92, 0xa1, 0x7f, 0x7a, 0xe0, 0x3f, 0x18, 0xd3, 0x64, 0xe2, 0xc5, 0x09, 0x13, 0x0c, 0x41, 0xdb,
-	0xbd, 0xd3, 0x03, 0x7b, 0xb7, 0xcf, 0xf8, 0x88, 0x71, 0xbf, 0x47, 0x38, 0x55, 0x22, 0xff, 0xf4,
-	0xa0, 0x47, 0x05, 0x39, 0xf0, 0x63, 0x12, 0x84, 0x11, 0x11, 0x21, 0x8b, 0xd4, 0x3a, 0x7b, 0x43,
-	0x69, 0xbb, 0xf2, 0xcb, 0x57, 0x1f, 0xda, 0xb5, 0x16, 0xb0, 0x80, 0x29, 0x7b, 0xfa, 0x4b, 0x5b,
-	0x37, 0x03, 0xc6, 0x82, 0x13, 0xea, 0x93, 0x38, 0xf4, 0x49, 0x14, 0x31, 0x21, 0xa3, 0x65, 0x6b,
-	0x9a, 0x06, 0x5e, 0x46, 0x24, 0x3d, 0xee, 0x1a, 0xe0, 0x27, 0x29, 0xca, 0x3d, 0x92, 0x90, 0x11,
-	0xef, 0xd0, 0x07, 0x63, 0xca, 0x85, 0x7b, 0x1b, 0xde, 0x28, 0x58, 0x79, 0xcc, 0x22, 0x4e, 0x71,
-	0x1f, 0x1a, 0xb1, 0xb4, 0x34, 0xad, 0x6d, 0xab, 0xf5, 0x6a, 0x1b, 0xbd, 0x69, 0x79, 0x9e, 0xd2,
-	0x1e, 0xd5, 0x9e, 0xfc, 0xb5, 0xb5, 0xd0, 0xd1, 0x3a, 0xf7, 0x18, 0x56, 0x65, 0xa0, 0x3b, 0x6c,
-	0x40, 0x75, 0x70, 0x6c, 0xc3, 0x25, 0x32, 0x18, 0x24, 0x94, 0xab, 0x30, 0x97, 0x8f, 0x9a, 0xbf,
-	0xfd, 0x72, 0x73, 0x4d, 0xd7, 0x78, 0xa8, 0x3c, 0xf7, 0x45, 0x12, 0x46, 0x41, 0x27, 0x13, 0xba,
-	0xef, 0xc1, 0xeb, 0x46, 0x1c, 0x8d, 0xb3, 0x0b, 0xb5, 0x88, 0x0d, 0xa8, 0x86, 0x59, 0x35, 0x61,
-	0x52, 0x9d, 0x46, 0x91, 0x1a, 0xf7, 0x2b, 0xcb, 0x88, 0x90, 0xd5, 0x89, 0xc7, 0x00, 0xd3, 0xd6,
-	0xeb, 0x38, 0x37, 0x3c, 0x8d, 0x92, 0xce, 0xc9, 0x53, 0xc3, 0xd4, 0x73, 0xf2, 0xee, 0x91, 0x20,
-	0x2b, 0xa3, 0x63, 0xac, 0x44, 0x0f, 0x1a, 0x5c, 0x10, 0x31, 0xe6, 0xcd, 0xc5, 0x6d, 0xab, 0xb5,
-	0xd2, 0x5e, 0xbf, 0xc8, 0x72, 0x5f, 0x7a, 0x3b, 0x5a, 0x95, 0xd2, 0xa0, 0x49, 0xa3, 0x0b, 0xda,
-	0x83, 0x7a, 0x0a, 0x9b, 0xf6, 0x65, 0xe9, 0x19, 0x15, 0x29, 0x11, 0xde, 0x2e, 0xc0, 0x2f, 0x4a,
-	0xf8, 0x9d, 0x4a, 0x78, 0x95, 0xca, 0xa4, 0x77, 0x7f, 0xb5, 0xe0, 0xcd, 0x29, 0xcd, 0xd1, 0xe4,
-	0x6e, 0x4c, 0x13, 0x22, 0x58, 0x92, 0x75, 0xe9, 0x16, 0xbc, 0xc2, 0xb4, 0xa9, 0x72, 0x62, 0xb9,
-	0xf2, 0x42, 0x6f, 0x17, 0x5f, 0x40, 0x6f, 0x97, 0xfe, 0x53, 0x6f, 0xbf, 0xb3, 0x60, 0xb3, 0xbc,
-	0x9a, 0xff, 0xb7, 0xcb, 0x77, 0x61, 0x43, 0x62, 0x1d, 0xf6, 0x45, 0x78, 0x2a, 0x4d, 0x1f, 0xd1,
-	0xc9, 0xf3, 0x9c, 0x89, 0x01, 0xd8, 0x65, 0x01, 0x75, 0x95, 0xc7, 0xb0, 0x42, 0x72, 0x47, 0x77,
-	0x48, 0x27, 0x7a, 0x7b, 0x6f, 0x98, 0xe5, 0x16, 0x96, 0xea, 0xba, 0x97, 0x89, 0x69, 0x74, 0x7f,
-	0xb0, 0xca, 0xd2, 0xf0, 0x97, 0x62, 0x6f, 0xb8, 0x3f, 0x67, 0x3b, 0xf7, 0x22, 0x9c, 0x6e, 0xc2,
-	0x07, 0x70, 0xa5, 0xd8, 0x84, 0x6c, 0xe8, 0x95, 0x5d, 0x58, 0x29, 0x74, 0xe1, 0x05, 0x6e, 0x83,
-	0x3b, 0xb0, 0x9e, 0xef, 0xce, 0xf7, 0xd9, 0x38, 0x12, 0xcf, 0xd7, 0x4a, 0xf7, 0x4f, 0x0b, 0xae,
-	0xce, 0x04, 0xd4, 0xe5, 0xaf, 0x41, 0x5d, 0x30, 0x41, 0x4e, 0x64, 0xb8, 0x5a, 0x47, 0x7d, 0xe0,
-	0x3a, 0x34, 0x64, 0x71, 0x54, 0x96, 0x51, 0xeb, 0xe8, 0x2f, 0xbc, 0x0e, 0xcb, 0x09, 0xed, 0xd3,
-	0x48, 0x74, 0xb5, 0x7b, 0x49, 0xba, 0x5f, 0x53, 0xc6, 0xc3, 0x5c, 0x74, 0x12, 0xf6, 0x69, 0xc4,
-	0x69, 0xb7, 0x9f, 0x26, 0x6b, 0xd6, 0x94, 0x48, 0x1b, 0x25, 0x00, 0xbe, 0x0d, 0xab, 0x46, 0xdb,
-	0x4f, 0xc2, 0x51, 0x28, 0x9a, 0x75, 0xa9, 0x33, 0xc6, 0xf1, 0x71, 0x6a, 0xc6, 0x6b, 0x00, 0x3c,
-	0x26, 0x23, 0x2d, 0x6a, 0x48, 0xd1, 0xe5, 0xd4, 0x22, 0xdd, 0xed, 0x9f, 0x2e, 0x41, 0x5d, 0x56,
-	0x87, 0x43, 0x68, 0xa8, 0x17, 0x06, 0x1d, 0x73, 0x76, 0xb3, 0x8f, 0x97, 0xbd, 0x35, 0xd7, 0xaf,
-	0xda, 0xe2, 0x6e, 0x7f, 0xf1, 0xfb, 0x3f, 0xdf, 0x2e, 0xda, 0xd8, 0xf4, 0x1f, 0xd2, 0x1e, 0x17,
-	0xa4, 0x3f, 0xcc, 0x1e, 0x45, 0x5f, 0x3d, 0x5b, 0x38, 0x82, 0x5a, 0xda, 0x4e, 0xdc, 0x9c, 0x09,
-	0x65, 0x3c, 0x64, 0xf6, 0xb5, 0x39, 0x5e, 0x9d, 0xa6, 0x25, 0xd3, 0xb8, 0xb8, 0x3d, 0x9b, 0x26,
-	0xbd, 0x5a, 0xfc, 0x47, 0xfa, 0x20, 0x3f, 0xc6, 0x00, 0xea, 0xf2, 0xb2, 0xc2, 0xf2, 0x88, 0x79,
-	0x65, 0xce, 0x3c, 0xb7, 0xce, 0xb8, 0x25, 0x33, 0x6e, 0xe0, 0xd5, 0xf2, 0x8c, 0x1c, 0x7f, 0xb4,
-	0xe0, 0xca, 0x85, 0x6b, 0x11, 0x77, 0xca, 0x83, 0xce, 0x3c, 0x03, 0x76, 0xab, 0x5a, 0xa8, 0x39,
-	0xde, 0x95, 0x1c, 0xfb, 0xe8, 0xcd, 0xe1, 0xe8, 0xf6, 0x26, 0xdd, 0x6c, 0x03, 0xfb, 0x8f, 0xb2,
-	0x5f, 0x8f, 0xf1, 0x1b, 0x0b, 0x96, 0x0b, 0x87, 0x11, 0xdf, 0x9a, 0xc9, 0x59, 0x76, 0x7d, 0xda,
-	0x37, 0xaa, 0x64, 0x1a, 0xac, 0x2d, 0xc1, 0xf6, 0x70, 0x77, 0x16, 0xac, 0x78, 0x4f, 0x18, 0xc3,
-	0xf9, 0xde, 0x82, 0x95, 0xe2, 0xf5, 0x82, 0x15, 0xe9, 0xf2, 0x79, 0xed, 0x54, 0xea, 0x34, 0xd7,
-	0x2d, 0xc9, 0xe5, 0xe1, 0x5e, 0x15, 0x17, 0x37, 0xdb, 0xf5, 0xa5, 0x05, 0x30, 0x3d, 0xf5, 0xe8,
-	0x96, 0xce, 0xa7, 0x70, 0xc7, 0xd8, 0xd7, 0x9f, 0xa9, 0xd1, 0x34, 0xfb, 0x92, 0x66, 0x17, 0x5b,
-	0xe5, 0xe3, 0x53, 0x07, 0xdf, 0x24, 0x39, 0xfa, 0xf0, 0xc9, 0x99, 0x63, 0x3d, 0x3d, 0x73, 0xac,
-	0xbf, 0xcf, 0x1c, 0xeb, 0xeb, 0x73, 0x67, 0xe1, 0xe9, 0xb9, 0xb3, 0xf0, 0xc7, 0xb9, 0xb3, 0xf0,
-	0xe9, 0x7e, 0x10, 0x8a, 0xcf, 0xc6, 0x3d, 0xaf, 0xcf, 0x46, 0x79, 0xb4, 0x9b, 0x7c, 0x30, 0x9c,
-	0x86, 0xfe, 0x3c, 0x0f, 0x2e, 0x26, 0x31, 0xe5, 0xbd, 0x86, 0xfc, 0x63, 0xfa, 0xce, 0xbf, 0x01,
-	0x00, 0x00, 0xff, 0xff, 0xf7, 0x1b, 0x1e, 0x88, 0x53, 0x0b, 0x00, 0x00,
+	// 1050 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x97, 0xcf, 0x6f, 0x1b, 0x55,
+	0x10, 0xc7, 0xb3, 0x8e, 0x6d, 0xe2, 0x81, 0x38, 0x61, 0x30, 0xa9, 0xb3, 0xa4, 0x8e, 0xd9, 0x42,
+	0x62, 0xa2, 0x74, 0x37, 0x31, 0x15, 0x88, 0x13, 0x4a, 0x90, 0x52, 0x7e, 0xa9, 0x0d, 0x2e, 0x27,
+	0x2e, 0xd6, 0xda, 0xfb, 0x64, 0x56, 0x8e, 0xf7, 0xb9, 0xde, 0xe7, 0xb4, 0x56, 0x94, 0x0b, 0x97,
+	0x1e, 0xb8, 0x20, 0x10, 0x42, 0xa0, 0xfe, 0x11, 0x1c, 0xf8, 0x23, 0x2a, 0x71, 0xa9, 0xe0, 0x82,
+	0x84, 0x84, 0x50, 0xc2, 0x1f, 0x82, 0xf6, 0xbd, 0xd9, 0xf5, 0xda, 0x5e, 0xdb, 0x95, 0x1a, 0x09,
+	0x6e, 0xde, 0x99, 0xef, 0xce, 0x7c, 0x66, 0xe6, 0xed, 0x7b, 0xcf, 0xb0, 0xe6, 0x31, 0xf1, 0x80,
+	0xf7, 0xda, 0xd6, 0xe9, 0xbe, 0x75, 0xbf, 0xcf, 0x7a, 0x03, 0xb3, 0xdb, 0xe3, 0x82, 0x23, 0x90,
+	0xdd, 0x3c, 0xdd, 0xd7, 0x77, 0x9a, 0xdc, 0xef, 0x70, 0xdf, 0x6a, 0xd8, 0x3e, 0x53, 0x22, 0xeb,
+	0x74, 0xbf, 0xc1, 0x84, 0xbd, 0x6f, 0x75, 0xed, 0x96, 0xeb, 0xd9, 0xc2, 0xe5, 0x9e, 0x7a, 0x4f,
+	0x5f, 0x57, 0xda, 0xba, 0x7c, 0xb2, 0xd4, 0x03, 0xb9, 0x0a, 0x2d, 0xde, 0xe2, 0xca, 0x1e, 0xfc,
+	0x22, 0xeb, 0x46, 0x8b, 0xf3, 0xd6, 0x09, 0xb3, 0xec, 0xae, 0x6b, 0xd9, 0x9e, 0xc7, 0x85, 0x8c,
+	0x16, 0xbe, 0x53, 0x8c, 0xe1, 0x85, 0x44, 0xd2, 0x63, 0x14, 0x00, 0x3f, 0x0b, 0x50, 0x8e, 0xed,
+	0x9e, 0xdd, 0xf1, 0x6b, 0xec, 0x7e, 0x9f, 0xf9, 0xc2, 0xb8, 0x0d, 0xaf, 0x8c, 0x58, 0xfd, 0x2e,
+	0xf7, 0x7c, 0x86, 0x7b, 0x90, 0xed, 0x4a, 0x4b, 0x51, 0x2b, 0x6b, 0x95, 0x17, 0xab, 0x68, 0x0e,
+	0xcb, 0x33, 0x95, 0xf6, 0x30, 0xfd, 0xe4, 0xaf, 0xcd, 0x85, 0x1a, 0xe9, 0x8c, 0x23, 0x58, 0x95,
+	0x81, 0xee, 0x70, 0x87, 0x51, 0x70, 0xac, 0xc2, 0x0b, 0xb6, 0xe3, 0xf4, 0x98, 0xaf, 0xc2, 0xe4,
+	0x0e, 0x8b, 0xbf, 0xfd, 0x72, 0xb3, 0x40, 0x35, 0x1e, 0x28, 0xcf, 0x3d, 0xd1, 0x73, 0xbd, 0x56,
+	0x2d, 0x14, 0x1a, 0xef, 0xc3, 0xcb, 0xb1, 0x38, 0x84, 0xb3, 0x03, 0x69, 0x8f, 0x3b, 0x8c, 0x60,
+	0x56, 0xe3, 0x30, 0x81, 0x8e, 0x50, 0xa4, 0xc6, 0xf8, 0x5a, 0x8b, 0x45, 0x08, 0xeb, 0xc4, 0x23,
+	0x80, 0x61, 0xeb, 0x29, 0xce, 0x96, 0x49, 0x28, 0xc1, 0x9c, 0x4c, 0x35, 0x4c, 0x9a, 0x93, 0x79,
+	0x6c, 0xb7, 0xc2, 0x32, 0x6a, 0xb1, 0x37, 0xd1, 0x84, 0xac, 0x2f, 0x6c, 0xd1, 0xf7, 0x8b, 0xa9,
+	0xb2, 0x56, 0xc9, 0x57, 0xd7, 0xc6, 0x59, 0xee, 0x49, 0x6f, 0x8d, 0x54, 0x01, 0x0d, 0xc6, 0x69,
+	0xa8, 0xa0, 0x5d, 0xc8, 0x04, 0xb0, 0x41, 0x5f, 0x16, 0x67, 0x54, 0xa4, 0x44, 0x78, 0x7b, 0x04,
+	0x3e, 0x25, 0xe1, 0xb7, 0xe7, 0xc2, 0xab, 0x54, 0x71, 0x7a, 0xe3, 0x57, 0x0d, 0x5e, 0x1b, 0xd2,
+	0x1c, 0x0e, 0xee, 0x76, 0x59, 0xcf, 0x16, 0xbc, 0x17, 0x76, 0xe9, 0x16, 0x2c, 0x71, 0x32, 0xcd,
+	0x9d, 0x58, 0xa4, 0x1c, 0xeb, 0x6d, 0xea, 0x0a, 0x7a, 0xbb, 0xf8, 0x4c, 0xbd, 0xfd, 0x5e, 0x83,
+	0x8d, 0xe4, 0x6a, 0xfe, 0xdb, 0x2e, 0x6f, 0x41, 0x21, 0xc2, 0xfa, 0x7c, 0xd0, 0x8d, 0x3e, 0x87,
+	0x3c, 0xa4, 0x5c, 0x47, 0xf5, 0xb5, 0x96, 0x72, 0x1d, 0xe3, 0x18, 0x5e, 0x1d, 0xd3, 0x11, 0xf7,
+	0xbb, 0x90, 0x0b, 0x90, 0xea, 0x62, 0xd0, 0x0d, 0xd7, 0x7c, 0x61, 0x9c, 0x3d, 0x78, 0x81, 0xf8,
+	0x97, 0x3c, 0x7a, 0x36, 0x1e, 0x69, 0x63, 0x21, 0xaf, 0x7c, 0xfd, 0x6f, 0xc1, 0xca, 0x89, 0xdb,
+	0x64, 0x9e, 0xaf, 0xe8, 0xea, 0xae, 0x23, 0x3b, 0x95, 0xab, 0x2d, 0x93, 0x39, 0xc8, 0xfa, 0x91,
+	0x63, 0x3c, 0xd6, 0x60, 0x6d, 0x9c, 0x84, 0xaa, 0x7b, 0x0f, 0x20, 0xaa, 0x2e, 0x1c, 0xcd, 0xac,
+	0xf2, 0x72, 0x61, 0x79, 0x57, 0x38, 0xa2, 0xbb, 0xb0, 0x2e, 0xe9, 0x0e, 0x9a, 0xc2, 0x3d, 0x95,
+	0xa6, 0x4f, 0xd8, 0xe0, 0x79, 0xb6, 0x2d, 0x07, 0xf4, 0xa4, 0x80, 0x54, 0xf2, 0x11, 0xe4, 0xed,
+	0xc8, 0x51, 0x6f, 0xb3, 0x01, 0x4d, 0x60, 0x3d, 0x5e, 0xf6, 0xc8, 0xab, 0x54, 0xfb, 0xb2, 0x1d,
+	0x37, 0x1a, 0x3f, 0x69, 0x49, 0x69, 0xfc, 0xff, 0xc5, 0xe7, 0x6b, 0xfc, 0x1c, 0x6e, 0x2e, 0xe3,
+	0x70, 0xd4, 0x84, 0x0f, 0x61, 0x65, 0xb4, 0x09, 0xe1, 0xf0, 0xe7, 0x76, 0x21, 0x3f, 0xd2, 0x85,
+	0x2b, 0x5c, 0x06, 0x77, 0x62, 0x8b, 0xf4, 0x03, 0xde, 0xf7, 0xc4, 0xf3, 0xb5, 0xd2, 0xf8, 0x53,
+	0x83, 0x6b, 0x13, 0x01, 0xa9, 0xfc, 0x02, 0x64, 0x04, 0x17, 0xf6, 0x89, 0x0c, 0x97, 0xae, 0xa9,
+	0x07, 0x5c, 0x83, 0xac, 0x2c, 0x8e, 0xc9, 0x32, 0xd2, 0x35, 0x7a, 0xc2, 0x1b, 0xb0, 0xdc, 0x63,
+	0x4d, 0xe6, 0x89, 0x3a, 0xb9, 0x17, 0xa5, 0xfb, 0x25, 0x65, 0x3c, 0x88, 0x44, 0xe1, 0xc7, 0xd8,
+	0x0c, 0x92, 0x15, 0xd3, 0x4a, 0x44, 0x46, 0x09, 0x80, 0x6f, 0xc1, 0x6a, 0xac, 0xed, 0x27, 0x6e,
+	0xc7, 0x15, 0xc5, 0x8c, 0xd4, 0xc5, 0xc6, 0xf1, 0x69, 0x60, 0xc6, 0xeb, 0x00, 0x7e, 0xd7, 0xee,
+	0x90, 0x28, 0x2b, 0x45, 0xb9, 0xc0, 0x22, 0xdd, 0xd5, 0x1f, 0x73, 0x90, 0x91, 0xd5, 0x61, 0x1b,
+	0xb2, 0xea, 0x12, 0x80, 0xa5, 0xf8, 0xec, 0x26, 0xef, 0x17, 0xfa, 0xe6, 0x54, 0xbf, 0x6a, 0x8b,
+	0x51, 0xfe, 0xea, 0xf7, 0x7f, 0xbe, 0x4b, 0xe9, 0x58, 0xb4, 0x1e, 0xb0, 0x86, 0x2f, 0xec, 0x66,
+	0x3b, 0xbc, 0xb7, 0x58, 0xea, 0x66, 0x81, 0x1d, 0x48, 0x07, 0xed, 0xc4, 0x8d, 0x89, 0x50, 0xb1,
+	0xbb, 0x86, 0x7e, 0x7d, 0x8a, 0x97, 0xd2, 0x54, 0x64, 0x1a, 0x03, 0xcb, 0x93, 0x69, 0x82, 0xed,
+	0xc5, 0x3a, 0xa3, 0x0f, 0xf9, 0x1c, 0x5b, 0x90, 0x91, 0xe7, 0x09, 0x26, 0x47, 0x8c, 0x2a, 0x2b,
+	0x4d, 0x73, 0x53, 0xc6, 0x4d, 0x99, 0x71, 0x1d, 0xaf, 0x25, 0x67, 0xf4, 0xf1, 0xb1, 0x06, 0x2b,
+	0x63, 0x27, 0x17, 0x6e, 0x27, 0x07, 0x9d, 0x38, 0xa9, 0xf5, 0xca, 0x7c, 0x21, 0x71, 0xbc, 0x23,
+	0x39, 0xf6, 0xd0, 0x9c, 0xc2, 0x51, 0x6f, 0x0c, 0xea, 0xe1, 0x02, 0xb6, 0xce, 0xc2, 0x5f, 0xe7,
+	0x38, 0x80, 0xa5, 0x70, 0x23, 0xc6, 0x72, 0x62, 0xb6, 0xd8, 0xd9, 0xa6, 0xbf, 0x3e, 0x43, 0xf1,
+	0x6c, 0x23, 0x90, 0xe7, 0x81, 0x75, 0xe6, 0x3a, 0xe7, 0xf8, 0x10, 0x72, 0xd1, 0xb1, 0x81, 0xd3,
+	0x23, 0x47, 0xa3, 0x30, 0x66, 0x49, 0x28, 0xfb, 0x1b, 0x32, 0x7b, 0x09, 0x37, 0x66, 0x64, 0xf7,
+	0xf1, 0x5b, 0x0d, 0x96, 0x47, 0x76, 0x20, 0x7c, 0x73, 0x22, 0x76, 0xd2, 0x99, 0xa1, 0x6f, 0xcd,
+	0x93, 0x11, 0x46, 0x55, 0x62, 0xec, 0xe2, 0xce, 0x24, 0xc6, 0xe8, 0xe6, 0x18, 0x5b, 0x91, 0x3f,
+	0x68, 0x90, 0x1f, 0xdd, 0x53, 0x71, 0x4e, 0xba, 0xa8, 0x33, 0xdb, 0x73, 0x75, 0xc4, 0x75, 0x4b,
+	0x72, 0x99, 0xb8, 0x3b, 0x8f, 0xcb, 0x8f, 0xaf, 0x91, 0x47, 0x1a, 0xc0, 0x70, 0xab, 0xc3, 0xe4,
+	0x39, 0x8c, 0x6c, 0xac, 0xfa, 0x8d, 0x99, 0x1a, 0xa2, 0xd9, 0x93, 0x34, 0x3b, 0x58, 0x99, 0x32,
+	0x2c, 0xb9, 0xdb, 0xc5, 0x49, 0x0e, 0x3f, 0x7e, 0x72, 0x51, 0xd2, 0x9e, 0x5e, 0x94, 0xb4, 0xbf,
+	0x2f, 0x4a, 0xda, 0x37, 0x97, 0xa5, 0x85, 0xa7, 0x97, 0xa5, 0x85, 0x3f, 0x2e, 0x4b, 0x0b, 0x5f,
+	0xec, 0xb5, 0x5c, 0xf1, 0x65, 0xbf, 0x61, 0x36, 0x79, 0x27, 0x8a, 0x76, 0xd3, 0x77, 0xda, 0xc3,
+	0xd0, 0x0f, 0xa3, 0xe0, 0x72, 0x11, 0x34, 0xb2, 0xf2, 0x0f, 0xd3, 0xdb, 0xff, 0x06, 0x00, 0x00,
+	0xff, 0xff, 0x55, 0x43, 0xa5, 0x71, 0xeb, 0x0d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -882,6 +1100,11 @@ type QueryClient interface {
 	Nodes(ctx context.Context, in *QueryNodesRequest, opts ...grpc.CallOption) (*QueryNodesResponse, error)
 	// NodesByOperator queries all nodes activated under an operator.
 	NodesByOperator(ctx context.Context, in *QueryNodesByOperatorRequest, opts ...grpc.CallOption) (*QueryNodesByOperatorResponse, error)
+	// NodeType queries a registered node type by id.
+	NodeType(ctx context.Context, in *QueryNodeTypeRequest, opts ...grpc.CallOption) (*QueryNodeTypeResponse, error)
+	// NodeTypes queries registered node types, optionally only those bound to
+	// one license type.
+	NodeTypes(ctx context.Context, in *QueryNodeTypesRequest, opts ...grpc.CallOption) (*QueryNodeTypesResponse, error)
 	// ActivationKey queries an activation key by address.
 	ActivationKey(ctx context.Context, in *QueryActivationKeyRequest, opts ...grpc.CallOption) (*QueryActivationKeyResponse, error)
 	// ActivationKeys queries the activation keys authorized by an operator.
@@ -935,6 +1158,24 @@ func (c *queryClient) NodesByOperator(ctx context.Context, in *QueryNodesByOpera
 	return out, nil
 }
 
+func (c *queryClient) NodeType(ctx context.Context, in *QueryNodeTypeRequest, opts ...grpc.CallOption) (*QueryNodeTypeResponse, error) {
+	out := new(QueryNodeTypeResponse)
+	err := c.cc.Invoke(ctx, "/network.v1.Query/NodeType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) NodeTypes(ctx context.Context, in *QueryNodeTypesRequest, opts ...grpc.CallOption) (*QueryNodeTypesResponse, error) {
+	out := new(QueryNodeTypesResponse)
+	err := c.cc.Invoke(ctx, "/network.v1.Query/NodeTypes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *queryClient) ActivationKey(ctx context.Context, in *QueryActivationKeyRequest, opts ...grpc.CallOption) (*QueryActivationKeyResponse, error) {
 	out := new(QueryActivationKeyResponse)
 	err := c.cc.Invoke(ctx, "/network.v1.Query/ActivationKey", in, out, opts...)
@@ -972,6 +1213,11 @@ type QueryServer interface {
 	Nodes(context.Context, *QueryNodesRequest) (*QueryNodesResponse, error)
 	// NodesByOperator queries all nodes activated under an operator.
 	NodesByOperator(context.Context, *QueryNodesByOperatorRequest) (*QueryNodesByOperatorResponse, error)
+	// NodeType queries a registered node type by id.
+	NodeType(context.Context, *QueryNodeTypeRequest) (*QueryNodeTypeResponse, error)
+	// NodeTypes queries registered node types, optionally only those bound to
+	// one license type.
+	NodeTypes(context.Context, *QueryNodeTypesRequest) (*QueryNodeTypesResponse, error)
 	// ActivationKey queries an activation key by address.
 	ActivationKey(context.Context, *QueryActivationKeyRequest) (*QueryActivationKeyResponse, error)
 	// ActivationKeys queries the activation keys authorized by an operator.
@@ -996,6 +1242,12 @@ func (*UnimplementedQueryServer) Nodes(ctx context.Context, req *QueryNodesReque
 }
 func (*UnimplementedQueryServer) NodesByOperator(ctx context.Context, req *QueryNodesByOperatorRequest) (*QueryNodesByOperatorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NodesByOperator not implemented")
+}
+func (*UnimplementedQueryServer) NodeType(ctx context.Context, req *QueryNodeTypeRequest) (*QueryNodeTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NodeType not implemented")
+}
+func (*UnimplementedQueryServer) NodeTypes(ctx context.Context, req *QueryNodeTypesRequest) (*QueryNodeTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NodeTypes not implemented")
 }
 func (*UnimplementedQueryServer) ActivationKey(ctx context.Context, req *QueryActivationKeyRequest) (*QueryActivationKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActivationKey not implemented")
@@ -1083,6 +1335,42 @@ func _Query_NodesByOperator_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_NodeType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryNodeTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).NodeType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/network.v1.Query/NodeType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).NodeType(ctx, req.(*QueryNodeTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_NodeTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryNodeTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).NodeTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/network.v1.Query/NodeTypes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).NodeTypes(ctx, req.(*QueryNodeTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Query_ActivationKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryActivationKeyRequest)
 	if err := dec(in); err != nil {
@@ -1156,6 +1444,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "NodesByOperator",
 			Handler:    _Query_NodesByOperator_Handler,
+		},
+		{
+			MethodName: "NodeType",
+			Handler:    _Query_NodeType_Handler,
+		},
+		{
+			MethodName: "NodeTypes",
+			Handler:    _Query_NodeTypes_Handler,
 		},
 		{
 			MethodName: "ActivationKey",
@@ -1465,6 +1761,160 @@ func (m *QueryNodesByOperatorResponse) MarshalToSizedBuffer(dAtA []byte) (int, e
 		for iNdEx := len(m.Nodes) - 1; iNdEx >= 0; iNdEx-- {
 			{
 				size, err := m.Nodes[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryNodeTypeRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryNodeTypeRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryNodeTypeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryNodeTypeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryNodeTypeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryNodeTypeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.NodeType.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryNodeTypesRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryNodeTypesRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryNodeTypesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.LicenseTypeId) > 0 {
+		i -= len(m.LicenseTypeId)
+		copy(dAtA[i:], m.LicenseTypeId)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.LicenseTypeId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryNodeTypesResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryNodeTypesResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryNodeTypesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.NodeTypes) > 0 {
+		for iNdEx := len(m.NodeTypes) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.NodeTypes[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -1833,6 +2283,66 @@ func (m *QueryNodesByOperatorResponse) Size() (n int) {
 	_ = l
 	if len(m.Nodes) > 0 {
 		for _, e := range m.Nodes {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryNodeTypeRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Id)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryNodeTypeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.NodeType.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryNodeTypesRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	l = len(m.LicenseTypeId)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryNodeTypesResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.NodeTypes) > 0 {
+		for _, e := range m.NodeTypes {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
@@ -2670,6 +3180,409 @@ func (m *QueryNodesByOperatorResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Nodes = append(m.Nodes, Node{})
 			if err := m.Nodes[len(m.Nodes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryNodeTypeRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryNodeTypeRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryNodeTypeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Id = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryNodeTypeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryNodeTypeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryNodeTypeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NodeType", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.NodeType.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryNodeTypesRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryNodeTypesRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryNodeTypesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.LicenseTypeId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryNodeTypesResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryNodeTypesResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryNodeTypesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NodeTypes", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NodeTypes = append(m.NodeTypes, NodeType{})
+			if err := m.NodeTypes[len(m.NodeTypes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

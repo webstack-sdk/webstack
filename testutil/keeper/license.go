@@ -130,7 +130,10 @@ func (f *LicenseFixture) Ungrant(t testing.TB, grantee, permission, licenseType 
 // fixtures can share it. This is the ONLY place test code allocates license
 // ids: the id scheme and the set of indexes a license must appear in live in
 // one place, so they cannot drift apart from the keeper's own issuance path.
-func SeedActiveLicenses(t testing.TB, k keeper.Keeper, ctx sdk.Context, holder, typeID string, count uint64) {
+// creator is recorded on a license type this helper creates, and is ignored
+// when the type already exists. It must be a real address: genesis validation
+// requires one, and x/network gates node type registration on it.
+func SeedActiveLicenses(t testing.TB, k keeper.Keeper, ctx sdk.Context, creator, holder, typeID string, count uint64) {
 	t.Helper()
 
 	lt, found, err := k.GetLicenseType(ctx, typeID)
@@ -138,6 +141,7 @@ func SeedActiveLicenses(t testing.TB, k keeper.Keeper, ctx sdk.Context, holder, 
 	if !found {
 		lt = types.LicenseType{
 			Id:           typeID,
+			Creator:      creator,
 			MaxSupply:    math.ZeroInt(),
 			IssuedCount:  math.ZeroInt(),
 			ActiveCount:  math.ZeroInt(),

@@ -107,8 +107,6 @@ func (p Precompile) Execute(ctx sdk.Context, stateDB vm.StateDB, contract *vm.Co
 		return p.IssueLicenses(ctx, contract, stateDB, method, args)
 	case RevokeLicensesMethod:
 		return p.RevokeLicenses(ctx, contract, stateDB, method, args)
-	case TransferLicenseMethod:
-		return p.TransferLicense(ctx, contract, stateDB, method, args)
 
 	// queries
 	case LicenseTypeMethod:
@@ -136,8 +134,7 @@ func (Precompile) IsTransaction(method *abi.Method) bool {
 	case CreateLicenseTypeMethod,
 		UpdateLicenseTypeMethod,
 		IssueLicensesMethod,
-		RevokeLicensesMethod,
-		TransferLicenseMethod:
+		RevokeLicensesMethod:
 		return true
 	default:
 		return false

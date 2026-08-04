@@ -212,69 +212,6 @@ func TestTxRevokeLicenses(t *testing.T) {
 	require.Equal(t, "1", lt.RevokedCount.String())
 }
 
-func TestTxTransferLicense(t *testing.T) {
-	f := newTestFixture(t)
-	seedLicenseType(t, f, "type.a", true, 0)
-	grantIssue(t, f, f.OwnerBech, "type.a")
-
-	holderHex := common.HexToAddress("0x7777777777777777777777777777777777777777")
-	recipientHex := common.HexToAddress("0x8888888888888888888888888888888888888888")
-	ids := issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
-	require.Len(t, ids, 1)
-
-	method := ABI.Methods[TransferLicenseMethod]
-	bz, err := f.precompile.TransferLicense(
-		f.ctx,
-		f.newContract(holderHex),
-		f.stateDB,
-		&method,
-		[]interface{}{ids[0], recipientHex},
-	)
-	require.NoError(t, err)
-	out, err := method.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	require.True(t, out[0].(bool))
-
-	// Verify the on-chain license now points at the recipient, looked up by
-	// id alone.
-	licM := ABI.Methods[LicenseMethod]
-	bz, err = f.precompile.License(f.ctx, &licM, []interface{}{ids[0]})
-	require.NoError(t, err)
-	licOut, err := licM.Outputs.Unpack(bz)
-	require.NoError(t, err)
-	got := licOut[0].(struct {
-		Id          uint64         `json:"id"`
-		TypeId      string         `json:"typeId"`
-		Holder      common.Address `json:"holder"`
-		StartDate   string         `json:"startDate"`
-		EndDate     string         `json:"endDate"`
-		Status      string         `json:"status"`
-		RevokedDate string         `json:"revokedDate"`
-	})
-	require.Equal(t, recipientHex, got.Holder)
-}
-
-func TestTxTransferLicenseNonHolderRejected(t *testing.T) {
-	f := newTestFixture(t)
-	seedLicenseType(t, f, "type.a", true, 0)
-	grantIssue(t, f, f.OwnerBech, "type.a")
-
-	holderHex := common.HexToAddress("0x7777777777777777777777777777777777777777")
-	attackerHex := common.HexToAddress("0x9999999999999999999999999999999999999999")
-	recipientHex := common.HexToAddress("0x8888888888888888888888888888888888888888")
-	ids := issueOne(t, f, f.OwnerHex, "type.a", holderHex, "2025-01-01", "")
-
-	method := ABI.Methods[TransferLicenseMethod]
-	_, err := f.precompile.TransferLicense(
-		f.ctx,
-		f.newContract(attackerHex),
-		f.stateDB,
-		&method,
-		[]interface{}{ids[0], recipientHex},
-	)
-	require.Error(t, err, "non-holder should not be able to transfer")
-}
-
 // TestTxIssueLicensesMultipleEntries issues to multiple holders across
 // multiple license types in one call and expects one LicenseIssued event
 // per entry.

@@ -46,8 +46,16 @@ func (ms msgServer) ActivateNode(ctx context.Context, msg *types.MsgActivateNode
 	if err != nil {
 		return nil, err
 	}
-	if !params.NodeTypeAllowed(msg.NodeType) {
-		return nil, errorsmod.Wrapf(types.ErrInvalidNodeType, "node type %q is not in allowed_node_types", msg.NodeType)
+
+	// The node type registry is the allowlist. It fail-closes: an empty
+	// registry admits nothing, matching how an empty license_types param
+	// already fail-closes activation.
+	registered, err := ms.k.NodeTypes.Has(ctx, msg.NodeType)
+	if err != nil {
+		return nil, err
+	}
+	if !registered {
+		return nil, errorsmod.Wrapf(types.ErrInvalidNodeType, "node type %q is not registered", msg.NodeType)
 	}
 
 	// Step 1 — node addresses are single-use.

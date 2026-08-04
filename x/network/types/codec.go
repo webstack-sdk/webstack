@@ -9,6 +9,7 @@ import (
 
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateOperatorAccount{}, "webstack/x/network/MsgCreateOperatorAccount", nil)
+	cdc.RegisterConcrete(&MsgCreateNodeType{}, "webstack/x/network/MsgCreateNodeType", nil)
 	cdc.RegisterConcrete(&MsgAuthorizeActivationKey{}, "webstack/x/network/MsgAuthorizeActivationKey", nil)
 	cdc.RegisterConcrete(&MsgDeauthorizeActivationKey{}, "webstack/x/network/MsgDeauthorizeActivationKey", nil)
 	cdc.RegisterConcrete(&MsgActivateNode{}, "webstack/x/network/MsgActivateNode", nil)
@@ -20,6 +21,7 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateOperatorAccount{},
+		&MsgCreateNodeType{},
 		&MsgAuthorizeActivationKey{},
 		&MsgDeauthorizeActivationKey{},
 		&MsgActivateNode{},

@@ -11,7 +11,6 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateLicenseType{}, "webstack/x/license/MsgCreateLicenseType", nil)
 	cdc.RegisterConcrete(&MsgIssueLicenses{}, "webstack/x/license/MsgIssueLicenses", nil)
 	cdc.RegisterConcrete(&MsgRevokeLicenses{}, "webstack/x/license/MsgRevokeLicenses", nil)
-	cdc.RegisterConcrete(&MsgTransferLicense{}, "webstack/x/license/MsgTransferLicense", nil)
 	cdc.RegisterConcrete(&MsgUpdateLicenseType{}, "webstack/x/license/MsgUpdateLicenseType", nil)
 }
 
@@ -20,7 +19,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateLicenseType{},
 		&MsgIssueLicenses{},
 		&MsgRevokeLicenses{},
-		&MsgTransferLicense{},
 		&MsgUpdateLicenseType{},
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
