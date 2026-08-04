@@ -73,6 +73,12 @@ message QueryNodeResponse {
 message QueryNodesRequest {
   // pagination is an optional page request.
   cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  // status optionally filters by node lifecycle status. Leave it unset
+  // (NODE_STATUS_UNSPECIFIED, never a valid stored status) to return nodes of
+  // every status, which is what this query has always done. Node records are
+  // retained after deactivation, so an unfiltered listing includes every node
+  // ever activated.
+  NodeStatus status = 2;
 }
 
 // QueryNodesResponse is the response type for the Query/Nodes RPC method.
@@ -89,6 +95,9 @@ message QueryNodesByOperatorRequest {
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   // pagination is an optional page request.
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
+  // status optionally filters by node lifecycle status; unset returns nodes
+  // of every status. See QueryNodesRequest.status.
+  NodeStatus status = 3;
 }
 
 // QueryNodesByOperatorResponse is the response type for the Query/NodesByOperator RPC method.

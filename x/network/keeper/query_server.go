@@ -37,8 +37,22 @@ func (q Querier) Node(ctx context.Context, req *types.QueryNodeRequest) (*types.
 	return &types.QueryNodeResponse{Node: node}, nil
 }
 
+// matchesStatus reports whether a node passes a request's status filter. The
+// unspecified zero value means "no filter": it is never a valid stored status,
+// so it cannot collide with a real one, and a request that omits the field
+// therefore keeps the original unfiltered behaviour.
+func matchesStatus(node types.Node, want types.NodeStatus) bool {
+	return want == types.NodeStatus_NODE_STATUS_UNSPECIFIED || node.Status == want
+}
+
+// Nodes returns every node record, optionally filtered by status. Records are
+// retained after deactivation, so an unfiltered listing includes every node
+// ever activated.
 func (q Querier) Nodes(ctx context.Context, req *types.QueryNodesRequest) (*types.QueryNodesResponse, error) {
-	nodes, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.Nodes, req.Pagination,
+	nodes, pageResp, err := query.CollectionFilteredPaginate(ctx, q.Keeper.Nodes, req.Pagination,
+		func(_ string, node types.Node) (bool, error) {
+			return matchesStatus(node, req.Status), nil
+		},
 		func(_ string, node types.Node) (types.Node, error) {
 			return node, nil
 		},
@@ -49,8 +63,18 @@ func (q Querier) Nodes(ctx context.Context, req *types.QueryNodesRequest) (*type
 	return &types.QueryNodesResponse{Nodes: nodes, Pagination: pageResp}, nil
 }
 
+// NodesByOperator returns the operator's node records, optionally filtered by
+// status. The status filter narrows within the operator prefix; it never
+// widens the scan beyond that operator.
 func (q Querier) NodesByOperator(ctx context.Context, req *types.QueryNodesByOperatorRequest) (*types.QueryNodesByOperatorResponse, error) {
-	nodes, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.OperatorNodes, req.Pagination,
+	nodes, pageResp, err := query.CollectionFilteredPaginate(ctx, q.Keeper.OperatorNodes, req.Pagination,
+		func(key collections.Pair[string, string], _ collections.NoValue) (bool, error) {
+			node, err := q.Keeper.Nodes.Get(ctx, key.K2())
+			if err != nil {
+				return false, err
+			}
+			return matchesStatus(node, req.Status), nil
+		},
 		func(key collections.Pair[string, string], _ collections.NoValue) (types.Node, error) {
 			return q.Keeper.Nodes.Get(ctx, key.K2())
 		},

@@ -27,6 +27,10 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "Nodes",
 					Use:       "nodes",
 					Short:     "Query all nodes",
+					Long:      "Query all nodes. Node records are retained after deactivation, so this returns every node ever activated unless --status is given.",
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"status": {Name: "status", Usage: "filter by node status: active or deactivated (default: all statuses)"},
+					},
 				},
 				{
 					RpcMethod: "NodesByOperator",
@@ -34,6 +38,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:     "Query all nodes activated under an operator",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "operator"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"status": {Name: "status", Usage: "filter by node status: active or deactivated (default: all statuses)"},
 					},
 				},
 				{
