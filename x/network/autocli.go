@@ -79,9 +79,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				{
 					RpcMethod: "NodeCounts",
 					Use:       "node-counts [operator]",
-					Short:     "Query an operator's node tallies and current activation limits",
+					Short:     "Query an operator's per-node-type tallies and activation limits",
+					Long:      "Query an operator's node tallies and activation limits, broken down by node type. Limits come from the operator's licenses of the license type each node type is bound to, so they are independent per type. Pass --node-type to restrict the result to one.",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "operator"},
+					},
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"node_type": {Name: "node-type", Usage: "restrict the result to one node type (default: every registered node type)"},
 					},
 				},
 			},

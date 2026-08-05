@@ -32,6 +32,7 @@ func (gs GenesisState) Validate() error {
 	// x/license state and are invisible from here; the msg handler is what
 	// enforces them at registration time.
 	nodeTypeIDs := make(map[string]struct{}, len(gs.NodeTypes))
+	boundLicenseTypes := make(map[string]string, len(gs.NodeTypes))
 	for _, nt := range gs.NodeTypes {
 		if _, dup := nodeTypeIDs[nt.Id]; dup {
 			return fmt.Errorf("duplicate node type %s", nt.Id)
@@ -45,6 +46,13 @@ func (gs GenesisState) Validate() error {
 		if nt.LicenseTypeId == "" {
 			return fmt.Errorf("node type %s: license_type_id must not be empty", nt.Id)
 		}
+		// The binding is one-to-one. Two node types sharing a license type
+		// would collide in the derived NodeTypeByLicenseType map, so one would
+		// silently win on import.
+		if other, dup := boundLicenseTypes[nt.LicenseTypeId]; dup {
+			return fmt.Errorf("node types %s and %s are both bound to license type %s", other, nt.Id, nt.LicenseTypeId)
+		}
+		boundLicenseTypes[nt.LicenseTypeId] = nt.Id
 		nodeTypeIDs[nt.Id] = struct{}{}
 	}
 

@@ -212,36 +212,30 @@ func TestQueryNodeType(t *testing.T) {
 	require.ErrorIs(t, err, types.ErrNodeTypeNotFound)
 }
 
-// TestQueryNodeTypesLicenseFilter is the query the license/node-type binding
-// exists to serve: given a license type id, return its node types and nothing
-// else, without the caller filtering client-side.
+// TestQueryNodeTypesLicenseFilter is the query the binding exists to serve:
+// given a license type id, return the node type bound to it. The binding is
+// one-to-one, so the answer is always zero or one record.
 func TestQueryNodeTypesLicenseFilter(t *testing.T) {
 	f, _ := setup(t)
 	q := keeper.NewQuerier(f.Keeper)
 
-	// Two node types on the fixture's license (one is seeded by the fixture),
-	// and one on an unrelated license that must never leak into its results.
-	f.RegisterNodeType(t, "extra.node", f.LicenseType)
-	f.RegisterNodeType(t, "other.node", "other.license")
-
+	// The fixture registers two node types, each on its own license type.
+	// Each license type backs exactly one, so these never mix.
 	all, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{})
 	require.NoError(t, err)
-	require.ElementsMatch(t, []string{f.NodeType, "extra.node", "other.node"}, idsOf(all.NodeTypes))
+	require.ElementsMatch(t, []string{f.NodeType, f.NanoNodeType}, idsOf(all.NodeTypes))
 
 	mine, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: f.LicenseType})
 	require.NoError(t, err)
-	require.ElementsMatch(t, []string{f.NodeType, "extra.node"}, idsOf(mine.NodeTypes))
-	require.NotContains(t, idsOf(mine.NodeTypes), "other.node")
+	require.Equal(t, []string{f.NodeType}, idsOf(mine.NodeTypes))
 
-	// The filtered walk hydrates full records, not just ids.
-	for _, nt := range mine.NodeTypes {
-		require.Equal(t, f.LicenseType, nt.LicenseTypeId)
-		require.Equal(t, f.Owner, nt.Creator)
-	}
+	// The lookup hydrates the full record, not just the id.
+	require.Equal(t, f.LicenseType, mine.NodeTypes[0].LicenseTypeId)
+	require.Equal(t, f.Owner, mine.NodeTypes[0].Creator)
 
-	other, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: "other.license"})
+	other, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: f.NanoLicenseType})
 	require.NoError(t, err)
-	require.Equal(t, []string{"other.node"}, idsOf(other.NodeTypes))
+	require.Equal(t, []string{f.NanoNodeType}, idsOf(other.NodeTypes))
 
 	// A license type nobody bound to is empty, not an error.
 	none, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: "unused.license"})
@@ -249,28 +243,94 @@ func TestQueryNodeTypesLicenseFilter(t *testing.T) {
 	require.Empty(t, none.NodeTypes)
 }
 
-// TestQueryNodeTypesFilteredPagination: the filtered walk runs over the
-// by-license index, so paging must stay inside the prefix and yield every
-// match exactly once even when a page boundary falls mid-license.
-func TestQueryNodeTypesFilteredPagination(t *testing.T) {
+// ---------------------------------------------------------------------------
+// NodeCounts
+// ---------------------------------------------------------------------------
+
+// TestQueryNodeCounts: limits are reported per node type and are derived from
+// the operator's licenses of that type's bound license type alone.
+func TestQueryNodeCounts(t *testing.T) {
+	f, ms := setup(t)
+	q := keeper.NewQuerier(f.Keeper)
+
+	operator := sample.AccAddress()
+	f.IssueLicenses(t, operator, 2) // trust licences only; nano stays unlicensed
+	key := authorizeKey(t, f, ms, f.Ctx, operator)
+	node := activateNode(t, f, ms, f.Ctx, key, operator)
+
+	byType := func(resp *types.QueryNodeCountsResponse) map[string]types.NodeTypeCounts {
+		out := make(map[string]types.NodeTypeCounts, len(resp.Counts))
+		for _, c := range resp.Counts {
+			out[c.NodeType] = c
+		}
+		return out
+	}
+
+	all, err := q.NodeCounts(f.Ctx, &types.QueryNodeCountsRequest{Operator: operator})
+	require.NoError(t, err)
+	entries := byType(all)
+	require.Len(t, entries, 2, "one entry per registered node type")
+
+	// The licensed type: 2 licenses x multiplier 3 = 6, spam 9 x 2 = 18.
+	mine := entries[f.NodeType]
+	require.Equal(t, f.LicenseType, mine.LicenseTypeId)
+	require.Equal(t, uint64(2), mine.LicenseCount)
+	require.Equal(t, uint64(6), mine.ActivationLimit)
+	require.Equal(t, uint64(18), mine.SpamLimit)
+	require.Equal(t, uint64(1), mine.Total)
+	require.Equal(t, uint64(1), mine.Active)
+	require.Equal(t, uint64(1), mine.RecentActive)
+
+	// The unlicensed type reports zeroes, not the other type's numbers.
+	nano := entries[f.NanoNodeType]
+	require.Equal(t, f.NanoLicenseType, nano.LicenseTypeId)
+	require.Zero(t, nano.LicenseCount)
+	require.Zero(t, nano.ActivationLimit)
+	require.Zero(t, nano.Total)
+
+	// Filtering returns just that type.
+	one, err := q.NodeCounts(f.Ctx, &types.QueryNodeCountsRequest{
+		Operator: operator,
+		NodeType: f.NanoNodeType,
+	})
+	require.NoError(t, err)
+	require.Len(t, one.Counts, 1)
+	require.Equal(t, f.NanoNodeType, one.Counts[0].NodeType)
+
+	// Deactivating drops active but not total, in the right type's tally.
+	_, err = ms.DeactivateNode(f.Ctx, &types.MsgDeactivateNode{Signer: operator, NodeAddress: node})
+	require.NoError(t, err)
+	after, err := q.NodeCounts(f.Ctx, &types.QueryNodeCountsRequest{Operator: operator, NodeType: f.NodeType})
+	require.NoError(t, err)
+	require.Equal(t, uint64(1), after.Counts[0].Total)
+	require.Zero(t, after.Counts[0].Active)
+
+	_, err = q.NodeCounts(f.Ctx, &types.QueryNodeCountsRequest{Operator: operator, NodeType: "never.registered"})
+	require.ErrorIs(t, err, types.ErrNodeTypeNotFound)
+}
+
+// TestQueryNodeTypesPagination: the unfiltered listing still walks the whole
+// registry, so it must page correctly. (The filtered branch is a single keyed
+// read and returns at most one record, so it has nothing to page.)
+func TestQueryNodeTypesPagination(t *testing.T) {
 	f, _ := setup(t)
 	q := keeper.NewQuerier(f.Keeper)
 
-	// Interleave the two licenses' ids in the *global* node type keyspace, so
-	// a walk that ignored the prefix would visibly pick up the decoys.
-	want := []string{"a.one", "b.two", "c.three"}
-	for i, id := range want {
-		f.RegisterNodeType(t, id, "target.license")
-		f.RegisterNodeType(t, string(rune('a'+i))+".decoy", "decoy.license")
+	// Each on its own license type, as the one-to-one binding requires. These
+	// sort ahead of the fixture's two webstack.* types.
+	added := []string{"a.one", "b.two", "c.three"}
+	for _, id := range added {
+		f.RegisterNodeType(t, id, id+".license")
 	}
+	// Store order is by id, and "webstack.nano" sorts before "webstack.trust".
+	want := append(append([]string{}, added...), f.NanoNodeType, f.NodeType)
 
 	var got []string
 	var nextKey []byte
 	pages := 0
 	for {
 		page, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{
-			LicenseTypeId: "target.license",
-			Pagination:    &query.PageRequest{Key: nextKey, Limit: 2},
+			Pagination: &query.PageRequest{Key: nextKey, Limit: 2},
 		})
 		require.NoError(t, err)
 		got = append(got, idsOf(page.NodeTypes)...)
@@ -283,8 +343,8 @@ func TestQueryNodeTypesFilteredPagination(t *testing.T) {
 		}
 	}
 
-	require.Equal(t, want, got, "every bound node type exactly once, in id order")
-	// 3 matches at 2 per page: the assertion above only means something if the
-	// walk actually crossed a page boundary.
-	require.Equal(t, 2, pages, "expected the filtered result set to span two pages")
+	require.Equal(t, want, got, "every node type exactly once, in id order")
+	// 5 records at 2 per page: the assertion above only means something if the
+	// walk actually crossed page boundaries.
+	require.Equal(t, 3, pages, "expected the listing to span three pages")
 }

@@ -120,42 +120,39 @@ message OperatorNodeCounts {
 // deliberately neutral (fail-closed where counting is involved); chains seed
 // their real values in an upgrade handler or genesis.
 message Params {
-  // license_types are the license type ids counted toward activation limits.
-  // An empty list means no licenses count, so no node can ever activate.
-  repeated string license_types = 1;
-  // activation_limit_multiplier scales the active license count into the
-  // node activation limit.
-  uint64 activation_limit_multiplier = 2;
-  // spam_limit_multiplier scales the active license count into the
+  // activation_limit_multiplier scales a node type's active license count into
+  // that node type's activation limit.
+  uint64 activation_limit_multiplier = 1;
+  // spam_limit_multiplier scales a node type's active license count into the
   // recent-activity ceiling that hard-stops activation bursts.
-  uint64 spam_limit_multiplier = 3;
+  uint64 spam_limit_multiplier = 2;
   // max_activation_keys is the maximum number of active activation keys per
   // operator.
-  uint64 max_activation_keys = 4;
+  uint64 max_activation_keys = 3;
   // recent_key_limit is the maximum number of activation keys an operator may
   // create within recent_key_window.
-  uint64 recent_key_limit = 5;
+  uint64 recent_key_limit = 4;
   // recent_key_window is the sliding window for recent_key_limit.
-  google.protobuf.Duration recent_key_window = 6 [
+  google.protobuf.Duration recent_key_window = 5 [
     (gogoproto.stdduration) = true,
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
   // status_daily_limit is the maximum number of MsgUpdateNodeStatus per node
   // per UTC day.
-  uint64 status_daily_limit = 7;
+  uint64 status_daily_limit = 6;
   // deauthorize_fee is charged by the MsgDeauthorizeActivationKey handler as
   // a bank transfer to the fee collector, on top of regular gas. Empty
   // disables the charge; chains that want it seed a denominated value.
-  repeated cosmos.base.v1beta1.Coin deauthorize_fee = 8 [
+  repeated cosmos.base.v1beta1.Coin deauthorize_fee = 7 [
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
   ];
   // max_gasless_gas caps the declared gas wanted of a gasless transaction.
-  uint64 max_gasless_gas = 9;
+  uint64 max_gasless_gas = 8;
   // max_gasless_msgs caps the number of messages in a gasless transaction.
-  uint64 max_gasless_msgs = 10;
+  uint64 max_gasless_msgs = 9;
   // max_gasless_tx_bytes caps the encoded size of a gasless transaction.
-  uint64 max_gasless_tx_bytes = 11;
+  uint64 max_gasless_tx_bytes = 10;
 }

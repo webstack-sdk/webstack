@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"errors"
 
 	"cosmossdk.io/collections"
 
@@ -96,20 +97,26 @@ func (q Querier) NodeType(ctx context.Context, req *types.QueryNodeTypeRequest) 
 }
 
 // NodeTypes returns registered node types. When license_type_id is set the
-// walk runs over the by-license index and touches only that license type's
-// node types; when it is empty every node type is returned.
+// binding is one-to-one, so the answer is a single direct lookup and the
+// result holds at most one node type; the list shape is kept so callers do not
+// need a second response type for the filtered case. When it is empty every
+// node type is returned, paginated.
 func (q Querier) NodeTypes(ctx context.Context, req *types.QueryNodeTypesRequest) (*types.QueryNodeTypesResponse, error) {
 	if req.LicenseTypeId != "" {
-		nodeTypes, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.NodeTypesByLicense, req.Pagination,
-			func(key collections.Pair[string, string], _ collections.NoValue) (types.NodeType, error) {
-				return q.Keeper.NodeTypes.Get(ctx, key.K2())
-			},
-			query.WithCollectionPaginationPairPrefix[string, string](req.LicenseTypeId),
-		)
+		id, err := q.Keeper.NodeTypeByLicenseType.Get(ctx, req.LicenseTypeId)
+		if errors.Is(err, collections.ErrNotFound) {
+			// No node type is bound to this license type. That is an empty
+			// result, not an error: the license type may simply be unused.
+			return &types.QueryNodeTypesResponse{}, nil
+		}
 		if err != nil {
 			return nil, err
 		}
-		return &types.QueryNodeTypesResponse{NodeTypes: nodeTypes, Pagination: pageResp}, nil
+		nt, err := q.Keeper.NodeTypes.Get(ctx, id)
+		if err != nil {
+			return nil, err
+		}
+		return &types.QueryNodeTypesResponse{NodeTypes: []types.NodeType{nt}}, nil
 	}
 
 	nodeTypes, pageResp, err := query.CollectionPaginate(ctx, q.Keeper.NodeTypes, req.Pagination,
@@ -144,33 +151,66 @@ func (q Querier) ActivationKeys(ctx context.Context, req *types.QueryActivationK
 	return &types.QueryActivationKeysResponse{ActivationKeys: keys, Pagination: pageResp}, nil
 }
 
-// NodeCounts returns the operator's node tallies alongside the limits its
-// current license count implies, so a hosting provider can pre-check whether
-// an activation would be admitted.
+// NodeCounts returns the operator's node tallies alongside the limits their
+// licenses imply, so a hosting provider can pre-check whether an activation
+// would be admitted. Entitlement is per node type, so the answer is a
+// breakdown: one entry per registered node type, or just the requested one.
 func (q Querier) NodeCounts(ctx context.Context, req *types.QueryNodeCountsRequest) (*types.QueryNodeCountsResponse, error) {
 	params, err := q.Keeper.Params.Get(ctx)
 	if err != nil {
 		return nil, err
 	}
-	counts, err := q.Keeper.GetOperatorNodeCounts(ctx, req.Operator)
-	if err != nil {
-		return nil, err
-	}
-	recent, err := q.Keeper.CountRecentActiveNodes(ctx, req.Operator, sdk.UnwrapSDKContext(ctx).BlockTime())
-	if err != nil {
-		return nil, err
-	}
-	licenses, err := q.Keeper.licenseKeeper.CountActiveLicenses(ctx, req.Operator, params.LicenseTypes, 0)
-	if err != nil {
-		return nil, err
+	blockTime := sdk.UnwrapSDKContext(ctx).BlockTime()
+
+	tally := func(nt types.NodeType) (types.NodeTypeCounts, error) {
+		counts, err := q.Keeper.GetOperatorNodeCounts(ctx, req.Operator, nt.Id)
+		if err != nil {
+			return types.NodeTypeCounts{}, err
+		}
+		recent, err := q.Keeper.CountRecentActiveNodes(ctx, req.Operator, nt.Id, blockTime)
+		if err != nil {
+			return types.NodeTypeCounts{}, err
+		}
+		// stopAt 0: a query, so the full count is wanted rather than the
+		// decision-bounded walk the handlers use.
+		licenses, err := q.Keeper.licenseKeeper.CountActiveLicenses(ctx, req.Operator, []string{nt.LicenseTypeId}, 0)
+		if err != nil {
+			return types.NodeTypeCounts{}, err
+		}
+		return types.NodeTypeCounts{
+			NodeType:        nt.Id,
+			LicenseTypeId:   nt.LicenseTypeId,
+			Total:           counts.Total,
+			Active:          counts.Active,
+			RecentActive:    recent,
+			LicenseCount:    licenses,
+			ActivationLimit: params.ActivationLimitMultiplier * licenses,
+			SpamLimit:       params.SpamLimitMultiplier * licenses,
+		}, nil
 	}
 
-	return &types.QueryNodeCountsResponse{
-		Total:           counts.Total,
-		Active:          counts.Active,
-		RecentActive:    recent,
-		LicenseCount:    licenses,
-		ActivationLimit: params.ActivationLimitMultiplier * licenses,
-		SpamLimit:       params.SpamLimitMultiplier * licenses,
-	}, nil
+	if req.NodeType != "" {
+		nt, err := q.Keeper.NodeTypes.Get(ctx, req.NodeType)
+		if err != nil {
+			return nil, types.ErrNodeTypeNotFound.Wrapf("node type %s not found", req.NodeType)
+		}
+		entry, err := tally(nt)
+		if err != nil {
+			return nil, err
+		}
+		return &types.QueryNodeCountsResponse{Counts: []types.NodeTypeCounts{entry}}, nil
+	}
+
+	var out []types.NodeTypeCounts
+	if err := q.Keeper.NodeTypes.Walk(ctx, nil, func(_ string, nt types.NodeType) (bool, error) {
+		entry, err := tally(nt)
+		if err != nil {
+			return true, err
+		}
+		out = append(out, entry)
+		return false, nil
+	}); err != nil {
+		return nil, err
+	}
+	return &types.QueryNodeCountsResponse{Counts: out}, nil
 }

@@ -182,23 +182,39 @@ message QueryActivationKeysResponse {
 message QueryNodeCountsRequest {
   // operator is the operator wallet address.
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // node_type optionally restricts the result to one node type. Leave it empty
+  // to get one entry per registered node type.
+  string node_type = 2;
+}
+
+// NodeTypeCounts is an operator's tallies and limits for a single node type.
+// Limits are computed from the operator's active licenses of the license type
+// bound to this node type, so they change when those licenses are issued or
+// revoked — and licenses of any other type do not affect them.
+message NodeTypeCounts {
+  // node_type is the node type these numbers describe.
+  string node_type = 1;
+  // license_type_id is the license type backing node_type.
+  string license_type_id = 2;
+  // total is the number of nodes of this type ever activated by the operator.
+  uint64 total = 3;
+  // active is the number of the operator's currently active nodes of this type.
+  uint64 active = 4;
+  // recent_active is the number of this type's nodes with counted activity
+  // today or yesterday (UTC).
+  uint64 recent_active = 5;
+  // license_count is the operator's active licenses of license_type_id.
+  uint64 license_count = 6;
+  // activation_limit is activation_limit_multiplier x license_count.
+  uint64 activation_limit = 7;
+  // spam_limit is spam_limit_multiplier x license_count.
+  uint64 spam_limit = 8;
 }
 
 // QueryNodeCountsResponse is the response type for the Query/NodeCounts RPC
-// method. Limits are computed from the operator's current active license
-// count, so they change when licenses are issued or revoked.
+// method. Entitlement is per node type, so the answer is a breakdown rather
+// than a single tally.
 message QueryNodeCountsResponse {
-  // total is the number of nodes ever activated by the operator.
-  uint64 total = 1;
-  // active is the number of currently active nodes.
-  uint64 active = 2;
-  // recent_active is the number of nodes with counted activity today or
-  // yesterday (UTC).
-  uint64 recent_active = 3;
-  // license_count is the operator's active counted-license total.
-  uint64 license_count = 4;
-  // activation_limit is activation_limit_multiplier x license_count.
-  uint64 activation_limit = 5;
-  // spam_limit is spam_limit_multiplier x license_count.
-  uint64 spam_limit = 6;
+  // counts holds one entry per node type, in node type id order.
+  repeated NodeTypeCounts counts = 1 [(gogoproto.nullable) = false];
 }

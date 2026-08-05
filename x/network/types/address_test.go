@@ -115,7 +115,7 @@ func TestGenesisRejectsNonCanonicalAddresses(t *testing.T) {
 		return types.GenesisState{
 			Params: types.DefaultParams(),
 			NodeTypes: []types.NodeType{{
-				Id: "test.node", Creator: operator, LicenseTypeId: "node.license",
+				Id: "webstack.trust", Creator: operator, LicenseTypeId: "webstack.node.trust",
 			}},
 			ActivationKeys: []types.ActivationKey{{
 				Address: keyAddr, Operator: operator, Status: types.KeyActive,
@@ -123,7 +123,7 @@ func TestGenesisRejectsNonCanonicalAddresses(t *testing.T) {
 			}},
 			Nodes: []types.Node{{
 				Address: nodeAddr, Operator: operator, ActivatedBy: keyAddr,
-				Type: "test.node", Status: types.NodeActive, LastActiveTime: now,
+				Type: "webstack.trust", Status: types.NodeActive, LastActiveTime: now,
 			}},
 		}
 	}

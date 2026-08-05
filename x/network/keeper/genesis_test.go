@@ -4,7 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"cosmossdk.io/collections"
 	"github.com/stretchr/testify/require"
 
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
@@ -19,11 +18,6 @@ func TestGenesisRoundTrip(t *testing.T) {
 	f, ms := setup(t)
 	operator := sample.AccAddress()
 	f.IssueLicenses(t, operator, 1)
-
-	// A second node type on an unrelated license, so the export carries more
-	// than the fixture's own and the by-license index has two prefixes to
-	// rebuild.
-	f.RegisterNodeType(t, "extra.node", "other.license")
 
 	key := authorizeKey(t, f, ms, f.Ctx, operator)
 	disabledKey := authorizeKey(t, f, ms, f.Ctx, operator)
@@ -60,7 +54,7 @@ func TestGenesisRoundTrip(t *testing.T) {
 	require.NoError(t, err)
 	require.True(t, registered)
 
-	counts, err := g.Keeper.GetOperatorNodeCounts(g.Ctx, operator)
+	counts, err := g.Keeper.GetOperatorNodeCounts(g.Ctx, operator, g.NodeType)
 	require.NoError(t, err)
 	require.Equal(t, uint64(2), counts.Total)
 	require.Equal(t, uint64(1), counts.Active)
@@ -68,14 +62,14 @@ func TestGenesisRoundTrip(t *testing.T) {
 	day0 := types.DayEpoch(keepertest.NetworkFixtureBlockTime)
 	require.Equal(t, map[string]uint64{nodeA: day0 + 1, nodeB: day0}, recentEntries(t, g, operator))
 
-	// Node types survive, and the by-license index is rebuilt rather than
-	// exported — so a missing rebuild would leave the filtered query empty
+	// Node types survive, and the by-license-type mapping is rebuilt rather
+	// than exported — so a missing rebuild would leave the filtered query empty
 	// while the re-export above still matched.
-	require.ElementsMatch(t, []string{f.NodeType, "extra.node"}, idsOf(exported.NodeTypes))
+	require.ElementsMatch(t, []string{f.NodeType, f.NanoNodeType}, idsOf(exported.NodeTypes))
 	for _, nt := range exported.NodeTypes {
-		indexed, err := g.Keeper.NodeTypesByLicense.Has(g.Ctx, collections.Join(nt.LicenseTypeId, nt.Id))
-		require.NoError(t, err)
-		require.True(t, indexed, "index entry missing for %s", nt.Id)
+		bound, err := g.Keeper.NodeTypeByLicenseType.Get(g.Ctx, nt.LicenseTypeId)
+		require.NoError(t, err, "mapping missing for license type %s", nt.LicenseTypeId)
+		require.Equal(t, nt.Id, bound)
 	}
 }
 
@@ -86,8 +80,8 @@ func TestGenesisValidate(t *testing.T) {
 	now := keepertest.NetworkFixtureBlockTime
 
 	validKey := types.ActivationKey{Address: keyAddr, Operator: operator, CreatedAt: now, Status: types.KeyActive}
-	validNode := types.Node{Address: nodeAddr, Operator: operator, ActivatedBy: keyAddr, Type: "test.node", Status: types.NodeActive, LastActiveTime: now}
-	validNodeType := types.NodeType{Id: "test.node", Creator: operator, LicenseTypeId: "node.license"}
+	validNode := types.Node{Address: nodeAddr, Operator: operator, ActivatedBy: keyAddr, Type: "webstack.trust", Status: types.NodeActive, LastActiveTime: now}
+	validNodeType := types.NodeType{Id: "webstack.trust", Creator: operator, LicenseTypeId: "webstack.node.trust"}
 
 	tests := []struct {
 		name      string
@@ -181,6 +175,19 @@ func TestGenesisValidate(t *testing.T) {
 				gs.NodeTypes[0].LicenseTypeId = ""
 			},
 			expErrMsg: "license_type_id must not be empty",
+		},
+		{
+			// Two node types on one license type would collide in the derived
+			// mapping, so one would silently win on import.
+			name: "two node types bound to one license type",
+			mutate: func(gs *types.GenesisState) {
+				gs.NodeTypes = append(gs.NodeTypes, types.NodeType{
+					Id:            "second.node",
+					Creator:       gs.NodeTypes[0].Creator,
+					LicenseTypeId: gs.NodeTypes[0].LicenseTypeId,
+				})
+			},
+			expErrMsg: "both bound to license type",
 		},
 	}
 	for _, tc := range tests {

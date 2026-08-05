@@ -27,7 +27,7 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 		if err := k.NodeTypes.Set(ctx, nt.Id, nt); err != nil {
 			return err
 		}
-		if err := k.NodeTypesByLicense.Set(ctx, collections.Join(nt.LicenseTypeId, nt.Id)); err != nil {
+		if err := k.NodeTypeByLicenseType.Set(ctx, nt.LicenseTypeId, nt.Id); err != nil {
 			return err
 		}
 	}
@@ -44,7 +44,14 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 		}
 	}
 
-	counts := make(map[string]types.OperatorNodeCounts)
+	// Tallies are per (operator, nodeType), so the rebuild accumulates on that
+	// pair rather than on the operator alone.
+	//
+	// The accumulator is keyed on a plain value struct, NOT collections.Pair:
+	// Pair stores its parts as pointers, so as a Go map key it compares by
+	// pointer identity and every Join would allocate a fresh, never-equal key.
+	type tallyKey struct{ operator, nodeType string }
+	counts := make(map[tallyKey]types.OperatorNodeCounts)
 	for _, node := range data.Nodes {
 		if err := k.Nodes.Set(ctx, node.Address, node); err != nil {
 			return err
@@ -54,22 +61,23 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 		}
 		// Exactly one recent-activity entry per node, in the day bucket of
 		// its last counted activity.
-		if err := k.RecentNodeActivity.Set(ctx, collections.Join3(node.Operator, types.DayEpoch(node.LastActiveTime), node.Address)); err != nil {
+		if err := k.RecentNodeActivity.Set(ctx, collections.Join4(node.Operator, node.Type, types.DayEpoch(node.LastActiveTime), node.Address)); err != nil {
 			return err
 		}
 		if err := k.Operators.Set(ctx, node.Operator); err != nil {
 			return err
 		}
 
-		c := counts[node.Operator]
+		key := tallyKey{operator: node.Operator, nodeType: node.Type}
+		c := counts[key]
 		c.Total++
 		if node.Status == types.NodeActive {
 			c.Active++
 		}
-		counts[node.Operator] = c
+		counts[key] = c
 	}
-	for operator, c := range counts {
-		if err := k.OperatorNodeCounts.Set(ctx, operator, c); err != nil {
+	for key, c := range counts {
+		if err := k.OperatorNodeCounts.Set(ctx, collections.Join(key.operator, key.nodeType), c); err != nil {
 			return err
 		}
 	}

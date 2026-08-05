@@ -47,14 +47,11 @@ func (ms msgServer) ActivateNode(ctx context.Context, msg *types.MsgActivateNode
 		return nil, err
 	}
 
-	// The node type registry is the allowlist. It fail-closes: an empty
-	// registry admits nothing, matching how an empty license_types param
-	// already fail-closes activation.
-	registered, err := ms.k.NodeTypes.Has(ctx, msg.NodeType)
+	// The node type registry is the allowlist, and it fail-closes: an empty
+	// registry admits nothing. The record is fetched rather than probed with
+	// Has because its license type is what the activation limit is built from.
+	nodeType, err := ms.k.NodeTypes.Get(ctx, msg.NodeType)
 	if err != nil {
-		return nil, err
-	}
-	if !registered {
 		return nil, errorsmod.Wrapf(types.ErrInvalidNodeType, "node type %q is not registered", msg.NodeType)
 	}
 
@@ -73,11 +70,15 @@ func (ms msgServer) ActivateNode(ctx context.Context, msg *types.MsgActivateNode
 	// max(comparands)/activation_limit_multiplier + 1 cannot change any
 	// outcome (spam_limit_multiplier >= activation_limit_multiplier makes
 	// the spam check decisive even earlier).
-	counts, err := ms.k.GetOperatorNodeCounts(ctx, msg.Operator)
+	//
+	// Every quantity here is scoped to this node type — the tallies, the
+	// activity window, and the license count alike. Mixing scopes would let an
+	// operator's nodes of one type consume another type's allowance.
+	counts, err := ms.k.GetOperatorNodeCounts(ctx, msg.Operator, msg.NodeType)
 	if err != nil {
 		return nil, err
 	}
-	recent, err := ms.k.CountRecentActiveNodes(ctx, msg.Operator, sdkCtx.BlockTime())
+	recent, err := ms.k.CountRecentActiveNodes(ctx, msg.Operator, msg.NodeType, sdkCtx.BlockTime())
 	if err != nil {
 		return nil, err
 	}
@@ -91,15 +92,17 @@ func (ms msgServer) ActivateNode(ctx context.Context, msg *types.MsgActivateNode
 	}
 	stopAt := maxComparand/params.ActivationLimitMultiplier + 1
 
-	// Step 2 — license count and activation limit.
-	count, err := ms.k.licenseKeeper.CountActiveLicenses(ctx, msg.Operator, params.LicenseTypes, stopAt)
+	// Step 2 — license count and activation limit. Only licenses of the type
+	// bound to this node type count; a node type is entitled by its own
+	// license type and nothing else.
+	count, err := ms.k.licenseKeeper.CountActiveLicenses(ctx, msg.Operator, []string{nodeType.LicenseTypeId}, stopAt)
 	if err != nil {
 		return nil, err
 	}
 	if count == 0 {
 		// Distinct error instead of the spec's literal fall-through, which
 		// would surface a confusing "recent activation limit exceeded (0)".
-		return nil, errorsmod.Wrapf(types.ErrNoActiveLicenses, "operator %s", msg.Operator)
+		return nil, errorsmod.Wrapf(types.ErrNoActiveLicenses, "operator %s holds no active %s licenses", msg.Operator, nodeType.LicenseTypeId)
 	}
 	limit := params.ActivationLimitMultiplier * count
 
@@ -135,12 +138,12 @@ func (ms msgServer) ActivateNode(ctx context.Context, msg *types.MsgActivateNode
 	if err := ms.k.OperatorNodes.Set(ctx, collections.Join(msg.Operator, msg.NodeAddress)); err != nil {
 		return nil, err
 	}
-	if err := ms.k.RecentNodeActivity.Set(ctx, collections.Join3(msg.Operator, types.DayEpoch(sdkCtx.BlockTime()), msg.NodeAddress)); err != nil {
+	if err := ms.k.RecentNodeActivity.Set(ctx, collections.Join4(msg.Operator, msg.NodeType, types.DayEpoch(sdkCtx.BlockTime()), msg.NodeAddress)); err != nil {
 		return nil, err
 	}
 	counts.Total++
 	counts.Active++
-	if err := ms.k.OperatorNodeCounts.Set(ctx, msg.Operator, counts); err != nil {
+	if err := ms.k.OperatorNodeCounts.Set(ctx, collections.Join(msg.Operator, msg.NodeType), counts); err != nil {
 		return nil, err
 	}
 	if err := ms.k.registerOperator(ctx, msg.Operator); err != nil {

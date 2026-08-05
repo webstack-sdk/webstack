@@ -208,14 +208,16 @@ func (ms msgServer) DeactivateNode(ctx context.Context, msg *types.MsgDeactivate
 		return nil, err
 	}
 
-	counts, err := ms.k.GetOperatorNodeCounts(ctx, node.Operator)
+	// Keyed by the node's own type, so the decrement lands in the same tally
+	// the activation incremented.
+	counts, err := ms.k.GetOperatorNodeCounts(ctx, node.Operator, node.Type)
 	if err != nil {
 		return nil, err
 	}
 	if counts.Active > 0 {
 		counts.Active--
 	}
-	if err := ms.k.OperatorNodeCounts.Set(ctx, node.Operator, counts); err != nil {
+	if err := ms.k.OperatorNodeCounts.Set(ctx, collections.Join(node.Operator, node.Type), counts); err != nil {
 		return nil, err
 	}
 

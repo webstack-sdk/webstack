@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"errors"
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
@@ -21,9 +22,11 @@ import (
 // created it, so one tenant cannot attach node types to another's licenses
 // even while holding the grant.
 //
-// The binding is fixed at creation and node type records are never removed —
-// activation resolves a node's type through this registry, so a type that
-// vanished or re-pointed would strand every node already carrying it.
+// The binding is one-to-one: a node type names exactly one license type, and a
+// license type backs at most one node type. It is also fixed at creation, and
+// node type records are never removed — activation resolves a node's type
+// through this registry, so a type that vanished or re-pointed would strand
+// every node already carrying it.
 func (ms msgServer) CreateNodeType(ctx context.Context, msg *types.MsgCreateNodeType) (*types.MsgCreateNodeTypeResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
@@ -45,6 +48,17 @@ func (ms msgServer) CreateNodeType(ctx context.Context, msg *types.MsgCreateNode
 		return nil, errorsmod.Wrapf(types.ErrNodeTypeExists, "node type %s", msg.Id)
 	}
 
+	// The binding is one-to-one: a license type backs at most one node type.
+	// Checked before the creator match so the caller learns the license type is
+	// taken rather than being told they are unauthorized for it.
+	bound, err := ms.k.NodeTypeByLicenseType.Get(ctx, msg.LicenseTypeId)
+	switch {
+	case err == nil:
+		return nil, errorsmod.Wrapf(types.ErrLicenseTypeBound, "license type %s already backs node type %s", msg.LicenseTypeId, bound)
+	case !errors.Is(err, collections.ErrNotFound):
+		return nil, err
+	}
+
 	creator, found, err := ms.k.licenseKeeper.LicenseTypeCreator(ctx, msg.LicenseTypeId)
 	if err != nil {
 		return nil, err
@@ -64,9 +78,9 @@ func (ms msgServer) CreateNodeType(ctx context.Context, msg *types.MsgCreateNode
 	if err := ms.k.NodeTypes.Set(ctx, msg.Id, nodeType); err != nil {
 		return nil, err
 	}
-	// Written once and never moved: the binding is immutable, so this index
+	// Written once and never moved: the binding is immutable, so this map
 	// cannot drift from the record it mirrors.
-	if err := ms.k.NodeTypesByLicense.Set(ctx, collections.Join(msg.LicenseTypeId, msg.Id)); err != nil {
+	if err := ms.k.NodeTypeByLicenseType.Set(ctx, msg.LicenseTypeId, msg.Id); err != nil {
 		return nil, err
 	}
 

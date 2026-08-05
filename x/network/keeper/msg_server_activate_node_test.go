@@ -13,14 +13,14 @@ import (
 	"github.com/webstack-sdk/webstack/x/network/types"
 )
 
-// recentEntries returns every RecentNodeActivity key for an operator as
-// (dayEpoch, nodeAddress) pairs, across all day buckets.
+// recentEntries returns every RecentNodeActivity entry for an operator as
+// nodeAddress -> dayEpoch, across all node types and day buckets.
 func recentEntries(t testing.TB, f *keepertest.NetworkFixture, operator string) map[string]uint64 {
 	t.Helper()
 	entries := make(map[string]uint64)
-	rng := collections.NewPrefixedTripleRange[string, uint64, string](operator)
-	require.NoError(t, f.Keeper.RecentNodeActivity.Walk(f.Ctx, rng, func(key collections.Triple[string, uint64, string]) (bool, error) {
-		entries[key.K3()] = key.K2()
+	rng := collections.NewPrefixedQuadRange[string, string, uint64, string](operator)
+	require.NoError(t, f.Keeper.RecentNodeActivity.Walk(f.Ctx, rng, func(key collections.Quad[string, string, uint64, string]) (bool, error) {
+		entries[key.K4()] = key.K3()
 		return false, nil
 	}))
 	return entries
@@ -41,7 +41,7 @@ func TestActivateNodeAuthorization(t *testing.T) {
 		ActivationAddress: sample.AccAddress(),
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrUnauthorized)
 
@@ -52,7 +52,7 @@ func TestActivateNodeAuthorization(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          other,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrUnauthorized)
 
@@ -66,7 +66,7 @@ func TestActivateNodeAuthorization(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrUnauthorized)
 }
@@ -87,7 +87,7 @@ func TestActivateNodeAddressSingleUse(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       node,
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrNodeExists)
 
@@ -98,7 +98,7 @@ func TestActivateNodeAddressSingleUse(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       node,
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrNodeExists)
 
@@ -110,7 +110,7 @@ func TestActivateNodeAddressSingleUse(t *testing.T) {
 		ActivationAddress: otherKey,
 		Operator:          other,
 		NodeAddress:       node,
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrNodeExists)
 }
@@ -129,7 +129,7 @@ func TestActivateNodeNoLicenses(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrNoActiveLicenses)
 }
@@ -147,7 +147,7 @@ func TestActivateNodeRevokedLicensesStopCounting(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrNoActiveLicenses)
 }
@@ -168,7 +168,7 @@ func TestActivateNodeLimitBoundary(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrActivationLimit)
 	require.ErrorContains(t, err, "(3)")
@@ -220,7 +220,7 @@ func TestActivateNodeSpamLimit(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.ErrorIs(t, err, types.ErrRecentActivationLimit)
 	require.ErrorContains(t, err, "(9)")
@@ -232,76 +232,95 @@ func TestActivateNodeSpamLimit(t *testing.T) {
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.NoError(t, err)
 }
 
-// TestActivateNodeAggregatesLicenseTypes: limits aggregate across every
-// counted license type.
-func TestActivateNodeAggregatesLicenseTypes(t *testing.T) {
+// TestActivateNodePoolsAreIndependentPerNodeType is the heart of per-node-type
+// entitlement: a node type is backed only by licenses of the license type it
+// is bound to. Holding licenses for one node type grants nothing for another,
+// and exhausting one pool leaves the other untouched.
+func TestActivateNodePoolsAreIndependentPerNodeType(t *testing.T) {
 	f, ms := setup(t)
 	operator := sample.AccAddress()
 
-	const secondType = "node.license.2"
-	setParams(t, f, func(p *types.Params) {
-		p.LicenseTypes = []string{f.LicenseType, secondType}
-	})
+	// Licensed for trust only; nano is registered by the fixture but unlicensed.
 	f.IssueLicenses(t, operator, 1)
-	f.IssueLicensesOfType(t, operator, secondType, 1)
-
 	key := authorizeKey(t, f, ms, f.Ctx, operator)
-	for i := 0; i < 6; i++ {
-		activateNode(t, f, ms, f.Ctx, key, operator)
+
+	activate := func(nodeType string) error {
+		_, err := ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
+			ActivationAddress: key,
+			Operator:          operator,
+			NodeAddress:       sample.AccAddress(),
+			NodeType:          nodeType,
+		})
+		return err
 	}
-	_, err := ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
-		ActivationAddress: key,
-		Operator:          operator,
-		NodeAddress:       sample.AccAddress(),
-		NodeType:          "test.node",
-	})
+
+	// 1 trust licence x multiplier 3 = 3 trust nodes.
+	for i := 0; i < 3; i++ {
+		require.NoError(t, activate(f.NodeType), "trust node %d", i)
+	}
+	err := activate(f.NodeType)
 	require.ErrorIs(t, err, types.ErrActivationLimit)
-	require.ErrorContains(t, err, "(6)")
+	require.ErrorContains(t, err, "(3)")
+
+	// Nano draws on a pool the operator has no licences for, so it is not
+	// merely limited — it is unlicensed. Three spare trust licences would not
+	// help; there are none to spare here either way.
+	err = activate(f.NanoNodeType)
+	require.ErrorIs(t, err, types.ErrNoActiveLicenses)
+	require.ErrorContains(t, err, f.NanoLicenseType)
+
+	// Licensing nano opens its own pool, and the exhausted trust pool stays
+	// exhausted: the two never share.
+	f.IssueLicensesOfType(t, operator, f.NanoLicenseType, 1)
+	for i := 0; i < 3; i++ {
+		require.NoError(t, activate(f.NanoNodeType), "nano node %d", i)
+	}
+	require.ErrorIs(t, activate(f.NanoNodeType), types.ErrActivationLimit)
+	require.ErrorIs(t, activate(f.NodeType), types.ErrActivationLimit)
+
+	// The tallies stayed separate throughout: 3 active of each, not 6 of one.
+	for _, nodeType := range []string{f.NodeType, f.NanoNodeType} {
+		counts, err := f.Keeper.GetOperatorNodeCounts(f.Ctx, operator, nodeType)
+		require.NoError(t, err)
+		require.Equal(t, uint64(3), counts.Total, nodeType)
+		require.Equal(t, uint64(3), counts.Active, nodeType)
+	}
 }
 
-// TestActivateNodeTypeRestriction: the node type registry is the allowlist.
-// Only a registered type activates, and registering one is all it takes.
+// TestActivateNodeTypeRestriction: the node type registry is the allowlist,
+// and registration alone is not enough — the operator must also hold licences
+// of the type that node type is bound to.
 func TestActivateNodeTypeRestriction(t *testing.T) {
 	f, ms := setup(t)
 	operator := sample.AccAddress()
 	f.IssueLicenses(t, operator, 2)
 	key := authorizeKey(t, f, ms, f.Ctx, operator)
 
-	_, err := ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
-		ActivationAddress: key,
-		Operator:          operator,
-		NodeAddress:       sample.AccAddress(),
-		NodeType:          "trust",
-	})
-	require.ErrorIs(t, err, types.ErrInvalidNodeType)
+	activate := func(nodeType string) error {
+		_, err := ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
+			ActivationAddress: key,
+			Operator:          operator,
+			NodeAddress:       sample.AccAddress(),
+			NodeType:          nodeType,
+		})
+		return err
+	}
 
-	f.RegisterNodeType(t, "trust", f.LicenseType)
+	// Never registered.
+	require.ErrorIs(t, activate("webstack.ghost"), types.ErrInvalidNodeType)
 
-	_, err = ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
-		ActivationAddress: key,
-		Operator:          operator,
-		NodeAddress:       sample.AccAddress(),
-		NodeType:          "trust",
-	})
-	require.NoError(t, err)
+	// Registered, but bound to a licence type the operator holds none of. The
+	// operator's trust licences do not carry over to nano.
+	require.ErrorIs(t, activate(f.NanoNodeType), types.ErrNoActiveLicenses)
 
-	// A node type registered under a different license type is still a valid
-	// activation type: the binding governs who may define the type, not which
-	// licenses satisfy the activation limit (that is the license_types param).
-	f.RegisterNodeType(t, "nano", "some.other.license")
-
-	_, err = ms.ActivateNode(f.Ctx, &types.MsgActivateNode{
-		ActivationAddress: key,
-		Operator:          operator,
-		NodeAddress:       sample.AccAddress(),
-		NodeType:          "nano",
-	})
-	require.NoError(t, err)
+	// Licensed for the bound type: admitted.
+	f.IssueLicensesOfType(t, operator, f.NanoLicenseType, 1)
+	require.NoError(t, activate(f.NanoNodeType))
 }
 
 // ---------------------------------------------------------------------------
@@ -359,17 +378,17 @@ func TestRecentCountWindow(t *testing.T) {
 
 	base := keepertest.NetworkFixtureBlockTime
 
-	count, err := f.Keeper.CountRecentActiveNodes(f.Ctx, operator, base)
+	count, err := f.Keeper.CountRecentActiveNodes(f.Ctx, operator, f.NodeType, base)
 	require.NoError(t, err)
 	require.Equal(t, uint64(1), count)
 
 	// Still visible the next day (yesterday prefix)...
-	count, err = f.Keeper.CountRecentActiveNodes(f.Ctx, operator, base.Add(24*time.Hour))
+	count, err = f.Keeper.CountRecentActiveNodes(f.Ctx, operator, f.NodeType, base.Add(24*time.Hour))
 	require.NoError(t, err)
 	require.Equal(t, uint64(1), count)
 
 	// ...and gone the day after.
-	count, err = f.Keeper.CountRecentActiveNodes(f.Ctx, operator, base.Add(48*time.Hour))
+	count, err = f.Keeper.CountRecentActiveNodes(f.Ctx, operator, f.NodeType, base.Add(48*time.Hour))
 	require.NoError(t, err)
 	require.Equal(t, uint64(0), count)
 }
@@ -390,13 +409,13 @@ func TestActivateNodeBookkeeping(t *testing.T) {
 	require.Equal(t, operator, rec.Operator)
 	require.Equal(t, key, rec.ActivatedBy)
 	require.Equal(t, types.NodeActive, rec.Status)
-	require.Equal(t, "test.node", rec.Type)
+	require.Equal(t, f.NodeType, rec.Type)
 
 	has, err := f.Keeper.OperatorNodes.Has(f.Ctx, collections.Join(operator, node))
 	require.NoError(t, err)
 	require.True(t, has)
 
-	counts, err := f.Keeper.GetOperatorNodeCounts(f.Ctx, operator)
+	counts, err := f.Keeper.GetOperatorNodeCounts(f.Ctx, operator, f.NodeType)
 	require.NoError(t, err)
 	require.Equal(t, uint64(1), counts.Total)
 	require.Equal(t, uint64(1), counts.Active)

@@ -42,7 +42,7 @@ func activateNode(t testing.TB, f *keepertest.NetworkFixture, ms types.MsgServer
 		ActivationAddress: key,
 		Operator:          operator,
 		NodeAddress:       addr,
-		NodeType:          "test.node",
+		NodeType:          f.NodeType,
 	})
 	require.NoError(t, err)
 	return addr
@@ -312,7 +312,7 @@ func TestDeactivateNodeSigners(t *testing.T) {
 			require.NoError(t, err)
 			require.Equal(t, types.NodeDeactivated, rec.Status)
 
-			counts, err := f.Keeper.GetOperatorNodeCounts(f.Ctx, operator)
+			counts, err := f.Keeper.GetOperatorNodeCounts(f.Ctx, operator, f.NodeType)
 			require.NoError(t, err)
 			require.Equal(t, uint64(1), counts.Total)
 			require.Equal(t, uint64(0), counts.Active)
@@ -488,7 +488,6 @@ func TestUpdateParams(t *testing.T) {
 	// Non-empty slices so the stored/loaded round-trip compares equal (proto
 	// unmarshals empty repeated fields as nil).
 	valid := types.DefaultParams()
-	valid.LicenseTypes = []string{"a", "b"}
 	valid.DeauthorizeFee = sdk.NewCoins(sdk.NewInt64Coin("stake", 1))
 
 	_, err := ms.UpdateParams(f.Ctx, &types.MsgUpdateParams{

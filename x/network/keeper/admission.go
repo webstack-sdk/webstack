@@ -61,7 +61,8 @@ func (k Keeper) CheckAndConsumeGaslessQuota(ctx context.Context, m sdk.Msg) erro
 		if !found || key.Status != types.KeyActive || key.Operator != msg.Operator {
 			return errorsmod.Wrapf(types.ErrUnauthorized, "activation key %s is not an active key of operator %s", msg.ActivationAddress, msg.Operator)
 		}
-		if err := k.EnsureOperatorLicensed(ctx, msg.Operator); err != nil {
+		// The msg names its node type, so the gate is the narrow one.
+		if err := k.EnsureOperatorLicensedForNodeType(ctx, msg.Operator, msg.NodeType); err != nil {
 			return err
 		}
 		return k.consumeActivateQuota(ctx, msg, params, blockTime, height)
@@ -102,7 +103,10 @@ func (k Keeper) CheckAndConsumeGaslessQuota(ctx context.Context, m sdk.Msg) erro
 		// License gating of ongoing service, checked on the first counted tx
 		// of each UTC day.
 		if counter.DailyCount == 0 {
-			if err := k.EnsureOperatorLicensed(ctx, node.Operator); err != nil {
+			// The node record carries its type, so this gate is the narrow
+			// one too: an operator must still be licensed for *this* node's
+			// type to keep it in service.
+			if err := k.EnsureOperatorLicensedForNodeType(ctx, node.Operator, node.Type); err != nil {
 				return err
 			}
 		}
@@ -129,7 +133,11 @@ func (k Keeper) consumeActivateQuota(ctx context.Context, msg *types.MsgActivate
 	counter.DailyCount++
 
 	stopAt := counter.DailyCount/params.SpamLimitMultiplier + 1
-	count, err := k.licenseKeeper.CountActiveLicenses(ctx, msg.Operator, params.LicenseTypes, stopAt)
+	nodeType, err := k.NodeTypes.Get(ctx, msg.NodeType)
+	if err != nil {
+		return errorsmod.Wrapf(types.ErrInvalidNodeType, "node type %q is not registered", msg.NodeType)
+	}
+	count, err := k.licenseKeeper.CountActiveLicenses(ctx, msg.Operator, []string{nodeType.LicenseTypeId}, stopAt)
 	if err != nil {
 		return err
 	}

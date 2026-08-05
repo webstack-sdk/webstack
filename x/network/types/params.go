@@ -8,13 +8,15 @@ import (
 )
 
 // DefaultParams returns the module's default parameters. Defaults are
-// chain-neutral: license_types is empty, which fail-closes activation (no
-// counted licenses means a limit of zero), and deauthorize_fee is empty
-// (charge disabled) because this module cannot name a chain's denom.
-// Consuming chains seed their real values in an upgrade handler or genesis.
+// chain-neutral: deauthorize_fee is empty (charge disabled) because this
+// module cannot name a chain's denom. Consuming chains seed their real values
+// in an upgrade handler or genesis.
+//
+// Activation still fail-closes out of the box, but that now comes from the
+// node type registry rather than a param: with no node types registered, no
+// node type resolves and nothing can activate.
 func DefaultParams() Params {
 	return Params{
-		LicenseTypes:              []string{},
 		ActivationLimitMultiplier: 3,
 		SpamLimitMultiplier:       9,
 		MaxActivationKeys:         5,
@@ -30,9 +32,6 @@ func DefaultParams() Params {
 
 // Validate checks the parameter set is well-formed.
 func (p Params) Validate() error {
-	if err := validateTypeList("license_types", p.LicenseTypes); err != nil {
-		return err
-	}
 	if p.ActivationLimitMultiplier == 0 {
 		return fmt.Errorf("activation_limit_multiplier must be positive")
 	}
@@ -62,20 +61,6 @@ func (p Params) Validate() error {
 	}
 	if p.MaxGaslessTxBytes == 0 {
 		return fmt.Errorf("max_gasless_tx_bytes must be positive")
-	}
-	return nil
-}
-
-func validateTypeList(name string, list []string) error {
-	seen := make(map[string]struct{}, len(list))
-	for _, entry := range list {
-		if entry == "" {
-			return fmt.Errorf("%s must not contain empty entries", name)
-		}
-		if _, dup := seen[entry]; dup {
-			return fmt.Errorf("%s contains duplicate entry %q", name, entry)
-		}
-		seen[entry] = struct{}{}
 	}
 	return nil
 }

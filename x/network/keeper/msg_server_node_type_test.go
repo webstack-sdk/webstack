@@ -3,7 +3,6 @@ package keeper_test
 import (
 	"testing"
 
-	"cosmossdk.io/collections"
 	"cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
@@ -39,28 +38,28 @@ func TestCreateNodeType(t *testing.T) {
 
 	creator := sample.AccAddress()
 	f.GrantNetwork(t, creator, types.PermissionNodeTypeCreate)
-	seedLicenseType(t, f, "webstack.node", creator)
+	seedLicenseType(t, f, "webstack.node.gpu", creator)
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
-		Id:            "webstack.trust",
-		LicenseTypeId: "webstack.node",
+		Id:            "webstack.gpu",
+		LicenseTypeId: "webstack.node.gpu",
 	})
 	require.NoError(t, err)
 
-	nt, err := f.Keeper.NodeTypes.Get(f.Ctx, "webstack.trust")
+	nt, err := f.Keeper.NodeTypes.Get(f.Ctx, "webstack.gpu")
 	require.NoError(t, err)
 	require.Equal(t, types.NodeType{
-		Id:            "webstack.trust",
+		Id:            "webstack.gpu",
 		Creator:       creator,
-		LicenseTypeId: "webstack.node",
+		LicenseTypeId: "webstack.node.gpu",
 	}, nt)
 
-	// The reverse index is what makes "node types for this license" a prefix
-	// walk rather than a full scan, so its entry is part of the contract.
-	indexed, err := f.Keeper.NodeTypesByLicense.Has(f.Ctx, collections.Join("webstack.node", "webstack.trust"))
+	// The inverse mapping is what makes "which node type does this license type
+	// back" a single read, so its entry is part of the contract.
+	bound, err := f.Keeper.NodeTypeByLicenseType.Get(f.Ctx, "webstack.node.gpu")
 	require.NoError(t, err)
-	require.True(t, indexed)
+	require.Equal(t, "webstack.gpu", bound)
 }
 
 // TestCreateNodeTypeRequiresGrant: holding the license type is not enough. The
@@ -70,12 +69,12 @@ func TestCreateNodeTypeRequiresGrant(t *testing.T) {
 	f, ms := setup(t)
 
 	creator := sample.AccAddress()
-	seedLicenseType(t, f, "webstack.node", creator)
+	seedLicenseType(t, f, "webstack.node.gpu", creator)
 
 	msg := &types.MsgCreateNodeType{
 		Creator:       creator,
-		Id:            "webstack.trust",
-		LicenseTypeId: "webstack.node",
+		Id:            "webstack.gpu",
+		LicenseTypeId: "webstack.node.gpu",
 	}
 
 	_, err := ms.CreateNodeType(f.Ctx, msg)
@@ -83,7 +82,7 @@ func TestCreateNodeTypeRequiresGrant(t *testing.T) {
 	require.ErrorContains(t, err, types.PermissionNodeTypeCreate)
 
 	// Nothing was written on the rejected attempt.
-	exists, err := f.Keeper.NodeTypes.Has(f.Ctx, "webstack.trust")
+	exists, err := f.Keeper.NodeTypes.Has(f.Ctx, "webstack.gpu")
 	require.NoError(t, err)
 	require.False(t, exists)
 
@@ -99,7 +98,7 @@ func TestCreateNodeTypeRequiresLicenseTypeCreator(t *testing.T) {
 
 	owner := sample.AccAddress()
 	stranger := sample.AccAddress()
-	seedLicenseType(t, f, "webstack.node", owner)
+	seedLicenseType(t, f, "webstack.node.gpu", owner)
 
 	// The stranger is fully granted — only the creator match stops them.
 	f.GrantNetwork(t, stranger, types.PermissionNodeTypeCreate)
@@ -107,7 +106,7 @@ func TestCreateNodeTypeRequiresLicenseTypeCreator(t *testing.T) {
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       stranger,
 		Id:            "webstack.evil",
-		LicenseTypeId: "webstack.node",
+		LicenseTypeId: "webstack.node.gpu",
 	})
 	require.ErrorIs(t, err, types.ErrUnauthorized)
 	require.ErrorContains(t, err, "did not create license type")
@@ -122,7 +121,7 @@ func TestCreateNodeTypeRequiresLicenseTypeCreator(t *testing.T) {
 	_, err = ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       owner,
 		Id:            "webstack.evil",
-		LicenseTypeId: "webstack.node",
+		LicenseTypeId: "webstack.node.gpu",
 	})
 	require.NoError(t, err)
 }
@@ -137,7 +136,7 @@ func TestCreateNodeTypeUnknownLicenseType(t *testing.T) {
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
-		Id:            "webstack.trust",
+		Id:            "webstack.gpu",
 		LicenseTypeId: "does.not.exist",
 	})
 	require.ErrorIs(t, err, types.ErrLicenseTypeNotFound)
@@ -151,27 +150,63 @@ func TestCreateNodeTypeDuplicate(t *testing.T) {
 
 	creator := sample.AccAddress()
 	f.GrantNetwork(t, creator, types.PermissionNodeTypeCreate)
-	seedLicenseType(t, f, "webstack.node", creator)
-	seedLicenseType(t, f, "webstack.other", creator)
+	seedLicenseType(t, f, "webstack.node.gpu", creator)
+	seedLicenseType(t, f, "webstack.node.other", creator)
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
-		Id:            "webstack.trust",
-		LicenseTypeId: "webstack.node",
+		Id:            "webstack.gpu",
+		LicenseTypeId: "webstack.node.gpu",
 	})
 	require.NoError(t, err)
 
 	// Same id, different license type, same (authorized) creator.
 	_, err = ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
-		Id:            "webstack.trust",
-		LicenseTypeId: "webstack.other",
+		Id:            "webstack.gpu",
+		LicenseTypeId: "webstack.node.other",
 	})
 	require.ErrorIs(t, err, types.ErrNodeTypeExists)
 
-	nt, err := f.Keeper.NodeTypes.Get(f.Ctx, "webstack.trust")
+	nt, err := f.Keeper.NodeTypes.Get(f.Ctx, "webstack.gpu")
 	require.NoError(t, err)
-	require.Equal(t, "webstack.node", nt.LicenseTypeId, "the original binding must survive")
+	require.Equal(t, "webstack.node.gpu", nt.LicenseTypeId, "the original binding must survive")
+}
+
+// TestCreateNodeTypeLicenseTypeAlreadyBound: the binding is one-to-one in both
+// directions. A license type already backing a node type cannot back a second,
+// even from its own creator — otherwise the two would collide in the inverse
+// mapping and one would silently win.
+func TestCreateNodeTypeLicenseTypeAlreadyBound(t *testing.T) {
+	f, ms := setup(t)
+
+	creator := sample.AccAddress()
+	f.GrantNetwork(t, creator, types.PermissionNodeTypeCreate)
+	seedLicenseType(t, f, "webstack.node.gpu", creator)
+
+	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
+		Creator:       creator,
+		Id:            "webstack.gpu",
+		LicenseTypeId: "webstack.node.gpu",
+	})
+	require.NoError(t, err)
+
+	_, err = ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
+		Creator:       creator,
+		Id:            "webstack.second",
+		LicenseTypeId: "webstack.node.gpu",
+	})
+	require.ErrorIs(t, err, types.ErrLicenseTypeBound)
+	require.ErrorContains(t, err, "webstack.gpu")
+
+	// The rejected node type was not written, and the original binding stands.
+	exists, err := f.Keeper.NodeTypes.Has(f.Ctx, "webstack.second")
+	require.NoError(t, err)
+	require.False(t, exists)
+
+	bound, err := f.Keeper.NodeTypeByLicenseType.Get(f.Ctx, "webstack.node.gpu")
+	require.NoError(t, err)
+	require.Equal(t, "webstack.gpu", bound)
 }
 
 // TestCreateNodeTypeValidateBasic pins the stateless checks.

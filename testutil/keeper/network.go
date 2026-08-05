@@ -92,8 +92,12 @@ func (f *FakeBankKeeper) SendCoinsFromAccountToModule(_ context.Context, senderA
 
 // NetworkFixture bundles a network keeper with the license and permission
 // keepers it consumes, sharing one CommitMultiStore, plus fake account/bank
-// keepers. The license namespace is owned by Owner; network params are the
-// module defaults with LicenseTypes seeded to [LicenseType].
+// keepers. The license namespace is owned by Owner, and network params are the
+// module defaults — what an operator may activate comes from the node type
+// registry, not from params.
+//
+// Two node type / license type pairs are registered, trust and nano, so that
+// per-node-type entitlement is exercised by default.
 type NetworkFixture struct {
 	Keeper           networkkeeper.Keeper
 	LicenseKeeper    licensekeeper.Keeper
@@ -103,13 +107,19 @@ type NetworkFixture struct {
 	Ctx              sdk.Context
 	Owner            string
 
-	// LicenseType is the counted license type seeded into the network params.
-	// It is created at fixture construction with Owner as its creator.
+	// NodeType and LicenseType are the fixture's default pair, node type
+	// webstack.trust backed by license type webstack.node.trust. The shared
+	// activateNode helper uses NodeType, and IssueLicenses issues LicenseType.
+	NodeType    string
 	LicenseType string
 
-	// NodeType is the node type registered at fixture construction, bound to
-	// LicenseType. It is the type the shared activateNode helper uses.
-	NodeType string
+	// NanoNodeType and NanoLicenseType are a second registered pair,
+	// webstack.nano backed by webstack.node.nano. Entitlement is per node
+	// type, and the fixture issues no nano licences, so this is the pair to
+	// reach for when asserting that one type's allowance does not leak into
+	// another's. Use IssueLicensesOfType to licence it.
+	NanoNodeType    string
+	NanoLicenseType string
 }
 
 // NetworkFixtureBlockTime is the fixture context's initial block time; tests
@@ -185,35 +195,43 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 		Owner:  owner,
 	}))
 
-	const licenseType = "node.license"
-	const nodeType = "test.node"
+	const (
+		trustNodeType    = "webstack.trust"
+		trustLicenseType = "webstack.node.trust"
+		nanoNodeType     = "webstack.nano"
+		nanoLicenseType  = "webstack.node.nano"
+	)
 
-	params := networktypes.DefaultParams()
-	params.LicenseTypes = []string{licenseType}
-	require.NoError(t, nk.Params.Set(ctx, params))
+	require.NoError(t, nk.Params.Set(ctx, networktypes.DefaultParams()))
 
-	// The counted license type is created up front, owned by the fixture
-	// owner, rather than lazily by the first IssueLicenses call: the node type
-	// below is bound to it, and that binding is only legal for its creator.
-	require.NoError(t, lk.LicenseTypes.Set(ctx, licenseType, licensetypes.LicenseType{
-		Id:           licenseType,
-		Creator:      owner,
-		MaxSupply:    math.ZeroInt(),
-		IssuedCount:  math.ZeroInt(),
-		ActiveCount:  math.ZeroInt(),
-		RevokedCount: math.ZeroInt(),
-	}))
-
-	// Activation resolves the node type through the registry, so without a
-	// registered type every ActivateNode in the suite would fail. Seeding the
-	// one the tests already use keeps them exercising activation rather than
-	// registration, which has its own tests.
-	require.NoError(t, nk.NodeTypes.Set(ctx, nodeType, networktypes.NodeType{
-		Id:            nodeType,
-		Creator:       owner,
-		LicenseTypeId: licenseType,
-	}))
-	require.NoError(t, nk.NodeTypesByLicense.Set(ctx, collections.Join(licenseType, nodeType)))
+	// Two node types, each on its own license type, because the binding is
+	// one-to-one and entitlement is per node type. Registering both by default
+	// means every test runs against a chain where a second, unlicensed node
+	// type exists — so a limit that leaked across types would show up broadly
+	// rather than only in the tests written to look for it.
+	//
+	// License types are created up front, owned by the fixture owner, rather
+	// than lazily by the first IssueLicenses call: the node types are bound to
+	// them, and that binding is only legal for the license type's creator.
+	for _, pair := range []struct{ nodeType, licenseType string }{
+		{trustNodeType, trustLicenseType},
+		{nanoNodeType, nanoLicenseType},
+	} {
+		require.NoError(t, lk.LicenseTypes.Set(ctx, pair.licenseType, licensetypes.LicenseType{
+			Id:           pair.licenseType,
+			Creator:      owner,
+			MaxSupply:    math.ZeroInt(),
+			IssuedCount:  math.ZeroInt(),
+			ActiveCount:  math.ZeroInt(),
+			RevokedCount: math.ZeroInt(),
+		}))
+		require.NoError(t, nk.NodeTypes.Set(ctx, pair.nodeType, networktypes.NodeType{
+			Id:            pair.nodeType,
+			Creator:       owner,
+			LicenseTypeId: pair.licenseType,
+		}))
+		require.NoError(t, nk.NodeTypeByLicenseType.Set(ctx, pair.licenseType, pair.nodeType))
+	}
 
 	return &NetworkFixture{
 		Keeper:           nk,
@@ -223,22 +241,33 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 		BankKeeper:       bk,
 		Ctx:              ctx,
 		Owner:            owner,
-		LicenseType:      licenseType,
-		NodeType:         nodeType,
+		NodeType:         trustNodeType,
+		LicenseType:      trustLicenseType,
+		NanoNodeType:     nanoNodeType,
+		NanoLicenseType:  nanoLicenseType,
 	}
 }
 
-// RegisterNodeType writes a node type record and its by-license index entry
+// RegisterNodeType writes a node type record and its by-license-type mapping
 // directly into network state, bypassing the grant- and creator-gated msg
 // path. Tests that exercise those gates drive the msg server instead.
+//
+// The one-to-one invariant is asserted rather than assumed: this helper skips
+// the handler that normally enforces it, so without the check a test could
+// quietly overwrite an existing binding and then assert against state the
+// chain could never reach.
 func (f *NetworkFixture) RegisterNodeType(t testing.TB, id, licenseTypeID string) {
 	t.Helper()
+	bound, err := f.Keeper.NodeTypeByLicenseType.Get(f.Ctx, licenseTypeID)
+	require.ErrorIsf(t, err, collections.ErrNotFound,
+		"license type %s already backs node type %s; each license type may back only one", licenseTypeID, bound)
+
 	require.NoError(t, f.Keeper.NodeTypes.Set(f.Ctx, id, networktypes.NodeType{
 		Id:            id,
 		Creator:       f.Owner,
 		LicenseTypeId: licenseTypeID,
 	}))
-	require.NoError(t, f.Keeper.NodeTypesByLicense.Set(f.Ctx, collections.Join(licenseTypeID, id)))
+	require.NoError(t, f.Keeper.NodeTypeByLicenseType.Set(f.Ctx, licenseTypeID, id))
 }
 
 // GrantNetwork writes a module-wide network-namespace grant directly into
@@ -249,9 +278,11 @@ func (f *NetworkFixture) GrantNetwork(t testing.TB, grantee, permission string) 
 		collections.Join4(networktypes.ModuleName, grantee, permission, "")))
 }
 
-// IssueLicenses creates the fixture's counted license type on first use and
-// issues count active licenses of it to holder, directly through license
-// state (the license msg path is covered by the license module's own tests).
+// IssueLicenses issues count active licenses of LicenseType — the trust pair —
+// to holder, directly through license state (the license msg path is covered by
+// the license module's own tests). Use IssueLicensesOfType for NanoLicenseType
+// or any other type; entitlement is per node type, so which type is issued
+// decides which nodes the holder may run.
 func (f *NetworkFixture) IssueLicenses(t testing.TB, holder string, count uint64) {
 	t.Helper()
 	f.IssueLicensesOfType(t, holder, f.LicenseType, count)

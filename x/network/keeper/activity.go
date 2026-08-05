@@ -27,10 +27,12 @@ func (k Keeper) TouchNodeActivity(ctx context.Context, nodeAddr string) error {
 	newEpoch := types.DayEpoch(blockTime)
 
 	if oldEpoch != newEpoch {
-		if err := k.RecentNodeActivity.Remove(ctx, collections.Join3(node.Operator, oldEpoch, nodeAddr)); err != nil {
+		// node.Type is already in hand from the record, so the node-type
+		// dimension costs no extra read here.
+		if err := k.RecentNodeActivity.Remove(ctx, collections.Join4(node.Operator, node.Type, oldEpoch, nodeAddr)); err != nil {
 			return err
 		}
-		if err := k.RecentNodeActivity.Set(ctx, collections.Join3(node.Operator, newEpoch, nodeAddr)); err != nil {
+		if err := k.RecentNodeActivity.Set(ctx, collections.Join4(node.Operator, node.Type, newEpoch, nodeAddr)); err != nil {
 			return err
 		}
 	}
@@ -39,16 +41,16 @@ func (k Keeper) TouchNodeActivity(ctx context.Context, nodeAddr string) error {
 	return k.Nodes.Set(ctx, nodeAddr, node)
 }
 
-// CountRecentActiveNodes returns the number of the operator's nodes with
-// counted activity today or yesterday (UTC): the two-prefix walk over
-// RecentNodeActivity. Each node has exactly one index entry, so no dedup is
-// needed.
-func (k Keeper) CountRecentActiveNodes(ctx context.Context, operator string, blockTime time.Time) (uint64, error) {
+// CountRecentActiveNodes returns the number of the operator's nodes *of one
+// node type* with counted activity today or yesterday (UTC): the two-prefix
+// walk over RecentNodeActivity. Each node has exactly one index entry, so no
+// dedup is needed.
+func (k Keeper) CountRecentActiveNodes(ctx context.Context, operator, nodeType string, blockTime time.Time) (uint64, error) {
 	today := types.DayEpoch(blockTime)
 	var count uint64
 	for _, epoch := range []uint64{today, today - 1} {
-		rng := collections.NewSuperPrefixedTripleRange[string, uint64, string](operator, epoch)
-		if err := k.RecentNodeActivity.Walk(ctx, rng, func(_ collections.Triple[string, uint64, string]) (bool, error) {
+		rng := collections.NewSuperPrefixedQuadRange3[string, string, uint64, string](operator, nodeType, epoch)
+		if err := k.RecentNodeActivity.Walk(ctx, rng, func(_ collections.Quad[string, string, uint64, string]) (bool, error) {
 			count++
 			return false, nil
 		}); err != nil {
@@ -58,10 +60,10 @@ func (k Keeper) CountRecentActiveNodes(ctx context.Context, operator string, blo
 	return count, nil
 }
 
-// GetOperatorNodeCounts returns the operator's denormalized node tally,
-// zero-valued when the operator has never activated a node.
-func (k Keeper) GetOperatorNodeCounts(ctx context.Context, operator string) (types.OperatorNodeCounts, error) {
-	counts, err := k.OperatorNodeCounts.Get(ctx, operator)
+// GetOperatorNodeCounts returns the operator's denormalized node tally for one
+// node type, zero-valued when the operator has never activated a node of it.
+func (k Keeper) GetOperatorNodeCounts(ctx context.Context, operator, nodeType string) (types.OperatorNodeCounts, error) {
+	counts, err := k.OperatorNodeCounts.Get(ctx, collections.Join(operator, nodeType))
 	if err != nil {
 		return types.OperatorNodeCounts{}, nil
 	}

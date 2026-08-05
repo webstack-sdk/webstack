@@ -62,7 +62,7 @@ var (
 	OperatorNodeCountsPrefix     = collections.NewPrefix(12)
 	RecentNodeActivityPrefix     = collections.NewPrefix(13)
 	GaslessCountersPrefix        = collections.NewPrefix(14)
-	NodeTypesByLicensePrefix     = collections.NewPrefix(15)
+	NodeTypeByLicenseTypePrefix  = collections.NewPrefix(15)
 )
 
 // Gasless admission counter kinds, the first key of the GaslessCounters map.

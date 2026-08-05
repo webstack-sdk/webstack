@@ -25,4 +25,5 @@ var (
 	ErrNodeTypeExists        = errors.Register(ModuleName, 1119, "node type already registered")
 	ErrNodeTypeNotFound      = errors.Register(ModuleName, 1120, "node type not found")
 	ErrLicenseTypeNotFound   = errors.Register(ModuleName, 1121, "license type not found")
+	ErrLicenseTypeBound      = errors.Register(ModuleName, 1122, "license type already backs a node type")
 )

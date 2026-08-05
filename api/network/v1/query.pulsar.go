@@ -7693,14 +7693,16 @@ func (x *fastReflection_QueryActivationKeysResponse) ProtoMethods() *protoiface.
 }
 
 var (
-	md_QueryNodeCountsRequest          protoreflect.MessageDescriptor
-	fd_QueryNodeCountsRequest_operator protoreflect.FieldDescriptor
+	md_QueryNodeCountsRequest           protoreflect.MessageDescriptor
+	fd_QueryNodeCountsRequest_operator  protoreflect.FieldDescriptor
+	fd_QueryNodeCountsRequest_node_type protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_network_v1_query_proto_init()
 	md_QueryNodeCountsRequest = File_network_v1_query_proto.Messages().ByName("QueryNodeCountsRequest")
 	fd_QueryNodeCountsRequest_operator = md_QueryNodeCountsRequest.Fields().ByName("operator")
+	fd_QueryNodeCountsRequest_node_type = md_QueryNodeCountsRequest.Fields().ByName("node_type")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryNodeCountsRequest)(nil)
@@ -7774,6 +7776,12 @@ func (x *fastReflection_QueryNodeCountsRequest) Range(f func(protoreflect.FieldD
 			return
 		}
 	}
+	if x.NodeType != "" {
+		value := protoreflect.ValueOfString(x.NodeType)
+		if !f(fd_QueryNodeCountsRequest_node_type, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -7791,6 +7799,8 @@ func (x *fastReflection_QueryNodeCountsRequest) Has(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "network.v1.QueryNodeCountsRequest.operator":
 		return x.Operator != ""
+	case "network.v1.QueryNodeCountsRequest.node_type":
+		return x.NodeType != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsRequest"))
@@ -7809,6 +7819,8 @@ func (x *fastReflection_QueryNodeCountsRequest) Clear(fd protoreflect.FieldDescr
 	switch fd.FullName() {
 	case "network.v1.QueryNodeCountsRequest.operator":
 		x.Operator = ""
+	case "network.v1.QueryNodeCountsRequest.node_type":
+		x.NodeType = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsRequest"))
@@ -7827,6 +7839,9 @@ func (x *fastReflection_QueryNodeCountsRequest) Get(descriptor protoreflect.Fiel
 	switch descriptor.FullName() {
 	case "network.v1.QueryNodeCountsRequest.operator":
 		value := x.Operator
+		return protoreflect.ValueOfString(value)
+	case "network.v1.QueryNodeCountsRequest.node_type":
+		value := x.NodeType
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
@@ -7850,6 +7865,8 @@ func (x *fastReflection_QueryNodeCountsRequest) Set(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "network.v1.QueryNodeCountsRequest.operator":
 		x.Operator = value.Interface().(string)
+	case "network.v1.QueryNodeCountsRequest.node_type":
+		x.NodeType = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsRequest"))
@@ -7872,6 +7889,8 @@ func (x *fastReflection_QueryNodeCountsRequest) Mutable(fd protoreflect.FieldDes
 	switch fd.FullName() {
 	case "network.v1.QueryNodeCountsRequest.operator":
 		panic(fmt.Errorf("field operator of message network.v1.QueryNodeCountsRequest is not mutable"))
+	case "network.v1.QueryNodeCountsRequest.node_type":
+		panic(fmt.Errorf("field node_type of message network.v1.QueryNodeCountsRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsRequest"))
@@ -7886,6 +7905,8 @@ func (x *fastReflection_QueryNodeCountsRequest) Mutable(fd protoreflect.FieldDes
 func (x *fastReflection_QueryNodeCountsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "network.v1.QueryNodeCountsRequest.operator":
+		return protoreflect.ValueOfString("")
+	case "network.v1.QueryNodeCountsRequest.node_type":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
@@ -7960,6 +7981,10 @@ func (x *fastReflection_QueryNodeCountsRequest) ProtoMethods() *protoiface.Metho
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		l = len(x.NodeType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -7988,6 +8013,13 @@ func (x *fastReflection_QueryNodeCountsRequest) ProtoMethods() *protoiface.Metho
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.NodeType) > 0 {
+			i -= len(x.NodeType)
+			copy(dAtA[i:], x.NodeType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NodeType)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if len(x.Operator) > 0 {
 			i -= len(x.Operator)
@@ -8077,6 +8109,38 @@ func (x *fastReflection_QueryNodeCountsRequest) ProtoMethods() *protoiface.Metho
 				}
 				x.Operator = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NodeType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.NodeType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -8113,24 +8177,837 @@ func (x *fastReflection_QueryNodeCountsRequest) ProtoMethods() *protoiface.Metho
 }
 
 var (
-	md_QueryNodeCountsResponse                  protoreflect.MessageDescriptor
-	fd_QueryNodeCountsResponse_total            protoreflect.FieldDescriptor
-	fd_QueryNodeCountsResponse_active           protoreflect.FieldDescriptor
-	fd_QueryNodeCountsResponse_recent_active    protoreflect.FieldDescriptor
-	fd_QueryNodeCountsResponse_license_count    protoreflect.FieldDescriptor
-	fd_QueryNodeCountsResponse_activation_limit protoreflect.FieldDescriptor
-	fd_QueryNodeCountsResponse_spam_limit       protoreflect.FieldDescriptor
+	md_NodeTypeCounts                  protoreflect.MessageDescriptor
+	fd_NodeTypeCounts_node_type        protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_license_type_id  protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_total            protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_active           protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_recent_active    protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_license_count    protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_activation_limit protoreflect.FieldDescriptor
+	fd_NodeTypeCounts_spam_limit       protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_network_v1_query_proto_init()
+	md_NodeTypeCounts = File_network_v1_query_proto.Messages().ByName("NodeTypeCounts")
+	fd_NodeTypeCounts_node_type = md_NodeTypeCounts.Fields().ByName("node_type")
+	fd_NodeTypeCounts_license_type_id = md_NodeTypeCounts.Fields().ByName("license_type_id")
+	fd_NodeTypeCounts_total = md_NodeTypeCounts.Fields().ByName("total")
+	fd_NodeTypeCounts_active = md_NodeTypeCounts.Fields().ByName("active")
+	fd_NodeTypeCounts_recent_active = md_NodeTypeCounts.Fields().ByName("recent_active")
+	fd_NodeTypeCounts_license_count = md_NodeTypeCounts.Fields().ByName("license_count")
+	fd_NodeTypeCounts_activation_limit = md_NodeTypeCounts.Fields().ByName("activation_limit")
+	fd_NodeTypeCounts_spam_limit = md_NodeTypeCounts.Fields().ByName("spam_limit")
+}
+
+var _ protoreflect.Message = (*fastReflection_NodeTypeCounts)(nil)
+
+type fastReflection_NodeTypeCounts NodeTypeCounts
+
+func (x *NodeTypeCounts) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_NodeTypeCounts)(x)
+}
+
+func (x *NodeTypeCounts) slowProtoReflect() protoreflect.Message {
+	mi := &file_network_v1_query_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_NodeTypeCounts_messageType fastReflection_NodeTypeCounts_messageType
+var _ protoreflect.MessageType = fastReflection_NodeTypeCounts_messageType{}
+
+type fastReflection_NodeTypeCounts_messageType struct{}
+
+func (x fastReflection_NodeTypeCounts_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_NodeTypeCounts)(nil)
+}
+func (x fastReflection_NodeTypeCounts_messageType) New() protoreflect.Message {
+	return new(fastReflection_NodeTypeCounts)
+}
+func (x fastReflection_NodeTypeCounts_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_NodeTypeCounts
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_NodeTypeCounts) Descriptor() protoreflect.MessageDescriptor {
+	return md_NodeTypeCounts
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_NodeTypeCounts) Type() protoreflect.MessageType {
+	return _fastReflection_NodeTypeCounts_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_NodeTypeCounts) New() protoreflect.Message {
+	return new(fastReflection_NodeTypeCounts)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_NodeTypeCounts) Interface() protoreflect.ProtoMessage {
+	return (*NodeTypeCounts)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_NodeTypeCounts) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.NodeType != "" {
+		value := protoreflect.ValueOfString(x.NodeType)
+		if !f(fd_NodeTypeCounts_node_type, value) {
+			return
+		}
+	}
+	if x.LicenseTypeId != "" {
+		value := protoreflect.ValueOfString(x.LicenseTypeId)
+		if !f(fd_NodeTypeCounts_license_type_id, value) {
+			return
+		}
+	}
+	if x.Total != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Total)
+		if !f(fd_NodeTypeCounts_total, value) {
+			return
+		}
+	}
+	if x.Active != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Active)
+		if !f(fd_NodeTypeCounts_active, value) {
+			return
+		}
+	}
+	if x.RecentActive != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.RecentActive)
+		if !f(fd_NodeTypeCounts_recent_active, value) {
+			return
+		}
+	}
+	if x.LicenseCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LicenseCount)
+		if !f(fd_NodeTypeCounts_license_count, value) {
+			return
+		}
+	}
+	if x.ActivationLimit != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ActivationLimit)
+		if !f(fd_NodeTypeCounts_activation_limit, value) {
+			return
+		}
+	}
+	if x.SpamLimit != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.SpamLimit)
+		if !f(fd_NodeTypeCounts_spam_limit, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_NodeTypeCounts) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "network.v1.NodeTypeCounts.node_type":
+		return x.NodeType != ""
+	case "network.v1.NodeTypeCounts.license_type_id":
+		return x.LicenseTypeId != ""
+	case "network.v1.NodeTypeCounts.total":
+		return x.Total != uint64(0)
+	case "network.v1.NodeTypeCounts.active":
+		return x.Active != uint64(0)
+	case "network.v1.NodeTypeCounts.recent_active":
+		return x.RecentActive != uint64(0)
+	case "network.v1.NodeTypeCounts.license_count":
+		return x.LicenseCount != uint64(0)
+	case "network.v1.NodeTypeCounts.activation_limit":
+		return x.ActivationLimit != uint64(0)
+	case "network.v1.NodeTypeCounts.spam_limit":
+		return x.SpamLimit != uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeTypeCounts"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeTypeCounts does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeTypeCounts) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "network.v1.NodeTypeCounts.node_type":
+		x.NodeType = ""
+	case "network.v1.NodeTypeCounts.license_type_id":
+		x.LicenseTypeId = ""
+	case "network.v1.NodeTypeCounts.total":
+		x.Total = uint64(0)
+	case "network.v1.NodeTypeCounts.active":
+		x.Active = uint64(0)
+	case "network.v1.NodeTypeCounts.recent_active":
+		x.RecentActive = uint64(0)
+	case "network.v1.NodeTypeCounts.license_count":
+		x.LicenseCount = uint64(0)
+	case "network.v1.NodeTypeCounts.activation_limit":
+		x.ActivationLimit = uint64(0)
+	case "network.v1.NodeTypeCounts.spam_limit":
+		x.SpamLimit = uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeTypeCounts"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeTypeCounts does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_NodeTypeCounts) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "network.v1.NodeTypeCounts.node_type":
+		value := x.NodeType
+		return protoreflect.ValueOfString(value)
+	case "network.v1.NodeTypeCounts.license_type_id":
+		value := x.LicenseTypeId
+		return protoreflect.ValueOfString(value)
+	case "network.v1.NodeTypeCounts.total":
+		value := x.Total
+		return protoreflect.ValueOfUint64(value)
+	case "network.v1.NodeTypeCounts.active":
+		value := x.Active
+		return protoreflect.ValueOfUint64(value)
+	case "network.v1.NodeTypeCounts.recent_active":
+		value := x.RecentActive
+		return protoreflect.ValueOfUint64(value)
+	case "network.v1.NodeTypeCounts.license_count":
+		value := x.LicenseCount
+		return protoreflect.ValueOfUint64(value)
+	case "network.v1.NodeTypeCounts.activation_limit":
+		value := x.ActivationLimit
+		return protoreflect.ValueOfUint64(value)
+	case "network.v1.NodeTypeCounts.spam_limit":
+		value := x.SpamLimit
+		return protoreflect.ValueOfUint64(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeTypeCounts"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeTypeCounts does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeTypeCounts) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "network.v1.NodeTypeCounts.node_type":
+		x.NodeType = value.Interface().(string)
+	case "network.v1.NodeTypeCounts.license_type_id":
+		x.LicenseTypeId = value.Interface().(string)
+	case "network.v1.NodeTypeCounts.total":
+		x.Total = value.Uint()
+	case "network.v1.NodeTypeCounts.active":
+		x.Active = value.Uint()
+	case "network.v1.NodeTypeCounts.recent_active":
+		x.RecentActive = value.Uint()
+	case "network.v1.NodeTypeCounts.license_count":
+		x.LicenseCount = value.Uint()
+	case "network.v1.NodeTypeCounts.activation_limit":
+		x.ActivationLimit = value.Uint()
+	case "network.v1.NodeTypeCounts.spam_limit":
+		x.SpamLimit = value.Uint()
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeTypeCounts"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeTypeCounts does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeTypeCounts) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "network.v1.NodeTypeCounts.node_type":
+		panic(fmt.Errorf("field node_type of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.license_type_id":
+		panic(fmt.Errorf("field license_type_id of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.total":
+		panic(fmt.Errorf("field total of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.active":
+		panic(fmt.Errorf("field active of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.recent_active":
+		panic(fmt.Errorf("field recent_active of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.license_count":
+		panic(fmt.Errorf("field license_count of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.activation_limit":
+		panic(fmt.Errorf("field activation_limit of message network.v1.NodeTypeCounts is not mutable"))
+	case "network.v1.NodeTypeCounts.spam_limit":
+		panic(fmt.Errorf("field spam_limit of message network.v1.NodeTypeCounts is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeTypeCounts"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeTypeCounts does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_NodeTypeCounts) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "network.v1.NodeTypeCounts.node_type":
+		return protoreflect.ValueOfString("")
+	case "network.v1.NodeTypeCounts.license_type_id":
+		return protoreflect.ValueOfString("")
+	case "network.v1.NodeTypeCounts.total":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "network.v1.NodeTypeCounts.active":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "network.v1.NodeTypeCounts.recent_active":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "network.v1.NodeTypeCounts.license_count":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "network.v1.NodeTypeCounts.activation_limit":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "network.v1.NodeTypeCounts.spam_limit":
+		return protoreflect.ValueOfUint64(uint64(0))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.NodeTypeCounts"))
+		}
+		panic(fmt.Errorf("message network.v1.NodeTypeCounts does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_NodeTypeCounts) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in network.v1.NodeTypeCounts", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_NodeTypeCounts) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_NodeTypeCounts) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_NodeTypeCounts) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_NodeTypeCounts) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*NodeTypeCounts)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.NodeType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.LicenseTypeId)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Total != 0 {
+			n += 1 + runtime.Sov(uint64(x.Total))
+		}
+		if x.Active != 0 {
+			n += 1 + runtime.Sov(uint64(x.Active))
+		}
+		if x.RecentActive != 0 {
+			n += 1 + runtime.Sov(uint64(x.RecentActive))
+		}
+		if x.LicenseCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.LicenseCount))
+		}
+		if x.ActivationLimit != 0 {
+			n += 1 + runtime.Sov(uint64(x.ActivationLimit))
+		}
+		if x.SpamLimit != 0 {
+			n += 1 + runtime.Sov(uint64(x.SpamLimit))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*NodeTypeCounts)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.SpamLimit != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.SpamLimit))
+			i--
+			dAtA[i] = 0x40
+		}
+		if x.ActivationLimit != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ActivationLimit))
+			i--
+			dAtA[i] = 0x38
+		}
+		if x.LicenseCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LicenseCount))
+			i--
+			dAtA[i] = 0x30
+		}
+		if x.RecentActive != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.RecentActive))
+			i--
+			dAtA[i] = 0x28
+		}
+		if x.Active != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Active))
+			i--
+			dAtA[i] = 0x20
+		}
+		if x.Total != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Total))
+			i--
+			dAtA[i] = 0x18
+		}
+		if len(x.LicenseTypeId) > 0 {
+			i -= len(x.LicenseTypeId)
+			copy(dAtA[i:], x.LicenseTypeId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.LicenseTypeId)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.NodeType) > 0 {
+			i -= len(x.NodeType)
+			copy(dAtA[i:], x.NodeType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NodeType)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*NodeTypeCounts)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: NodeTypeCounts: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: NodeTypeCounts: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NodeType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.NodeType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseTypeId", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.LicenseTypeId = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Total", wireType)
+				}
+				x.Total = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Total |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Active", wireType)
+				}
+				x.Active = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Active |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 5:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RecentActive", wireType)
+				}
+				x.RecentActive = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.RecentActive |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 6:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseCount", wireType)
+				}
+				x.LicenseCount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.LicenseCount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivationLimit", wireType)
+				}
+				x.ActivationLimit = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ActivationLimit |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SpamLimit", wireType)
+				}
+				x.SpamLimit = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.SpamLimit |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_QueryNodeCountsResponse_1_list)(nil)
+
+type _QueryNodeCountsResponse_1_list struct {
+	list *[]*NodeTypeCounts
+}
+
+func (x *_QueryNodeCountsResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QueryNodeCountsResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QueryNodeCountsResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*NodeTypeCounts)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QueryNodeCountsResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*NodeTypeCounts)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QueryNodeCountsResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(NodeTypeCounts)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryNodeCountsResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QueryNodeCountsResponse_1_list) NewElement() protoreflect.Value {
+	v := new(NodeTypeCounts)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryNodeCountsResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_QueryNodeCountsResponse        protoreflect.MessageDescriptor
+	fd_QueryNodeCountsResponse_counts protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_network_v1_query_proto_init()
 	md_QueryNodeCountsResponse = File_network_v1_query_proto.Messages().ByName("QueryNodeCountsResponse")
-	fd_QueryNodeCountsResponse_total = md_QueryNodeCountsResponse.Fields().ByName("total")
-	fd_QueryNodeCountsResponse_active = md_QueryNodeCountsResponse.Fields().ByName("active")
-	fd_QueryNodeCountsResponse_recent_active = md_QueryNodeCountsResponse.Fields().ByName("recent_active")
-	fd_QueryNodeCountsResponse_license_count = md_QueryNodeCountsResponse.Fields().ByName("license_count")
-	fd_QueryNodeCountsResponse_activation_limit = md_QueryNodeCountsResponse.Fields().ByName("activation_limit")
-	fd_QueryNodeCountsResponse_spam_limit = md_QueryNodeCountsResponse.Fields().ByName("spam_limit")
+	fd_QueryNodeCountsResponse_counts = md_QueryNodeCountsResponse.Fields().ByName("counts")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryNodeCountsResponse)(nil)
@@ -8142,7 +9019,7 @@ func (x *QueryNodeCountsResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryNodeCountsResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_network_v1_query_proto_msgTypes[17]
+	mi := &file_network_v1_query_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8198,39 +9075,9 @@ func (x *fastReflection_QueryNodeCountsResponse) Interface() protoreflect.ProtoM
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_QueryNodeCountsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Total != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Total)
-		if !f(fd_QueryNodeCountsResponse_total, value) {
-			return
-		}
-	}
-	if x.Active != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Active)
-		if !f(fd_QueryNodeCountsResponse_active, value) {
-			return
-		}
-	}
-	if x.RecentActive != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.RecentActive)
-		if !f(fd_QueryNodeCountsResponse_recent_active, value) {
-			return
-		}
-	}
-	if x.LicenseCount != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.LicenseCount)
-		if !f(fd_QueryNodeCountsResponse_license_count, value) {
-			return
-		}
-	}
-	if x.ActivationLimit != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.ActivationLimit)
-		if !f(fd_QueryNodeCountsResponse_activation_limit, value) {
-			return
-		}
-	}
-	if x.SpamLimit != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.SpamLimit)
-		if !f(fd_QueryNodeCountsResponse_spam_limit, value) {
+	if len(x.Counts) != 0 {
+		value := protoreflect.ValueOfList(&_QueryNodeCountsResponse_1_list{list: &x.Counts})
+		if !f(fd_QueryNodeCountsResponse_counts, value) {
 			return
 		}
 	}
@@ -8249,18 +9096,8 @@ func (x *fastReflection_QueryNodeCountsResponse) Range(f func(protoreflect.Field
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_QueryNodeCountsResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "network.v1.QueryNodeCountsResponse.total":
-		return x.Total != uint64(0)
-	case "network.v1.QueryNodeCountsResponse.active":
-		return x.Active != uint64(0)
-	case "network.v1.QueryNodeCountsResponse.recent_active":
-		return x.RecentActive != uint64(0)
-	case "network.v1.QueryNodeCountsResponse.license_count":
-		return x.LicenseCount != uint64(0)
-	case "network.v1.QueryNodeCountsResponse.activation_limit":
-		return x.ActivationLimit != uint64(0)
-	case "network.v1.QueryNodeCountsResponse.spam_limit":
-		return x.SpamLimit != uint64(0)
+	case "network.v1.QueryNodeCountsResponse.counts":
+		return len(x.Counts) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsResponse"))
@@ -8277,18 +9114,8 @@ func (x *fastReflection_QueryNodeCountsResponse) Has(fd protoreflect.FieldDescri
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryNodeCountsResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "network.v1.QueryNodeCountsResponse.total":
-		x.Total = uint64(0)
-	case "network.v1.QueryNodeCountsResponse.active":
-		x.Active = uint64(0)
-	case "network.v1.QueryNodeCountsResponse.recent_active":
-		x.RecentActive = uint64(0)
-	case "network.v1.QueryNodeCountsResponse.license_count":
-		x.LicenseCount = uint64(0)
-	case "network.v1.QueryNodeCountsResponse.activation_limit":
-		x.ActivationLimit = uint64(0)
-	case "network.v1.QueryNodeCountsResponse.spam_limit":
-		x.SpamLimit = uint64(0)
+	case "network.v1.QueryNodeCountsResponse.counts":
+		x.Counts = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsResponse"))
@@ -8305,24 +9132,12 @@ func (x *fastReflection_QueryNodeCountsResponse) Clear(fd protoreflect.FieldDesc
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_QueryNodeCountsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "network.v1.QueryNodeCountsResponse.total":
-		value := x.Total
-		return protoreflect.ValueOfUint64(value)
-	case "network.v1.QueryNodeCountsResponse.active":
-		value := x.Active
-		return protoreflect.ValueOfUint64(value)
-	case "network.v1.QueryNodeCountsResponse.recent_active":
-		value := x.RecentActive
-		return protoreflect.ValueOfUint64(value)
-	case "network.v1.QueryNodeCountsResponse.license_count":
-		value := x.LicenseCount
-		return protoreflect.ValueOfUint64(value)
-	case "network.v1.QueryNodeCountsResponse.activation_limit":
-		value := x.ActivationLimit
-		return protoreflect.ValueOfUint64(value)
-	case "network.v1.QueryNodeCountsResponse.spam_limit":
-		value := x.SpamLimit
-		return protoreflect.ValueOfUint64(value)
+	case "network.v1.QueryNodeCountsResponse.counts":
+		if len(x.Counts) == 0 {
+			return protoreflect.ValueOfList(&_QueryNodeCountsResponse_1_list{})
+		}
+		listValue := &_QueryNodeCountsResponse_1_list{list: &x.Counts}
+		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsResponse"))
@@ -8343,18 +9158,10 @@ func (x *fastReflection_QueryNodeCountsResponse) Get(descriptor protoreflect.Fie
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryNodeCountsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "network.v1.QueryNodeCountsResponse.total":
-		x.Total = value.Uint()
-	case "network.v1.QueryNodeCountsResponse.active":
-		x.Active = value.Uint()
-	case "network.v1.QueryNodeCountsResponse.recent_active":
-		x.RecentActive = value.Uint()
-	case "network.v1.QueryNodeCountsResponse.license_count":
-		x.LicenseCount = value.Uint()
-	case "network.v1.QueryNodeCountsResponse.activation_limit":
-		x.ActivationLimit = value.Uint()
-	case "network.v1.QueryNodeCountsResponse.spam_limit":
-		x.SpamLimit = value.Uint()
+	case "network.v1.QueryNodeCountsResponse.counts":
+		lv := value.List()
+		clv := lv.(*_QueryNodeCountsResponse_1_list)
+		x.Counts = *clv.list
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsResponse"))
@@ -8375,18 +9182,12 @@ func (x *fastReflection_QueryNodeCountsResponse) Set(fd protoreflect.FieldDescri
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryNodeCountsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "network.v1.QueryNodeCountsResponse.total":
-		panic(fmt.Errorf("field total of message network.v1.QueryNodeCountsResponse is not mutable"))
-	case "network.v1.QueryNodeCountsResponse.active":
-		panic(fmt.Errorf("field active of message network.v1.QueryNodeCountsResponse is not mutable"))
-	case "network.v1.QueryNodeCountsResponse.recent_active":
-		panic(fmt.Errorf("field recent_active of message network.v1.QueryNodeCountsResponse is not mutable"))
-	case "network.v1.QueryNodeCountsResponse.license_count":
-		panic(fmt.Errorf("field license_count of message network.v1.QueryNodeCountsResponse is not mutable"))
-	case "network.v1.QueryNodeCountsResponse.activation_limit":
-		panic(fmt.Errorf("field activation_limit of message network.v1.QueryNodeCountsResponse is not mutable"))
-	case "network.v1.QueryNodeCountsResponse.spam_limit":
-		panic(fmt.Errorf("field spam_limit of message network.v1.QueryNodeCountsResponse is not mutable"))
+	case "network.v1.QueryNodeCountsResponse.counts":
+		if x.Counts == nil {
+			x.Counts = []*NodeTypeCounts{}
+		}
+		value := &_QueryNodeCountsResponse_1_list{list: &x.Counts}
+		return protoreflect.ValueOfList(value)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsResponse"))
@@ -8400,18 +9201,9 @@ func (x *fastReflection_QueryNodeCountsResponse) Mutable(fd protoreflect.FieldDe
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_QueryNodeCountsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "network.v1.QueryNodeCountsResponse.total":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "network.v1.QueryNodeCountsResponse.active":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "network.v1.QueryNodeCountsResponse.recent_active":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "network.v1.QueryNodeCountsResponse.license_count":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "network.v1.QueryNodeCountsResponse.activation_limit":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "network.v1.QueryNodeCountsResponse.spam_limit":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "network.v1.QueryNodeCountsResponse.counts":
+		list := []*NodeTypeCounts{}
+		return protoreflect.ValueOfList(&_QueryNodeCountsResponse_1_list{list: &list})
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: network.v1.QueryNodeCountsResponse"))
@@ -8481,23 +9273,11 @@ func (x *fastReflection_QueryNodeCountsResponse) ProtoMethods() *protoiface.Meth
 		var n int
 		var l int
 		_ = l
-		if x.Total != 0 {
-			n += 1 + runtime.Sov(uint64(x.Total))
-		}
-		if x.Active != 0 {
-			n += 1 + runtime.Sov(uint64(x.Active))
-		}
-		if x.RecentActive != 0 {
-			n += 1 + runtime.Sov(uint64(x.RecentActive))
-		}
-		if x.LicenseCount != 0 {
-			n += 1 + runtime.Sov(uint64(x.LicenseCount))
-		}
-		if x.ActivationLimit != 0 {
-			n += 1 + runtime.Sov(uint64(x.ActivationLimit))
-		}
-		if x.SpamLimit != 0 {
-			n += 1 + runtime.Sov(uint64(x.SpamLimit))
+		if len(x.Counts) > 0 {
+			for _, e := range x.Counts {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -8528,35 +9308,21 @@ func (x *fastReflection_QueryNodeCountsResponse) ProtoMethods() *protoiface.Meth
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.SpamLimit != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.SpamLimit))
-			i--
-			dAtA[i] = 0x30
-		}
-		if x.ActivationLimit != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.ActivationLimit))
-			i--
-			dAtA[i] = 0x28
-		}
-		if x.LicenseCount != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.LicenseCount))
-			i--
-			dAtA[i] = 0x20
-		}
-		if x.RecentActive != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.RecentActive))
-			i--
-			dAtA[i] = 0x18
-		}
-		if x.Active != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.Active))
-			i--
-			dAtA[i] = 0x10
-		}
-		if x.Total != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.Total))
-			i--
-			dAtA[i] = 0x8
+		if len(x.Counts) > 0 {
+			for iNdEx := len(x.Counts) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Counts[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -8608,10 +9374,10 @@ func (x *fastReflection_QueryNodeCountsResponse) ProtoMethods() *protoiface.Meth
 			}
 			switch fieldNum {
 			case 1:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Total", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Counts", wireType)
 				}
-				x.Total = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -8621,106 +9387,26 @@ func (x *fastReflection_QueryNodeCountsResponse) ProtoMethods() *protoiface.Meth
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Total |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-			case 2:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Active", wireType)
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				x.Active = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.Active |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-			case 3:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RecentActive", wireType)
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.RecentActive = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.RecentActive |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
+				x.Counts = append(x.Counts, &NodeTypeCounts{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Counts[len(x.Counts)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
-			case 4:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LicenseCount", wireType)
-				}
-				x.LicenseCount = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.LicenseCount |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 5:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivationLimit", wireType)
-				}
-				x.ActivationLimit = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.ActivationLimit |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 6:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SpamLimit", wireType)
-				}
-				x.SpamLimit = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.SpamLimit |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -9448,6 +10134,9 @@ type QueryNodeCountsRequest struct {
 
 	// operator is the operator wallet address.
 	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
+	// node_type optionally restricts the result to one node type. Leave it empty
+	// to get one entry per registered node type.
+	NodeType string `protobuf:"bytes,2,opt,name=node_type,json=nodeType,proto3" json:"node_type,omitempty"`
 }
 
 func (x *QueryNodeCountsRequest) Reset() {
@@ -9477,33 +10166,133 @@ func (x *QueryNodeCountsRequest) GetOperator() string {
 	return ""
 }
 
+func (x *QueryNodeCountsRequest) GetNodeType() string {
+	if x != nil {
+		return x.NodeType
+	}
+	return ""
+}
+
+// NodeTypeCounts is an operator's tallies and limits for a single node type.
+// Limits are computed from the operator's active licenses of the license type
+// bound to this node type, so they change when those licenses are issued or
+// revoked — and licenses of any other type do not affect them.
+type NodeTypeCounts struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// node_type is the node type these numbers describe.
+	NodeType string `protobuf:"bytes,1,opt,name=node_type,json=nodeType,proto3" json:"node_type,omitempty"`
+	// license_type_id is the license type backing node_type.
+	LicenseTypeId string `protobuf:"bytes,2,opt,name=license_type_id,json=licenseTypeId,proto3" json:"license_type_id,omitempty"`
+	// total is the number of nodes of this type ever activated by the operator.
+	Total uint64 `protobuf:"varint,3,opt,name=total,proto3" json:"total,omitempty"`
+	// active is the number of the operator's currently active nodes of this type.
+	Active uint64 `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`
+	// recent_active is the number of this type's nodes with counted activity
+	// today or yesterday (UTC).
+	RecentActive uint64 `protobuf:"varint,5,opt,name=recent_active,json=recentActive,proto3" json:"recent_active,omitempty"`
+	// license_count is the operator's active licenses of license_type_id.
+	LicenseCount uint64 `protobuf:"varint,6,opt,name=license_count,json=licenseCount,proto3" json:"license_count,omitempty"`
+	// activation_limit is activation_limit_multiplier x license_count.
+	ActivationLimit uint64 `protobuf:"varint,7,opt,name=activation_limit,json=activationLimit,proto3" json:"activation_limit,omitempty"`
+	// spam_limit is spam_limit_multiplier x license_count.
+	SpamLimit uint64 `protobuf:"varint,8,opt,name=spam_limit,json=spamLimit,proto3" json:"spam_limit,omitempty"`
+}
+
+func (x *NodeTypeCounts) Reset() {
+	*x = NodeTypeCounts{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_network_v1_query_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NodeTypeCounts) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeTypeCounts) ProtoMessage() {}
+
+// Deprecated: Use NodeTypeCounts.ProtoReflect.Descriptor instead.
+func (*NodeTypeCounts) Descriptor() ([]byte, []int) {
+	return file_network_v1_query_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *NodeTypeCounts) GetNodeType() string {
+	if x != nil {
+		return x.NodeType
+	}
+	return ""
+}
+
+func (x *NodeTypeCounts) GetLicenseTypeId() string {
+	if x != nil {
+		return x.LicenseTypeId
+	}
+	return ""
+}
+
+func (x *NodeTypeCounts) GetTotal() uint64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *NodeTypeCounts) GetActive() uint64 {
+	if x != nil {
+		return x.Active
+	}
+	return 0
+}
+
+func (x *NodeTypeCounts) GetRecentActive() uint64 {
+	if x != nil {
+		return x.RecentActive
+	}
+	return 0
+}
+
+func (x *NodeTypeCounts) GetLicenseCount() uint64 {
+	if x != nil {
+		return x.LicenseCount
+	}
+	return 0
+}
+
+func (x *NodeTypeCounts) GetActivationLimit() uint64 {
+	if x != nil {
+		return x.ActivationLimit
+	}
+	return 0
+}
+
+func (x *NodeTypeCounts) GetSpamLimit() uint64 {
+	if x != nil {
+		return x.SpamLimit
+	}
+	return 0
+}
+
 // QueryNodeCountsResponse is the response type for the Query/NodeCounts RPC
-// method. Limits are computed from the operator's current active license
-// count, so they change when licenses are issued or revoked.
+// method. Entitlement is per node type, so the answer is a breakdown rather
+// than a single tally.
 type QueryNodeCountsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// total is the number of nodes ever activated by the operator.
-	Total uint64 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	// active is the number of currently active nodes.
-	Active uint64 `protobuf:"varint,2,opt,name=active,proto3" json:"active,omitempty"`
-	// recent_active is the number of nodes with counted activity today or
-	// yesterday (UTC).
-	RecentActive uint64 `protobuf:"varint,3,opt,name=recent_active,json=recentActive,proto3" json:"recent_active,omitempty"`
-	// license_count is the operator's active counted-license total.
-	LicenseCount uint64 `protobuf:"varint,4,opt,name=license_count,json=licenseCount,proto3" json:"license_count,omitempty"`
-	// activation_limit is activation_limit_multiplier x license_count.
-	ActivationLimit uint64 `protobuf:"varint,5,opt,name=activation_limit,json=activationLimit,proto3" json:"activation_limit,omitempty"`
-	// spam_limit is spam_limit_multiplier x license_count.
-	SpamLimit uint64 `protobuf:"varint,6,opt,name=spam_limit,json=spamLimit,proto3" json:"spam_limit,omitempty"`
+	// counts holds one entry per node type, in node type id order.
+	Counts []*NodeTypeCounts `protobuf:"bytes,1,rep,name=counts,proto3" json:"counts,omitempty"`
 }
 
 func (x *QueryNodeCountsResponse) Reset() {
 	*x = QueryNodeCountsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_network_v1_query_proto_msgTypes[17]
+		mi := &file_network_v1_query_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -9517,49 +10306,14 @@ func (*QueryNodeCountsResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryNodeCountsResponse.ProtoReflect.Descriptor instead.
 func (*QueryNodeCountsResponse) Descriptor() ([]byte, []int) {
-	return file_network_v1_query_proto_rawDescGZIP(), []int{17}
+	return file_network_v1_query_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *QueryNodeCountsResponse) GetTotal() uint64 {
+func (x *QueryNodeCountsResponse) GetCounts() []*NodeTypeCounts {
 	if x != nil {
-		return x.Total
+		return x.Counts
 	}
-	return 0
-}
-
-func (x *QueryNodeCountsResponse) GetActive() uint64 {
-	if x != nil {
-		return x.Active
-	}
-	return 0
-}
-
-func (x *QueryNodeCountsResponse) GetRecentActive() uint64 {
-	if x != nil {
-		return x.RecentActive
-	}
-	return 0
-}
-
-func (x *QueryNodeCountsResponse) GetLicenseCount() uint64 {
-	if x != nil {
-		return x.LicenseCount
-	}
-	return 0
-}
-
-func (x *QueryNodeCountsResponse) GetActivationLimit() uint64 {
-	if x != nil {
-		return x.ActivationLimit
-	}
-	return 0
-}
-
-func (x *QueryNodeCountsResponse) GetSpamLimit() uint64 {
-	if x != nil {
-		return x.SpamLimit
-	}
-	return 0
+	return nil
 }
 
 var File_network_v1_query_proto protoreflect.FileDescriptor
@@ -9689,111 +10443,121 @@ var file_network_v1_query_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
 	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
 	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x4e, 0x0a,
+	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x6b, 0x0a,
 	0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61,
 	0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63,
 	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72,
-	0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0xdb, 0x01,
-	0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74,
-	0x61, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12,
-	0x16, 0x0a, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x72, 0x65, 0x63, 0x65, 0x6e,
-	0x74, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c,
-	0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x12, 0x23, 0x0a, 0x0d,
-	0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x0c, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x75, 0x6e,
-	0x74, 0x12, 0x29, 0x0a, 0x10, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
-	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x61, 0x63, 0x74,
-	0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x1d, 0x0a, 0x0a,
-	0x73, 0x70, 0x61, 0x6d, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x09, 0x73, 0x70, 0x61, 0x6d, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x32, 0x99, 0x09, 0x0a, 0x05,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x6b, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
-	0x1e, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x1f, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x20, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1a, 0x12, 0x18, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74,
-	0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x70, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x12, 0x6d, 0x0a, 0x04, 0x4e, 0x6f, 0x64, 0x65, 0x12, 0x1c, 0x2e, 0x6e, 0x65, 0x74,
-	0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f,
+	0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x1b, 0x0a,
+	0x09, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x6e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x22, 0x97, 0x02, 0x0a, 0x0e, 0x4e,
+	0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x12, 0x1b, 0x0a,
+	0x09, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x6e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x63, 0x74, 0x69,
+	0x76, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65,
+	0x12, 0x23, 0x0a, 0x0d, 0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x76,
+	0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x72, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x41,
+	0x63, 0x74, 0x69, 0x76, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x6c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65,
+	0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x6c, 0x69,
+	0x63, 0x65, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x29, 0x0a, 0x10, 0x61, 0x63,
+	0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x07,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x4c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x70, 0x61, 0x6d, 0x5f, 0x6c, 0x69,
+	0x6d, 0x69, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x73, 0x70, 0x61, 0x6d, 0x4c,
+	0x69, 0x6d, 0x69, 0x74, 0x22, 0x53, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64,
+	0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x38, 0x0a, 0x06, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x6f, 0x64,
+	0x65, 0x54, 0x79, 0x70, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x06, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x32, 0x99, 0x09, 0x0a, 0x05, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x12, 0x6b, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1e, 0x2e,
+	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e,
+	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x20,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1a, 0x12, 0x18, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63,
+	0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x12, 0x6d, 0x0a, 0x04, 0x4e, 0x6f, 0x64, 0x65, 0x12, 0x1c, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f,
 	0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12,
-	0x20, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f,
-	0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x7d, 0x12, 0x67, 0x0a, 0x05, 0x4e, 0x6f, 0x64, 0x65, 0x73, 0x12, 0x1d, 0x2e, 0x6e, 0x65, 0x74,
-	0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64,
-	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x6e, 0x65, 0x74, 0x77,
-	0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1f, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x19, 0x12, 0x17, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74,
-	0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x73, 0x12, 0x9c, 0x01, 0x0a, 0x0f, 0x4e,
-	0x6f, 0x64, 0x65, 0x73, 0x42, 0x79, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x27,
-	0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x4e, 0x6f, 0x64, 0x65, 0x73, 0x42, 0x79, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x73, 0x42,
-	0x79, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x36, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x77, 0x65, 0x62, 0x73,
-	0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64,
-	0x65, 0x73, 0x5f, 0x62, 0x79, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x2f, 0x7b,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x12, 0x79, 0x0a, 0x08, 0x4e, 0x6f, 0x64,
-	0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x20, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e,
-	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79,
-	0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x22, 0x12, 0x20, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65,
-	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f,
-	0x7b, 0x69, 0x64, 0x7d, 0x12, 0x78, 0x0a, 0x09, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x73, 0x12, 0x21, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76,
-	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1e,
-	0x12, 0x1c, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77,
-	0x6f, 0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x12, 0x92,
-	0x01, 0x0a, 0x0d, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79,
-	0x12, 0x25, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
-	0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x7d, 0x12, 0x97, 0x01, 0x0a, 0x0e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x26, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
-	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27,
-	0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2e, 0x12,
-	0x2c, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f,
-	0x72, 0x6b, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6b, 0x65,
-	0x79, 0x73, 0x2f, 0x7b, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x12, 0x87, 0x01,
-	0x0a, 0x0a, 0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x12, 0x22, 0x2e, 0x6e,
-	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e,
-	0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x23, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12, 0x20, 0x2f,
 	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
-	0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x6f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x42, 0xa0, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e,
-	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64,
-	0x6b, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e,
-	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x76, 0x31, 0x3b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
-	0x6b, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4e, 0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4e, 0x65, 0x74, 0x77,
-	0x6f, 0x72, 0x6b, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0a, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
-	0x5c, 0x56, 0x31, 0xe2, 0x02, 0x16, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5c, 0x56, 0x31,
-	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b, 0x4e,
-	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x12,
+	0x67, 0x0a, 0x05, 0x4e, 0x6f, 0x64, 0x65, 0x73, 0x12, 0x1d, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f,
+	0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x19, 0x12,
+	0x17, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f,
+	0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x73, 0x12, 0x9c, 0x01, 0x0a, 0x0f, 0x4e, 0x6f, 0x64,
+	0x65, 0x73, 0x42, 0x79, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x27, 0x2e, 0x6e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e,
+	0x6f, 0x64, 0x65, 0x73, 0x42, 0x79, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e,
+	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x73, 0x42, 0x79, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x36, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61,
+	0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x73,
+	0x5f, 0x62, 0x79, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x2f, 0x7b, 0x6f, 0x70,
+	0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x12, 0x79, 0x0a, 0x08, 0x4e, 0x6f, 0x64, 0x65, 0x54,
+	0x79, 0x70, 0x65, 0x12, 0x20, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e,
+	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22,
+	0x12, 0x20, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77,
+	0x6f, 0x72, 0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x2f, 0x7b, 0x69,
+	0x64, 0x7d, 0x12, 0x78, 0x0a, 0x09, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12,
+	0x21, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x22, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1e, 0x12, 0x1c,
+	0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x2f, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x12, 0x92, 0x01, 0x0a,
+	0x0d, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x25,
+	0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e,
+	0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x32, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b,
+	0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x7d, 0x12, 0x97, 0x01, 0x0a, 0x0e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x4b, 0x65, 0x79, 0x73, 0x12, 0x26, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x4b, 0x65, 0x79, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x6e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41,
+	0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2e, 0x12, 0x2c, 0x2f,
+	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6b, 0x65, 0x79, 0x73,
+	0x2f, 0x7b, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x12, 0x87, 0x01, 0x0a, 0x0a,
+	0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x12, 0x22, 0x2e, 0x6e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x6f, 0x64,
+	0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23,
+	0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4e, 0x6f, 0x64, 0x65, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x77, 0x65,
+	0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6e,
+	0x6f, 0x64, 0x65, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x2f, 0x7b, 0x6f, 0x70, 0x65, 0x72,
+	0x61, 0x74, 0x6f, 0x72, 0x7d, 0x42, 0xa0, 0x01, 0x0a, 0x0e, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x65,
+	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
+	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2d, 0x73, 0x64, 0x6b, 0x2f,
+	0x77, 0x65, 0x62, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x76, 0x31, 0x3b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x76,
+	0x31, 0xa2, 0x02, 0x03, 0x4e, 0x58, 0x58, 0xaa, 0x02, 0x0a, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0a, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5c, 0x56,
+	0x31, 0xe2, 0x02, 0x16, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5c, 0x56, 0x31, 0x5c, 0x47,
+	0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0b, 0x4e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -9808,7 +10572,7 @@ func file_network_v1_query_proto_rawDescGZIP() []byte {
 	return file_network_v1_query_proto_rawDescData
 }
 
-var file_network_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_network_v1_query_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_network_v1_query_proto_goTypes = []interface{}{
 	(*QueryParamsRequest)(nil),           // 0: network.v1.QueryParamsRequest
 	(*QueryParamsResponse)(nil),          // 1: network.v1.QueryParamsResponse
@@ -9827,57 +10591,59 @@ var file_network_v1_query_proto_goTypes = []interface{}{
 	(*QueryActivationKeysRequest)(nil),   // 14: network.v1.QueryActivationKeysRequest
 	(*QueryActivationKeysResponse)(nil),  // 15: network.v1.QueryActivationKeysResponse
 	(*QueryNodeCountsRequest)(nil),       // 16: network.v1.QueryNodeCountsRequest
-	(*QueryNodeCountsResponse)(nil),      // 17: network.v1.QueryNodeCountsResponse
-	(*Params)(nil),                       // 18: network.v1.Params
-	(*Node)(nil),                         // 19: network.v1.Node
-	(*v1beta1.PageRequest)(nil),          // 20: cosmos.base.query.v1beta1.PageRequest
-	(NodeStatus)(0),                      // 21: network.v1.NodeStatus
-	(*v1beta1.PageResponse)(nil),         // 22: cosmos.base.query.v1beta1.PageResponse
-	(*NodeType)(nil),                     // 23: network.v1.NodeType
-	(*ActivationKey)(nil),                // 24: network.v1.ActivationKey
+	(*NodeTypeCounts)(nil),               // 17: network.v1.NodeTypeCounts
+	(*QueryNodeCountsResponse)(nil),      // 18: network.v1.QueryNodeCountsResponse
+	(*Params)(nil),                       // 19: network.v1.Params
+	(*Node)(nil),                         // 20: network.v1.Node
+	(*v1beta1.PageRequest)(nil),          // 21: cosmos.base.query.v1beta1.PageRequest
+	(NodeStatus)(0),                      // 22: network.v1.NodeStatus
+	(*v1beta1.PageResponse)(nil),         // 23: cosmos.base.query.v1beta1.PageResponse
+	(*NodeType)(nil),                     // 24: network.v1.NodeType
+	(*ActivationKey)(nil),                // 25: network.v1.ActivationKey
 }
 var file_network_v1_query_proto_depIdxs = []int32{
-	18, // 0: network.v1.QueryParamsResponse.params:type_name -> network.v1.Params
-	19, // 1: network.v1.QueryNodeResponse.node:type_name -> network.v1.Node
-	20, // 2: network.v1.QueryNodesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	21, // 3: network.v1.QueryNodesRequest.status:type_name -> network.v1.NodeStatus
-	19, // 4: network.v1.QueryNodesResponse.nodes:type_name -> network.v1.Node
-	22, // 5: network.v1.QueryNodesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	20, // 6: network.v1.QueryNodesByOperatorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	21, // 7: network.v1.QueryNodesByOperatorRequest.status:type_name -> network.v1.NodeStatus
-	19, // 8: network.v1.QueryNodesByOperatorResponse.nodes:type_name -> network.v1.Node
-	22, // 9: network.v1.QueryNodesByOperatorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	23, // 10: network.v1.QueryNodeTypeResponse.node_type:type_name -> network.v1.NodeType
-	20, // 11: network.v1.QueryNodeTypesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	23, // 12: network.v1.QueryNodeTypesResponse.node_types:type_name -> network.v1.NodeType
-	22, // 13: network.v1.QueryNodeTypesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 14: network.v1.QueryActivationKeyResponse.activation_key:type_name -> network.v1.ActivationKey
-	20, // 15: network.v1.QueryActivationKeysRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	24, // 16: network.v1.QueryActivationKeysResponse.activation_keys:type_name -> network.v1.ActivationKey
-	22, // 17: network.v1.QueryActivationKeysResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 18: network.v1.Query.Params:input_type -> network.v1.QueryParamsRequest
-	2,  // 19: network.v1.Query.Node:input_type -> network.v1.QueryNodeRequest
-	4,  // 20: network.v1.Query.Nodes:input_type -> network.v1.QueryNodesRequest
-	6,  // 21: network.v1.Query.NodesByOperator:input_type -> network.v1.QueryNodesByOperatorRequest
-	8,  // 22: network.v1.Query.NodeType:input_type -> network.v1.QueryNodeTypeRequest
-	10, // 23: network.v1.Query.NodeTypes:input_type -> network.v1.QueryNodeTypesRequest
-	12, // 24: network.v1.Query.ActivationKey:input_type -> network.v1.QueryActivationKeyRequest
-	14, // 25: network.v1.Query.ActivationKeys:input_type -> network.v1.QueryActivationKeysRequest
-	16, // 26: network.v1.Query.NodeCounts:input_type -> network.v1.QueryNodeCountsRequest
-	1,  // 27: network.v1.Query.Params:output_type -> network.v1.QueryParamsResponse
-	3,  // 28: network.v1.Query.Node:output_type -> network.v1.QueryNodeResponse
-	5,  // 29: network.v1.Query.Nodes:output_type -> network.v1.QueryNodesResponse
-	7,  // 30: network.v1.Query.NodesByOperator:output_type -> network.v1.QueryNodesByOperatorResponse
-	9,  // 31: network.v1.Query.NodeType:output_type -> network.v1.QueryNodeTypeResponse
-	11, // 32: network.v1.Query.NodeTypes:output_type -> network.v1.QueryNodeTypesResponse
-	13, // 33: network.v1.Query.ActivationKey:output_type -> network.v1.QueryActivationKeyResponse
-	15, // 34: network.v1.Query.ActivationKeys:output_type -> network.v1.QueryActivationKeysResponse
-	17, // 35: network.v1.Query.NodeCounts:output_type -> network.v1.QueryNodeCountsResponse
-	27, // [27:36] is the sub-list for method output_type
-	18, // [18:27] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	19, // 0: network.v1.QueryParamsResponse.params:type_name -> network.v1.Params
+	20, // 1: network.v1.QueryNodeResponse.node:type_name -> network.v1.Node
+	21, // 2: network.v1.QueryNodesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 3: network.v1.QueryNodesRequest.status:type_name -> network.v1.NodeStatus
+	20, // 4: network.v1.QueryNodesResponse.nodes:type_name -> network.v1.Node
+	23, // 5: network.v1.QueryNodesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	21, // 6: network.v1.QueryNodesByOperatorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 7: network.v1.QueryNodesByOperatorRequest.status:type_name -> network.v1.NodeStatus
+	20, // 8: network.v1.QueryNodesByOperatorResponse.nodes:type_name -> network.v1.Node
+	23, // 9: network.v1.QueryNodesByOperatorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 10: network.v1.QueryNodeTypeResponse.node_type:type_name -> network.v1.NodeType
+	21, // 11: network.v1.QueryNodeTypesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	24, // 12: network.v1.QueryNodeTypesResponse.node_types:type_name -> network.v1.NodeType
+	23, // 13: network.v1.QueryNodeTypesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	25, // 14: network.v1.QueryActivationKeyResponse.activation_key:type_name -> network.v1.ActivationKey
+	21, // 15: network.v1.QueryActivationKeysRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	25, // 16: network.v1.QueryActivationKeysResponse.activation_keys:type_name -> network.v1.ActivationKey
+	23, // 17: network.v1.QueryActivationKeysResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	17, // 18: network.v1.QueryNodeCountsResponse.counts:type_name -> network.v1.NodeTypeCounts
+	0,  // 19: network.v1.Query.Params:input_type -> network.v1.QueryParamsRequest
+	2,  // 20: network.v1.Query.Node:input_type -> network.v1.QueryNodeRequest
+	4,  // 21: network.v1.Query.Nodes:input_type -> network.v1.QueryNodesRequest
+	6,  // 22: network.v1.Query.NodesByOperator:input_type -> network.v1.QueryNodesByOperatorRequest
+	8,  // 23: network.v1.Query.NodeType:input_type -> network.v1.QueryNodeTypeRequest
+	10, // 24: network.v1.Query.NodeTypes:input_type -> network.v1.QueryNodeTypesRequest
+	12, // 25: network.v1.Query.ActivationKey:input_type -> network.v1.QueryActivationKeyRequest
+	14, // 26: network.v1.Query.ActivationKeys:input_type -> network.v1.QueryActivationKeysRequest
+	16, // 27: network.v1.Query.NodeCounts:input_type -> network.v1.QueryNodeCountsRequest
+	1,  // 28: network.v1.Query.Params:output_type -> network.v1.QueryParamsResponse
+	3,  // 29: network.v1.Query.Node:output_type -> network.v1.QueryNodeResponse
+	5,  // 30: network.v1.Query.Nodes:output_type -> network.v1.QueryNodesResponse
+	7,  // 31: network.v1.Query.NodesByOperator:output_type -> network.v1.QueryNodesByOperatorResponse
+	9,  // 32: network.v1.Query.NodeType:output_type -> network.v1.QueryNodeTypeResponse
+	11, // 33: network.v1.Query.NodeTypes:output_type -> network.v1.QueryNodeTypesResponse
+	13, // 34: network.v1.Query.ActivationKey:output_type -> network.v1.QueryActivationKeyResponse
+	15, // 35: network.v1.Query.ActivationKeys:output_type -> network.v1.QueryActivationKeysResponse
+	18, // 36: network.v1.Query.NodeCounts:output_type -> network.v1.QueryNodeCountsResponse
+	28, // [28:37] is the sub-list for method output_type
+	19, // [19:28] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_network_v1_query_proto_init() }
@@ -10092,6 +10858,18 @@ func file_network_v1_query_proto_init() {
 			}
 		}
 		file_network_v1_query_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NodeTypeCounts); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_network_v1_query_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryNodeCountsResponse); i {
 			case 0:
 				return &v.state
@@ -10110,7 +10888,7 @@ func file_network_v1_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_network_v1_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
