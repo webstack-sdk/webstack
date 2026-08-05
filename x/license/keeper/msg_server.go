@@ -53,6 +53,9 @@ func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateL
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeExists, "license type %s already exists", msg.Id)
 	}
 
+	// The signer is not recorded: the "type.create" grant is the whole
+	// authorization, and downstream modules gate on their own grants rather
+	// than on who created a license type.
 	lt := types.LicenseType{
 		Id:            msg.Id,
 		Transferrable: msg.Transferrable,
@@ -60,9 +63,6 @@ func (ms msgServer) CreateLicenseType(ctx context.Context, msg *types.MsgCreateL
 		IssuedCount:   math.ZeroInt(),
 		ActiveCount:   math.ZeroInt(),
 		RevokedCount:  math.ZeroInt(),
-		// Recorded so downstream modules can gate on it: x/network only lets
-		// this address define node types bound to this license type.
-		Creator: msg.Creator,
 	}
 
 	if err := ms.k.LicenseTypes.Set(ctx, msg.Id, lt); err != nil {

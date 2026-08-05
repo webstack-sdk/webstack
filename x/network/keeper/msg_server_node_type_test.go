@@ -16,14 +16,13 @@ import (
 // CreateNodeType
 // ---------------------------------------------------------------------------
 
-// seedLicenseType writes a license type owned by creator straight into license
-// state. The license msg path has its own tests; what matters here is only
-// which address is recorded as the creator.
-func seedLicenseType(t testing.TB, f *keepertest.NetworkFixture, id, creator string) {
+// seedLicenseType writes a license type straight into license state. The
+// license msg path has its own tests; what matters here is only that the type
+// exists for a node type to bind to.
+func seedLicenseType(t testing.TB, f *keepertest.NetworkFixture, id string) {
 	t.Helper()
 	require.NoError(t, f.LicenseKeeper.LicenseTypes.Set(f.Ctx, id, licensetypes.LicenseType{
 		Id:           id,
-		Creator:      creator,
 		MaxSupply:    math.ZeroInt(),
 		IssuedCount:  math.ZeroInt(),
 		ActiveCount:  math.ZeroInt(),
@@ -31,14 +30,14 @@ func seedLicenseType(t testing.TB, f *keepertest.NetworkFixture, id, creator str
 	}))
 }
 
-// TestCreateNodeType covers the happy path: both gates satisfied writes the
-// record and its by-license index entry.
+// TestCreateNodeType covers the happy path: the grant plus an existing license
+// type writes the record and its by-license index entry.
 func TestCreateNodeType(t *testing.T) {
 	f, ms := setup(t)
 
 	creator := sample.AccAddress()
 	f.GrantNetwork(t, creator, types.PermissionNodeTypeCreate)
-	seedLicenseType(t, f, "webstack.node.gpu", creator)
+	seedLicenseType(t, f, "webstack.node.gpu")
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
@@ -47,11 +46,12 @@ func TestCreateNodeType(t *testing.T) {
 	})
 	require.NoError(t, err)
 
+	// The signing address is not part of the record: the grant is the whole
+	// authorization, so nothing about the signer is retained.
 	nt, err := f.Keeper.NodeTypes.Get(f.Ctx, "webstack.gpu")
 	require.NoError(t, err)
 	require.Equal(t, types.NodeType{
 		Id:            "webstack.gpu",
-		Creator:       creator,
 		LicenseTypeId: "webstack.node.gpu",
 	}, nt)
 
@@ -62,14 +62,14 @@ func TestCreateNodeType(t *testing.T) {
 	require.Equal(t, "webstack.gpu", bound)
 }
 
-// TestCreateNodeTypeRequiresGrant: holding the license type is not enough. The
-// creator of a license type still needs nodetype.create to define node types,
-// so the right stays revocable on its own.
+// TestCreateNodeTypeRequiresGrant: an existing license type is not enough. The
+// grant is the only authorization for registering node types, so without it
+// nothing is written.
 func TestCreateNodeTypeRequiresGrant(t *testing.T) {
 	f, ms := setup(t)
 
 	creator := sample.AccAddress()
-	seedLicenseType(t, f, "webstack.node.gpu", creator)
+	seedLicenseType(t, f, "webstack.node.gpu")
 
 	msg := &types.MsgCreateNodeType{
 		Creator:       creator,
@@ -91,39 +91,31 @@ func TestCreateNodeTypeRequiresGrant(t *testing.T) {
 	require.NoError(t, err)
 }
 
-// TestCreateNodeTypeRequiresLicenseTypeCreator is the core new rule: the grant
-// alone does not let one address attach node types to another's license type.
-func TestCreateNodeTypeRequiresLicenseTypeCreator(t *testing.T) {
+// TestCreateNodeTypeGrantIsTheOnlyGate: the grant authorizes binding against
+// any existing license type, including one created by somebody else. The
+// license type carries no record of who created it, so there is nothing left
+// for the handler to compare the signer against — this pins that the signer's
+// relationship to the license type is deliberately not consulted.
+func TestCreateNodeTypeGrantIsTheOnlyGate(t *testing.T) {
 	f, ms := setup(t)
 
-	owner := sample.AccAddress()
-	stranger := sample.AccAddress()
-	seedLicenseType(t, f, "webstack.node.gpu", owner)
+	// The license type records no address at all, so the handler has nothing to
+	// compare the signer against: any grantee may bind against it.
+	seedLicenseType(t, f, "webstack.node.gpu")
 
-	// The stranger is fully granted — only the creator match stops them.
+	stranger := sample.AccAddress()
 	f.GrantNetwork(t, stranger, types.PermissionNodeTypeCreate)
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       stranger,
-		Id:            "webstack.evil",
-		LicenseTypeId: "webstack.node.gpu",
-	})
-	require.ErrorIs(t, err, types.ErrUnauthorized)
-	require.ErrorContains(t, err, "did not create license type")
-
-	exists, err := f.Keeper.NodeTypes.Has(f.Ctx, "webstack.evil")
-	require.NoError(t, err)
-	require.False(t, exists)
-
-	// The same message from the license type's creator is accepted, so the
-	// rejection above is about identity and nothing else.
-	f.GrantNetwork(t, owner, types.PermissionNodeTypeCreate)
-	_, err = ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
-		Creator:       owner,
-		Id:            "webstack.evil",
+		Id:            "webstack.gpu",
 		LicenseTypeId: "webstack.node.gpu",
 	})
 	require.NoError(t, err)
+
+	nt, err := f.Keeper.NodeTypes.Get(f.Ctx, "webstack.gpu")
+	require.NoError(t, err)
+	require.Equal(t, "webstack.node.gpu", nt.LicenseTypeId)
 }
 
 // TestCreateNodeTypeUnknownLicenseType: a binding to a license type that does
@@ -150,8 +142,8 @@ func TestCreateNodeTypeDuplicate(t *testing.T) {
 
 	creator := sample.AccAddress()
 	f.GrantNetwork(t, creator, types.PermissionNodeTypeCreate)
-	seedLicenseType(t, f, "webstack.node.gpu", creator)
-	seedLicenseType(t, f, "webstack.node.other", creator)
+	seedLicenseType(t, f, "webstack.node.gpu")
+	seedLicenseType(t, f, "webstack.node.other")
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
@@ -160,7 +152,7 @@ func TestCreateNodeTypeDuplicate(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	// Same id, different license type, same (authorized) creator.
+	// Same id, different license type, same (authorized) signer.
 	_, err = ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,
 		Id:            "webstack.gpu",
@@ -175,14 +167,14 @@ func TestCreateNodeTypeDuplicate(t *testing.T) {
 
 // TestCreateNodeTypeLicenseTypeAlreadyBound: the binding is one-to-one in both
 // directions. A license type already backing a node type cannot back a second,
-// even from its own creator — otherwise the two would collide in the inverse
+// even from the same signer — otherwise the two would collide in the inverse
 // mapping and one would silently win.
 func TestCreateNodeTypeLicenseTypeAlreadyBound(t *testing.T) {
 	f, ms := setup(t)
 
 	creator := sample.AccAddress()
 	f.GrantNetwork(t, creator, types.PermissionNodeTypeCreate)
-	seedLicenseType(t, f, "webstack.node.gpu", creator)
+	seedLicenseType(t, f, "webstack.node.gpu")
 
 	_, err := ms.CreateNodeType(f.Ctx, &types.MsgCreateNodeType{
 		Creator:       creator,

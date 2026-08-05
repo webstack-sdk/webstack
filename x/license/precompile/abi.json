@@ -117,8 +117,7 @@
             { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
             { "internalType": "uint256", "name": "issuedCount", "type": "uint256" },
             { "internalType": "uint256", "name": "activeCount", "type": "uint256" },
-            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" },
-            { "internalType": "address", "name": "creator", "type": "address" }
+            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" }
           ],
           "internalType": "struct LicenseType",
           "name": "",
@@ -139,8 +138,7 @@
             { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
             { "internalType": "uint256", "name": "issuedCount", "type": "uint256" },
             { "internalType": "uint256", "name": "activeCount", "type": "uint256" },
-            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" },
-            { "internalType": "address", "name": "creator", "type": "address" }
+            { "internalType": "uint256", "name": "revokedCount", "type": "uint256" }
           ],
           "internalType": "struct LicenseType[]",
           "name": "",

@@ -26,11 +26,11 @@ const (
 const (
 	PermissionWalletCreate = "wallet.create"
 
-	// PermissionNodeTypeCreate authorizes registering node types. It confers
-	// the ability to define node types at all; which license types they may be
-	// bound to is decided separately, by matching the signer against the
-	// license type's recorded creator. Keeping the two apart means the right
-	// can be revoked without disturbing license-type ownership.
+	// PermissionNodeTypeCreate authorizes registering node types, against any
+	// existing license type. It is the whole authorization for the action, so
+	// grant it only to addresses trusted with the node type registry: bindings
+	// are one-to-one and permanent, so a node type registered against a
+	// license type cannot later be replaced.
 	PermissionNodeTypeCreate = "nodetype.create"
 )
 

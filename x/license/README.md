@@ -7,6 +7,8 @@ The `x/license` module provides on-chain license management for Cosmos SDK chain
 - **License Types** define templates (e.g. `node.license`, `validator.license`) with optional max supply and a declarative transferrability flag
 - **Licenses** are individual instances issued to holders with start/end dates and active/revoked status
 - **Ownership and permissions** live in the [`x/permission`](../permission/README.md) module under the `license` namespace: per-type `issue`/`revoke` grants delegate rights over existing types, and a module-wide `type.create` grant delegates the creation of new ones. The owner grants these rights rather than holding them implicitly
+- **An EVM precompile** exposes the same transactions and queries to Solidity contracts, routed through the same handlers
+- **Downstream consumers** read licenses through a narrow keeper surface — [`x/network`](../network/README.md) derives its per-node-type activation limits from a holder's active license count
 
 ## Installation
 
@@ -35,7 +37,9 @@ keys := storetypes.NewKVStoreKeys(
 )
 ```
 
-2. Create the keeper:
+2. Create the keeper and register its permission namespace. The keeper consumes
+   the permission keeper (ownership and grants) and the account keeper (holder
+   accounts are created on issuance), so it is constructed after both:
 
 ```go
 app.LicenseKeeper = licensekeeper.NewKeeper(
@@ -43,7 +47,10 @@ app.LicenseKeeper = licensekeeper.NewKeeper(
     runtime.NewKVStoreService(keys[licensetypes.StoreKey]),
     logger,
     authAddr, // governance authority address
+    app.PermissionKeeper,
+    app.AccountKeeper,
 )
+license.RegisterNamespace(app.PermissionKeeper, app.LicenseKeeper)
 ```
 
 3. Register the module:
@@ -55,12 +62,15 @@ app.ModuleManager = module.NewManager(
 )
 ```
 
-4. Add to genesis ordering:
+4. Add to genesis ordering, **before** `permission` — grant scopes reference
+   license type ids, so they can only be validated once license state is
+   imported:
 
 ```go
 genesisModuleOrder := []string{
     // ... existing modules
     licensetypes.ModuleName,
+    permissiontypes.ModuleName,
 }
 ```
 
@@ -72,7 +82,9 @@ The module supports dependency injection. Add the module proto config to your ap
 import _ "github.com/webstack-sdk/webstack/x/license"
 ```
 
-The `init()` function in `depinject.go` automatically registers the module. The `ProvideModule` function resolves `codec.Codec` and `store.KVStoreService` from the DI container.
+The `init()` function in `depinject.go` automatically registers the module. The
+`ProvideModule` function resolves the codec, store service, permission keeper,
+and account keeper from the DI container, and calls `RegisterNamespace` itself.
 
 ## Concepts
 
@@ -107,11 +119,13 @@ A license type is a template with:
 | `issued_count` | Lifetime licenses issued. May exceed `max_supply`, since revoking frees a slot |
 | `active_count` | Currently active licenses. This is what `max_supply` caps |
 | `revoked_count` | Licenses revoked to date |
-| `creator` | Address that created the type — the `type.create` grantee that signed `MsgCreateLicenseType`, not the namespace owner |
 
-`creator` is fixed at creation (`MsgUpdateLicenseType` does not touch it) and is
-required: `x/network` lets only this address define node types bound to the
-license type, so genesis rejects a license type without one.
+The address that created a type is **not recorded**. The `type.create` grant is
+the whole authorization for creating one, and it confers no continuing
+authority over the result — downstream modules gate on their own grants, not on
+who created a license type. `x/network`, for instance, gates node type
+registration on its `nodetype.create` grant and only checks that the license
+type exists.
 
 ### Licenses
 
@@ -190,12 +204,13 @@ permission; owning the namespace is not sufficient on its own.
 # One-time, from the namespace owner:
 webstackd tx permission grant-permissions license webstack1admin... type.create - --from owner
 
-webstackd tx license create-license-type node.license true 1000 --from admin
+# max_supply is a flag, not a positional arg; it defaults to 0 (unlimited).
+webstackd tx license create-license-type node.license true --max-supply 1000 --from admin
 ```
 
 ### MsgUpdateLicenseType
-Update an existing license type's `transferrable` flag. `max_supply` and
-`creator` are fixed at creation and cannot be changed. The flag is declarative
+Update an existing license type's `transferrable` flag. `max_supply` is fixed
+at creation and cannot be changed. The flag is declarative
 — this module has no transfer message — so changing it signals intent to
 consumers rather than altering any on-chain behaviour.
 
@@ -216,7 +231,17 @@ webstackd tx license issue-licenses \
   --from admin
 ```
 
-Each entry is `license_type_id:holder:count:start_date[:end_date]`.
+Each entry is `license_type_id:holder:count:start_date[:end_date]`. A message
+carries at most `MaxIssueBatchSize` (100) entries.
+
+All entries are validated — permissions, addresses, dates, counts — and supply
+caps are checked with the requested counts aggregated per license type, before
+any license is issued, so a message that would breach a cap issues nothing.
+
+Issuance **creates the holder's account** if it does not exist, so a wallet
+holding only a license can sign its first transaction (e.g. the gasless
+activation-key authorization in [`x/network`](../network/README.md)) without a
+prior funding transfer.
 
 ### MsgRevokeLicenses
 Revoke active licenses for a holder, most recently issued first. Sets status to `revoked` and records the current block date as `revoked_date`; the issued `end_date` is left unchanged. Signer must have `revoke` permission.
@@ -256,6 +281,70 @@ GET /webstack/license/licenses_by_holder/{holder}
 GET /webstack/license/licenses_by_holder/{holder}/{type_id}
 ```
 
+## EVM precompile
+
+The module ships an EVM precompiled contract that exposes the same transactions
+and queries to Solidity contracts. The interface is
+[`LicenseI.sol`](precompile/LicenseI.sol); its ABI is embedded from
+[`abi.json`](precompile/abi.json).
+
+Default address (`licensetypes.PrecompileAddress`):
+
+```
+0x776562737461636B000000000000000000000001
+   ^ ascii("webstack")                ^ per-precompile slot id
+```
+
+The ASCII prefix puts the address far above any plausible upstream
+`cosmos/evm` precompile, so silent collision with a future upstream release is
+effectively impossible. Operators may register it elsewhere; app wiring panics
+at start-up if the EVM keeper's static precompile map already holds this
+address.
+
+```go
+licensePrecompile := licenseprecompile.NewPrecompile(
+    app.LicenseKeeper,
+    evmAddrCodec,
+    common.HexToAddress(licensetypes.PrecompileAddress),
+)
+// add to staticPrecompiles before constructing the EVM keeper
+```
+
+| Kind | Methods |
+|---|---|
+| Transactions | `createLicenseType`, `updateLicenseType`, `issueLicenses`, `revokeLicenses` |
+| Queries (`view`) | `licenseType`, `licenseTypes`, `license`, `licenses`, `licensesByType`, `licensesByHolder`, `licensesByHolderAndType` |
+
+Calls route through the same msg and query servers as the Cosmos path, so every
+authorization rule above applies unchanged — the EVM caller address is
+converted to bech32 and becomes the message signer. Ownership and permission
+grants are **not** exposed through this precompile; manage them with the
+`x/permission` messages.
+
+Solidity events mirror the module's: `LicenseTypeCreated`, `LicenseTypeUpdated`,
+`LicenseIssued`, `LicenseRevoked`.
+
+## Consumed keeper surface
+
+Other modules read license state through a narrow surface rather than the
+records themselves:
+
+```go
+// Bounded count of a holder's active licenses across license types.
+// stopAt != 0 stops the walk once the count is decisive; 0 counts everything.
+count, err := k.CountActiveLicenses(ctx, holder, []string{"node.license"}, stopAt)
+
+// Existence — the check x/network runs before binding a node type to a type.
+found, err := k.HasLicenseType(ctx, "node.license")
+
+// The full record, used as the x/permission scope validator.
+lt, found, err := k.GetLicenseType(ctx, "node.license")
+```
+
+"Active" means "not revoked": this module never enforces `end_date`, so an
+expired-but-unrevoked license still counts. License types meant for counting
+should be issued with an empty `end_date` (revocation-only lifecycle).
+
 ## Genesis
 
 Example genesis configuration:
@@ -270,8 +359,7 @@ Example genesis configuration:
         "max_supply": "100",
         "issued_count": "0",
         "active_count": "0",
-        "revoked_count": "0",
-        "creator": "webstack1adminaddress..."
+        "revoked_count": "0"
       }
     ],
     "licenses": [],
@@ -340,4 +428,6 @@ See the [Cosmos SDK migration docs](https://docs.cosmos.network/main/build/build
 go test ./x/license/...
 ```
 
-Tests cover all message handlers, query handlers, and genesis validation.
+Tests cover all message handlers, query handlers, genesis validation, and the
+EVM precompile (ABI conformance, transaction and query methods, type
+conversion).

@@ -23,11 +23,10 @@ func TestInitGenesisRunsFullValidation(t *testing.T) {
 	bad := &types.GenesisState{
 		LicenseTypes: []types.LicenseType{
 			{
-				Id: "neg",
-				// Valid so the negative max_supply below is what fails: this
-				// test is about InitGenesis running validation at all, not
-				// about which rule trips first.
-				Creator:      sample.AccAddress(),
+				// Every other field is valid so the negative max_supply is what
+				// fails: this test is about InitGenesis running validation at
+				// all, not about which rule trips first.
+				Id:           "neg",
 				MaxSupply:    math.NewInt(-1),
 				IssuedCount:  math.ZeroInt(),
 				ActiveCount:  math.ZeroInt(),

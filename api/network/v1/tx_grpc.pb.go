@@ -39,8 +39,8 @@ type MsgClient interface {
 	// issuance or hold no licenses yet.
 	CreateOperatorAccount(ctx context.Context, in *MsgCreateOperatorAccount, opts ...grpc.CallOption) (*MsgCreateOperatorAccountResponse, error)
 	// CreateNodeType registers a node type bound to a license type. Signer must
-	// hold the "nodetype.create" grant in the network permission namespace and
-	// be the creator of the named license type. Regular gas tx.
+	// hold the "nodetype.create" grant in the network permission namespace, and
+	// the named license type must exist. Regular gas tx.
 	CreateNodeType(ctx context.Context, in *MsgCreateNodeType, opts ...grpc.CallOption) (*MsgCreateNodeTypeResponse, error)
 	// AuthorizeActivationKey authorizes a new activation key for the signing
 	// operator wallet. Gasless.
@@ -153,8 +153,8 @@ type MsgServer interface {
 	// issuance or hold no licenses yet.
 	CreateOperatorAccount(context.Context, *MsgCreateOperatorAccount) (*MsgCreateOperatorAccountResponse, error)
 	// CreateNodeType registers a node type bound to a license type. Signer must
-	// hold the "nodetype.create" grant in the network permission namespace and
-	// be the creator of the named license type. Regular gas tx.
+	// hold the "nodetype.create" grant in the network permission namespace, and
+	// the named license type must exist. Regular gas tx.
 	CreateNodeType(context.Context, *MsgCreateNodeType) (*MsgCreateNodeTypeResponse, error)
 	// AuthorizeActivationKey authorizes a new activation key for the signing
 	// operator wallet. Gasless.

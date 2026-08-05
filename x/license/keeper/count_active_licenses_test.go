@@ -18,7 +18,7 @@ func TestCountActiveLicenses(t *testing.T) {
 
 	seed := func(holder, typeID string, count uint64) {
 		t.Helper()
-		keepertest.SeedActiveLicenses(t, f.Keeper, f.Ctx, f.Owner, holder, typeID, count)
+		keepertest.SeedActiveLicenses(t, f.Keeper, f.Ctx, holder, typeID, count)
 	}
 
 	seed(holder, "type.a", 3)

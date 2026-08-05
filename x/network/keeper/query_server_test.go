@@ -204,7 +204,6 @@ func TestQueryNodeType(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, types.NodeType{
 		Id:            f.NodeType,
-		Creator:       f.Owner,
 		LicenseTypeId: f.LicenseType,
 	}, resp.NodeType)
 
@@ -230,8 +229,8 @@ func TestQueryNodeTypesLicenseFilter(t *testing.T) {
 	require.Equal(t, []string{f.NodeType}, idsOf(mine.NodeTypes))
 
 	// The lookup hydrates the full record, not just the id.
+	require.Equal(t, f.NodeType, mine.NodeTypes[0].Id)
 	require.Equal(t, f.LicenseType, mine.NodeTypes[0].LicenseTypeId)
-	require.Equal(t, f.Owner, mine.NodeTypes[0].Creator)
 
 	other, err := q.NodeTypes(f.Ctx, &types.QueryNodeTypesRequest{LicenseTypeId: f.NanoLicenseType})
 	require.NoError(t, err)

@@ -29,8 +29,8 @@ service Msg {
   }
 
   // CreateNodeType registers a node type bound to a license type. Signer must
-  // hold the "nodetype.create" grant in the network permission namespace and
-  // be the creator of the named license type. Regular gas tx.
+  // hold the "nodetype.create" grant in the network permission namespace, and
+  // the named license type must exist. Regular gas tx.
   rpc CreateNodeType(MsgCreateNodeType) returns (MsgCreateNodeTypeResponse) {
     option (google.api.http) = {
       post: "/webstack/network/tx/create_node_type"
@@ -109,16 +109,16 @@ message MsgCreateOperatorAccount {
 message MsgCreateOperatorAccountResponse {}
 
 // MsgCreateNodeType is the Msg/CreateNodeType request type. Registration is
-// gated twice: the signer must hold the module-wide "nodetype.create" grant,
-// and must be the recorded creator of license_type_id. The grant confers the
-// ability to define node types at all; the creator match decides which license
-// types they may be defined against.
+// gated on the module-wide "nodetype.create" grant, which authorizes defining
+// node types against any existing license type. The signing address is not
+// recorded on the node type: the grant is the whole authorization, so keeping
+// the address would preserve no authority.
 message MsgCreateNodeType {
   option (cosmos.msg.v1.signer) = "creator";
   option (amino.name) = "webstack/x/network/MsgCreateNodeType";
 
-  // creator is the signer. It must hold "nodetype.create" and be the creator
-  // of license_type_id.
+  // creator is the signer. It must hold the module-wide "nodetype.create"
+  // grant.
   string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   // id is the node type identifier to register. Node type ids are single-use:
   // records are never removed and cannot be re-registered.

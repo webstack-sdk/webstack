@@ -107,7 +107,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "CreateNodeType",
 					Use:       "create-node-type [id] [license-type-id]",
 					Short:     "Register a node type bound to a license type",
-					Long:      "Register a node type bound to a license type. The signer must hold the network module's nodetype.create permission and be the creator of the named license type. Node types are permanent: the id and the binding cannot be changed or removed.",
+					Long:      "Register a node type bound to a license type. The signer must hold the network module's nodetype.create permission, and the named license type must already exist. Node types are permanent: the id and the binding cannot be changed or removed.",
 					Example:   "webstackd tx network create-node-type webstack.trust webstack.node --from admin",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "id"},

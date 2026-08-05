@@ -4774,8 +4774,10 @@ type MsgCreateLicenseType struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// creator must hold the module-wide "type.create" permission. It is not the
-	// license namespace owner: ownership grants the right, it does not carry it.
+	// creator is the signer and must hold the module-wide "type.create"
+	// permission. It is not the license namespace owner: ownership grants the
+	// right, it does not carry it. The address is not recorded on the license
+	// type.
 	Creator       string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Id            string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	Transferrable bool   `protobuf:"varint,3,opt,name=transferrable,proto3" json:"transferrable,omitempty"`

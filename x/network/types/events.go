@@ -14,7 +14,6 @@ const (
 	AttributeKeyActivationAddress = "activation_address"
 	AttributeKeyNodeAddress       = "node_address"
 	AttributeKeyNodeType          = "node_type"
-	AttributeKeyCreator           = "creator"
 	AttributeKeyLicenseTypeID     = "license_type_id"
 	AttributeKeySigner            = "signer"
 	AttributeKeyFee               = "fee"

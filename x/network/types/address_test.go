@@ -115,7 +115,7 @@ func TestGenesisRejectsNonCanonicalAddresses(t *testing.T) {
 		return types.GenesisState{
 			Params: types.DefaultParams(),
 			NodeTypes: []types.NodeType{{
-				Id: "webstack.trust", Creator: operator, LicenseTypeId: "webstack.node.trust",
+				Id: "webstack.trust", LicenseTypeId: "webstack.node.trust",
 			}},
 			ActivationKeys: []types.ActivationKey{{
 				Address: keyAddr, Operator: operator, Status: types.KeyActive,
@@ -141,12 +141,5 @@ func TestGenesisRejectsNonCanonicalAddresses(t *testing.T) {
 
 	gs = base()
 	gs.Nodes[0].Operator = strings.ToUpper(operator)
-	require.ErrorContains(t, gs.Validate(), "not in canonical form")
-
-	// A node type's creator is compared against the license type's creator to
-	// authorize registration, so a non-canonical alias here would compare
-	// unequal to the very address it denotes.
-	gs = base()
-	gs.NodeTypes[0].Creator = strings.ToUpper(operator)
 	require.ErrorContains(t, gs.Validate(), "not in canonical form")
 }

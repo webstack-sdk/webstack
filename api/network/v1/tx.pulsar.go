@@ -7974,17 +7974,17 @@ func (*MsgCreateOperatorAccountResponse) Descriptor() ([]byte, []int) {
 }
 
 // MsgCreateNodeType is the Msg/CreateNodeType request type. Registration is
-// gated twice: the signer must hold the module-wide "nodetype.create" grant,
-// and must be the recorded creator of license_type_id. The grant confers the
-// ability to define node types at all; the creator match decides which license
-// types they may be defined against.
+// gated on the module-wide "nodetype.create" grant, which authorizes defining
+// node types against any existing license type. The signing address is not
+// recorded on the node type: the grant is the whole authorization, so keeping
+// the address would preserve no authority.
 type MsgCreateNodeType struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// creator is the signer. It must hold "nodetype.create" and be the creator
-	// of license_type_id.
+	// creator is the signer. It must hold the module-wide "nodetype.create"
+	// grant.
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	// id is the node type identifier to register. Node type ids are single-use:
 	// records are never removed and cannot be re-registered.

@@ -15,7 +15,9 @@ option go_package = "github.com/webstack-sdk/webstack/x/license/types";
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // CreateLicenseType creates a new license type. Signer must be the license namespace owner.
+  // CreateLicenseType creates a new license type. Signer must hold the
+  // module-wide "type.create" grant; owning the license namespace is not
+  // sufficient on its own.
   rpc CreateLicenseType(MsgCreateLicenseType) returns (MsgCreateLicenseTypeResponse) {
     option (google.api.http) = {
       post: "/webstack/license/tx/create_license_type"
@@ -55,8 +57,10 @@ message MsgCreateLicenseType {
   option (cosmos.msg.v1.signer) = "creator";
   option (amino.name) = "webstack/x/license/MsgCreateLicenseType";
 
-  // creator must hold the module-wide "type.create" permission. It is not the
-  // license namespace owner: ownership grants the right, it does not carry it.
+  // creator is the signer and must hold the module-wide "type.create"
+  // permission. It is not the license namespace owner: ownership grants the
+  // right, it does not carry it. The address is not recorded on the license
+  // type.
   string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   string id = 2;
   bool transferrable = 3;

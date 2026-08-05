@@ -14,11 +14,10 @@ type LicenseKeeper interface {
 	// made rather than by holdings; stopAt zero counts everything.
 	CountActiveLicenses(ctx context.Context, holder string, licenseTypes []string, stopAt uint64) (uint64, error)
 
-	// LicenseTypeCreator returns the address that created license type id, and
-	// whether the type exists. The creator is all this module needs in order to
-	// gate node type registration; taking the whole record would couple this
-	// package to the license type's shape.
-	LicenseTypeCreator(ctx context.Context, id string) (string, bool, error)
+	// HasLicenseType reports whether license type id exists. Existence is all
+	// this module needs in order to bind a node type to it; taking the whole
+	// record would couple this package to the license type's shape.
+	HasLicenseType(ctx context.Context, id string) (bool, error)
 }
 
 // AccountKeeper is the x/auth keeper surface the network module consumes to

@@ -35,8 +35,10 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // MsgCreateLicenseType is the Msg/CreateLicenseType request type.
 type MsgCreateLicenseType struct {
-	// creator must hold the module-wide "type.create" permission. It is not the
-	// license namespace owner: ownership grants the right, it does not carry it.
+	// creator is the signer and must hold the module-wide "type.create"
+	// permission. It is not the license namespace owner: ownership grants the
+	// right, it does not carry it. The address is not recorded on the license
+	// type.
 	Creator       string                `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Id            string                `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	Transferrable bool                  `protobuf:"varint,3,opt,name=transferrable,proto3" json:"transferrable,omitempty"`
@@ -608,7 +610,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	// CreateLicenseType creates a new license type. Signer must be the license namespace owner.
+	// CreateLicenseType creates a new license type. Signer must hold the
+	// module-wide "type.create" grant; owning the license namespace is not
+	// sufficient on its own.
 	CreateLicenseType(ctx context.Context, in *MsgCreateLicenseType, opts ...grpc.CallOption) (*MsgCreateLicenseTypeResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(ctx context.Context, in *MsgIssueLicenses, opts ...grpc.CallOption) (*MsgIssueLicensesResponse, error)
@@ -665,7 +669,9 @@ func (c *msgClient) UpdateLicenseType(ctx context.Context, in *MsgUpdateLicenseT
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	// CreateLicenseType creates a new license type. Signer must be the license namespace owner.
+	// CreateLicenseType creates a new license type. Signer must hold the
+	// module-wide "type.create" grant; owning the license namespace is not
+	// sufficient on its own.
 	CreateLicenseType(context.Context, *MsgCreateLicenseType) (*MsgCreateLicenseTypeResponse, error)
 	// IssueLicenses issues one or more licenses. Signer must have the "issue" grant for the license type.
 	IssueLicenses(context.Context, *MsgIssueLicenses) (*MsgIssueLicensesResponse, error)

@@ -140,21 +140,16 @@ func TestCreateLicenseTypeByGrant(t *testing.T) {
 	require.True(t, lt.Transferrable)
 	require.Equal(t, math.NewInt(10), lt.MaxSupply)
 
-	// The signer is recorded, not the namespace owner: downstream modules gate
-	// on the creator, so the grantee who actually created the type is the one
-	// that must be able to build on it.
-	require.Equal(t, creator, lt.Creator)
-	require.NotEqual(t, f.Owner, lt.Creator)
-
-	// LicenseTypeCreator is the accessor x/network consumes; it must agree.
-	gotCreator, found, err := f.Keeper.LicenseTypeCreator(ctx, "delegated.type")
+	// HasLicenseType is the accessor x/network consumes. The type is visible to
+	// it regardless of who signed the creation: the signer is not recorded, so
+	// nothing downstream can be gated on it.
+	has, err := f.Keeper.HasLicenseType(ctx, "delegated.type")
 	require.NoError(t, err)
-	require.True(t, found)
-	require.Equal(t, creator, gotCreator)
+	require.True(t, has)
 
-	_, found, err = f.Keeper.LicenseTypeCreator(ctx, "no.such.type")
+	has, err = f.Keeper.HasLicenseType(ctx, "no.such.type")
 	require.NoError(t, err)
-	require.False(t, found)
+	require.False(t, has)
 }
 
 // TestCreateLicenseTypeOwnershipAloneIsNotEnough: the namespace owner creates

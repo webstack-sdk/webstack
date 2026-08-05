@@ -81,7 +81,7 @@ func TestGenesisValidate(t *testing.T) {
 
 	validKey := types.ActivationKey{Address: keyAddr, Operator: operator, CreatedAt: now, Status: types.KeyActive}
 	validNode := types.Node{Address: nodeAddr, Operator: operator, ActivatedBy: keyAddr, Type: "webstack.trust", Status: types.NodeActive, LastActiveTime: now}
-	validNodeType := types.NodeType{Id: "webstack.trust", Creator: operator, LicenseTypeId: "webstack.node.trust"}
+	validNodeType := types.NodeType{Id: "webstack.trust", LicenseTypeId: "webstack.node.trust"}
 
 	tests := []struct {
 		name      string
@@ -163,13 +163,6 @@ func TestGenesisValidate(t *testing.T) {
 			expErrMsg: "is not a listed node type",
 		},
 		{
-			name: "node type missing creator",
-			mutate: func(gs *types.GenesisState) {
-				gs.NodeTypes[0].Creator = ""
-			},
-			expErrMsg: "invalid creator address",
-		},
-		{
 			name: "node type missing license type",
 			mutate: func(gs *types.GenesisState) {
 				gs.NodeTypes[0].LicenseTypeId = ""
@@ -183,7 +176,6 @@ func TestGenesisValidate(t *testing.T) {
 			mutate: func(gs *types.GenesisState) {
 				gs.NodeTypes = append(gs.NodeTypes, types.NodeType{
 					Id:            "second.node",
-					Creator:       gs.NodeTypes[0].Creator,
 					LicenseTypeId: gs.NodeTypes[0].LicenseTypeId,
 				})
 			},

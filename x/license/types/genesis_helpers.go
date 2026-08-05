@@ -25,12 +25,6 @@ func (gs GenesisState) Validate() error {
 		}
 		typeIDs[lt.Id] = struct{}{}
 
-		// Required, not merely well-formed if present: a license type with no
-		// creator can never back a node type in x/network, so accepting one
-		// here would import a type that silently cannot be built on.
-		if _, err := sdk.AccAddressFromBech32(lt.Creator); err != nil {
-			return fmt.Errorf("license type %s: invalid creator address %q: %w", lt.Id, lt.Creator, err)
-		}
 		if err := ValidateMaxSupply(lt.MaxSupply); err != nil {
 			return fmt.Errorf("license type %s: %w", lt.Id, err)
 		}

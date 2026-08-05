@@ -210,16 +210,15 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 	// type exists — so a limit that leaked across types would show up broadly
 	// rather than only in the tests written to look for it.
 	//
-	// License types are created up front, owned by the fixture owner, rather
-	// than lazily by the first IssueLicenses call: the node types are bound to
-	// them, and that binding is only legal for the license type's creator.
+	// License types are created up front rather than lazily by the first
+	// IssueLicenses call: the node types are bound to them, and a binding is
+	// only legal against a license type that already exists.
 	for _, pair := range []struct{ nodeType, licenseType string }{
 		{trustNodeType, trustLicenseType},
 		{nanoNodeType, nanoLicenseType},
 	} {
 		require.NoError(t, lk.LicenseTypes.Set(ctx, pair.licenseType, licensetypes.LicenseType{
 			Id:           pair.licenseType,
-			Creator:      owner,
 			MaxSupply:    math.ZeroInt(),
 			IssuedCount:  math.ZeroInt(),
 			ActiveCount:  math.ZeroInt(),
@@ -227,7 +226,6 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 		}))
 		require.NoError(t, nk.NodeTypes.Set(ctx, pair.nodeType, networktypes.NodeType{
 			Id:            pair.nodeType,
-			Creator:       owner,
 			LicenseTypeId: pair.licenseType,
 		}))
 		require.NoError(t, nk.NodeTypeByLicenseType.Set(ctx, pair.licenseType, pair.nodeType))
@@ -249,8 +247,8 @@ func NewNetworkFixture(t testing.TB) *NetworkFixture {
 }
 
 // RegisterNodeType writes a node type record and its by-license-type mapping
-// directly into network state, bypassing the grant- and creator-gated msg
-// path. Tests that exercise those gates drive the msg server instead.
+// directly into network state, bypassing the grant-gated msg path. Tests that
+// exercise that gate drive the msg server instead.
 //
 // The one-to-one invariant is asserted rather than assumed: this helper skips
 // the handler that normally enforces it, so without the check a test could
@@ -264,7 +262,6 @@ func (f *NetworkFixture) RegisterNodeType(t testing.TB, id, licenseTypeID string
 
 	require.NoError(t, f.Keeper.NodeTypes.Set(f.Ctx, id, networktypes.NodeType{
 		Id:            id,
-		Creator:       f.Owner,
 		LicenseTypeId: licenseTypeID,
 	}))
 	require.NoError(t, f.Keeper.NodeTypeByLicenseType.Set(f.Ctx, licenseTypeID, id))
@@ -291,7 +288,7 @@ func (f *NetworkFixture) IssueLicenses(t testing.TB, holder string, count uint64
 // IssueLicensesOfType is IssueLicenses for an arbitrary license type id.
 func (f *NetworkFixture) IssueLicensesOfType(t testing.TB, holder, typeID string, count uint64) {
 	t.Helper()
-	SeedActiveLicenses(t, f.LicenseKeeper, f.Ctx, f.Owner, holder, typeID, count)
+	SeedActiveLicenses(t, f.LicenseKeeper, f.Ctx, holder, typeID, count)
 }
 
 // RevokeLicenses revokes count of holder's active licenses of the fixture's

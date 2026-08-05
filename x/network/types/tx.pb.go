@@ -125,13 +125,13 @@ func (m *MsgCreateOperatorAccountResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgCreateOperatorAccountResponse proto.InternalMessageInfo
 
 // MsgCreateNodeType is the Msg/CreateNodeType request type. Registration is
-// gated twice: the signer must hold the module-wide "nodetype.create" grant,
-// and must be the recorded creator of license_type_id. The grant confers the
-// ability to define node types at all; the creator match decides which license
-// types they may be defined against.
+// gated on the module-wide "nodetype.create" grant, which authorizes defining
+// node types against any existing license type. The signing address is not
+// recorded on the node type: the grant is the whole authorization, so keeping
+// the address would preserve no authority.
 type MsgCreateNodeType struct {
-	// creator is the signer. It must hold "nodetype.create" and be the creator
-	// of license_type_id.
+	// creator is the signer. It must hold the module-wide "nodetype.create"
+	// grant.
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	// id is the node type identifier to register. Node type ids are single-use:
 	// records are never removed and cannot be re-registered.
@@ -1037,8 +1037,8 @@ type MsgClient interface {
 	// issuance or hold no licenses yet.
 	CreateOperatorAccount(ctx context.Context, in *MsgCreateOperatorAccount, opts ...grpc.CallOption) (*MsgCreateOperatorAccountResponse, error)
 	// CreateNodeType registers a node type bound to a license type. Signer must
-	// hold the "nodetype.create" grant in the network permission namespace and
-	// be the creator of the named license type. Regular gas tx.
+	// hold the "nodetype.create" grant in the network permission namespace, and
+	// the named license type must exist. Regular gas tx.
 	CreateNodeType(ctx context.Context, in *MsgCreateNodeType, opts ...grpc.CallOption) (*MsgCreateNodeTypeResponse, error)
 	// AuthorizeActivationKey authorizes a new activation key for the signing
 	// operator wallet. Gasless.
@@ -1149,8 +1149,8 @@ type MsgServer interface {
 	// issuance or hold no licenses yet.
 	CreateOperatorAccount(context.Context, *MsgCreateOperatorAccount) (*MsgCreateOperatorAccountResponse, error)
 	// CreateNodeType registers a node type bound to a license type. Signer must
-	// hold the "nodetype.create" grant in the network permission namespace and
-	// be the creator of the named license type. Regular gas tx.
+	// hold the "nodetype.create" grant in the network permission namespace, and
+	// the named license type must exist. Regular gas tx.
 	CreateNodeType(context.Context, *MsgCreateNodeType) (*MsgCreateNodeTypeResponse, error)
 	// AuthorizeActivationKey authorizes a new activation key for the signing
 	// operator wallet. Gasless.

@@ -8,9 +8,10 @@ address constant LICENSE_PRECOMPILE_ADDRESS = 0x776562737461636B0000000000000000
 /// @dev The LicenseI contract's instance.
 LicenseI constant LICENSE_CONTRACT = LicenseI(LICENSE_PRECOMPILE_ADDRESS);
 
-/// @dev LicenseType describes a class of issuable licenses. creator is the
-///      address that created the type; it is the only address permitted to
-///      define node types bound to it.
+/// @dev LicenseType describes a class of issuable licenses. The address that
+///      created the type is not recorded: creation is gated on the module-wide
+///      `type.create` permission, which confers no continuing authority over
+///      the resulting type.
 struct LicenseType {
     string id;
     bool transferrable;
@@ -18,7 +19,6 @@ struct LicenseType {
     uint256 issuedCount;
     uint256 activeCount;
     uint256 revokedCount;
-    address creator;
 }
 
 /// @dev License is a single issued license. endDate keeps its issued value;
@@ -78,7 +78,9 @@ interface LicenseI {
     // Transactions
     // ---------------------------------------------------------------------
 
-    /// @dev Create a new license type. Caller must be the license namespace owner.
+    /// @dev Create a new license type. Caller must hold the module-wide
+    ///      `type.create` permission; owning the license namespace is not
+    ///      sufficient on its own.
     function createLicenseType(
         string calldata id,
         bool transferrable,

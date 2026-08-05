@@ -28,9 +28,8 @@ func (gs GenesisState) Validate() error {
 	// them, which is only meaningful once the set itself is known good.
 	//
 	// license_type_id is checked for shape only. Whether it names a real
-	// license type, and whether creator actually created it, are facts about
-	// x/license state and are invisible from here; the msg handler is what
-	// enforces them at registration time.
+	// license type is a fact about x/license state and is invisible from here;
+	// the msg handler is what enforces it at registration time.
 	nodeTypeIDs := make(map[string]struct{}, len(gs.NodeTypes))
 	boundLicenseTypes := make(map[string]string, len(gs.NodeTypes))
 	for _, nt := range gs.NodeTypes {
@@ -39,9 +38,6 @@ func (gs GenesisState) Validate() error {
 		}
 		if nt.Id == "" {
 			return fmt.Errorf("node type id must not be empty")
-		}
-		if err := ValidateCanonicalAddress("creator", nt.Creator); err != nil {
-			return fmt.Errorf("node type %s: %w", nt.Id, err)
 		}
 		if nt.LicenseTypeId == "" {
 			return fmt.Errorf("node type %s: license_type_id must not be empty", nt.Id)

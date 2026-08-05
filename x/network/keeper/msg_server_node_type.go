@@ -14,13 +14,15 @@ import (
 
 // CreateNodeType registers a node type and binds it to a license type.
 //
-// Registration is gated twice, and the two gates answer different questions.
-// The module-wide "nodetype.create" grant decides *whether* the signer may
-// define node types at all, and stays revocable on its own. The creator match
-// against the license type decides *which* license types they may define node
-// types against: a license type is only ever extended by the address that
-// created it, so one tenant cannot attach node types to another's licenses
-// even while holding the grant.
+// Registration is gated on the module-wide "nodetype.create" grant, which is
+// the whole authorization: holding it authorizes defining node types against
+// any existing license type. The signing address is not recorded on the
+// record, because it would confer nothing after the fact.
+//
+// The license type must exist. Binding to an absent one would mint a node type
+// that can never activate anything — the activation limit counts licenses of
+// that type, so the count would be permanently zero — and node types cannot be
+// removed or re-pointed to undo it.
 //
 // The binding is one-to-one: a node type names exactly one license type, and a
 // license type backs at most one node type. It is also fixed at creation, and
@@ -49,8 +51,8 @@ func (ms msgServer) CreateNodeType(ctx context.Context, msg *types.MsgCreateNode
 	}
 
 	// The binding is one-to-one: a license type backs at most one node type.
-	// Checked before the creator match so the caller learns the license type is
-	// taken rather than being told they are unauthorized for it.
+	// Checked before the existence lookup so the caller learns the license type
+	// is taken rather than re-reading a type they cannot use anyway.
 	bound, err := ms.k.NodeTypeByLicenseType.Get(ctx, msg.LicenseTypeId)
 	switch {
 	case err == nil:
@@ -59,20 +61,16 @@ func (ms msgServer) CreateNodeType(ctx context.Context, msg *types.MsgCreateNode
 		return nil, err
 	}
 
-	creator, found, err := ms.k.licenseKeeper.LicenseTypeCreator(ctx, msg.LicenseTypeId)
+	found, err := ms.k.licenseKeeper.HasLicenseType(ctx, msg.LicenseTypeId)
 	if err != nil {
 		return nil, err
 	}
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrLicenseTypeNotFound, "license type %s", msg.LicenseTypeId)
 	}
-	if creator != msg.Creator {
-		return nil, errorsmod.Wrapf(types.ErrUnauthorized, "%s did not create license type %s", msg.Creator, msg.LicenseTypeId)
-	}
 
 	nodeType := types.NodeType{
 		Id:            msg.Id,
-		Creator:       msg.Creator,
 		LicenseTypeId: msg.LicenseTypeId,
 	}
 	if err := ms.k.NodeTypes.Set(ctx, msg.Id, nodeType); err != nil {
@@ -84,10 +82,12 @@ func (ms msgServer) CreateNodeType(ctx context.Context, msg *types.MsgCreateNode
 		return nil, err
 	}
 
+	// The signer is emitted as the event's signer rather than stored: indexers
+	// can still attribute the registration, without state implying authority.
 	sdkCtx.EventManager().EmitEvent(sdk.NewEvent(
 		types.EventTypeCreateNodeType,
 		sdk.NewAttribute(types.AttributeKeyNodeType, msg.Id),
-		sdk.NewAttribute(types.AttributeKeyCreator, msg.Creator),
+		sdk.NewAttribute(types.AttributeKeySigner, msg.Creator),
 		sdk.NewAttribute(types.AttributeKeyLicenseTypeID, msg.LicenseTypeId),
 	))
 

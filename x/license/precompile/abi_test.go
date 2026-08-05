@@ -11,7 +11,7 @@ const licenseTuple = "(uint64,string,address,string,string,string,string)"
 
 // licenseTypeTuple is the ABI shape of the LicenseType struct, mirroring
 // LicenseTypeOutput.
-const licenseTypeTuple = "(string,bool,uint256,uint256,uint256,uint256,address)"
+const licenseTypeTuple = "(string,bool,uint256,uint256,uint256,uint256)"
 
 // wantMethodSigs pins the full canonical signature of every ABI method, not
 // just its name. abi.json is hand-maintained alongside LicenseI.sol with no

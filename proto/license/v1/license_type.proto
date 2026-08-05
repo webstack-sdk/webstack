@@ -43,8 +43,4 @@ message LicenseType {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
-  // creator is the address that created this license type. It is the only
-  // address that may define node types bound to it in x/network. Fixed at
-  // creation: UpdateLicenseType does not touch it.
-  string creator = 7 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }

@@ -60,12 +60,9 @@ func TestBigIntFromCosmosInt(t *testing.T) {
 }
 
 // TestLicenseTypeToOutput maps every field; nil math.Ints must not panic.
+// The struct holds no address, so unlike licenseToOutput the conversion is
+// total and returns no error.
 func TestLicenseTypeToOutput(t *testing.T) {
-	cdc := addrCodec(t)
-	hex := common.HexToAddress("0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-	creator, err := hexToBech32(cdc, hex)
-	require.NoError(t, err)
-
 	lt := licensetypes.LicenseType{
 		Id:            "type.a",
 		Transferrable: true,
@@ -73,31 +70,23 @@ func TestLicenseTypeToOutput(t *testing.T) {
 		IssuedCount:   math.NewInt(7),
 		ActiveCount:   math.NewInt(5),
 		RevokedCount:  math.NewInt(2),
-		Creator:       creator,
 	}
 
-	out, err := licenseTypeToOutput(lt)
-	require.NoError(t, err)
+	out := licenseTypeToOutput(lt)
 	require.Equal(t, "type.a", out.Id)
 	require.True(t, out.Transferrable)
 	require.Equal(t, big.NewInt(100), out.MaxSupply)
 	require.Equal(t, big.NewInt(7), out.IssuedCount)
 	require.Equal(t, big.NewInt(5), out.ActiveCount)
 	require.Equal(t, big.NewInt(2), out.RevokedCount)
-	require.Equal(t, hex, out.Creator)
 
-	// A license type predating the creator field converts to the zero address
-	// rather than failing: the EVM view degrades, the call does not.
-	lt.Creator = ""
-	out, err = licenseTypeToOutput(lt)
-	require.NoError(t, err)
-	require.Equal(t, common.Address{}, out.Creator)
-
-	// A malformed stored creator is surfaced, not silently zeroed, so state
-	// corruption cannot masquerade as "no creator".
-	lt.Creator = "not-bech32"
-	_, err = licenseTypeToOutput(lt)
-	require.Error(t, err)
+	// Nil counters convert to zero rather than panicking.
+	out = licenseTypeToOutput(licensetypes.LicenseType{Id: "bare"})
+	require.Equal(t, "bare", out.Id)
+	require.Equal(t, big.NewInt(0), out.MaxSupply)
+	require.Equal(t, big.NewInt(0), out.IssuedCount)
+	require.Equal(t, big.NewInt(0), out.ActiveCount)
+	require.Equal(t, big.NewInt(0), out.RevokedCount)
 }
 
 // TestLicenseToOutput converts an SDK License into its EVM-shaped counterpart,

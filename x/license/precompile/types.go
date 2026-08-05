@@ -29,13 +29,12 @@ type IssueLicenseEntryArg = struct {
 
 // LicenseTypeOutput mirrors the Solidity LicenseType tuple (output side).
 type LicenseTypeOutput struct {
-	Id            string         `abi:"id"`
-	Transferrable bool           `abi:"transferrable"`
-	MaxSupply     *big.Int       `abi:"maxSupply"`
-	IssuedCount   *big.Int       `abi:"issuedCount"`
-	ActiveCount   *big.Int       `abi:"activeCount"`
-	RevokedCount  *big.Int       `abi:"revokedCount"`
-	Creator       common.Address `abi:"creator"`
+	Id            string   `abi:"id"`
+	Transferrable bool     `abi:"transferrable"`
+	MaxSupply     *big.Int `abi:"maxSupply"`
+	IssuedCount   *big.Int `abi:"issuedCount"`
+	ActiveCount   *big.Int `abi:"activeCount"`
+	RevokedCount  *big.Int `abi:"revokedCount"`
 }
 
 // LicenseOutput mirrors the Solidity License tuple (output side).
@@ -84,12 +83,9 @@ func bigIntFromCosmosInt(v math.Int) *big.Int {
 }
 
 // licenseTypeToOutput converts an SDK LicenseType into its ABI counterpart.
-// Returns an error if the stored creator bech32 is malformed.
-func licenseTypeToOutput(lt licensetypes.LicenseType) (LicenseTypeOutput, error) {
-	creator, err := bech32ToHex(lt.Creator)
-	if err != nil {
-		return LicenseTypeOutput{}, err
-	}
+// Every field is a string or a counter, so unlike licenseToOutput there is no
+// address to decode and the conversion cannot fail.
+func licenseTypeToOutput(lt licensetypes.LicenseType) LicenseTypeOutput {
 	return LicenseTypeOutput{
 		Id:            lt.Id,
 		Transferrable: lt.Transferrable,
@@ -97,8 +93,7 @@ func licenseTypeToOutput(lt licensetypes.LicenseType) (LicenseTypeOutput, error)
 		IssuedCount:   bigIntFromCosmosInt(lt.IssuedCount),
 		ActiveCount:   bigIntFromCosmosInt(lt.ActiveCount),
 		RevokedCount:  bigIntFromCosmosInt(lt.RevokedCount),
-		Creator:       creator,
-	}, nil
+	}
 }
 
 // licenseToOutput converts an SDK License into its ABI counterpart. Returns
