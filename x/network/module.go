@@ -96,6 +96,10 @@ func (a AppModule) ExportGenesis(ctx sdk.Context, marshaler codec.JSONCodec) jso
 	return marshaler.MustMarshalJSON(genState)
 }
 
+// RegisterInvariants is intentionally a no-op. The SDK's invariant registry is
+// deprecated along with x/crisis as of v0.53 and is removed in the next
+// release, so this module's consistency checks are plain keeper methods
+// instead — see Keeper.CheckInvariants.
 func (a AppModule) RegisterInvariants(_ sdk.InvariantRegistry) {}
 
 func (a AppModule) QuerierRoute() string {

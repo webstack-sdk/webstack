@@ -16,15 +16,20 @@ message NodeStatusCounter {
 }
 
 // GaslessCounter is one gasless-admission daily counter for genesis
-// import/export, keyed by counter kind and signer address.
+// import/export, keyed by counter kind, signer address, and scope.
 message GaslessCounter {
   // kind is the admission counter kind ("authorize", "activate",
   // "deactivate").
   string kind = 1;
   // signer is the address the counter is keyed on.
   string signer = 2;
+  // scope narrows the counter within (kind, signer). It is the node type for
+  // the "activate" kind, whose ceiling is derived from the licenses backing
+  // that node type, and empty for kinds whose limit is a flat param and so
+  // has nothing to be scoped by.
+  string scope = 3;
   // counter is the rolling daily counter.
-  ActivityCounter counter = 3 [(gogoproto.nullable) = false];
+  ActivityCounter counter = 4 [(gogoproto.nullable) = false];
 }
 
 // GenesisState defines the network module's genesis state. The denormalized

@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"cosmossdk.io/collections"
 	"github.com/stretchr/testify/require"
 
 	keepertest "github.com/webstack-sdk/webstack/testutil/keeper"
@@ -38,6 +39,18 @@ func TestGenesisRoundTrip(t *testing.T) {
 	_, err = ms.UpdateNodeStatus(later, &types.MsgUpdateNodeStatus{NodeAddress: nodeA})
 	require.NoError(t, err)
 
+	// Burn gasless quota so the export carries counters of both key forms: the
+	// activate kind is scoped to its node type, the rest take the empty scope.
+	// A scope dropped in transit would silently hand a key a fresh activation
+	// allowance on every export/import.
+	require.NoError(t, f.Keeper.CheckAndConsumeGaslessQuota(later, &types.MsgActivateNode{
+		ActivationAddress: key, Operator: operator,
+		NodeAddress: sample.AccAddress(), NodeType: f.NodeType,
+	}))
+	require.NoError(t, f.Keeper.CheckAndConsumeGaslessQuota(later, &types.MsgAuthorizeActivationKey{
+		Operator: operator, ActivationAddress: sample.AccAddress(),
+	}))
+
 	exported := f.Keeper.ExportGenesis(f.Ctx)
 	require.NoError(t, exported.Validate())
 
@@ -61,6 +74,23 @@ func TestGenesisRoundTrip(t *testing.T) {
 
 	day0 := types.DayEpoch(keepertest.NetworkFixtureBlockTime)
 	require.Equal(t, map[string]uint64{nodeA: day0 + 1, nodeB: day0}, recentEntries(t, g, operator))
+
+	// The activate counter lands under its node-type scope rather than pooled,
+	// and the unscoped kinds keep the empty scope. The re-export comparison
+	// above would catch a lost scope; this pins which key form each kind uses.
+	activateCounter, err := g.Keeper.GaslessCounters.Get(g.Ctx,
+		collections.Join3(types.GaslessKindActivate, key, g.NodeType))
+	require.NoError(t, err)
+	require.Equal(t, uint64(1), activateCounter.DailyCount)
+
+	_, err = g.Keeper.GaslessCounters.Get(g.Ctx,
+		collections.Join3(types.GaslessKindActivate, key, types.GaslessScopeNone))
+	require.ErrorIs(t, err, collections.ErrNotFound, "activate counters must not be pooled under the empty scope")
+
+	authorizeCounter, err := g.Keeper.GaslessCounters.Get(g.Ctx,
+		collections.Join3(types.GaslessKindAuthorize, operator, types.GaslessScopeNone))
+	require.NoError(t, err)
+	require.Equal(t, uint64(1), authorizeCounter.DailyCount)
 
 	// Node types survive, and the by-license-type mapping is rebuilt rather
 	// than exported — so a missing rebuild would leave the filtered query empty

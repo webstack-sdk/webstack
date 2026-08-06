@@ -285,9 +285,17 @@ the counters and never re-increment.
 | Msg | Standing check | Counter keyed on | Daily limit |
 |---|---|---|---|
 | `MsgAuthorizeActivationKey` | Operator holds ≥ 1 active counted license | Operator | `recent_key_limit` |
-| `MsgActivateNode` | Key is active and bound to the operator; operator licensed for the node type | Activation key | `spam_limit_multiplier` × license count |
+| `MsgActivateNode` | Key is active and bound to the operator; operator licensed for the node type | Activation key **+ node type** | `spam_limit_multiplier` × licenses of that node type's license type |
 | `MsgDeactivateNode` | Signer is the operator, the node's original still-active key, or the node itself; node is active | Signer | `status_daily_limit` |
 | `MsgUpdateNodeStatus` | Node is active; on the first counted tx of each UTC day, the operator must still be licensed for the node's type | Node | `status_daily_limit` |
+
+The activate counter carries a node-type dimension because the ceiling it is
+measured against does. An operator gets one daily allowance per node type,
+sized by the licenses backing that type; a counter pooled across types would be
+compared against whichever type the current message names, so working through a
+well-licensed type's generous allowance would exhaust a sparsely-licensed one's
+quota before a single node of it was activated. The other kinds are measured
+against flat params and so have nothing to scope by.
 
 Deactivation is deliberately **not** license-gated: winding down a fleet must
 stay possible after revocation.
@@ -539,7 +547,7 @@ Derived structures, rebuilt on genesis import:
 | `OperatorActivationKeys` | `(string, string)` (operator, activation address) | (keyset; active and disabled) |
 | `OperatorNodeCounts` | `(string, string)` (operator, node type) | `OperatorNodeCounts{total, active}` |
 | `RecentNodeActivity` | `(string, string, uint64, string)` (operator, node type, day epoch, node address) | (keyset; exactly one entry per node) |
-| `GaslessCounters` | `(string, string)` (kind, signer) | `ActivityCounter` |
+| `GaslessCounters` | `(string, string, string)` (kind, signer, scope) | `ActivityCounter` |
 | `NodeTypeByLicenseType` | `string` (license type id) | `string` (node type id) |
 
 The node-type dimension on `OperatorNodeCounts` and `RecentNodeActivity` is
@@ -551,10 +559,46 @@ one-to-one — the map shape is what makes a second binding to the same license
 type impossible to represent.
 
 `GaslessCounters` kinds are `authorize`, `activate`, and `deactivate`;
-`MsgUpdateNodeStatus` uses the separate `NodeStatusCounters` store.
+`MsgUpdateNodeStatus` uses the separate `NodeStatusCounters` store. Only the
+`activate` kind uses the scope component, which holds the node type; the others
+take the empty scope, so each kind has exactly one key form and a counter
+lookup stays a point-read.
 
 Permission grants are stored in the `x/permission` module under the `network`
 namespace.
+
+## Invariants
+
+Both derived structures are maintained incrementally by the handlers, so a path
+that updates a node without updating its tally leaves state that is internally
+inconsistent but individually well-formed. Two invariants recompute them from
+the `Nodes` records — the same derivation `InitGenesis` performs — and report
+any disagreement:
+
+| Method | Checks |
+|---|---|
+| `CheckOperatorNodeCounts` | The stored `{total, active}` tally matches the node records, per `(operator, node type)` |
+| `CheckRecentNodeActivity` | The index holds exactly one entry per node, in the day bucket of that node's `last_active_time` |
+| `CheckInvariants` | Both of the above, reporting all problems rather than the first |
+
+```go
+if err := app.NetworkKeeper.CheckInvariants(ctx); err != nil {
+    // state has drifted from the node records
+}
+```
+
+`CheckOperatorNodeCounts` exists specifically because `DeactivateNode`
+decrements `active` saturatingly (`if counts.Active > 0`). That guard is
+deliberate — `active` is a `uint64`, and wrapping around would hand out an
+effectively unlimited activation allowance — but it means a drift bug fails
+quietly rather than loudly. The check is what makes it loud.
+
+These are plain keeper methods returning `error`, **not** `sdk.Invariant`
+registered on an invariant registry. That machinery is deprecated along with
+`x/crisis` as of Cosmos SDK v0.53 and is removed in the next release, so a
+check written against it would stop compiling on the next dependency bump.
+`AppModule.RegisterInvariants` is therefore a deliberate no-op. Call these from
+tests, an upgrade handler, or a debug query instead.
 
 ## Consumed keeper surface
 

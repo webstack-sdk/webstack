@@ -70,9 +70,17 @@ type Keeper struct {
 	RecentNodeActivity collections.KeySet[collections.Quad[string, string, uint64, string]]
 
 	// GaslessCounters holds the remaining ante-admission daily counters,
-	// keyed (kind, signer): authorize per operator, activate per activation
-	// key, deactivate per signer.
-	GaslessCounters collections.Map[collections.Pair[string, string], types.ActivityCounter]
+	// keyed (kind, signer, scope): authorize per operator, activate per
+	// activation key, deactivate per signer.
+	//
+	// The scope carries the node type for the activate kind and is empty for
+	// the others. It is load-bearing for the same reason the node-type
+	// dimension on OperatorNodeCounts is: an activate counter is measured
+	// against a ceiling derived from the licenses backing *one* node type, so
+	// pooling attempts across types would let a well-licensed type's activity
+	// exhaust a sparsely-licensed one's daily quota. The other kinds are
+	// measured against flat params, so they have nothing to scope by.
+	GaslessCounters collections.Map[collections.Triple[string, string, string], types.ActivityCounter]
 
 	// NodeTypeByLicenseType maps a license type id to the single node type bound to
 	// it. The binding is one-to-one in both directions — a node type names
@@ -122,7 +130,7 @@ func NewKeeper(
 		OperatorActivationKeys: collections.NewKeySet(sb, types.OperatorActivationKeysPrefix, "operator_activation_keys", collections.PairKeyCodec(collections.StringKey, collections.StringKey)),
 		OperatorNodeCounts:     collections.NewMap(sb, types.OperatorNodeCountsPrefix, "operator_node_counts", collections.PairKeyCodec(collections.StringKey, collections.StringKey), codec.CollValue[types.OperatorNodeCounts](cdc)),
 		RecentNodeActivity:     collections.NewKeySet(sb, types.RecentNodeActivityPrefix, "recent_node_activity", collections.QuadKeyCodec(collections.StringKey, collections.StringKey, collections.Uint64Key, collections.StringKey)),
-		GaslessCounters:        collections.NewMap(sb, types.GaslessCountersPrefix, "gasless_counters", collections.PairKeyCodec(collections.StringKey, collections.StringKey), codec.CollValue[types.ActivityCounter](cdc)),
+		GaslessCounters:        collections.NewMap(sb, types.GaslessCountersPrefix, "gasless_counters", collections.TripleKeyCodec(collections.StringKey, collections.StringKey, collections.StringKey), codec.CollValue[types.ActivityCounter](cdc)),
 		NodeTypeByLicenseType:  collections.NewMap(sb, types.NodeTypeByLicenseTypePrefix, "node_type_by_license_type", collections.StringKey, collections.StringValue),
 
 		licenseKeeper:    licenseKeeper,

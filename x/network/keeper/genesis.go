@@ -89,7 +89,7 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *types.GenesisState) erro
 	}
 
 	for _, gc := range data.GaslessCounters {
-		if err := k.GaslessCounters.Set(ctx, collections.Join(gc.Kind, gc.Signer), gc.Counter); err != nil {
+		if err := k.GaslessCounters.Set(ctx, collections.Join3(gc.Kind, gc.Signer, gc.Scope), gc.Counter); err != nil {
 			return err
 		}
 	}
@@ -138,8 +138,8 @@ func (k *Keeper) ExportGenesis(ctx context.Context) *types.GenesisState {
 	}
 
 	var gaslessCounters []types.GaslessCounter
-	if err := k.GaslessCounters.Walk(ctx, nil, func(key collections.Pair[string, string], counter types.ActivityCounter) (bool, error) {
-		gaslessCounters = append(gaslessCounters, types.GaslessCounter{Kind: key.K1(), Signer: key.K2(), Counter: counter})
+	if err := k.GaslessCounters.Walk(ctx, nil, func(key collections.Triple[string, string, string], counter types.ActivityCounter) (bool, error) {
+		gaslessCounters = append(gaslessCounters, types.GaslessCounter{Kind: key.K1(), Signer: key.K2(), Scope: key.K3(), Counter: counter})
 		return false, nil
 	}); err != nil {
 		panic(err)

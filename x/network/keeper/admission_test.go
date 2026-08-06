@@ -37,9 +37,6 @@ func TestAdmissionAuthorize(t *testing.T) {
 	require.NoError(t, f.Keeper.CheckAndConsumeGaslessQuota(nextDay, msg))
 }
 
-// TestAdmissionActivate: standing requires an active key bound to the named
-// licensed operator; attempts burn the per-key daily counter against the
-// spam ceiling.
 // TestAdmissionAuthorizeAnyBoundLicenseType: authorizing an activation key
 // names no node type — no node exists yet — so its gate is "holds a license of
 // any license type backing a registered node type". Licenses of a type nothing
@@ -68,6 +65,9 @@ func TestAdmissionAuthorizeAnyBoundLicenseType(t *testing.T) {
 	_ = authorizeKey(t, f, ms, f.Ctx, operator)
 }
 
+// TestAdmissionActivate: standing requires an active key bound to the named
+// licensed operator; attempts burn the per-key daily counter against the
+// spam ceiling.
 func TestAdmissionActivate(t *testing.T) {
 	f, ms := setup(t)
 	operator := sample.AccAddress()
@@ -101,6 +101,54 @@ func TestAdmissionActivate(t *testing.T) {
 	_, err = ms.DeauthorizeActivationKey(f.Ctx, &types.MsgDeauthorizeActivationKey{Operator: operator, ActivationAddress: key})
 	require.NoError(t, err)
 	require.ErrorIs(t, f.Keeper.CheckAndConsumeGaslessQuota(f.Ctx, msg), types.ErrUnauthorized)
+}
+
+// TestAdmissionActivateQuotaIsPerNodeType: the activate counter is scoped to
+// the node type because the ceiling it is measured against is. An operator
+// well licensed for one node type and sparsely licensed for another gets two
+// independent daily allowances, so working through the generous one cannot
+// exhaust the other before a single node of it is activated.
+func TestAdmissionActivateQuotaIsPerNodeType(t *testing.T) {
+	f, ms := setup(t)
+	operator := sample.AccAddress()
+
+	params, err := f.Keeper.GetParams(f.Ctx)
+	require.NoError(t, err)
+
+	// 5 trust licences (ceiling 5x) against 1 nano licence (ceiling 1x).
+	f.IssueLicensesOfType(t, operator, f.LicenseType, 5)
+	f.IssueLicensesOfType(t, operator, f.NanoLicenseType, 1)
+	key := authorizeKey(t, f, ms, f.Ctx, operator)
+
+	activate := func(nodeType string) error {
+		return f.Keeper.CheckAndConsumeGaslessQuota(f.Ctx, &types.MsgActivateNode{
+			ActivationAddress: key, Operator: operator,
+			NodeAddress: sample.AccAddress(), NodeType: nodeType,
+		})
+	}
+
+	// Spend the whole nano allowance...
+	nanoLimit := params.SpamLimitMultiplier // 1 nano licence
+	for i := uint64(0); i < nanoLimit; i++ {
+		require.NoError(t, activate(f.NanoNodeType), "nano attempt %d", i)
+	}
+	require.ErrorIs(t, activate(f.NanoNodeType), types.ErrQuotaExceeded)
+
+	// ...and the trust allowance is untouched by it: a pooled counter would
+	// already be nanoLimit deep here.
+	trustLimit := params.SpamLimitMultiplier * 5
+	require.Greater(t, trustLimit, nanoLimit)
+	for i := uint64(0); i < trustLimit; i++ {
+		require.NoError(t, activate(f.NodeType), "trust attempt %d", i)
+	}
+	require.ErrorIs(t, activate(f.NodeType), types.ErrQuotaExceeded)
+
+	// Both counters roll independently on the next UTC day.
+	nextDay := f.WithBlockTime(keepertest.NetworkFixtureBlockTime.Add(24 * time.Hour))
+	require.NoError(t, f.Keeper.CheckAndConsumeGaslessQuota(nextDay, &types.MsgActivateNode{
+		ActivationAddress: key, Operator: operator,
+		NodeAddress: sample.AccAddress(), NodeType: f.NanoNodeType,
+	}))
 }
 
 // TestAdmissionDeactivate mirrors the handler's signer rule and is not

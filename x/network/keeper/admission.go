@@ -121,11 +121,19 @@ func (k Keeper) CheckAndConsumeGaslessQuota(ctx context.Context, m sdk.Msg) erro
 	}
 }
 
-// consumeActivateQuota rolls the per-key activation counter against the spam
-// ceiling. The license walk stops as soon as the count is decisive for the
-// attempted daily total.
+// consumeActivateQuota rolls the per-(key, node type) activation counter
+// against the spam ceiling. The license walk stops as soon as the count is
+// decisive for the attempted daily total.
+//
+// The counter is scoped to the node type because its ceiling is: the spam
+// limit is derived from the operator's licenses of the one license type
+// backing msg.NodeType. A counter pooled across node types would be measured
+// against whichever type the current msg names, so a key working through a
+// well-licensed type's generous allowance would exhaust the daily quota of a
+// sparsely-licensed one before a single node of it was activated.
 func (k Keeper) consumeActivateQuota(ctx context.Context, msg *types.MsgActivateNode, params types.Params, blockTime time.Time, height int64) error {
-	counter, err := k.GaslessCounters.Get(ctx, collections.Join(types.GaslessKindActivate, msg.ActivationAddress))
+	key := collections.Join3(types.GaslessKindActivate, msg.ActivationAddress, msg.NodeType)
+	counter, err := k.GaslessCounters.Get(ctx, key)
 	if err != nil {
 		counter = types.ActivityCounter{}
 	}
@@ -142,9 +150,9 @@ func (k Keeper) consumeActivateQuota(ctx context.Context, msg *types.MsgActivate
 		return err
 	}
 	if counter.DailyCount > params.SpamLimitMultiplier*count {
-		return errorsmod.Wrapf(types.ErrQuotaExceeded, "activation key %s exceeded %d activation attempts today", msg.ActivationAddress, params.SpamLimitMultiplier*count)
+		return errorsmod.Wrapf(types.ErrQuotaExceeded, "activation key %s exceeded %d %s activation attempts today", msg.ActivationAddress, params.SpamLimitMultiplier*count, msg.NodeType)
 	}
-	return k.GaslessCounters.Set(ctx, collections.Join(types.GaslessKindActivate, msg.ActivationAddress), counter)
+	return k.GaslessCounters.Set(ctx, key, counter)
 }
 
 // checkDeactivateSigner mirrors the DeactivateNode handler's signer rule.
@@ -166,10 +174,12 @@ func (k Keeper) checkDeactivateSigner(ctx context.Context, node types.Node, sign
 	}
 }
 
-// consumeGaslessCounter rolls and increments one (kind, signer) daily
-// counter against limit.
+// consumeGaslessCounter rolls and increments one daily counter against a flat
+// limit. These kinds are measured against a param rather than a license-derived
+// ceiling, so they have nothing to scope by and take the empty scope.
 func (k Keeper) consumeGaslessCounter(ctx context.Context, kind, signer string, limit uint64, blockTime time.Time, height int64) error {
-	counter, err := k.GaslessCounters.Get(ctx, collections.Join(kind, signer))
+	key := collections.Join3(kind, signer, types.GaslessScopeNone)
+	counter, err := k.GaslessCounters.Get(ctx, key)
 	if err != nil {
 		counter = types.ActivityCounter{}
 	}
@@ -178,5 +188,5 @@ func (k Keeper) consumeGaslessCounter(ctx context.Context, kind, signer string, 
 	if counter.DailyCount > limit {
 		return errorsmod.Wrapf(types.ErrQuotaExceeded, "%s quota for %s exceeded (%d/day)", kind, signer, limit)
 	}
-	return k.GaslessCounters.Set(ctx, collections.Join(kind, signer), counter)
+	return k.GaslessCounters.Set(ctx, key, counter)
 }

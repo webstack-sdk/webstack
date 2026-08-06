@@ -74,6 +74,13 @@ const (
 	GaslessKindDeactivate = "deactivate"
 )
 
+// GaslessScopeNone is the third GaslessCounters key component for the kinds
+// that are not scoped. Only the activate kind scopes — it carries the node
+// type, because its ceiling comes from the licenses backing that node type.
+// The kinds measured against a flat param have nothing to scope by, and using
+// one key form per kind keeps a counter lookup a point-read.
+const GaslessScopeNone = ""
+
 // Short returns the lowercase boundary form of a node status ("active",
 // "deactivated"), or the raw enum name for unknown values.
 func (s NodeStatus) Short() string {
